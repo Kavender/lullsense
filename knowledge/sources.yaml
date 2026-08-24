@@ -1,0 +1,149 @@
+# knowledge/sources.yaml
+# Authoritative source inventory for the Baby Sleep Specialist project.
+# All entries have verified: false — a human must confirm each URL before flipping to true.
+# last_accessed: 2026-08-23 reflects the date an automated agent confirmed the URL resolves.
+# See references/evidence-methodology.md §7 for full schema documentation.
+
+# ── A_safety layer sources ────────────────────────────────────────────────────
+
+- id: aap_safe_sleep_2022
+  organization: American Academy of Pediatrics
+  title: "Sleep-Related Infant Deaths: Updated 2022 Recommendations for Reducing Infant Deaths in the Sleep Environment"
+  url: https://doi.org/10.1542/peds.2022-057990
+  source_type: guideline
+  verified: false
+  last_accessed: 2026-08-23
+
+- id: aap_safe_sleep_2022_tech_report
+  organization: American Academy of Pediatrics
+  title: "Evidence Base for 2022 Updated Recommendations for a Safe Infant Sleeping Environment to Reduce the Risk of Sleep-Related Infant Deaths"
+  url: https://doi.org/10.1542/peds.2022-057991
+  source_type: guideline
+  verified: false
+  last_accessed: 2026-08-23
+
+- id: aap_safe_sleep_resource_center
+  organization: American Academy of Pediatrics
+  title: "Safe Sleep — Patient Care Resources"
+  url: https://www.aap.org/en/patient-care/safe-sleep/
+  source_type: guideline
+  verified: false
+  last_accessed: 2026-08-23
+
+# ── B_developmental layer sources ─────────────────────────────────────────────
+
+- id: aasm_child_sleep_duration_2016
+  organization: American Academy of Sleep Medicine
+  title: "Recommended Amount of Sleep for Pediatric Populations: A Consensus Statement of the American Academy of Sleep Medicine"
+  url: https://pmc.ncbi.nlm.nih.gov/articles/PMC4877308/
+  source_type: consensus_statement
+  verified: false
+  last_accessed: 2026-08-23
+
+- id: aasm_child_sleep_duration_2016_doi
+  organization: American Academy of Sleep Medicine
+  title: "Recommended Amount of Sleep for Pediatric Populations: A Consensus Statement of the American Academy of Sleep Medicine"
+  url: https://doi.org/10.5664/jcsm.5866
+  source_type: consensus_statement
+  verified: false
+  last_accessed: 2026-08-23
+
+- id: aap_healthy_sleep_hours
+  organization: American Academy of Pediatrics
+  title: "Healthy Sleep Habits: How Many Hours Does Your Child Need?"
+  url: https://www.healthychildren.org/English/healthy-living/sleep/Pages/healthy-sleep-habits-how-many-hours-does-your-child-need.aspx
+  source_type: guideline
+  verified: false
+  last_accessed: 2026-08-23
+
+- id: tham_2017_infant_sleep_cognition_growth
+  organization: Dove Medical Press / Nature and Science of Sleep
+  title: "Infant Sleep and Its Relation with Cognition and Growth: A Narrative Review"
+  url: https://doi.org/10.2147/NSS.S125992
+  source_type: review
+  verified: false
+  last_accessed: 2026-08-23
+
+- id: spencer_2022_nap_transitions_pnas
+  organization: Proceedings of the National Academy of Sciences
+  title: "Contributions of Memory and Brain Development to the Bioregulation of Naps and Nap Transitions in Early Childhood"
+  url: https://doi.org/10.1073/pnas.2123415119
+  source_type: primary_research
+  verified: false
+  last_accessed: 2026-08-23
+
+# ── C_behavioral layer sources ────────────────────────────────────────────────
+
+- id: mindell_2006_behavioral_treatment_review
+  organization: American Academy of Sleep Medicine
+  title: "Behavioral Treatment of Bedtime Problems and Night Wakings in Infants and Young Children"
+  url: https://academic.oup.com/sleep/article/29/10/1263/2709180
+  source_type: systematic_review
+  verified: false
+  last_accessed: 2026-08-23
+
+- id: aasm_2006_practice_parameters_bedtime
+  organization: American Academy of Sleep Medicine
+  title: "Practice Parameters for Behavioral Treatment of Bedtime Problems and Night Wakings in Infants and Young Children"
+  url: https://doi.org/10.1093/sleep/29.10.1277
+  source_type: guideline
+  verified: false
+  last_accessed: 2026-08-23
+
+- id: meltzer_mindell_2014_meta_analysis
+  organization: Oxford University Press / Journal of Pediatric Psychology
+  title: "Systematic Review and Meta-Analysis of Behavioral Interventions for Pediatric Insomnia"
+  url: https://academic.oup.com/jpepsy/article-abstract/39/8/932/2951972
+  source_type: systematic_review
+  verified: false
+  last_accessed: 2026-08-23
+
+- id: reuter_2020_infant_sleep_systematic_review
+  organization: Wiley / Acta Paediatrica
+  title: "A Systematic Review of Prevention and Treatment of Infant Behavioural Sleep Problems"
+  url: https://doi.org/10.1111/apa.15182
+  source_type: systematic_review
+  verified: false
+  last_accessed: 2026-08-23
+
+- id: mindell_williamson_2018_bedtime_routine
+  organization: Elsevier / Sleep Medicine Reviews
+  title: "Benefits of a Bedtime Routine in Young Children: Sleep, Development, and Beyond"
+  url: https://doi.org/10.1016/j.smrv.2017.10.007
+  source_type: review
+  verified: false
+  last_accessed: 2026-08-23
+
+# ── D_practice layer sources ──────────────────────────────────────────────────
+
+- id: babysleepscience_bedtime_fading_guide
+  organization: Baby Sleep Science (Erin Flynn-Evans PhD MPH FAASM et al.)
+  title: "Sleep Training 101: Bedtime Fading"
+  url: https://www.babysleepscience.com/single-post/sleep-training-101-bedtime-fading
+  source_type: consultant_public_material
+  verified: false
+  last_accessed: 2026-08-23
+
+- id: huckleberry_sleep_training_methods
+  organization: Huckleberry Care
+  title: "The Most Common Baby Sleep Training Methods"
+  url: https://huckleberrycare.com/blog/what-are-the-most-common-sleep-training-methods
+  source_type: consultant_public_material
+  verified: false
+  last_accessed: 2026-08-23
+
+- id: huckleberry_wake_windows_guide
+  organization: Huckleberry Care
+  title: "Baby Wake Windows by Age: Newborn and Infant Sleep Windows"
+  url: https://huckleberrycare.com/blog/first-year-of-sleep-expectations
+  source_type: consultant_public_material
+  verified: false
+  last_accessed: 2026-08-23
+
+- id: pediatric_sleep_council_sleep_training
+  organization: Pediatric Sleep Council
+  title: "Sleep Training — Baby Sleep Advice for Parents & Kids"
+  url: https://www.babysleep.com/advice/sleep-training/
+  source_type: consultant_public_material
+  verified: false
+  last_accessed: 2026-08-23
