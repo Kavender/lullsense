@@ -1,0 +1,14 @@
+# Internal planning — never ship in the OSS repo
+plan-do-not-commit/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# OS
+.DS_Store
