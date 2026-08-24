@@ -1,1 +1,217 @@
-[]
+# knowledge/claims.yaml
+# Versioned, source-backed claims for the Baby Sleep Specialist.
+# Schema: references/evidence-methodology.md §5; hard safety rule (S2): §8.
+# Enforced by scripts/validate_knowledge.py. A_safety claims require
+# evidence_type in {guideline, professional_consensus, systematic_review},
+# evidence_level: high, and >=1 source.
+#
+# NOTE: Several A_safety claims below are backed in part by paywalled AAP
+# guidelines (verified: false in sources.yaml). The validator will emit
+# WARNINGS for these — that is the intended honest signal that human
+# full-text verification is still pending. Zero ERRORS is the bar.
+
+# ── A_safety: safe sleep (SIDS reduction) ─────────────────────────────────────
+
+- claim_id: safe_sleep_back_to_sleep
+  layer: A_safety
+  topic: safe_sleep_position
+  parent_goals: []
+  age_range_months: [0, 12]
+  evidence_type: guideline
+  evidence_level: high
+  claim: "Place a baby on their back for every sleep — naps and night — until 1 year of age to reduce the risk of sleep-related death."
+  sources: [aap_safe_sleep_2022, aap_safe_sleep_resource_center]
+  use_for:
+    - answering how a baby should be positioned for sleep
+    - safe-sleep essentials for newborns and infants under one year
+  do_not_use_for:
+    - positioning recommendations for children over one year
+    - awake/supervised tummy time (a separate, encouraged activity)
+  individual_variability: low
+  last_reviewed: 2026-08-24
+
+- claim_id: safe_sleep_firm_flat_surface
+  layer: A_safety
+  topic: safe_sleep_surface
+  parent_goals: []
+  age_range_months: [0, 12]
+  evidence_type: guideline
+  evidence_level: high
+  claim: "A baby should sleep on a firm, flat surface (not inclined more than 10 degrees) in a crib, bassinet, or play yard, not on couches, armchairs, or seating devices such as swings or car seats (except while riding in a car)."
+  sources: [aap_safe_sleep_2022, aap_healthychildren_safe_sleep_guide]
+  use_for:
+    - advising on an appropriate sleep surface and location
+    - flagging inclined sleepers, couches, and swings as unsafe for sleep
+  do_not_use_for:
+    - endorsing any specific commercial product by name
+    - car-seat use while actually traveling in a vehicle
+  individual_variability: low
+  last_reviewed: 2026-08-24
+
+- claim_id: safe_sleep_no_bed_sharing
+  layer: A_safety
+  topic: safe_sleep_location
+  parent_goals: []
+  age_range_months: [0, 12]
+  evidence_type: guideline
+  evidence_level: high
+  claim: "A baby should sleep in their own separate sleep space and should never bed-share with another person."
+  sources: [aap_safe_sleep_2022, aap_safe_sleep_resource_center]
+  use_for:
+    - responding when a parent describes or asks about co-sleeping in the same bed
+    - safe-sleep essentials for infants
+  do_not_use_for:
+    - room-sharing on a separate surface (which is recommended — see room-sharing claim)
+  individual_variability: low
+  last_reviewed: 2026-08-24
+
+- claim_id: safe_sleep_room_sharing
+  layer: A_safety
+  topic: safe_sleep_location
+  parent_goals: []
+  age_range_months: [0, 6]
+  evidence_type: guideline
+  evidence_level: high
+  claim: "Room-sharing (baby on a separate sleep surface in the parents' room) for at least the first 6 months is recommended and can reduce the risk of sleep-related death by up to about 50%."
+  sources: [aap_safe_sleep_2022, aap_healthychildren_safe_sleep_guide]
+  use_for:
+    - advising on where the baby's separate sleep surface should be located in early months
+    - distinguishing recommended room-sharing from unsafe bed-sharing
+  do_not_use_for:
+    - endorsing bed-sharing
+    - prescribing an exact date to move a baby to a separate room
+  individual_variability: low
+  last_reviewed: 2026-08-24
+
+- claim_id: safe_sleep_bare_crib
+  layer: A_safety
+  topic: safe_sleep_environment
+  parent_goals: []
+  age_range_months: [0, 12]
+  evidence_type: guideline
+  evidence_level: high
+  claim: "Keep soft objects and loose bedding out of the sleep space — pillows, quilts, comforters, mattress toppers, non-fitted sheets, blankets, toys, and bumper pads — and do not use weighted blankets, sleepers, or swaddles."
+  sources: [aap_safe_sleep_2022, aap_safe_sleep_resource_center]
+  use_for:
+    - advising what may and may not be in the crib or bassinet
+    - flagging weighted sleep products as unsafe
+  do_not_use_for:
+    - fitted-sheet-only sleep surfaces (which are appropriate)
+  individual_variability: low
+  last_reviewed: 2026-08-24
+
+# ── A_safety: fever red flags ─────────────────────────────────────────────────
+
+- claim_id: fever_under_3mo_urgent
+  layer: A_safety
+  topic: fever_red_flag
+  parent_goals: []
+  age_range_months: [0, 3]
+  evidence_type: guideline
+  evidence_level: high
+  claim: "In an infant under 3 months (12 weeks), a temperature of 100.4°F (38.0°C) or higher warrants contacting the pediatrician immediately."
+  sources: [aap_when_to_call_pediatrician_fever, aap_febrile_infant_cpg_2021]
+  use_for:
+    - triaging a reported fever in a young infant
+    - halting sleep coaching and routing to care when this threshold is met
+  do_not_use_for:
+    - fever thresholds in older infants and children (different criteria apply)
+    - self-directed dosing or treatment advice
+  individual_variability: low
+  last_reviewed: 2026-08-24
+
+- claim_id: fever_high_or_persistent_contact
+  layer: A_safety
+  topic: fever_red_flag
+  parent_goals: []
+  age_range_months: [0, 216]
+  evidence_type: guideline
+  evidence_level: high
+  claim: "Contact the pediatrician if a fever repeatedly rises above 104°F (40°C) at any age, if it lasts more than 24 hours in a child under 2 years, or more than 3 days in a child 2 years or older."
+  sources: [aap_when_to_call_pediatrician_fever]
+  use_for:
+    - triaging fever height and duration across age groups
+    - deciding when a persistent fever should prompt a pediatrician call
+  do_not_use_for:
+    - the distinct under-3-month immediate-contact threshold (see fever_under_3mo_urgent)
+    - fever treatment or medication dosing
+  individual_variability: low
+  last_reviewed: 2026-08-24
+
+- claim_id: fever_with_serious_signs_urgent
+  layer: A_safety
+  topic: fever_red_flag
+  parent_goals: []
+  age_range_months: [0, 216]
+  evidence_type: guideline
+  evidence_level: high
+  claim: "Seek care promptly if a feverish child also looks very ill, is unusually drowsy or very fussy, has a stiff neck, severe headache, severe sore throat, severe ear pain, difficulty breathing, an unexplained rash, or repeated vomiting or diarrhea; a seizure is an emergency."
+  sources: [aap_when_to_call_pediatrician_fever]
+  use_for:
+    - recognizing accompanying signs that escalate a fever's urgency
+    - triggering the halt rule when a concerning combination is described
+  do_not_use_for:
+    - reassuring a parent that isolated signs are harmless
+    - diagnosing the underlying cause
+  individual_variability: low
+  last_reviewed: 2026-08-24
+
+# ── A_safety: dehydration red flags ───────────────────────────────────────────
+
+- claim_id: infant_dehydration_signs
+  layer: A_safety
+  topic: dehydration_red_flag
+  parent_goals: []
+  age_range_months: [0, 12]
+  evidence_type: guideline
+  evidence_level: high
+  claim: "Signs of dehydration in an infant include fewer than 6 wet diapers a day, a dry or parched mouth, fewer tears when crying, a sunken soft spot, and playing less than usual; more severe signs (sunken eyes, very fussy or excessively sleepy, cool or discolored hands and feet, wrinkled skin, urinating only 1–2 times a day) warrant contacting the pediatrician immediately."
+  sources: [aap_signs_of_dehydration]
+  use_for:
+    - recognizing dehydration when a parent describes feeding, diaper, or alertness changes
+    - routing to care and halting sleep coaching on these signs
+  do_not_use_for:
+    - prescribing fluid volumes or rehydration protocols
+    - diagnosing the cause of fluid loss
+  individual_variability: low
+  last_reviewed: 2026-08-24
+
+# ── A_safety: respiratory distress red flags ──────────────────────────────────
+
+- claim_id: respiratory_distress_emergency_signs
+  layer: A_safety
+  topic: respiratory_red_flag
+  parent_goals: []
+  age_range_months: [0, 24]
+  evidence_type: guideline
+  evidence_level: high
+  claim: "Labored breathing — fast breathing, nasal flaring, head-bobbing, grunting, belly breathing or tugging in between the ribs or at the lower neck (retractions), or wheezing — warrants prompt medical contact; pauses or difficulty breathing, pale, gray, or blue skin, lips, or nail beds, or markedly reduced alertness require immediate emergency care."
+  sources: [aap_rsv_respiratory_distress_signs, aap_bronchiolitis_respiratory_distress_signs]
+  use_for:
+    - recognizing signs of labored breathing in an infant
+    - distinguishing prompt-contact signs from emergency signs and triggering the halt rule
+  do_not_use_for:
+    - diagnosing the underlying respiratory illness
+    - reassuring that visible work of breathing is normal
+  individual_variability: low
+  last_reviewed: 2026-08-24
+
+# ── A_safety: BRUE (general level only) ───────────────────────────────────────
+
+- claim_id: brue_episode_needs_evaluation
+  layer: A_safety
+  topic: brue_red_flag
+  parent_goals: []
+  age_range_months: [0, 12]
+  evidence_type: guideline
+  evidence_level: high
+  claim: "A brief, now-resolved episode in an infant — a pause in breathing, a color change (pale or blue), a change in muscle tone, or altered responsiveness — warrants medical evaluation even though it has resolved."
+  sources: [aap_brue_cpg_2016]
+  use_for:
+    - routing to care after a parent describes a brief resolved concerning episode
+    - halting sleep coaching pending medical evaluation
+  do_not_use_for:
+    - stating specific BRUE inclusion or lower-risk criteria (unverified — see safety-triage.md §3 note)
+    - reassuring a parent that such an episode needs no evaluation
+  individual_variability: low
+  last_reviewed: 2026-08-24
