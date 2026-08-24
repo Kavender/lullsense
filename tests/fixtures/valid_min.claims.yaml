@@ -1,0 +1,26 @@
+- claim_id: total_sleep_1_2_years
+  layer: B_developmental
+  topic: sleep_duration
+  parent_goals: [is_this_normal]
+  age_range_months: [12, 35]
+  evidence_type: professional_consensus
+  evidence_level: high
+  claim: "Children 1-2 years generally need 11-14 hours of sleep per 24 hours including naps."
+  sources: [aasm_child_sleep_duration_2016]
+  use_for: [contextualizing_total_sleep]
+  do_not_use_for: [prescribing_exact_bedtime]
+  individual_variability: high
+  last_reviewed: 2026-08-23
+- claim_id: back_to_sleep
+  layer: A_safety
+  topic: safe_sleep_position
+  parent_goals: []
+  age_range_months: [0, 12]
+  evidence_type: guideline
+  evidence_level: high
+  claim: "Infants should be placed on their back for every sleep until 1 year of age."
+  sources: [aap_safe_sleep_2022]
+  use_for: [safe_sleep_guidance]
+  do_not_use_for: [schedule_optimization]
+  individual_variability: low
+  last_reviewed: 2026-08-23

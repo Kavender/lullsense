@@ -1,0 +1,13 @@
+- claim_id: x
+  layer: B_developmental
+  topic: t
+  parent_goals: []
+  age_range_months: [4, 36]
+  evidence_type: rumor
+  evidence_level: high
+  claim: "bad enum"
+  sources: [aasm_child_sleep_duration_2016]
+  use_for: [a]
+  do_not_use_for: [b]
+  individual_variability: low
+  last_reviewed: 2026-08-23

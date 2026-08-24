@@ -1,0 +1,13 @@
+- claim_id: w
+  layer: B_developmental
+  topic: t
+  parent_goals: []
+  age_range_months: [36, 4]
+  evidence_type: professional_consensus
+  evidence_level: moderate
+  claim: "bad age range"
+  sources: [aasm_child_sleep_duration_2016]
+  use_for: [a]
+  do_not_use_for: [b]
+  individual_variability: low
+  last_reviewed: 2026-08-23

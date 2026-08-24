@@ -1,0 +1,13 @@
+- claim_id: z
+  layer: A_safety
+  topic: safe_sleep_position
+  parent_goals: []
+  age_range_months: [0, 12]
+  evidence_type: heuristic
+  evidence_level: low
+  claim: "unsafe: safety claim without authoritative source"
+  sources: []
+  use_for: [safe_sleep_guidance]
+  do_not_use_for: [x]
+  individual_variability: low
+  last_reviewed: 2026-08-23

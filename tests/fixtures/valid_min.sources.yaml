@@ -1,0 +1,14 @@
+- id: aasm_child_sleep_duration_2016
+  organization: American Academy of Sleep Medicine
+  title: "Recommended Amount of Sleep for Pediatric Populations (Consensus Statement)"
+  url: https://aasm.org/resources/pdf/pediatricsleepdurationconsensus.pdf
+  source_type: consensus_statement
+  verified: false
+  last_accessed: 2026-08-23
+- id: aap_safe_sleep_2022
+  organization: American Academy of Pediatrics
+  title: "Sleep-Related Infant Deaths: Updated 2022 Recommendations"
+  url: https://publications.aap.org/pediatrics/article/150/1/e2022057990
+  source_type: guideline
+  verified: false
+  last_accessed: 2026-08-23
