@@ -62,6 +62,22 @@
   verified: false
   last_accessed: 2026-08-23
 
+- id: aap_rsv_respiratory_distress_signs
+  organization: American Academy of Pediatrics
+  title: "RSV: When It's More Than Just a Cold"
+  url: https://www.healthychildren.org/English/health-issues/conditions/chest-lungs/Pages/RSV-When-Its-More-Than-Just-a-Cold.aspx
+  source_type: review
+  verified: false
+  last_accessed: 2026-08-24
+
+- id: aap_bronchiolitis_respiratory_distress_signs
+  organization: American Academy of Pediatrics
+  title: "Bronchiolitis in Babies: Symptoms, Treatment & Prevention"
+  url: https://www.healthychildren.org/English/health-issues/conditions/chest-lungs/Pages/Bronchiolitis.aspx
+  source_type: review
+  verified: false
+  last_accessed: 2026-08-24
+
 # ── B_developmental layer sources ─────────────────────────────────────────────
 
 - id: aasm_child_sleep_duration_2016
