@@ -1,7 +1,8 @@
 # knowledge/sources.yaml
 # Authoritative source inventory for the Baby Sleep Specialist project.
-# Mixed verification state: fully-accessible AAP/HealthyChildren pages have been human-reviewed
-# (verified: true); paywalled journal DOIs remain verified: false (citation-confirmed only — see note:).
+# Verification state: all A_safety sources are human-verified (verified: true) — accessible
+# HealthyChildren/AAP pages by review, and the four AAP journal PDFs against their primary full text.
+# Non-safety B/C/D journal sources remain verified: false pending later review. See note: fields.
 # last_accessed reflects the date the URL was last confirmed to resolve.
 # See references/evidence-methodology.md §7 for full schema documentation.
 
@@ -12,18 +13,18 @@
   title: "Sleep-Related Infant Deaths: Updated 2022 Recommendations for Reducing Infant Deaths in the Sleep Environment"
   url: https://doi.org/10.1542/peds.2022-057990
   source_type: guideline
-  verified: false
-  last_accessed: 2026-08-23
-  note: "citation-confirmed via CrossRef (title/authors/DOI/year); full text paywalled (HTTP 403). Backing citation only; quoted safe-sleep recommendations come from verified accessible AAP pages."
+  verified: true
+  last_accessed: 2026-08-24
+  note: "Human-verified against the primary PDF (Moon et al., Pediatrics 2022;150(1):e2022057990). Confirmed verbatim: back-to-sleep to 1yr (p.7); firm/flat, >10 degrees unsafe (p.4,9); soft-object/weighted-item exclusions (p.3,12); room-sharing ideally >=6mo, up to ~50% risk reduction (p.11); human-milk & pacifier lower risk (p.3,10,12). AAP bed-sharing wording is 'unable to recommend under any circumstances' (not an absolute 'never')."
 
 - id: aap_safe_sleep_2022_tech_report
   organization: American Academy of Pediatrics
   title: "Evidence Base for 2022 Updated Recommendations for a Safe Infant Sleeping Environment to Reduce the Risk of Sleep-Related Infant Deaths"
   url: https://doi.org/10.1542/peds.2022-057991
   source_type: guideline
-  verified: false
-  last_accessed: 2026-08-23
-  note: "citation-confirmed via CrossRef (title/authors/DOI/year); full text paywalled (HTTP 403). Backing citation only."
+  verified: true
+  last_accessed: 2026-08-24
+  note: "Human-verified against the primary PDF (technical report, Pediatrics 2022;150(1):e2022057991). Confirms the room-sharing 'as much as 50%' SIDS risk-reduction figure (p.16)."
 
 - id: aap_safe_sleep_resource_center
   organization: American Academy of Pediatrics
@@ -38,9 +39,9 @@
   title: "Clinical Practice Guideline: Evaluation and Management of Well-Appearing Febrile Infants 8 to 60 Days Old"
   url: https://doi.org/10.1542/peds.2021-052228
   source_type: guideline
-  verified: false
-  last_accessed: 2026-08-23
-  note: "citation-confirmed via CrossRef (Pantell et al., Pediatrics 148(2), 2021); full text paywalled (HTTP 403). HIGHEST-PRIORITY for human full-text verification of age-stratified fever thresholds. The quoted <3mo 100.4F threshold is drawn from verified aap_when_to_call_pediatrician_fever, not this article."
+  verified: true
+  last_accessed: 2026-08-24
+  note: "Human-verified against the primary PDF (Pantell et al., Pediatrics 2021;148(2):e2021052228). Confirmed: fever = rectal >=38.0C/100.4F (p.9); scope is well-appearing infants 8-60 days (ill-appearing and <8 days excluded as higher-risk, p.6,9). Backs young-infant-fever urgency; the parent-facing '<3mo (12 weeks)' framing comes from aap_when_to_call_pediatrician_fever. Clinician-level management (LP, antibiotics, admission) intentionally NOT surfaced to parents (passive-net posture)."
 
 - id: aap_when_to_call_pediatrician_fever
   organization: American Academy of Pediatrics
@@ -63,9 +64,9 @@
   title: "Brief Resolved Unexplained Events (Formerly Apparent Life-Threatening Events) and Evaluation of Lower-Risk Infants"
   url: https://doi.org/10.1542/peds.2016-0590
   source_type: guideline
-  verified: false
-  last_accessed: 2026-08-23
-  note: "citation-confirmed via CrossRef (Tieder et al., Pediatrics 137(5), 2016); full text paywalled (HTTP 403). Backing citation only; BRUE definition and lower-risk criteria need human full-text verification before use in outputs."
+  verified: true
+  last_accessed: 2026-08-24
+  note: "Human-verified against the primary PDF (Tieder et al., Pediatrics 2016;137(5):e20160590). BRUE definition confirmed verbatim (p.1,3): infant <1yr, sudden/brief/now-resolved episode of >=1 of cyanosis/pallor, absent-decreased-irregular breathing, marked tone change, altered responsiveness. Lower-risk criteria confirmed (p.5) but intentionally NOT used for parent self-triage — any such episode routes to prompt evaluation (passive-net posture)."
 
 - id: aap_rsv_respiratory_distress_signs
   organization: American Academy of Pediatrics
@@ -80,9 +81,9 @@
   title: "Bronchiolitis in Babies: Symptoms, Treatment & Prevention"
   url: https://www.healthychildren.org/English/health-issues/conditions/chest-lungs/Pages/Bronchiolitis.aspx
   source_type: review
-  verified: false
+  verified: true
   last_accessed: 2026-08-24
-  note: "distress signs confirmed verbatim; page lacks explicit emergency (911) escalation language — use aap_rsv_respiratory_distress_signs for emergency-care wording."
+  note: "Distress-sign content human-verified verbatim; cited only to corroborate breathing-difficulty signs. Page lacks explicit emergency (911) escalation language — use aap_rsv_respiratory_distress_signs for emergency-care wording."
 
 - id: aap_healthychildren_safe_sleep_guide
   organization: American Academy of Pediatrics

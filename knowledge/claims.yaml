@@ -55,7 +55,7 @@
   age_range_months: [0, 12]
   evidence_type: guideline
   evidence_level: high
-  claim: "A baby should sleep in their own separate sleep space and should never bed-share with another person."
+  claim: "A baby should sleep on their own separate sleep surface, not in an adult bed; the AAP does not recommend bed-sharing under any circumstances and instead recommends room-sharing on a separate surface."
   sources: [aap_safe_sleep_2022, aap_safe_sleep_resource_center]
   use_for:
     - responding when a parent describes or asks about co-sleeping in the same bed
@@ -72,7 +72,7 @@
   age_range_months: [0, 6]
   evidence_type: guideline
   evidence_level: high
-  claim: "Room-sharing (baby on a separate sleep surface in the parents' room) for at least the first 6 months is recommended and can reduce the risk of sleep-related death by up to about 50%."
+  claim: "Room-sharing (baby on a separate sleep surface in the parents' room), ideally for at least the first 6 months, is recommended and can reduce the risk of sleep-related death by up to about 50%."
   sources: [aap_safe_sleep_2022, aap_healthychildren_safe_sleep_guide]
   use_for:
     - advising on where the baby's separate sleep surface should be located in early months

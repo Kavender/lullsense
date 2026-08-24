@@ -63,7 +63,7 @@ All thresholds below are drawn verbatim from human-verified accessible AAP pages
 | **BRUE-type episode:** a brief, now-resolved change in an infant — a pause in breathing, a color change (pale or blue), a change in muscle tone, or altered responsiveness — that has resolved | infant (0–12 mo) | **Contact pediatrician promptly** (medical evaluation) — see §note below | `aap_brue_cpg_2016` (general level only) | "Even though it's passed and he seems fine now, an episode like that — a pause in breathing or a color change — is one your pediatrician should evaluate. I'd give them a call today." |
 | **General "just not right":** child looks very ill, is unusually drowsy, or is very fussy (independent of a measured fever) | any age | **Contact pediatrician promptly** | `aap_when_to_call_pediatrician_fever` | "You know your baby best — if she seems really unlike herself, unusually drowsy or hard to console, it's worth a call to your pediatrician. Sleep can wait." |
 
-> **BRUE note (needs human full-text verification):** The BRUE entry is stated at a *general* level only. The precise BRUE inclusion criteria and the "lower-risk infant" criteria from `aap_brue_cpg_2016` are paywalled and have **not** been verified — do **not** state specific age, duration, prematurity, or event-count thresholds for BRUE until a human confirms them against the full text. When in doubt, treat any such episode as warranting prompt medical evaluation.
+> **BRUE note (verified against primary source, 2026-08-24):** The BRUE definition is human-verified against the full text of `aap_brue_cpg_2016` (Tieder et al., Pediatrics 2016;137(5):e20160590, pp. 1, 3): an infant under 1 year with a sudden, brief, now-resolved episode of ≥1 of — cyanosis/pallor; absent, decreased, or irregular breathing; marked change in tone; altered responsiveness. The guideline's "lower-risk" stratification criteria are also confirmed (p. 5) but are **deliberately not exposed for parent self-triage** — risk-stratifying a BRUE is a clinician's job, and a parent using those criteria to self-reassure could under-react. The agent's posture stays conservative: any such episode → prompt medical evaluation, regardless of apparent risk.
 
 ---
 
@@ -109,7 +109,7 @@ If a parent of a young infant asks for a schedule or sleep-training plan, the ag
 
 - **Back to sleep for every sleep** — naps and night — until 1 year old.
 - **Firm, flat sleep surface** (not inclined more than 10 degrees): a crib, bassinet, or play yard. Avoid couches, armchairs, and seating devices (swings, car seats — except while actually riding in the car).
-- **Baby sleeps in their own space** — never bed-share ("never sleep with your baby").
+- **Baby sleeps on their own separate surface** — the AAP does not recommend bed-sharing under any circumstances; keep the baby close by on a separate surface (room-sharing) rather than in the adult bed.
 - **Room-share** (same room, separate sleep surface) for **at least the first 6 months** — this can reduce SIDS risk by up to about 50%.
 - **Keep soft objects and loose bedding out** of the sleep space: pillows, quilts, comforters, mattress toppers, non-fitted sheets, blankets, toys, and bumper pads. No weighted blankets, weighted sleepers, or weighted swaddles.
 - **Breastfeeding** and **offering a pacifier at sleep** are each associated with lower SIDS risk (for breastfed babies, establish breastfeeding before introducing a pacifier).
@@ -139,14 +139,14 @@ Every escalation must be worded to be **caring, not cold or legalistic**, and mu
 ## 7. Provenance & Limitations
 
 - **Verified thresholds:** All specific numbers and sign-lists in §3 and §5 are drawn from **human-verified, freely-accessible AAP / HealthyChildren pages** (`aap_when_to_call_pediatrician_fever`, `aap_signs_of_dehydration`, `aap_rsv_respiratory_distress_signs`, `aap_safe_sleep_resource_center`, `aap_healthychildren_safe_sleep_guide`; corroborating signs from `aap_bronchiolitis_respiratory_distress_signs`).
-- **Authoritative backing, pending full-text verification:** The paywalled clinical guidelines — the febrile-infant CPG (`aap_febrile_infant_cpg_2021`), the BRUE CPG (`aap_brue_cpg_2016`), and the 2022 safe-sleep policy statement and technical report (`aap_safe_sleep_2022`, `aap_safe_sleep_2022_tech_report`) — are cited as **backing** only. Their internal algorithms and specific criteria are **not** reproduced here because they could not be verified. These are the highest-priority items for human full-text review.
-- **BRUE is deliberately general.** No specific BRUE inclusion or lower-risk criteria are stated; see the BRUE note under §3.
-- **Screening questions in §4 are DRAFT** and need clinician review before use.
-- **This reference is educational and NOT clinically reviewed yet.** It exists to help a sleep-coaching agent recognize when to stop and route, not to diagnose. It does not replace a pediatrician's judgment. Safety questions never use runtime web search (`references/evidence-methodology.md` §9).
+- **Authoritative guidelines — human-verified against primary full text (2026-08-24):** The febrile-infant CPG (`aap_febrile_infant_cpg_2021`), the BRUE CPG (`aap_brue_cpg_2016`), and the 2022 safe-sleep policy statement and technical report (`aap_safe_sleep_2022`, `aap_safe_sleep_2022_tech_report`) have each been read and cross-checked against their primary PDFs (page citations live in the `note:` fields of `knowledge/sources.yaml`). Clinician-level management detail — the CPG's lumbar-puncture / antibiotic / admission algorithms, and the BRUE lower-risk stratification — is **deliberately not surfaced to parents**. This is a sleep-coaching safety net that recognizes and routes, not a medical-triage tool (D22).
+- **Two wording alignments applied after verification:** bed-sharing is phrased as the AAP's "does not recommend under any circumstances" rather than an absolute "never"; room-sharing carries the "ideally for at least the first 6 months" qualifier.
+- **Screening questions in §4 are DRAFT** and would benefit from clinician review before wide use.
+- **This reference is educational and not a substitute for clinical judgment.** It exists to help a sleep-coaching agent recognize when to stop and route, not to diagnose. It does not replace a pediatrician. Safety questions never use runtime web search (`references/evidence-methodology.md` §9).
 
 ### Items flagged for HUMAN REVIEW
-1. The §4 under-4-month active screening questions (wording and clinical adequacy).
-2. All BRUE-related content — verify definition and lower-risk criteria against `aap_brue_cpg_2016` full text before stating any specifics.
-3. Full-text verification of the febrile-infant CPG age-stratified thresholds (`aap_febrile_infant_cpg_2021`).
-4. Confirmation that the safe-sleep essentials in §5 match the 2022 policy statement full text (`aap_safe_sleep_2022`).
-5. Tone review of the §3 caring example phrasings against real consultant practice.
+1. The §4 under-4-month active screening questions (wording and clinical adequacy) — still DRAFT.
+2. Tone review of the §3 caring example phrasings against real consultant practice.
+3. Optional but recommended before public alpha: sign-off by a pediatric professional on the assembled reference as a whole (the source content is authoritative and now primary-source-verified, but no clinician has reviewed the reference end-to-end).
+
+_Resolved 2026-08-24: the BRUE definition (`aap_brue_cpg_2016`), the febrile-infant fever threshold & 8–60-day scope (`aap_febrile_infant_cpg_2021`), and the safe-sleep essentials (`aap_safe_sleep_2022` + technical report) were verified against their primary PDFs; see the bullets above and `knowledge/sources.yaml`._
