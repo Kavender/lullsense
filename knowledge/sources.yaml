@@ -30,17 +30,41 @@
   verified: false
   last_accessed: 2026-08-23
 
-# ── B_developmental layer sources ─────────────────────────────────────────────
-
-- id: aasm_child_sleep_duration_2016
-  organization: American Academy of Sleep Medicine
-  title: "Recommended Amount of Sleep for Pediatric Populations: A Consensus Statement of the American Academy of Sleep Medicine"
-  url: https://pmc.ncbi.nlm.nih.gov/articles/PMC4877308/
-  source_type: consensus_statement
+- id: aap_febrile_infant_cpg_2021
+  organization: American Academy of Pediatrics
+  title: "Clinical Practice Guideline: Evaluation and Management of Well-Appearing Febrile Infants 8 to 60 Days Old"
+  url: https://doi.org/10.1542/peds.2021-052228
+  source_type: guideline
   verified: false
   last_accessed: 2026-08-23
 
-- id: aasm_child_sleep_duration_2016_doi
+- id: aap_when_to_call_pediatrician_fever
+  organization: American Academy of Pediatrics
+  title: "Fever: When to Call the Pediatrician"
+  url: https://www.healthychildren.org/English/health-issues/conditions/fever/Pages/When-to-Call-the-Pediatrician.aspx
+  source_type: review
+  verified: false
+  last_accessed: 2026-08-23
+
+- id: aap_signs_of_dehydration
+  organization: American Academy of Pediatrics
+  title: "Signs of Dehydration in Infants & Children"
+  url: https://www.healthychildren.org/English/health-issues/injuries-emergencies/Pages/dehydration.aspx
+  source_type: review
+  verified: false
+  last_accessed: 2026-08-23
+
+- id: aap_brue_cpg_2016
+  organization: American Academy of Pediatrics
+  title: "Brief Resolved Unexplained Events (Formerly Apparent Life-Threatening Events) and Evaluation of Lower-Risk Infants"
+  url: https://doi.org/10.1542/peds.2016-0590
+  source_type: guideline
+  verified: false
+  last_accessed: 2026-08-23
+
+# ── B_developmental layer sources ─────────────────────────────────────────────
+
+- id: aasm_child_sleep_duration_2016
   organization: American Academy of Sleep Medicine
   title: "Recommended Amount of Sleep for Pediatric Populations: A Consensus Statement of the American Academy of Sleep Medicine"
   url: https://doi.org/10.5664/jcsm.5866
