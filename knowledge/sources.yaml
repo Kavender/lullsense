@@ -100,8 +100,9 @@
   title: "Recommended Amount of Sleep for Pediatric Populations: A Consensus Statement of the American Academy of Sleep Medicine"
   url: https://doi.org/10.5664/jcsm.5866
   source_type: consensus_statement
-  verified: false
-  last_accessed: 2026-08-23
+  verified: true
+  last_accessed: 2026-08-24
+  note: "Human-verified against the primary PDF (Paruthi et al., J Clin Sleep Med 2016;12(6):785). Confirmed verbatim age/24h ranges (p.785): 4-12mo 12-16h; 1-2y 11-14h; 3-5y 10-13h; <4mo excluded due to wide normal variation; individual-variability statement (p.786)."
 
 - id: aap_healthy_sleep_hours
   organization: American Academy of Pediatrics
@@ -116,16 +117,18 @@
   title: "Infant Sleep and Its Relation with Cognition and Growth: A Narrative Review"
   url: https://doi.org/10.2147/NSS.S125992
   source_type: review
-  verified: false
-  last_accessed: 2026-08-23
+  verified: true
+  last_accessed: 2026-08-24
+  note: "Human-verified against the primary PDF (Tham et al., Nat Sci Sleep 2017;9:135). Confirmed: no circadian rhythm at birth, emerges ~10-12wk (p.135); total sleep 16-17h newborn to 13-14h by 6mo (p.135); ~20-30% night wakings through 2y, highest-variability measure (p.135); naps support memory consolidation (pp.136-138); actigraphy limitations (pp.143-145)."
 
 - id: spencer_2022_nap_transitions_pnas
   organization: Proceedings of the National Academy of Sciences
   title: "Contributions of Memory and Brain Development to the Bioregulation of Naps and Nap Transitions in Early Childhood"
   url: https://doi.org/10.1073/pnas.2123415119
   source_type: primary_research
-  verified: false
-  last_accessed: 2026-08-23
+  verified: true
+  last_accessed: 2026-08-24
+  note: "Human-verified against the primary PDF (Spencer & Riggins, PNAS 2022;119(29):e2123415119). Confirmed: 2-to-1 nap transition 6-18mo, last nap 2-8y (p.1); 'no formal recommendations regarding nap timing/length or transitions' (p.1); 'nap transitions cannot be determined by age' (p.7); brain/memory-maturation hypothesis carries the authors' own cross-sectional/causality caveat (p.7)."
 
 # ── C_behavioral layer sources ────────────────────────────────────────────────
 
