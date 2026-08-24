@@ -1,7 +1,8 @@
 # knowledge/sources.yaml
 # Authoritative source inventory for the Baby Sleep Specialist project.
-# All entries have verified: false — a human must confirm each URL before flipping to true.
-# last_accessed: 2026-08-23 reflects the date an automated agent confirmed the URL resolves.
+# Mixed verification state: fully-accessible AAP/HealthyChildren pages have been human-reviewed
+# (verified: true); paywalled journal DOIs remain verified: false (citation-confirmed only — see note:).
+# last_accessed reflects the date the URL was last confirmed to resolve.
 # See references/evidence-methodology.md §7 for full schema documentation.
 
 # ── A_safety layer sources ────────────────────────────────────────────────────
@@ -13,6 +14,7 @@
   source_type: guideline
   verified: false
   last_accessed: 2026-08-23
+  note: "citation-confirmed via CrossRef (title/authors/DOI/year); full text paywalled (HTTP 403). Backing citation only; quoted safe-sleep recommendations come from verified accessible AAP pages."
 
 - id: aap_safe_sleep_2022_tech_report
   organization: American Academy of Pediatrics
@@ -21,14 +23,15 @@
   source_type: guideline
   verified: false
   last_accessed: 2026-08-23
+  note: "citation-confirmed via CrossRef (title/authors/DOI/year); full text paywalled (HTTP 403). Backing citation only."
 
 - id: aap_safe_sleep_resource_center
   organization: American Academy of Pediatrics
-  title: "Safe Sleep — Patient Care Resources"
+  title: "Safe Sleep"
   url: https://www.aap.org/en/patient-care/safe-sleep/
   source_type: review
-  verified: false
-  last_accessed: 2026-08-23
+  verified: true
+  last_accessed: 2026-08-24
 
 - id: aap_febrile_infant_cpg_2021
   organization: American Academy of Pediatrics
@@ -37,22 +40,23 @@
   source_type: guideline
   verified: false
   last_accessed: 2026-08-23
+  note: "citation-confirmed via CrossRef (Pantell et al., Pediatrics 148(2), 2021); full text paywalled (HTTP 403). HIGHEST-PRIORITY for human full-text verification of age-stratified fever thresholds. The quoted <3mo 100.4F threshold is drawn from verified aap_when_to_call_pediatrician_fever, not this article."
 
 - id: aap_when_to_call_pediatrician_fever
   organization: American Academy of Pediatrics
   title: "Fever: When to Call the Pediatrician"
   url: https://www.healthychildren.org/English/health-issues/conditions/fever/Pages/When-to-Call-the-Pediatrician.aspx
   source_type: review
-  verified: false
-  last_accessed: 2026-08-23
+  verified: true
+  last_accessed: 2026-08-24
 
 - id: aap_signs_of_dehydration
   organization: American Academy of Pediatrics
   title: "Signs of Dehydration in Infants & Children"
   url: https://www.healthychildren.org/English/health-issues/injuries-emergencies/Pages/dehydration.aspx
   source_type: review
-  verified: false
-  last_accessed: 2026-08-23
+  verified: true
+  last_accessed: 2026-08-24
 
 - id: aap_brue_cpg_2016
   organization: American Academy of Pediatrics
@@ -61,13 +65,14 @@
   source_type: guideline
   verified: false
   last_accessed: 2026-08-23
+  note: "citation-confirmed via CrossRef (Tieder et al., Pediatrics 137(5), 2016); full text paywalled (HTTP 403). Backing citation only; BRUE definition and lower-risk criteria need human full-text verification before use in outputs."
 
 - id: aap_rsv_respiratory_distress_signs
   organization: American Academy of Pediatrics
   title: "RSV: When It's More Than Just a Cold"
   url: https://www.healthychildren.org/English/health-issues/conditions/chest-lungs/Pages/RSV-When-Its-More-Than-Just-a-Cold.aspx
   source_type: review
-  verified: false
+  verified: true
   last_accessed: 2026-08-24
 
 - id: aap_bronchiolitis_respiratory_distress_signs
@@ -76,6 +81,15 @@
   url: https://www.healthychildren.org/English/health-issues/conditions/chest-lungs/Pages/Bronchiolitis.aspx
   source_type: review
   verified: false
+  last_accessed: 2026-08-24
+  note: "distress signs confirmed verbatim; page lacks explicit emergency (911) escalation language — use aap_rsv_respiratory_distress_signs for emergency-care wording."
+
+- id: aap_healthychildren_safe_sleep_guide
+  organization: American Academy of Pediatrics
+  title: "A Parent's Guide to Safe Sleep"
+  url: https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/a-parents-guide-to-safe-sleep.aspx
+  source_type: review
+  verified: true
   last_accessed: 2026-08-24
 
 # ── B_developmental layer sources ─────────────────────────────────────────────
