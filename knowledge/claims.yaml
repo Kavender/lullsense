@@ -182,7 +182,7 @@
   layer: A_safety
   topic: respiratory_red_flag
   parent_goals: []
-  age_range_months: [0, 24]
+  age_range_months: [0, 36]
   evidence_type: guideline
   evidence_level: high
   claim: "Labored breathing — fast breathing, nasal flaring, head-bobbing, grunting, belly breathing or tugging in between the ribs or at the lower neck (retractions), or wheezing — warrants prompt medical contact; pauses or difficulty breathing, pale, gray, or blue skin, lips, or nail beds, or markedly reduced alertness require immediate emergency care."
