@@ -4,14 +4,20 @@ version = "0.0.0"
 description = "Open-source, evidence-informed baby/toddler sleep specialist Agent Skill"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
-dependencies = ["pyyaml>=6.0"]
+dependencies = ["pyyaml>=6.0", "pydantic>=2.7"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "ruff>=0.5"]
 
+[tool.setuptools]
+packages = ["baby_sleep", "baby_sleep.contract", "baby_sleep.ingest", "baby_sleep.store"]
+
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+
+[tool.ruff.lint]
+ignore = ["DTZ001", "DTZ005", "DTZ006", "DTZ007"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
