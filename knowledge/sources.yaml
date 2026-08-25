@@ -15,7 +15,7 @@
   source_type: guideline
   verified: true
   last_accessed: 2026-08-24
-  note: "Human-verified against the primary PDF (Moon et al., Pediatrics 2022;150(1):e2022057990). Confirmed verbatim: back-to-sleep to 1yr (p.7); firm/flat, >10 degrees unsafe (p.4,9); soft-object/weighted-item exclusions (p.3,12); room-sharing ideally >=6mo, up to ~50% risk reduction (p.11); human-milk & pacifier lower risk (p.3,10,12). AAP bed-sharing wording is 'unable to recommend under any circumstances' (not an absolute 'never')."
+  note: "Human-verified against the primary PDF (Moon et al., Pediatrics 2022;150(1):e2022057990). Confirmed verbatim: back-to-sleep to 1yr (p.7); firm/flat, >10 degrees unsafe (p.4,9); soft-object/weighted-item exclusions (p.3,12); room-sharing ideally >=6mo, up to ~50% risk reduction (p.11); human-milk & pacifier lower risk (p.3,10,12). AAP bed-sharing wording is 'unable to recommend under any circumstances' (not an absolute 'never'). Bed-sharing harm-reduction (backs bed_sharing_harm_reduction claim): AAP 'understands and respects that many parents choose to routinely bed share' yet is 'unable to recommend' it (p.11); couches/armchairs never (22-67x risk, p.11); risk-magnitude tiers — >10x impaired/smoking adult or soft surface, 5-10x infant <4mo or non-parent sharer, 2-5x preterm/low-birth-weight or soft bedding (p.11-12); return infant to a separate surface once parent is ready to sleep / on awakening (p.11-12); 'nonjudgmental communication between clinicians and parents is recommended' (p.11)."
 
 - id: aap_safe_sleep_2022_tech_report
   organization: American Academy of Pediatrics

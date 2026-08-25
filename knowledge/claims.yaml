@@ -83,6 +83,26 @@
   individual_variability: low
   last_reviewed: 2026-08-24
 
+- claim_id: bed_sharing_harm_reduction
+  layer: A_safety
+  topic: safe_sleep_location
+  parent_goals: []
+  age_range_months: [0, 12]
+  evidence_type: guideline
+  evidence_level: high
+  claim: "The AAP is unable to recommend bed-sharing under any circumstances but recognizes many families do it; if bed-sharing occurs, an infant should never sleep on a couch or armchair, and the risk is markedly higher with a soft surface, soft bedding or pillows, an adult impaired by alcohol or sedating medication or who smokes, a non-parent sharing the surface, or an infant under 4 months or born preterm, and the baby should be returned to their own separate sleep surface once the parent is ready to sleep."
+  sources: [aap_safe_sleep_2022]
+  use_for:
+    - responding when a parent reports they already bed-share or intend to, without endorsing it
+    - naming the factors that most increase bed-sharing risk so a family can reduce avoidable hazard
+    - advising return to a separate surface after feeding or comforting in the adult bed
+  do_not_use_for:
+    - presenting bed-sharing as a recommended or safe option
+    - using it as grounds to criticize or shame a parent who bed-shares (AAP advises nonjudgmental communication)
+    - couch or armchair sleep, which is never acceptable rather than harm-reducible
+  individual_variability: low
+  last_reviewed: 2026-08-24
+
 - claim_id: safe_sleep_bare_crib
   layer: A_safety
   topic: safe_sleep_environment
@@ -214,4 +234,627 @@
     - stating specific BRUE inclusion or lower-risk criteria (unverified — see safety-triage.md §3 note)
     - reassuring a parent that such an episode needs no evaluation
   individual_variability: low
+  last_reviewed: 2026-08-24
+
+# ══════════════════════════════════════════════════════════════════════════════
+# B_developmental — the developmental sleep model (Layer B).
+# Source-grounded in references/developmental-sleep.md and myths-and-overclaims.md.
+# All figures are population priors, not schedules or diagnoses; variability is high.
+# Note on evidence_type: tham_2017 (narrative review) and spencer_2022 (PNAS
+# perspective/review reporting primary findings) are labeled primary_research to
+# match the closest enum and the existing repo convention (spencer_2022 is
+# source_type primary_research); evidence_level: moderate carries the real weight.
+# ══════════════════════════════════════════════════════════════════════════════
+
+- claim_id: total_sleep_4_12_months
+  layer: B_developmental
+  topic: sleep_duration
+  parent_goals: [is_this_normal]
+  age_range_months: [4, 12]
+  evidence_type: professional_consensus
+  evidence_level: high
+  claim: "Infants 4-12 months generally need about 12-16 hours of sleep per 24 hours, including naps."
+  sources: [aasm_child_sleep_duration_2016]
+  use_for:
+    - giving reassuring context about how much sleep is typical at this age
+    - flagging when reported sleep is dramatically outside the range
+  do_not_use_for:
+    - prescribing an exact bedtime or wake time for a specific child
+    - inferring a sleep problem from total hours alone
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: total_sleep_1_2_years
+  layer: B_developmental
+  topic: sleep_duration
+  parent_goals: [is_this_normal]
+  age_range_months: [12, 24]
+  evidence_type: professional_consensus
+  evidence_level: high
+  claim: "Children 1-2 years generally need about 11-14 hours of sleep per 24 hours, including naps."
+  sources: [aasm_child_sleep_duration_2016]
+  use_for:
+    - giving reassuring context about typical total sleep for toddlers
+    - flagging when reported sleep is dramatically outside the range
+  do_not_use_for:
+    - prescribing an exact schedule for a specific child
+    - inferring a sleep problem from total hours alone
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: total_sleep_2_3_years
+  layer: B_developmental
+  topic: sleep_duration
+  parent_goals: [is_this_normal]
+  age_range_months: [24, 36]
+  evidence_type: professional_consensus
+  evidence_level: moderate
+  claim: "Between the second and third year, total sleep need continues a gradual decline, shading from the 11-14 hour range of 1-2 year olds toward the 10-13 hour range published for 3-5 year olds."
+  sources: [aasm_child_sleep_duration_2016]
+  use_for:
+    - giving reassuring context for children approaching age three
+    - explaining that sleep need declines gradually, not in steps
+  do_not_use_for:
+    - prescribing an exact schedule for a specific child
+    - treating the interpolated range as a precise published band (the AASM bands are 1-2y and 3-5y)
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: night_waking_normal_variability
+  layer: B_developmental
+  topic: night_waking
+  parent_goals: [night_waking, is_this_normal]
+  age_range_months: [4, 24]
+  evidence_type: primary_research
+  evidence_level: moderate
+  claim: "About 20-30% of infants have night awakenings across the first two years, and night waking shows the highest variability of all infant sleep measures — so waking is common and its frequency ranges widely among healthy children."
+  sources: [tham_2017_infant_sleep_cognition_growth]
+  use_for:
+    - normalizing night waking when a parent asks whether it is abnormal
+    - contextualizing that some waking is within the healthy range
+  do_not_use_for:
+    - implying all night waking needs no attention when a medical cause or feeding issue is present
+    - promising a specific age by which a child will sleep through
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: sleep_consolidation_trajectory
+  layer: B_developmental
+  topic: sleep_consolidation
+  parent_goals: [night_waking, is_this_normal]
+  age_range_months: [4, 12]
+  evidence_type: primary_research
+  evidence_level: moderate
+  claim: "Overnight sleep becomes distinct from daytime naps for most infants between about 4 and 6 months, and sleep gradually consolidates into fewer, longer bouts over the first year."
+  sources: [tham_2017_infant_sleep_cognition_growth]
+  use_for:
+    - setting realistic expectations about when longer stretches typically emerge
+    - contextualizing gradual, non-linear consolidation
+    - helping distinguish developmentally-expected waking during consolidation from a change that warrants attention, read alongside other behavior signals
+  do_not_use_for:
+    - guaranteeing a specific child will consolidate on this timeline
+    - treating a slower-consolidating but healthy child as having a problem
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: circadian_emergence_infancy
+  layer: B_developmental
+  topic: circadian_development
+  parent_goals: [is_this_normal]
+  age_range_months: [0, 4]
+  evidence_type: primary_research
+  evidence_level: moderate
+  claim: "A day-night circadian rhythm is not established at birth; signs of it begin to emerge around 10-12 weeks of age, with wide variation between infants."
+  sources: [tham_2017_infant_sleep_cognition_growth]
+  use_for:
+    - explaining why very young infants sleep in scattered bouts around the clock
+    - reassuring parents of newborns that day-night organization takes time to develop
+  do_not_use_for:
+    - behavioral schedule optimization for infants under 4 months (out of scope — safe sleep and feeding only)
+    - promising a fixed age by which day-night rhythm will appear
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: nap_phase_progression
+  layer: B_developmental
+  topic: nap_organization
+  parent_goals: [nap_transition, short_naps, is_this_normal]
+  age_range_months: [4, 36]
+  evidence_type: primary_research
+  evidence_level: moderate
+  claim: "Naps reduce gradually over early childhood — from three or more per day in early infancy, to two around 9 months, to a single afternoon nap during the first-to-second year, and eventually to none — rather than dropping suddenly."
+  sources: [spencer_2022_nap_transitions_pnas]
+  use_for:
+    - giving parents the overall arc of how napping changes with age
+    - explaining that nap changes are gradual transitions, not abrupt drops
+    - checking whether nap resistance or shortened naps line up with a developmentally-expected nap transition for the age band, considered alongside other behavior changes
+  do_not_use_for:
+    - assigning a specific age at which a child "should" be on a given number of naps
+    - diagnosing a nap problem from nap count alone
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: nap_transition_2to1_timing
+  layer: B_developmental
+  topic: nap_transition
+  parent_goals: [nap_transition, is_this_normal]
+  age_range_months: [6, 18]
+  evidence_type: primary_research
+  evidence_level: moderate
+  claim: "The transition from two naps to one typically occurs somewhere between 6 and 18 months, with wide individual variation; there is no single correct age."
+  sources: [spencer_2022_nap_transitions_pnas]
+  use_for:
+    - reassuring a parent whose child transitions earlier or later than peers
+    - framing the 2-to-1 transition as a range rather than a fixed milestone
+  do_not_use_for:
+    - telling a parent their child "should" have dropped to one nap by a specific age
+    - prescribing a nap-drop date from age alone
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: nap_transition_last_nap_timing
+  layer: B_developmental
+  topic: nap_transition
+  parent_goals: [nap_transition, is_this_normal]
+  age_range_months: [24, 36]
+  evidence_type: primary_research
+  evidence_level: moderate
+  claim: "The transition out of the single afternoon nap is highly variable and can occur anywhere from about 2 to 8 years of age."
+  sources: [spencer_2022_nap_transitions_pnas]
+  use_for:
+    - reassuring parents of a 2-3 year old who is still napping or beginning to resist naps
+    - framing the last-nap transition as spanning years, not a fixed age
+  do_not_use_for:
+    - telling a parent their toddler "should" have stopped napping
+    - treating continued napping at this age as abnormal
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: nap_transition_driven_by_maturation
+  layer: B_developmental
+  topic: nap_transition
+  parent_goals: [nap_transition]
+  age_range_months: [6, 36]
+  evidence_type: primary_research
+  evidence_level: moderate
+  claim: "Nap transitions appear to be driven by brain and memory maturation rather than calendar age, so the opportunity to nap should be protected for children who still need it (the underlying mechanism is a supported but not fully proven hypothesis)."
+  sources: [spencer_2022_nap_transitions_pnas]
+  use_for:
+    - explaining why a child-led approach to nap transitions is preferable to an age-based one
+    - supporting protecting naps for a child who still benefits
+  do_not_use_for:
+    - stating the brain-maturation mechanism as established causal fact
+    - forcing a nap transition to hit a calendar target
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: naps_support_memory
+  layer: B_developmental
+  topic: nap_function
+  parent_goals: [short_naps, nap_transition]
+  age_range_months: [6, 24]
+  evidence_type: primary_research
+  evidence_level: moderate
+  claim: "Daytime naps support memory consolidation and learning in infants and toddlers, which is one reason to protect adequate nap opportunity while a child still naps."
+  sources: [tham_2017_infant_sleep_cognition_growth]
+  use_for:
+    - explaining the developmental value of naps to parents weighing whether to protect them
+    - supporting the case against prematurely cutting naps
+  do_not_use_for:
+    - claiming a specific nap length is required for learning
+    - overriding a child's own readiness signals to drop a nap
+  individual_variability: moderate
+  last_reviewed: 2026-08-24
+
+- claim_id: individual_variability_baseline
+  layer: B_developmental
+  topic: individual_variability
+  parent_goals: [is_this_normal]
+  age_range_months: [4, 36]
+  evidence_type: professional_consensus
+  evidence_level: high
+  claim: "Individual sleep need varies with genetic, behavioral, medical, and environmental factors, so a child's own established pattern is the right baseline for assessment — not a population average."
+  sources: [aasm_child_sleep_duration_2016]
+  use_for:
+    - grounding every assessment in the child's own history rather than a chart
+    - reassuring parents whose healthy child sits at the edge of a range
+  do_not_use_for:
+    - dismissing a genuinely concerning change from the child's own baseline
+    - justifying ignoring safety red flags
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: developmental_context_sleep_shifts
+  layer: B_developmental
+  topic: developmental_context
+  parent_goals: [night_waking, bedtime_resistance, is_this_normal]
+  age_range_months: [8, 24]
+  evidence_type: heuristic
+  evidence_level: low
+  claim: "Periods of rapid motor, language, and separation-anxiety development are commonly associated with temporary sleep disruption, but this is a clinically observed pattern, not something proven to explain any individual child's sleep change."
+  sources: []
+  use_for:
+    - offering a plausible developmental frame for why sleep may have shifted around a milestone
+    - normalizing temporary disruption during active developmental periods
+  do_not_use_for:
+    - promising the disruption will resolve on its own by a set time
+    - attributing every sleep change to development without assessment
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: sleep_regression_reframe
+  layer: B_developmental
+  topic: sleep_regression
+  parent_goals: [night_waking, bedtime_resistance, short_naps, is_this_normal]
+  age_range_months: [3, 24]
+  evidence_type: primary_research
+  evidence_level: moderate
+  claim: "The popular term 'sleep regression' points at real sleep changes that often occur around developmental transitions, but these are not universal, not fixed to specific calendar ages, and not true regressions; the 4-month period is a genuine shift in sleep architecture, while other named ages have little independent support."
+  sources: [tham_2017_infant_sleep_cognition_growth]
+  use_for:
+    - meeting a parent who uses the word "regression" without correcting them, then adding calibrated context
+    - explaining the 4-month sleep-architecture shift as a real developmental change
+  do_not_use_for:
+    - promising a "regression" will last a set number of weeks or resolve automatically
+    - implying all children experience disruption at 8, 12, or 18 months
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: bedtime_resistance_toddler_autonomy
+  layer: B_developmental
+  topic: developmental_context
+  parent_goals: [bedtime_resistance, is_this_normal]
+  age_range_months: [18, 36]
+  evidence_type: heuristic
+  evidence_level: low
+  claim: "Bedtime resistance in toddlers is frequently a normal expression of developing autonomy rather than a sleep disorder, and it tends to respond to consistent, predictable limits and routines."
+  sources: []
+  use_for:
+    - normalizing toddler bedtime pushback as developmentally common
+    - framing consistent limits and routine as the first-line response
+  do_not_use_for:
+    - dismissing resistance that coincides with pain, illness, or fear
+    - implying no strategy is needed
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+# ══════════════════════════════════════════════════════════════════════════════
+# C_behavioral — behavioral sleep medicine (Layer C).
+# Grounded in myths-and-overclaims.md §6 and the behavioral-intervention sources
+# (mindell_2006, meltzer_mindell_2014, reuter_2020, aasm_2006 practice params,
+# mindell_williamson_2018). Those sources are verified: false, so evidence_level:
+# high claims here will emit a WARNING — the intended honest signal, not an error.
+# ══════════════════════════════════════════════════════════════════════════════
+
+- claim_id: bedtime_routine_benefits
+  layer: C_behavioral
+  topic: bedtime_routine
+  parent_goals: [bedtime_resistance, night_waking, independent_settling]
+  age_range_months: [4, 36]
+  evidence_type: primary_research
+  evidence_level: moderate
+  claim: "A consistent, calming bedtime routine is associated with easier sleep onset, fewer night wakings, and broader developmental benefits."
+  sources: [mindell_williamson_2018_bedtime_routine]
+  use_for:
+    - recommending a predictable wind-down as a low-risk first step
+    - supporting routine consistency for bedtime resistance or night waking
+  do_not_use_for:
+    - prescribing a specific routine length or fixed set of steps as required
+    - implying a routine alone resolves medically-driven waking
+  individual_variability: moderate
+  last_reviewed: 2026-08-24
+
+- claim_id: graduated_extinction_efficacy
+  layer: C_behavioral
+  topic: behavioral_intervention
+  parent_goals: [night_waking, bedtime_resistance, independent_settling]
+  age_range_months: [5, 36]
+  evidence_type: systematic_review
+  evidence_level: high
+  claim: "Behavioral interventions, including graduated extinction and standard extinction, have systematic-review and meta-analysis support for reducing bedtime resistance and night wakings from roughly 5-6 months of age onward."
+  sources: [mindell_2006_behavioral_treatment_review, meltzer_mindell_2014_meta_analysis, reuter_2020_infant_sleep_systematic_review]
+  use_for:
+    - presenting evidence-supported options when a family wants to change night waking or bedtime resistance
+    - distinguishing methods with research backing from unvalidated conventions
+  do_not_use_for:
+    - infants under about 5-6 months (out of the supported age range)
+    - waking driven by illness, pain, hunger, or a medical cause (assess first)
+    - implying a family is obligated to sleep-train
+  individual_variability: moderate
+  last_reviewed: 2026-08-24
+
+- claim_id: behavioral_interventions_safety
+  layer: C_behavioral
+  topic: behavioral_intervention
+  parent_goals: [independent_settling, night_waking]
+  age_range_months: [5, 36]
+  evidence_type: systematic_review
+  evidence_level: moderate
+  claim: "In studied populations, standard behavioral sleep interventions used appropriately have not been shown to cause lasting harm to the parent-child relationship or to the child's stress regulation."
+  sources: [reuter_2020_infant_sleep_systematic_review]
+  use_for:
+    - responding to a question about whether a graduated approach could harm the child
+    - providing balanced evidence context while leaving the choice with the family
+  do_not_use_for:
+    - pressuring a hesitant family into an approach they are uncomfortable with
+    - claiming zero distress or guaranteeing outcomes for any individual child
+  individual_variability: moderate
+  last_reviewed: 2026-08-24
+
+- claim_id: medical_ruleout_before_behavioral
+  layer: C_behavioral
+  topic: behavioral_intervention
+  parent_goals: [night_waking, bedtime_resistance, independent_settling]
+  age_range_months: [4, 36]
+  evidence_type: expert_practice
+  evidence_level: moderate
+  claim: "Behavioral sleep approaches are appropriate only after screening for medical and physical causes (illness, pain, reflux, hunger); crying at sleep time is a differential-diagnosis question first and a behavioral one second."
+  sources: [aasm_2006_practice_parameters_bedtime]
+  use_for:
+    - gating any settling recommendation behind a check for medical causes
+    - explaining why the system asks about illness/pain before behavioral advice
+  do_not_use_for:
+    - interpreting all bedtime or night crying as behavioral resistance
+    - delaying escalation when safety red flags are present (see A_safety claims)
+  individual_variability: moderate
+  last_reviewed: 2026-08-24
+
+- claim_id: bedtime_fading
+  layer: C_behavioral
+  topic: behavioral_intervention
+  parent_goals: [bedtime_resistance, independent_settling]
+  age_range_months: [6, 36]
+  evidence_type: systematic_review
+  evidence_level: moderate
+  claim: "Bedtime fading — temporarily setting bedtime closer to the child's natural sleep-onset time, then gradually shifting it earlier — is an evidence-supported approach for bedtime resistance and prolonged sleep onset."
+  sources: [meltzer_mindell_2014_meta_analysis, babysleepscience_bedtime_fading_guide]
+  use_for:
+    - offering a lower-intensity alternative when a family prefers not to use extinction
+    - addressing long, difficult sleep-onset battles
+  do_not_use_for:
+    - resolving night waking unrelated to bedtime timing
+    - setting bedtime so late it curtails needed total sleep
+  individual_variability: moderate
+  last_reviewed: 2026-08-24
+
+- claim_id: positive_routines_reinforcement
+  layer: C_behavioral
+  topic: behavioral_intervention
+  parent_goals: [bedtime_resistance]
+  age_range_months: [18, 36]
+  evidence_type: systematic_review
+  evidence_level: moderate
+  claim: "Positive bedtime routines paired with reinforcement (praise, simple reward systems) can reduce bedtime resistance in older toddlers and preschoolers."
+  sources: [mindell_2006_behavioral_treatment_review]
+  use_for:
+    - addressing bedtime resistance in a verbal, older toddler
+    - offering a collaborative, low-conflict strategy
+  do_not_use_for:
+    - infants too young to understand reinforcement
+    - replacing screening for medical or fear-based causes of resistance
+  individual_variability: moderate
+  last_reviewed: 2026-08-24
+
+- claim_id: consistent_response_settling
+  layer: C_behavioral
+  topic: behavioral_intervention
+  parent_goals: [independent_settling, night_waking]
+  age_range_months: [5, 36]
+  evidence_type: expert_practice
+  evidence_level: moderate
+  claim: "Consistency of the caregiver's nighttime response across nights tends to matter more to behavioral sleep outcomes than which specific method is chosen."
+  sources: [mindell_2006_behavioral_treatment_review, huckleberry_sleep_training_methods]
+  use_for:
+    - helping a family pick a method they can apply consistently
+    - explaining why switching methods nightly tends to backfire
+  do_not_use_for:
+    - insisting on rigid consistency through illness or an acute change
+    - implying consistency alone overcomes an unaddressed medical cause
+  individual_variability: moderate
+  last_reviewed: 2026-08-24
+
+- claim_id: independent_settling_readiness
+  layer: C_behavioral
+  topic: independent_settling
+  parent_goals: [independent_settling]
+  age_range_months: [4, 36]
+  evidence_type: expert_practice
+  evidence_level: moderate
+  claim: "Approaches that build independent settling are generally considered appropriate from around 4-6 months onward, once medical causes are excluded and the child is developmentally ready; there is no obligation to sleep-train, and the family's comfort with a method matters."
+  sources: [mindell_2006_behavioral_treatment_review, pediatric_sleep_council_sleep_training]
+  use_for:
+    - setting expectations for when settling work is developmentally reasonable
+    - affirming that sleep training is optional and values-dependent
+  do_not_use_for:
+    - pushing settling approaches on infants under about 4 months
+    - framing continued parental settling as a failure
+  individual_variability: moderate
+  last_reviewed: 2026-08-24
+
+- claim_id: sleep_associations_context
+  layer: C_behavioral
+  topic: sleep_associations
+  parent_goals: [night_waking, independent_settling]
+  age_range_months: [4, 36]
+  evidence_type: expert_practice
+  evidence_level: low
+  claim: "Sleep-onset associations such as being fed or rocked to sleep are common and not inherently harmful; they become a target for change only if the family wants to change how the child returns to sleep during the night."
+  sources: [huckleberry_sleep_training_methods]
+  use_for:
+    - reassuring a parent that feeding or rocking to sleep is not wrong in itself
+    - framing associations as an optional thing to change, tied to the family's goal
+  do_not_use_for:
+    - telling a parent they must eliminate an association
+    - ignoring a medical cause of night waking by attributing it only to associations
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+# ══════════════════════════════════════════════════════════════════════════════
+# D_practice — the human-consultant playbook (Layer D).
+# Practice-based heuristics and observed public practice. Most are evidence_type
+# heuristic (evidence_level: low, sources may be []); a few cite public consultant
+# material as expert_practice. These are practical orientation, not clinical standards.
+# ══════════════════════════════════════════════════════════════════════════════
+
+- claim_id: constraint_first_recommending
+  layer: D_practice
+  topic: consultation_craft
+  parent_goals: [daycare_schedule_fit, bedtime_resistance, early_waking, short_naps]
+  age_range_months: [4, 36]
+  evidence_type: heuristic
+  evidence_level: low
+  claim: "Eliciting a family's fixed constraints (daycare nap schedule, pickup and work times, room-sharing arrangements) before making a schedule recommendation produces advice the family can actually follow."
+  sources: []
+  use_for:
+    - shaping the intake so a recommendation is feasible from the start
+    - avoiding advice a parent has to push back on as impractical
+  do_not_use_for:
+    - overriding safety guidance to fit a constraint
+    - treating elicited constraints as permanent when they can change
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: wake_windows_as_heuristic
+  layer: D_practice
+  topic: nap_timing
+  parent_goals: [short_naps, bedtime_resistance, nap_transition, early_waking]
+  age_range_months: [4, 36]
+  evidence_type: heuristic
+  evidence_level: low
+  claim: "Time awake since the last sleep ('wake windows') is a rough orientation tool for timing naps and bedtime, not a validated clinical standard; a child's own tired cues and usual pattern are more reliable than a published chart."
+  sources: [huckleberry_wake_windows_guide]
+  use_for:
+    - meeting a parent who uses wake-window language, then adding calibration
+    - offering wake time as one input alongside the child's tired cues
+  do_not_use_for:
+    - telling a parent they made an error by falling outside a chart range
+    - presenting wake-window hour ranges as a clinical or medical standard
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: daycare_schedule_alignment
+  layer: D_practice
+  topic: daycare_fit
+  parent_goals: [daycare_schedule_fit, nap_transition, short_naps]
+  age_range_months: [12, 36]
+  evidence_type: heuristic
+  evidence_level: low
+  claim: "When a child is in daycare, adjusting the home schedule (especially bedtime) to accommodate the daycare's fixed nap and pickup times — rather than fighting them — is a common, practical way to protect total sleep."
+  sources: []
+  use_for:
+    - helping a family reconcile a daycare nap that differs from the home pattern
+    - using an earlier bedtime to offset a shortened or missed daycare nap
+  do_not_use_for:
+    - assuming every daycare's schedule is fixed without asking
+    - overriding a child's readiness signals to match an institutional schedule
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: illness_travel_recovery_approach
+  layer: D_practice
+  topic: illness_travel_recovery
+  parent_goals: [illness_travel_recovery]
+  age_range_months: [4, 36]
+  evidence_type: heuristic
+  evidence_level: low
+  claim: "During illness or travel, prioritizing comfort and adequate rest over strict schedule adherence — then returning to the usual routine within a few days once the child has recovered — is a common practical approach."
+  sources: []
+  use_for:
+    - reassuring a parent that temporary schedule slippage during illness is fine
+    - planning a return to routine after a disruption
+  do_not_use_for:
+    - delaying medical attention for illness red flags (see A_safety claims first)
+    - implying no return to routine is needed after recovery
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: jetlag_gradual_shift
+  layer: D_practice
+  topic: illness_travel_recovery
+  parent_goals: [illness_travel_recovery, daycare_schedule_fit]
+  age_range_months: [6, 36]
+  evidence_type: heuristic
+  evidence_level: low
+  claim: "For travel across time zones, gradually shifting sleep and meal times toward the destination clock over several days, aided by daytime light exposure and activity, is a common practical approach that can be laid out as a day-by-day plan."
+  sources: []
+  use_for:
+    - building a staged, day-by-day roadmap for adjusting to a new time zone
+    - setting realistic expectations that adjustment takes several days
+  do_not_use_for:
+    - promising a precise number of days to full adjustment
+    - overriding safe-sleep essentials in an unfamiliar sleep environment
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: early_waking_common_causes
+  layer: D_practice
+  topic: early_waking
+  parent_goals: [early_waking]
+  age_range_months: [4, 36]
+  evidence_type: expert_practice
+  evidence_level: low
+  claim: "Common practical contributors to early-morning waking include a bedtime that is too early relative to need, an over-long or late final nap, early-morning light or noise, and hunger; adjusting these one at a time is a reasonable first step."
+  sources: [pediatric_sleep_council_sleep_training]
+  use_for:
+    - generating a short list of adjustable factors for early waking
+    - guiding a change-one-thing-at-a-time troubleshooting approach
+  do_not_use_for:
+    - guaranteeing that any single adjustment will fix early waking
+    - treating an age-typical early wake time as a problem to eliminate
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: split_night_time_in_bed
+  layer: D_practice
+  topic: split_night
+  parent_goals: [split_night, night_waking]
+  age_range_months: [6, 36]
+  evidence_type: heuristic
+  evidence_level: low
+  claim: "A 'split night' — a long stretch awake and calm in the middle of the night — is often associated with more time allotted for sleep than the child needs (e.g., a very early bedtime combined with long daytime naps), so trimming time-in-bed or daytime sleep is a common first adjustment."
+  sources: []
+  use_for:
+    - offering a likely-cause frame when a parent describes a long calm night waking
+    - suggesting reduced daytime sleep or a later bedtime as a first experiment
+  do_not_use_for:
+    - a distressed or ill child waking at night (assess medical causes first)
+    - cutting total sleep below the child's needs
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: short_naps_context
+  layer: D_practice
+  topic: short_naps
+  parent_goals: [short_naps, is_this_normal]
+  age_range_months: [4, 18]
+  evidence_type: heuristic
+  evidence_level: low
+  claim: "Short naps (often around 30-45 minutes) are common and can reflect an immature nap rhythm, timing that is off relative to sleep pressure, or environmental disruption; many improve with development and are not necessarily a problem needing correction."
+  sources: []
+  use_for:
+    - normalizing short naps when a parent asks whether they are a problem
+    - suggesting nap-timing or environment tweaks while setting modest expectations
+    - checking whether short naps at this age band coincide with an approaching nap transition, considered alongside other behavior changes
+  do_not_use_for:
+    - promising short naps will lengthen by a specific age
+    - treating short naps in a thriving, well-rested child as a problem
+  individual_variability: high
+  last_reviewed: 2026-08-24
+
+- claim_id: nap_transition_readiness_signs
+  layer: D_practice
+  topic: nap_transition
+  parent_goals: [nap_transition]
+  age_range_months: [6, 36]
+  evidence_type: heuristic
+  evidence_level: low
+  claim: "Signs a child may be ready to drop a nap include consistently resisting a nap they previously took, taking much longer to fall asleep, and night sleep staying intact when a nap is occasionally skipped; these child-led signals are more informative than calendar age."
+  sources: []
+  use_for:
+    - helping a parent decide whether to begin a nap transition based on the child's behavior
+    - steering away from age-based nap-drop decisions toward readiness signals
+  do_not_use_for:
+    - forcing a nap transition before readiness signs are present
+    - treating a single off day as proof a nap should be dropped
+  individual_variability: high
   last_reviewed: 2026-08-24
