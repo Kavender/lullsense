@@ -6,6 +6,7 @@ from enum import Enum
 
 from pydantic import BaseModel
 
+from baby_sleep.contract.enums import Location
 from baby_sleep.contract.models import ContextEvent, SleepSession
 
 
@@ -33,3 +34,35 @@ class SleepDay(BaseModel):
     night_segments: list[SleepSession] = []
     naps: list[SleepSession] = []
     events: list[ContextEvent] = []
+
+
+class DailyFeatures(BaseModel):
+    day: date
+    rise_time: datetime | None = None
+    in_bed_time: datetime | None = None
+    sleep_onset_time: datetime | None = None
+    sleep_onset_latency_min: int | None = None
+    night_sleep_duration_min: int | None = None
+    night_waking_count: int | None = None
+    total_awake_overnight_min: int | None = None
+    longest_night_waking_min: int | None = None
+    nap_count: int = 0
+    naps: list[NapFeature] = []
+    total_daytime_sleep_min: int | None = None
+    total_24h_sleep_min: int | None = None
+    pre_nap_awake_min: list[int] = []
+    wake_windows_min: list[int] = []
+    is_weekend: bool | None = None
+    location: Location = Location.UNKNOWN
+    approx_share: float = 0.0
+    day_confidence: Confidence = Confidence.HIGH
+
+
+class FeatureSeries(BaseModel):
+    days: list[DailyFeatures] = []
+    bedtime_variability_min: float | None = None
+    rise_time_variability_min: float | None = None
+    nap_time_variability_min: float | None = None
+    total_sleep_variability_min: float | None = None
+    weekday_vs_weekend: dict[str, float] = {}
+    missing_data_rate: float = 0.0
