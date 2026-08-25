@@ -4,9 +4,9 @@ from baby_sleep.analyze.daymap import segment_days
 from baby_sleep.analyze.features import compute_daily_features
 from baby_sleep.analyze.models import BaselineStatus, Confidence
 from baby_sleep.analyze.robust import iqr, mad, median
-from baby_sleep.contract.enums import SleepType
+from baby_sleep.contract.enums import DataQuality, Location, SleepType
 from baby_sleep.contract.models import SleepLog, SleepSession
-from baby_sleep.contract.time_types import ApproxTime
+from baby_sleep.contract.time_types import ApproxTime, TimePrecision
 
 
 def test_robust_stats_basic():
@@ -32,16 +32,16 @@ def _night(sh, smin, eh, emin, dur, wakings=None, segs=None):
                         night_wakings=wakings)
 
 
-def _nap(sd, sh, smin, eh, emin, dur):
+def _nap(sd, sh, smin, ed, eh, emin, dur):
     return SleepSession(start=ApproxTime(value=datetime(2026, 8, sd, sh, smin)),
-                        end=ApproxTime(value=datetime(2026, 8, sd, eh, emin)),
+                        end=ApproxTime(value=datetime(2026, 8, ed, eh, emin)),
                         duration_minutes=dur, sleep_type=SleepType.NAP)
 
 
 def test_single_night_and_naps_totals():
     night = _night(19, 36, 6, 0, 624, wakings=1)
-    nap1 = _nap(25, 9, 30, 10, 5, 35)      # 09:30 -> 10:05, 35 min
-    nap2 = _nap(25, 13, 0, 14, 20, 80)     # 13:00 -> 14:20, 80 min
+    nap1 = _nap(25, 9, 30, 25, 10, 5, 35)      # 09:30 -> 10:05, 35 min
+    nap2 = _nap(25, 13, 0, 25, 14, 20, 80)     # 13:00 -> 14:20, 80 min
     day = segment_days(SleepLog(sessions=[night, nap1, nap2]))[0]
     f = compute_daily_features(day)
     assert f.sleep_onset_time == datetime(2026, 8, 24, 19, 36)
@@ -81,3 +81,38 @@ def test_in_bed_uses_put_down_when_present():
     f = compute_daily_features(day)
     assert f.in_bed_time == datetime(2026, 8, 24, 19, 21)
     assert f.sleep_onset_latency_min == 15
+
+
+def test_wake_windows_intra_day_and_pre_nap():
+    night = _night(19, 36, 6, 0, 624)
+    nap1 = _nap(25, 9, 30, 25, 10, 5, 35)     # rise 06:00 -> nap1 09:30 = 210 min
+    nap2 = _nap(25, 13, 0, 25, 14, 20, 80)    # nap1 end 10:05 -> nap2 13:00 = 175 min
+    day = segment_days(SleepLog(sessions=[night, nap1, nap2]))[0]
+    f = compute_daily_features(day)
+    assert f.pre_nap_awake_min == [210, 175]
+    assert f.wake_windows_min[:2] == [210, 175]   # terminal window appended later at series level
+
+
+def test_is_weekend_and_location():
+    # 2026-08-29 is a Saturday
+    sat_night = SleepSession(start=ApproxTime(value=datetime(2026, 8, 28, 19, 30)),
+                             end=ApproxTime(value=datetime(2026, 8, 29, 6, 30)),
+                             duration_minutes=660, sleep_type=SleepType.NIGHT,
+                             location=Location.HOME)
+    day = segment_days(SleepLog(sessions=[sat_night]))[0]
+    f = compute_daily_features(day)
+    assert f.is_weekend is True
+    assert f.location is Location.HOME
+
+
+def test_approx_share_lowers_day_confidence():
+    night = SleepSession(
+        start=ApproxTime(value=datetime(2026, 8, 24, 19, 30),
+                         precision=TimePrecision.APPROXIMATE, uncertainty_minutes=15),
+        end=ApproxTime(value=datetime(2026, 8, 25, 6, 30)),
+        duration_minutes=660, sleep_type=SleepType.NIGHT,
+        data_quality=DataQuality.REPORTED)
+    day = segment_days(SleepLog(sessions=[night]))[0]
+    f = compute_daily_features(day)
+    assert f.approx_share == 1.0
+    assert f.day_confidence is not None
