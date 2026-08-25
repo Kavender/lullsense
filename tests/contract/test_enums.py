@@ -1,4 +1,4 @@
-from baby_sleep.contract.enums import SleepType, Location, EventKind, DataQuality, StartMarker
+from baby_sleep.contract.enums import DataQuality, EventKind, Location, SleepType, StartMarker
 
 
 def test_enum_string_values_are_stable():

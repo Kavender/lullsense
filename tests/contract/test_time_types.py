@@ -1,5 +1,7 @@
 from datetime import datetime
+
 import pytest
+
 from baby_sleep.contract.time_types import ApproxTime, TimePrecision
 
 

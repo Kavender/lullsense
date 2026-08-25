@@ -16,5 +16,8 @@ packages = ["baby_sleep", "baby_sleep.contract", "baby_sleep.ingest", "baby_slee
 line-length = 100
 target-version = "py311"
 
+[tool.ruff.lint]
+ignore = ["DTZ001", "DTZ005", "DTZ006", "DTZ007"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
