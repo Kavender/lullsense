@@ -1,10 +1,12 @@
 """Output models for the analyze layer. Vendor-neutral, computed from the contract."""
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import date, datetime
 from enum import Enum
 
 from pydantic import BaseModel
+
+from baby_sleep.contract.models import ContextEvent, SleepSession
 
 
 class Confidence(str, Enum):
@@ -24,3 +26,10 @@ class NapFeature(BaseModel):
     start: datetime
     end: datetime | None = None
     duration_minutes: int | None = None
+
+
+class SleepDay(BaseModel):
+    day: date
+    night_segments: list[SleepSession] = []
+    naps: list[SleepSession] = []
+    events: list[ContextEvent] = []
