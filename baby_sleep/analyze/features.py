@@ -117,7 +117,7 @@ def _minutes_of_day(dt: datetime) -> float:
 
 
 def _has_core_data(f: DailyFeatures) -> bool:
-    return f.night_sleep_duration_min is not None or f.total_24h_sleep_min is not None
+    return f.night_sleep_duration_min is not None
 
 
 def build_feature_series(log: SleepLog) -> FeatureSeries:
