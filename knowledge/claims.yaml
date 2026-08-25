@@ -551,17 +551,17 @@
   age_range_months: [5, 36]
   evidence_type: systematic_review
   evidence_level: high
-  claim: "Behavioral interventions, including graduated extinction and standard extinction, have systematic-review and meta-analysis support for reducing bedtime resistance and night wakings from roughly 5-6 months of age onward."
+  claim: "Behavioral interventions, including graduated extinction and standard extinction, have systematic-review and meta-analysis support for reducing bedtime resistance and night wakings in infants and young children, once medical causes are excluded."
   sources: [mindell_2006_behavioral_treatment_review, meltzer_mindell_2014_meta_analysis, reuter_2020_infant_sleep_systematic_review]
   use_for:
     - presenting evidence-supported options when a family wants to change night waking or bedtime resistance
     - distinguishing methods with research backing from unvalidated conventions
   do_not_use_for:
-    - infants under about 5-6 months (out of the supported age range)
+    - infants under about 5-6 months (below the practical application range; specific age floor is a clinical-readiness convention, not established by these sources)
     - waking driven by illness, pain, hunger, or a medical cause (assess first)
     - implying a family is obligated to sleep-train
   individual_variability: moderate
-  last_reviewed: 2026-08-24
+  last_reviewed: 2026-08-25
 
 - claim_id: behavioral_interventions_safety
   layer: C_behavioral

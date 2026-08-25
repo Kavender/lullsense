@@ -137,8 +137,22 @@
   title: "Behavioral Treatment of Bedtime Problems and Night Wakings in Infants and Young Children"
   url: https://academic.oup.com/sleep/article/29/10/1263/2709180
   source_type: systematic_review
-  verified: false
-  last_accessed: 2026-08-23
+  verified: true
+  last_accessed: 2026-08-25
+  note: >-
+    Verified 2026-08-25 against the full AASM review PDF (SLEEP 2006;29(10):1263-1276;
+    review of 52 treatment studies, >2,500 subjects). Supports behavioral-intervention
+    efficacy for bedtime resistance and night wakings: reviews unmodified (standard)
+    extinction, graduated extinction, extinction with parental presence, positive
+    routines/faded bedtime, scheduled awakenings, and parent education (p.1265).
+    Efficacy: "94% (49 of 52) reported ... clinically significant reductions in bedtime
+    resistance and night wakings" (p.1269); "average percentage of subjects who improved
+    was 82%" maintained 3-6 months (pp.1269, 1272). CAVEAT: population is ages 0-4y11m
+    (mean 20 months, p.1267); the paper does NOT state a "5-6 months onward" efficacy/
+    appropriateness threshold - that age floor is not supported by this source and must
+    be cited elsewhere. Consistency-mattering is stated as clinical rationale (p.1266),
+    not as a measured outcome moderator (p.1272 notes no systematic reports on parent/
+    child characteristics vs outcomes).
 
 - id: aasm_2006_practice_parameters_bedtime
   organization: American Academy of Sleep Medicine
@@ -161,8 +175,23 @@
   title: "A Systematic Review of Prevention and Treatment of Infant Behavioural Sleep Problems"
   url: https://doi.org/10.1111/apa.15182
   source_type: systematic_review
-  verified: false
-  last_accessed: 2026-08-23
+  verified: true
+  last_accessed: 2026-08-25
+  note: >-
+    Verified 2026-08-25 against the open-access full text (Acta Paediatr 2020;109(9):
+    1717-1732; CC-BY-NC). Access: Wiley/PubMed pages were 403-blocked to automated fetch;
+    abstract quoted verbatim from the Europe PMC REST API (high confidence), Discussion/
+    GRADE passages via a reader-proxy render of the OA HTML (consistent with the abstract).
+    12 included studies, population "infants 0-24 months". Findings are CAUTIOUS: "Five
+    interventions with behavioural methods ... showed modest short-term effects"; "Some
+    support for short-term effects of behavioural treatment strategies was found, but more
+    studies are needed." Crucially, "No overall evaluation of effects according to GRADE was
+    made" (no intervention studied in >1 trial) - so this source does NOT establish high-
+    grade evidence. It flags under-6-months as a KNOWLEDGE GAP, so it does not affirmatively
+    support a "5-6 months onward" claim. Supports the harms claim: at Price et al 5-year
+    follow-up "neither long-term harm nor benefit ... on ... stress regulation, child-parent
+    relationship" - but this rests on a single follow-up study (evidence_level 'moderate' is
+    generous; low-moderate safer if Reuter is the sole citation).
 
 - id: mindell_williamson_2018_bedtime_routine
   organization: Elsevier / Sleep Medicine Reviews
