@@ -2,7 +2,7 @@ from datetime import datetime
 
 from baby_sleep.contract.enums import SleepType, StartMarker
 from baby_sleep.contract.models import SleepLog, SleepSession
-from baby_sleep.contract.time_types import ApproxTime
+from baby_sleep.contract.time_types import ApproxTime, TimePrecision
 from baby_sleep.ingest.normalize import classify_sleep_type, is_sane, normalize, resolve_end
 
 
@@ -95,3 +95,38 @@ def test_normalize_asleep_convention_is_noop():
     out, _ = normalize(log, start_convention=StartMarker.ASLEEP)
     assert out.sessions[0].start.value == datetime(2026, 8, 24, 13, 0)   # unchanged
     assert out.sessions[0].put_down_at is None
+
+
+def test_normalize_persists_rolled_end_for_time_only_midnight_crossing():
+    # C1 regression: a time-only end that lands before start must be rolled to the
+    # next day AND that rolled value must be persisted (not the original un-rolled end),
+    # so the stored record stays internally consistent (end > start, duration matches).
+    log = SleepLog(sessions=[
+        SleepSession(start=ApproxTime(value=datetime(2026, 8, 24, 19, 30)),
+                     end=ApproxTime(value=datetime(2026, 8, 24, 6, 30)))])   # 6:30 == next morning
+    out, _ = normalize(log)
+    s = out.sessions[0]
+    assert s.end.value == datetime(2026, 8, 25, 6, 30)          # rolled, persisted
+    assert s.end.value > s.start.value
+    assert s.duration_minutes == 660
+    assert int((s.end.value - s.start.value).total_seconds() // 60) == s.duration_minutes
+    assert s.sleep_type is SleepType.NIGHT
+
+
+def test_normalize_put_down_at_preserves_original_anchor_metadata():
+    # M1 regression: when start is shifted put-down -> asleep, put_down_at must retain
+    # the original anchor's precision/uncertainty/raw, not become a bare EXACT time.
+    log = SleepLog(sessions=[
+        SleepSession(
+            start=ApproxTime(value=datetime(2026, 8, 24, 19, 0),
+                             precision=TimePrecision.APPROXIMATE,
+                             uncertainty_minutes=15, raw="put her down around 7pm"),
+            duration_minutes=60, onset_latency_minutes=10,
+            start_marks=StartMarker.PUT_DOWN)])
+    out, _ = normalize(log)
+    s = out.sessions[0]
+    assert s.start.value == datetime(2026, 8, 24, 19, 10)       # shifted asleep
+    assert s.put_down_at.value == datetime(2026, 8, 24, 19, 0)
+    assert s.put_down_at.precision is TimePrecision.APPROXIMATE  # metadata preserved
+    assert s.put_down_at.uncertainty_minutes == 15
+    assert s.put_down_at.raw == "put her down around 7pm"

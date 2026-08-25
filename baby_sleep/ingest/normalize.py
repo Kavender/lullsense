@@ -7,7 +7,6 @@ from datetime import datetime, timedelta
 
 from baby_sleep.contract.enums import SleepType, StartMarker
 from baby_sleep.contract.models import SleepLog, SleepSession
-from baby_sleep.contract.time_types import ApproxTime
 
 MAX_SANE_MINUTES = 20 * 60
 
@@ -81,7 +80,7 @@ def normalize(
         marks = _effective_marks(s.start_marks, start_convention)
         onset = s.onset_latency_minutes
         if marks is StartMarker.PUT_DOWN and onset is not None:
-            put_down_at = ApproxTime(value=start)
+            put_down_at = s.start.model_copy()             # preserve original anchor's precision/raw
             start = start + timedelta(minutes=onset)       # canonical start = asleep
             if end is not None:
                 duration = int((end - start).total_seconds() // 60)
@@ -102,8 +101,10 @@ def normalize(
             sleep_type = classify_sleep_type(start, duration, crosses)
         updated = s.model_copy(update={
             "start": s.start.model_copy(update={"value": start}),
-            "end": s.end if s.end is not None else (
-                s.start.model_copy(update={"value": end}) if end is not None else None),
+            "end": (
+                s.end.model_copy(update={"value": end}) if s.end is not None and end is not None
+                else s.start.model_copy(update={"value": end}) if end is not None
+                else None),
             "duration_minutes": duration,
             "sleep_type": sleep_type,
             "start_marks": marks,
