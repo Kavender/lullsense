@@ -6,7 +6,7 @@ import json
 from baby_sleep.contract.enums import DataQuality
 from baby_sleep.contract.models import SleepLog, SleepSession
 from baby_sleep.contract.time_types import ApproxTime
-from baby_sleep.ingest.csv_generic import _parse_dt, _parse_location, DEFAULT_FORMATS
+from baby_sleep.ingest.csv_generic import DEFAULT_FORMATS, _parse_dt, _parse_location
 
 
 class GenericJsonAdapter:

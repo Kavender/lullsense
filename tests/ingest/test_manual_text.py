@@ -1,14 +1,14 @@
 from datetime import date
-from baby_sleep.ingest.manual_text import parse_manual_text
-from baby_sleep.contract.time_types import TimePrecision
-from baby_sleep.contract.enums import Location, StartMarker
 
+from baby_sleep.contract.enums import Location, StartMarker
+from baby_sleep.contract.time_types import TimePrecision
+from baby_sleep.ingest.manual_text import parse_manual_text
 
 REF = date(2026, 8, 24)
 
 
 def test_parses_time_range_nap():
-    log, warnings = parse_manual_text("Nap 1:15pm-2:35pm", REF)
+    log, _warnings = parse_manual_text("Nap 1:15pm-2:35pm", REF)
     assert len(log.sessions) == 1
     s = log.sessions[0]
     assert s.start.value.hour == 13 and s.start.value.minute == 15

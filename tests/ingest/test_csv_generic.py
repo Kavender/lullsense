@@ -1,5 +1,5 @@
-from baby_sleep.ingest.csv_generic import GenericCsvAdapter
 from baby_sleep.contract.enums import Location, SleepType
+from baby_sleep.ingest.csv_generic import GenericCsvAdapter
 
 CSV = """start,end,where
 2026-08-24 13:00,2026-08-24 14:20,daycare

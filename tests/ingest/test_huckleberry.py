@@ -1,7 +1,8 @@
 from pathlib import Path
+
+from baby_sleep.contract.enums import EventKind, SleepType, StartMarker
 from baby_sleep.ingest.huckleberry import HuckleberryCsvAdapter
 from baby_sleep.ingest.normalize import normalize
-from baby_sleep.contract.enums import EventKind, SleepType, StartMarker
 
 FIXTURE = Path(__file__).parent.parent / "fixtures" / "huckleberry_sample.csv"
 

@@ -1,5 +1,5 @@
-from baby_sleep.ingest.json_generic import GenericJsonAdapter
 from baby_sleep.contract.enums import Location
+from baby_sleep.ingest.json_generic import GenericJsonAdapter
 
 JSON = """[
   {"begin": "2026-08-24 13:00", "finish": "2026-08-24 14:20", "place": "home"},
