@@ -30,8 +30,16 @@ _EXTRACTORS = {
     "nap_count": lambda f: float(f.nap_count),
     "night_waking_count": lambda f: f.night_waking_count,
     "sleep_onset_latency_min": lambda f: f.sleep_onset_latency_min,
+    "total_awake_overnight_min": lambda f: f.total_awake_overnight_min,
+    "longest_night_waking_min": lambda f: f.longest_night_waking_min,
 }
 BASELINE_FEATURES = list(_EXTRACTORS)
+
+
+def feature_scalar(name: str, day):
+    """Public accessor: per-day scalar for a baseline feature name (or None)."""
+    extractor = _EXTRACTORS.get(name)
+    return extractor(day) if extractor is not None else None
 
 
 def _series_values(days, extractor) -> list[float]:

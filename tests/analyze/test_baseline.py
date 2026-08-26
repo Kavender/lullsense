@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 
 from baby_sleep.analyze.baseline import build_baseline
 from baby_sleep.analyze.features import build_feature_series
@@ -119,3 +119,32 @@ def test_stated_baseline_fallback_is_low_confidence():
     assert fb.source == "self_reported"
     assert fb.confidence.value == "low"
     assert fb.baseline_median == 390.0
+
+
+def test_baseline_includes_waso_and_longest_waking():
+    from baby_sleep.contract.enums import SleepType
+    from baby_sleep.contract.models import SleepLog, SleepSession
+    from baby_sleep.contract.time_types import ApproxTime
+    # 10 fragmented nights: onset 19:30, wake 00:00-00:40 (40 min WASO), up 06:00
+    sessions = []
+    for i in range(10):
+        d = 1 + i
+        sessions.append(SleepSession(start=ApproxTime(value=datetime(2026, 9, d, 19, 30)),
+                                     end=ApproxTime(value=datetime(2026, 9, d + 1, 0, 0)),
+                                     duration_minutes=270, sleep_type=SleepType.NIGHT))
+        sessions.append(SleepSession(start=ApproxTime(value=datetime(2026, 9, d + 1, 0, 40)),
+                                     end=ApproxTime(value=datetime(2026, 9, d + 1, 6, 0)),
+                                     duration_minutes=320, sleep_type=SleepType.NIGHT))
+    series = build_feature_series(SleepLog(sessions=sessions))
+    b = build_baseline(series, Child(age_months=10), prior_window_days=10, recent_window_days=5)
+    assert "total_awake_overnight_min" in b.features
+    assert "longest_night_waking_min" in b.features
+    assert b.features["total_awake_overnight_min"].baseline_median == 40.0
+
+
+def test_feature_scalar_public():
+    from baby_sleep.analyze import feature_scalar
+    from baby_sleep.analyze.models import DailyFeatures
+    f = DailyFeatures(day=date(2026, 9, 1), night_waking_count=2, total_awake_overnight_min=40)
+    assert feature_scalar("night_waking_count", f) == 2.0
+    assert feature_scalar("total_awake_overnight_min", f) == 40.0
