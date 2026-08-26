@@ -6,6 +6,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from baby_sleep.analyze.baseline import feature_scalar
+from baby_sleep.analyze.models import BaselineStatus
 from baby_sleep.detect.grading import (
     MADS_TRIGGER,
     consistency,
@@ -92,4 +93,6 @@ def _detect(inp: DetectorInput, cfg: _Cfg) -> Signal | None:
 
 
 def run_deviation_detectors(inp: DetectorInput) -> list[Signal]:
+    if inp.baseline.status is not BaselineStatus.COMPUTED:      # age gate (C5), defense in depth
+        return []
     return [s for s in (_detect(inp, cfg) for cfg in DEVIATION_DETECTORS) if s is not None]

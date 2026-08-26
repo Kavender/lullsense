@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import itertools
 
+from baby_sleep.analyze.models import BaselineStatus
 from baby_sleep.analyze.robust import mad, median
 from baby_sleep.detect.grading import grade_severity, grade_status
 from baby_sleep.detect.models import (
@@ -135,5 +136,7 @@ def _nap_transition(inp: DetectorInput) -> Signal | None:
 
 
 def run_trend_detectors(inp: DetectorInput) -> list[Signal]:
+    if inp.baseline.status is not BaselineStatus.COMPUTED:      # age gate (C5), defense in depth
+        return []
     return [s for s in (_high_variability(inp), _schedule_drift(inp), _nap_transition(inp))
             if s is not None]

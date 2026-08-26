@@ -50,6 +50,18 @@ def test_no_clinical_diagnosis_language():
     assert any("not" in lim.lower() for lim in ctx.limitations)
 
 
+def test_context_quotes_parent_medical_word_without_asserting_it():
+    # review Minor 2: the context detector may ECHO a parent's medical word (traceability),
+    # but must never ASSERT it — confidence stays capped at <= medium and the output always
+    # carries the explicit "not a medical diagnosis" limitation.
+    ev = ContextEvent(kind=EventKind.MEDICATION,
+                      at=ApproxTime(value=datetime(2026, 9, 16, 15, 0)), label="reflux meds")
+    signals = run_detectors(_shift_input(events=[ev], reported=["ear infection"]))
+    ctx = next(s for s in signals if s.signal.value == "possible_context_related_disruption")
+    assert ctx.confidence.value in ("low", "medium")            # never high (correlational cap)
+    assert any("not" in lim.lower() and "diagnos" in lim.lower() for lim in ctx.limitations)
+
+
 def test_age_gate_blocks_newborn():
     assert run_detectors(_shift_input(age=3)) == []
 

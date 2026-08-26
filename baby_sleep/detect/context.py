@@ -1,7 +1,7 @@
 """Context-overlap detector. Correlational ONLY — never diagnoses causality (spec §9)."""
 from __future__ import annotations
 
-from baby_sleep.analyze.models import Confidence
+from baby_sleep.analyze.models import BaselineStatus, Confidence
 from baby_sleep.detect.models import (
     DetectorInput,
     Severity,
@@ -17,6 +17,8 @@ _NON_DIAGNOSIS = ("temporal overlap only; causality is not established and this 
 
 
 def run_context_detector(inp: DetectorInput, other_signals: list[Signal]) -> Signal | None:
+    if inp.baseline.status is not BaselineStatus.COMPUTED:      # age gate (C5), defense in depth
+        return None
     disruptions = [s for s in other_signals
                    if s.signal is not SignalName.POSSIBLE_CONTEXT_RELATED_DISRUPTION]
     if not disruptions:

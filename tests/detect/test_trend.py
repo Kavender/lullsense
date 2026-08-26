@@ -63,3 +63,30 @@ def test_nap_transition_detects_nap_count_drop():
 def test_trend_quiet_when_stable():
     sess = [_night(1 + i, 19, 30, 2 + i, 6, 30, 660) for i in range(19)]
     assert run_trend_detectors(_inp(sess)) == []
+
+
+def test_schedule_drift_reports_net_shift_value():
+    # regression (review nit 5): assert a concrete computed value, not just presence
+    sess = [_night(1 + i, 19, 30, 2 + i, 6, 30, 660) for i in range(9)]
+    drift = [19*60+30 + 15*(i+1) for i in range(5)]                            # 19:45..20:45, net +60
+    for i, mins in enumerate(drift):
+        d = 10 + i
+        sess.append(_night(d, mins // 60, mins % 60, d + 1, 6, 30, 660 - 15*(i+1)))
+    sig = next(s for s in run_trend_detectors(_inp(sess))
+               if s.signal is SignalName.SCHEDULE_DRIFT)
+    assert sig.change == 60.0                       # net first->last bedtime shift
+    assert sig.severity.value == "mild"             # 60 < schedule_drift moderate_hi (75)
+
+
+def test_trend_detectors_age_gated():
+    # regression (review important 1): the exported sub-runner must itself honor the
+    # age gate (C5), not rely on the top-level runner. The same drifting series that
+    # fires schedule_drift at a supported age must produce NO signals at age 3
+    # (below_supported_range).
+    sess = [_night(1 + i, 19, 30, 2 + i, 6, 30, 660) for i in range(9)]
+    drift = [19*60+30 + 15*(i+1) for i in range(5)]
+    for i, mins in enumerate(drift):
+        d = 10 + i
+        sess.append(_night(d, mins // 60, mins % 60, d + 1, 6, 30, 660 - 15*(i+1)))
+    assert run_trend_detectors(_inp(sess, age=14)) != []       # fires at supported age
+    assert run_trend_detectors(_inp(sess, age=3)) == []        # gated below supported range
