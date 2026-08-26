@@ -116,3 +116,43 @@ def test_manual_text_without_reference_date_exits_nonzero(tmp_path):
     assert r.returncode != 0
     combined = r.stdout + r.stderr
     assert "reference-date" in combined
+
+
+def test_invalid_dob_exits_with_clean_error():
+    # malformed --dob => returncode != 0, "invalid --dob" in stderr, no traceback
+    r = _run(["--format", "huckleberry", "--input", str(FIXTURE), "--dob", "not-a-date"])
+    assert r.returncode != 0
+    assert "invalid --dob" in r.stderr
+    assert "Traceback" not in r.stderr
+
+
+def test_gestational_fallback_from_profile(tmp_path):
+    # save profile with dob + gestational-weeks; analyze using state-dir only
+    _run_experiment(
+        tmp_path, "save-profile",
+        "--dob", "2025-02-26",
+        "--gestational-weeks", "34",
+    )
+    r = _run([
+        "--format", "huckleberry",
+        "--input", str(FIXTURE),
+        "--state-dir", str(tmp_path),
+        "--as-of-date", "2026-08-26",
+    ])
+    assert r.returncode == 0, r.stderr
+    out = json.loads(r.stdout)
+    assert out["child"]["gestational_age_at_birth_weeks"] == 34
+    # corrected age must differ from raw (baby was born 6 weeks early => ~1-2 months correction)
+    assert out["child"]["corrected_age_months"] != out["child"]["age_months"]
+
+
+def test_profile_exists_but_no_dob_exits_cleanly(tmp_path):
+    # save a profile with only a name (no dob); analyze with no --age-months/--dob
+    _run_experiment(tmp_path, "save-profile", "--name", "Baby")
+    r = _run([
+        "--format", "huckleberry",
+        "--input", str(FIXTURE),
+        "--state-dir", str(tmp_path),
+    ])
+    assert r.returncode != 0
+    assert "Traceback" not in r.stderr

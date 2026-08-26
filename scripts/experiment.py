@@ -89,8 +89,8 @@ def main(argv=None) -> int:
         store.save_profile(profile)
         print(json.dumps(profile.model_dump(mode="json")))
     elif args.cmd == "get-profile":
-        p = store.get_profile()
-        print(json.dumps(p.model_dump(mode="json") if p is not None else None))
+        profile = store.get_profile()
+        print(json.dumps(profile.model_dump(mode="json") if profile is not None else None))
     return 0
 
 

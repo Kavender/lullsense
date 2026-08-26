@@ -67,7 +67,13 @@ def main(argv=None) -> int:
     raw, parse_warnings = _load_log(args.format, text, args.reference_date)
 
     # Resolve as_of date
-    as_of = date.fromisoformat(args.as_of_date) if args.as_of_date else datetime.now(tz=UTC).date()
+    if args.as_of_date:
+        try:
+            as_of = date.fromisoformat(args.as_of_date)
+        except ValueError:
+            raise SystemExit(f"invalid --as-of-date: {args.as_of_date!r}, expected YYYY-MM-DD")
+    else:
+        as_of = datetime.now(tz=UTC).date()
 
     # Load store if available (used for convention and profile fallback)
     store = None
@@ -92,7 +98,11 @@ def main(argv=None) -> int:
     if args.age_months is not None:
         resolved_age = args.age_months
     elif args.dob is not None:
-        resolved_age = age_months_from_dob(date.fromisoformat(args.dob), as_of)
+        try:
+            dob_date = date.fromisoformat(args.dob)
+        except ValueError:
+            raise SystemExit(f"invalid --dob: {args.dob!r}, expected YYYY-MM-DD")
+        resolved_age = age_months_from_dob(dob_date, as_of)
     elif profile is not None and profile.dob is not None:
         resolved_age = age_months_from_dob(profile.dob, as_of)
     else:

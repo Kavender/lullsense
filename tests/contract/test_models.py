@@ -32,6 +32,11 @@ def test_age_months_from_dob_newborn_guard():
     assert age_months_from_dob(date(2025, 6, 1), date(2025, 1, 1)) == 0
 
 
+def test_age_months_from_dob_leap_day_dob():
+    # Feb-29 DOB: on the month-end anniversary (Feb 28 in a non-leap year) => 12 months
+    assert age_months_from_dob(date(2024, 2, 29), date(2025, 2, 28)) == 12
+
+
 def test_corrected_age_full_term_unchanged():
     # 40 weeks gestation => no correction
     assert corrected_age_months(10, 40) == 10

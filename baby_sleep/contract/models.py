@@ -1,6 +1,7 @@
 """Canonical, vendor-neutral data contract consumed by the reasoning layer."""
 from __future__ import annotations
 
+import calendar
 from datetime import date, datetime
 
 from pydantic import BaseModel
@@ -12,7 +13,9 @@ from .time_types import ApproxTime
 def age_months_from_dob(dob: date, as_of: date) -> int:
     """Whole calendar months elapsed from dob to as_of (never negative)."""
     months = (as_of.year - dob.year) * 12 + (as_of.month - dob.month)
-    if as_of.day < dob.day:
+    max_day_in_as_of_month = calendar.monthrange(as_of.year, as_of.month)[1]
+    effective_dob_day = min(dob.day, max_day_in_as_of_month)
+    if as_of.day < effective_dob_day:
         months -= 1
     return max(0, months)
 
