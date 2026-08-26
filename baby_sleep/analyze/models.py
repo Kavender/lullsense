@@ -66,3 +66,24 @@ class FeatureSeries(BaseModel):
     total_sleep_variability_min: float | None = None
     weekday_vs_weekend: dict[str, float] = {}
     missing_data_rate: float = 0.0
+
+
+class FeatureBaseline(BaseModel):
+    feature: str
+    baseline_median: float
+    mad: float
+    n: int
+    recent_median: float | None = None
+    deviation: float | None = None
+    deviation_mads: float | None = None
+    source: str = "history"
+    confidence: Confidence = Confidence.MEDIUM
+
+
+class Baseline(BaseModel):
+    status: BaselineStatus
+    reason: str | None = None
+    features: dict[str, FeatureBaseline] = {}
+    prior_window_days: int = 0
+    recent_window_days: int = 0
+    corrected_age_months: int | None = None
