@@ -130,6 +130,38 @@
   last_accessed: 2026-08-24
   note: "Human-verified against the primary PDF (Spencer & Riggins, PNAS 2022;119(29):e2123415119). Confirmed: 2-to-1 nap transition 6-18mo, last nap 2-8y (p.1); 'no formal recommendations regarding nap timing/length or transitions' (p.1); 'nap transitions cannot be determined by age' (p.7); brain/memory-maturation hypothesis carries the authors' own cross-sectional/causality caveat (p.7)."
 
+- id: galland_2012_normal_sleep_patterns
+  organization: Elsevier / Sleep Medicine Reviews
+  title: "Normal sleep patterns in infants and children: A systematic review of observational studies"
+  url: https://doi.org/10.1016/j.smrv.2011.06.001
+  source_type: systematic_review
+  verified: true
+  last_accessed: 2026-08-25
+  note: >-
+    Verified 2026-08-25 against the full-text PDF. Systematic review of normal sleep 0-12y.
+    Normative MEANS (typical values, NOT thresholds): sleep-onset latency ~19 min in infants
+    0-2y (Table 3, range 0-43; authors note "sleep latency data were sparse"); night wakings
+    per night decline with age (~1.7 at 0-2mo -> ~0.8 at 3-6mo -> ~0.7 at 1-2y, Table 3). Used
+    as expected-baseline context only; the review sets no "prolonged"/"problematic" cutoffs.
+
+- id: patel_2024_physiology_sleep_stages
+  organization: StatPearls Publishing / NCBI Bookshelf
+  title: "Physiology, Sleep Stages"
+  url: https://www.ncbi.nlm.nih.gov/books/NBK526132/
+  source_type: review
+  verified: true
+  last_accessed: 2026-08-25
+  note: >-
+    Verified 2026-08-25 against the full open-access text (Patel AK, Reddy V, Shumway KR,
+    Araujo JF. StatPearls Publishing; last updated 2024-01-26). Peer-reviewed reference
+    text. Anchors the infant-vs-adult sleep-cycle-length figure used as a soft context
+    anchor (NOT a threshold): Development section states "The total NREM and REM sleep
+    cycle is typically 50 minutes instead of the adult 90-minute cycle." Adult figure
+    corroborated in Introduction ("The body cycles through all stages approximately 4 to 6
+    times each night, averaging 90 minutes for each cycle.") and Mechanism ("A complete
+    sleep cycle takes roughly 90 to 110 minutes."). Cycle length is highly variable and
+    used only as reassurance context, never as a per-child trigger.
+
 # ── C_behavioral layer sources ────────────────────────────────────────────────
 
 - id: mindell_2006_behavioral_treatment_review
