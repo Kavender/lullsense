@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from datetime import date
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))  # make baby_sleep importable
@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))  # make baby_sle
 from baby_sleep.analyze.baseline import build_baseline
 from baby_sleep.analyze.features import build_feature_series
 from baby_sleep.contract.enums import StartMarker
-from baby_sleep.contract.models import Child
+from baby_sleep.contract.models import Child, age_months_from_dob
 from baby_sleep.detect import DetectorInput, run_detectors
 from baby_sleep.ingest.huckleberry import HuckleberryCsvAdapter
 from baby_sleep.ingest.json_generic import GenericJsonAdapter
@@ -53,7 +53,10 @@ def main(argv=None) -> int:
     )
     p.add_argument("--format", required=True, choices=["manual", "huckleberry", "json"])
     p.add_argument("--input", required=True)
-    p.add_argument("--age-months", type=int, required=True)
+    p.add_argument("--age-months", type=int, default=None)
+    p.add_argument("--dob", default=None, metavar="YYYY-MM-DD")
+    p.add_argument("--as-of-date", default=None, metavar="YYYY-MM-DD",
+                   help="Date to compute age from (default: today)")
     p.add_argument("--gestational-weeks", type=int, default=None)
     p.add_argument("--reference-date", default=None)
     p.add_argument("--convention", choices=["put_down", "asleep"], default=None)
@@ -63,20 +66,44 @@ def main(argv=None) -> int:
     text = Path(args.input).read_text()
     raw, parse_warnings = _load_log(args.format, text, args.reference_date)
 
+    # Resolve as_of date
+    as_of = date.fromisoformat(args.as_of_date) if args.as_of_date else datetime.now(tz=UTC).date()
+
+    # Load store if available (used for convention and profile fallback)
+    store = None
+    if args.state_dir:
+        from baby_sleep.store.experiment_store import ExperimentStore
+        store = ExperimentStore(Path(args.state_dir))
+
     convention = None
     if args.convention:
         convention = StartMarker(args.convention)
-    elif args.state_dir:
-        from baby_sleep.store.experiment_store import ExperimentStore
-
-        c = ExperimentStore(Path(args.state_dir)).get_constraint("sleep_start_convention")
+    elif store is not None:
+        c = store.get_constraint("sleep_start_convention")
         if c is not None:
             convention = StartMarker(c.value)
 
+    # Resolve age_months with precedence: explicit > --dob > profile.dob > error
+    profile = store.get_profile() if store is not None else None
+    gestational_weeks = args.gestational_weeks
+    if gestational_weeks is None and profile is not None:
+        gestational_weeks = profile.gestational_age_at_birth_weeks
+
+    if args.age_months is not None:
+        resolved_age = args.age_months
+    elif args.dob is not None:
+        resolved_age = age_months_from_dob(date.fromisoformat(args.dob), as_of)
+    elif profile is not None and profile.dob is not None:
+        resolved_age = age_months_from_dob(profile.dob, as_of)
+    else:
+        raise SystemExit(
+            "provide --age-months, --dob, or a --state-dir with a saved child profile (dob)"
+        )
+
     log, norm_warnings = normalize(raw, start_convention=convention)
     child = Child(
-        age_months=args.age_months,
-        gestational_age_at_birth_weeks=args.gestational_weeks,
+        age_months=resolved_age,
+        gestational_age_at_birth_weeks=gestational_weeks,
     )
     log = log.model_copy(update={"child": child})
     series = build_feature_series(log)

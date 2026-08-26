@@ -10,7 +10,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from baby_sleep.store.experiment_store import ExperimentStore
-from baby_sleep.store.models import Experiment, ExperimentStatus, SavedConstraint
+from baby_sleep.store.models import ChildProfile, Experiment, ExperimentStatus, SavedConstraint
 
 
 def main(argv=None) -> int:
@@ -36,6 +36,13 @@ def main(argv=None) -> int:
     us = sub.add_parser("update-status")
     us.add_argument("--id", required=True)
     us.add_argument("--status", required=True, choices=[s.value for s in ExperimentStatus])
+
+    sp = sub.add_parser("save-profile")
+    sp.add_argument("--name", default=None)
+    sp.add_argument("--dob", default=None, metavar="YYYY-MM-DD")
+    sp.add_argument("--gestational-weeks", type=int, default=None)
+
+    sub.add_parser("get-profile")
 
     args = p.parse_args(argv)
     store = ExperimentStore(Path(args.state_dir))
@@ -66,6 +73,24 @@ def main(argv=None) -> int:
             print(json.dumps({"error": f"experiment not found: {args.id}"}), file=sys.stderr)
             return 1
         print(json.dumps(store.get_experiment(args.id).model_dump(mode="json")))
+    elif args.cmd == "save-profile":
+        dob = None
+        if args.dob is not None:
+            try:
+                dob = date.fromisoformat(args.dob)
+            except ValueError:
+                print(json.dumps({"error": f"invalid --dob: {args.dob!r}, expected YYYY-MM-DD"}), file=sys.stderr)
+                return 1
+        profile = ChildProfile(
+            name=args.name,
+            dob=dob,
+            gestational_age_at_birth_weeks=args.gestational_weeks,
+        )
+        store.save_profile(profile)
+        print(json.dumps(profile.model_dump(mode="json")))
+    elif args.cmd == "get-profile":
+        p = store.get_profile()
+        print(json.dumps(p.model_dump(mode="json") if p is not None else None))
     return 0
 
 

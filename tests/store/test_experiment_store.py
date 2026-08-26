@@ -3,7 +3,7 @@ from datetime import date, datetime
 from baby_sleep.contract.models import SleepLog, SleepSession
 from baby_sleep.contract.time_types import ApproxTime
 from baby_sleep.store.experiment_store import ExperimentStore, SessionMemory
-from baby_sleep.store.models import Experiment, ExperimentStatus, SavedConstraint
+from baby_sleep.store.models import ChildProfile, Experiment, ExperimentStatus, SavedConstraint
 
 
 def test_experiment_defaults_to_proposed():
@@ -53,6 +53,34 @@ def test_store_reads_sleep_start_convention(tmp_path):
     store.save_constraint(SavedConstraint(key="sleep_start_convention", value="put_down"))
     assert store.get_constraint("sleep_start_convention").value == "put_down"
     assert store.get_constraint("missing") is None
+
+
+def test_child_profile_roundtrip(tmp_path):
+    store = ExperimentStore(tmp_path / "state")
+    profile = ChildProfile(name="Ada", dob=date(2025, 2, 26), gestational_age_at_birth_weeks=38)
+    store.save_profile(profile)
+    # a fresh instance over the same path sees the saved data
+    reloaded = ExperimentStore(tmp_path / "state")
+    got = reloaded.get_profile()
+    assert got is not None
+    assert got.name == "Ada"
+    assert got.dob == date(2025, 2, 26)
+    assert got.gestational_age_at_birth_weeks == 38
+
+
+def test_get_profile_empty_dir_returns_none(tmp_path):
+    store = ExperimentStore(tmp_path / "empty")
+    assert store.get_profile() is None
+
+
+def test_per_child_state_separation(tmp_path):
+    store_a = ExperimentStore(tmp_path / "child_a")
+    store_b = ExperimentStore(tmp_path / "child_b")
+    store_a.save_profile(ChildProfile(name="Alice", dob=date(2024, 1, 1)))
+    store_b.save_profile(ChildProfile(name="Bob", dob=date(2023, 6, 15)))
+    assert store_a.get_profile().name == "Alice"
+    assert store_b.get_profile().name == "Bob"
+    assert store_a.get_profile().dob != store_b.get_profile().dob
 
 
 def test_session_memory_is_ephemeral():

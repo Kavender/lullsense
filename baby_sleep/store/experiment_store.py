@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 from baby_sleep.contract.models import SleepLog
-from baby_sleep.store.models import Experiment, ExperimentStatus, SavedConstraint
+from baby_sleep.store.models import ChildProfile, Experiment, ExperimentStatus, SavedConstraint
 
 
 class ExperimentStore:
@@ -14,6 +14,7 @@ class ExperimentStore:
         self.path.mkdir(parents=True, exist_ok=True)
         self._experiments = self.path / "experiments.json"
         self._constraints = self.path / "constraints.json"
+        self._profile = self.path / "profile.json"
 
     def _load(self, file: Path) -> list[dict]:
         if not file.exists():
@@ -58,6 +59,18 @@ class ExperimentStore:
             if r.get("key") == key:
                 return SavedConstraint.model_validate(r)
         return None
+
+    # --- child profile ---
+    def save_profile(self, profile: ChildProfile) -> None:
+        self._profile.write_text(json.dumps(profile.model_dump(mode="json"), indent=2, default=str))
+
+    def get_profile(self) -> ChildProfile | None:
+        if not self._profile.exists():
+            return None
+        text = self._profile.read_text().strip()
+        if not text:
+            return None
+        return ChildProfile.model_validate(json.loads(text))
 
 
 class SessionMemory:

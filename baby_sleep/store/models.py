@@ -30,3 +30,9 @@ class SavedConstraint(BaseModel):
     key: str
     value: str
     note: str | None = None
+
+
+class ChildProfile(BaseModel):
+    name: str | None = None
+    dob: date | None = None
+    gestational_age_at_birth_weeks: int | None = None

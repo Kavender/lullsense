@@ -48,3 +48,24 @@ def test_save_experiment_bad_date_errors_cleanly(tmp_path):
     assert r.returncode == 1
     assert "invalid --start-date" in r.stderr
     assert "Traceback" not in r.stderr
+
+
+def test_save_profile_roundtrip(tmp_path):
+    r = _run(tmp_path, "save-profile", "--dob", "2025-02-26", "--name", "Ada")
+    assert r.returncode == 0, r.stderr
+    got = json.loads(_run(tmp_path, "get-profile").stdout)
+    assert got["name"] == "Ada"
+    assert got["dob"] == "2025-02-26"
+
+
+def test_get_profile_empty_dir_returns_null(tmp_path):
+    r = _run(tmp_path, "get-profile")
+    assert r.returncode == 0
+    assert json.loads(r.stdout) is None
+
+
+def test_save_profile_bad_dob_errors_cleanly(tmp_path):
+    r = _run(tmp_path, "save-profile", "--dob", "not-a-date")
+    assert r.returncode == 1
+    assert "invalid" in r.stderr.lower()
+    assert "Traceback" not in r.stderr

@@ -9,6 +9,14 @@ from .enums import DataQuality, EventKind, Location, SleepType, StartMarker
 from .time_types import ApproxTime
 
 
+def age_months_from_dob(dob: date, as_of: date) -> int:
+    """Whole calendar months elapsed from dob to as_of (never negative)."""
+    months = (as_of.year - dob.year) * 12 + (as_of.month - dob.month)
+    if as_of.day < dob.day:
+        months -= 1
+    return max(0, months)
+
+
 def corrected_age_months(age_months: int, gestational_age_at_birth_weeks: int | None) -> int:
     """Chronological age adjusted for prematurity (D20). Full term (>=40wk) or
     unknown gestation => unchanged. Never returns below 0."""
