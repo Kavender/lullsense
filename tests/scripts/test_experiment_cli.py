@@ -27,6 +27,24 @@ def test_experiment_save_list_update(tmp_path):
          "--start-date", "2026-08-25", "--review-after-days", "7")
     lst = json.loads(_run(tmp_path, "list-experiments").stdout)
     assert lst[0]["id"] == "e1" and lst[0]["status"] == "proposed"
-    _run(tmp_path, "update-status", "--id", "e1", "--status", "active")
+    r_upd = _run(tmp_path, "update-status", "--id", "e1", "--status", "active")
+    assert r_upd.returncode == 0
     lst2 = json.loads(_run(tmp_path, "list-experiments").stdout)
     assert lst2[0]["status"] == "active"
+
+
+def test_update_status_unknown_id_errors_cleanly(tmp_path):
+    r = _run(tmp_path, "update-status", "--id", "nope", "--status", "active")
+    assert r.returncode == 1
+    assert r.stdout == ""
+    assert "not found" in r.stderr
+    assert "Traceback" not in r.stderr
+
+
+def test_save_experiment_bad_date_errors_cleanly(tmp_path):
+    r = _run(tmp_path, "save-experiment", "--id", "e1", "--hypothesis", "h",
+             "--change", "c", "--metrics", "sol",
+             "--start-date", "not-a-date", "--review-after-days", "7")
+    assert r.returncode == 1
+    assert "invalid --start-date" in r.stderr
+    assert "Traceback" not in r.stderr

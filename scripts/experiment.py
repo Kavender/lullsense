@@ -47,20 +47,24 @@ def main(argv=None) -> int:
         c = store.get_constraint(args.key)
         print(json.dumps(c.model_dump(mode="json") if c else None))
     elif args.cmd == "save-experiment":
-        exp = Experiment(
-            id=args.id,
-            hypothesis=args.hypothesis,
-            change=args.change,
-            metrics=args.metrics.split(","),
-            start_date=date.fromisoformat(args.start_date),
-            review_after_days=args.review_after_days,
-        )
+        try:
+            start = date.fromisoformat(args.start_date)
+        except ValueError:
+            print(json.dumps({"error": f"invalid --start-date: {args.start_date!r}, expected YYYY-MM-DD"}), file=sys.stderr)
+            return 1
+        exp = Experiment(id=args.id, hypothesis=args.hypothesis, change=args.change,
+                         metrics=[m.strip() for m in args.metrics.split(",") if m.strip()],
+                         start_date=start, review_after_days=args.review_after_days)
         store.save_experiment(exp)
         print(json.dumps(exp.model_dump(mode="json")))
     elif args.cmd == "list-experiments":
         print(json.dumps([e.model_dump(mode="json") for e in store.list_experiments()]))
     elif args.cmd == "update-status":
-        store.update_status(args.id, ExperimentStatus(args.status))
+        try:
+            store.update_status(args.id, ExperimentStatus(args.status))
+        except KeyError:
+            print(json.dumps({"error": f"experiment not found: {args.id}"}), file=sys.stderr)
+            return 1
         print(json.dumps(store.get_experiment(args.id).model_dump(mode="json")))
     return 0
 
