@@ -1,0 +1,6 @@
+case_id: early_waking_shift
+fixture: fixtures/early_waking.json
+format: json
+age_months: 12
+expected_signals: [early_waking]
+must_not_flag: [split_night]

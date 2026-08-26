@@ -1,0 +1,6 @@
+case_id: short_nap_drop
+fixture: fixtures/short_nap.json
+format: json
+age_months: 12
+expected_signals: [short_nap]
+must_not_flag: [split_night]
