@@ -83,9 +83,32 @@ def test_baseline_computed_detects_recent_shift():
 
 
 def test_confidence_high_when_many_tight_days():
-    series = _series_over_days(14)      # 14 tight, exact days
+    # 19 tight, exact days: after reserving the 5-day recent window, a full 14-day prior
+    # remains -> coverage 1.0 + zero dispersion -> HIGH.
+    series = _series_over_days(19)
     b = build_baseline(series, Child(age_months=12), prior_window_days=14, recent_window_days=5)
     assert b.features["rise_time_min"].confidence.value == "high"
+
+
+def test_baseline_disjoint_windows_surface_short_history_shift():
+    # regression (review I2): 3 stable days rising 06:00 then 5 days rising 05:00.
+    # Prior and recent windows must be disjoint or the recent shift is masked to 0.
+    from baby_sleep.contract.models import SleepLog
+    sessions = [
+        *[SleepSession(start=ApproxTime(value=datetime(2026, 9, 1 + i, 19, 30)),
+                       end=ApproxTime(value=datetime(2026, 9, 2 + i, 6, 0)),
+                       duration_minutes=630, sleep_type=SleepType.NIGHT) for i in range(3)],
+        *[SleepSession(start=ApproxTime(value=datetime(2026, 9, 4 + i, 19, 30)),
+                       end=ApproxTime(value=datetime(2026, 9, 5 + i, 5, 0)),
+                       duration_minutes=570, sleep_type=SleepType.NIGHT) for i in range(5)],
+    ]
+    series = build_feature_series(SleepLog(sessions=sessions))
+    b = build_baseline(series, Child(age_months=10))     # default windows 14/5
+    assert b.status.value == "computed"
+    rt = b.features["rise_time_min"]
+    assert rt.baseline_median == 360.0                   # 06:00 from the 3 prior days
+    assert rt.recent_median == 300.0                     # 05:00 from the 5 recent days
+    assert rt.deviation == -60.0                         # the shift is surfaced, not masked
 
 
 def test_stated_baseline_fallback_is_low_confidence():

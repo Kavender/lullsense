@@ -50,3 +50,18 @@ def test_missing_data_rate_counts_low_days():
     lonely_nap = _nap(26, 13, 0, 14, 0, 60)
     series = build_feature_series(SleepLog(sessions=[good, lonely_nap]))
     assert 0.0 < series.missing_data_rate <= 1.0
+
+
+def test_terminal_wake_window_not_stitched_across_a_data_gap():
+    # regression (review I1): a logging gap must NOT produce an absurd multi-day
+    # "wake window". Night+nap on the 24th, then the next recorded night is the 4th
+    # of next month; the 24th must get no terminal window (its next day is missing).
+    night = _night(24, 19, 30, 25, 6, 0, 630)
+    nap = _nap(25, 13, 0, 14, 0, 60)
+    far_night = SleepSession(start=ApproxTime(value=datetime(2026, 9, 4, 19, 30)),
+                             end=ApproxTime(value=datetime(2026, 9, 5, 6, 0)),
+                             duration_minutes=630, sleep_type=SleepType.NIGHT)
+    series = build_feature_series(SleepLog(sessions=[night, nap, far_night]))
+    day25 = next(d for d in series.days if d.day.day == 25)
+    # only the (nonexistent) intra-day windows; no giant terminal window appended
+    assert all(w < 24 * 60 for w in day25.wake_windows_min)

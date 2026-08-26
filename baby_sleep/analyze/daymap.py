@@ -17,19 +17,19 @@ def wake_day(dt: datetime) -> date:
 
 
 def _anchor_day(session) -> date:
-    """Nights are attributed to the morning they (conceptually) end on.
-    For a well-formed night, wake_day(end) == wake_day(start) + 1 day.
-    For fragmented night segments that end before the 3am cutover, we anchor
-    by start+1-day so all segments of the same night fall into the same bucket.
-    Naps are attributed by start."""
+    """A night is attributed to the morning it ends on; naps to the day they start.
+
+    We key a night off its START clock position (not its end), so every segment of one
+    fragmented night lands in the SAME wake-day regardless of when each segment ends:
+    - an evening/overnight start (>= 03:00 cutover, e.g. 19:36 or a 22:10 resettle after
+      an evening waking) -> the NEXT calendar date's morning;
+    - a post-midnight start (< 03:00, e.g. a 01:10 resettle) -> that same calendar date's
+      morning.
+    This is robust to end=None and to evening wakings, which an end-based rule split apart.
+    Naps are attributed by start via wake_day()."""
     if session.sleep_type is SleepType.NIGHT:
-        # Use end when available and it's after the cutover (the true morning rise).
-        # Fall back to wake_day(start) + 1 day to handle mid-night segments whose
-        # end time falls before the 3am cutover.
-        if session.end is not None and session.end.value.time() >= CUTOVER:
-            return wake_day(session.end.value)
-        # Anchor = "the morning after the evening the night started"
-        return wake_day(session.start.value) + timedelta(days=1)
+        start = session.start.value
+        return start.date() + timedelta(days=1) if start.time() >= CUTOVER else start.date()
     return wake_day(session.start.value)
 
 

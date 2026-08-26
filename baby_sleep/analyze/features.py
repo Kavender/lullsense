@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import itertools
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from baby_sleep.analyze.daymap import segment_days
 from baby_sleep.analyze.models import Confidence, DailyFeatures, FeatureSeries, NapFeature, SleepDay
@@ -35,7 +35,8 @@ def _night_features(day: SleepDay) -> dict:
         gaps = []
         for a, b in itertools.pairwise(segs):
             if a.end is not None and b.start is not None:
-                gaps.append(_minutes(a.end.value, b.start.value))
+                # clamp: overlapping/mis-ordered segments must never yield negative WASO
+                gaps.append(max(0, _minutes(a.end.value, b.start.value)))
         out["night_waking_count"] = len(gaps)
         out["total_awake_overnight_min"] = sum(gaps) if gaps else None
         out["longest_night_waking_min"] = max(gaps) if gaps else None
@@ -117,6 +118,7 @@ def _minutes_of_day(dt: datetime) -> float:
 
 
 def _has_core_data(f: DailyFeatures) -> bool:
+    # "core data" == a recorded night; a night-less wake-day is genuinely low-value.
     return f.night_sleep_duration_min is not None
 
 
@@ -124,12 +126,15 @@ def build_feature_series(log: SleepLog) -> FeatureSeries:
     days = [compute_daily_features(d) for d in segment_days(log)]
     series = FeatureSeries(days=days)
 
-    # terminal wake window: last nap end (day D) -> next day's night onset (the evening bedtime)
+    # terminal wake window: last nap end (day D) -> next day's night onset (the evening
+    # bedtime). Only stitch CALENDAR-adjacent days, or a logging gap would produce an
+    # absurd multi-day "wake window".
     for i, f in enumerate(days):
         if not f.naps or f.naps[-1].end is None:
             continue
         nxt = days[i + 1] if i + 1 < len(days) else None
-        if nxt is not None and nxt.sleep_onset_time is not None:
+        if (nxt is not None and nxt.day == f.day + timedelta(days=1)
+                and nxt.sleep_onset_time is not None):
             gap = _minutes(f.naps[-1].end, nxt.sleep_onset_time)
             if gap > 0:
                 f.wake_windows_min.append(gap)

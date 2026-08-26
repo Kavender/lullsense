@@ -86,8 +86,22 @@ def build_baseline(
             ),
         )
 
-    prior = days[:prior_window_days]
+    # Disjoint windows: reserve the last `recent_window_days` as "recent", and take the
+    # prior (stable) window from the days BEFORE it. If they overlapped, recent days would
+    # contaminate the baseline and mask the very shift the engine exists to surface.
     recent = days[-recent_window_days:]
+    prior = days[:-recent_window_days][-prior_window_days:] if len(days) > recent_window_days else []
+    if len([f for f in prior if f.night_sleep_duration_min is not None]) < 2:
+        if stated:
+            return _stated_baseline(stated, age)
+        return Baseline(
+            status=BaselineStatus.INSUFFICIENT_DATA,
+            corrected_age_months=age,
+            reason=(
+                "Fewer than 2 prior days remain after reserving the recent window; cannot "
+                "form a stable personal baseline to compare against."
+            ),
+        )
     features: dict[str, FeatureBaseline] = {}
     for name, extractor in _EXTRACTORS.items():
         base_vals = _series_values(prior, extractor)

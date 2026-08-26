@@ -51,3 +51,14 @@ def test_fragmented_night_segments_kept_together():
     days = segment_days(SleepLog(sessions=[seg1, seg2]))
     assert len(days) == 1
     assert len(days[0].night_segments) == 2
+
+
+def test_fragmented_night_with_evening_waking_not_split():
+    # regression (review C1): a common early-evening waking (up 21:30, resettle 22:10) must
+    # NOT split the night across two wake-days. Anchoring off the END time did exactly that.
+    seg1 = _sess(2026, 8, 24, 19, 36, 2026, 8, 24, 21, 30, SleepType.NIGHT)
+    seg2 = _sess(2026, 8, 24, 22, 10, 2026, 8, 25, 6, 0, SleepType.NIGHT)
+    days = segment_days(SleepLog(sessions=[seg1, seg2]))
+    assert len(days) == 1
+    assert days[0].day == date(2026, 8, 25)
+    assert len(days[0].night_segments) == 2
