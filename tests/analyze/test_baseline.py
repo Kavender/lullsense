@@ -80,3 +80,19 @@ def test_baseline_computed_detects_recent_shift():
     assert rt.baseline_median == 360.0                 # 06:00
     assert rt.recent_median == 300.0                   # 05:00
     assert rt.deviation == -60.0                       # 60 min earlier
+
+
+def test_confidence_high_when_many_tight_days():
+    series = _series_over_days(14)      # 14 tight, exact days
+    b = build_baseline(series, Child(age_months=12), prior_window_days=14, recent_window_days=5)
+    assert b.features["rise_time_min"].confidence.value == "high"
+
+
+def test_stated_baseline_fallback_is_low_confidence():
+    series = _series_over_days(2)       # not enough history
+    b = build_baseline(series, Child(age_months=12), stated={"rise_time_min": 390.0})
+    assert b.status.value == "computed"
+    fb = b.features["rise_time_min"]
+    assert fb.source == "self_reported"
+    assert fb.confidence.value == "low"
+    assert fb.baseline_median == 390.0
