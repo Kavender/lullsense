@@ -33,8 +33,8 @@ def test_newborn_is_age_gated_but_still_succeeds():
     assert out["signals"] == []
 
 
-def test_manual_text_requires_reference_date():
-    txt = REPO / "tests" / "fixtures" / "_manual_tmp.txt"
+def test_manual_text_parses_with_reference_date(tmp_path):
+    txt = tmp_path / "manual.txt"
     txt.write_text("Nap 1:15pm-2:35pm\nbedtime around 7pm\n")
     r = _run(
         [
@@ -48,7 +48,24 @@ def test_manual_text_requires_reference_date():
             "2026-08-24",
         ]
     )
-    txt.unlink()
     assert r.returncode == 0
     out = json.loads(r.stdout)
     assert out["days"] >= 1
+
+
+def test_manual_text_without_reference_date_exits_nonzero(tmp_path):
+    txt = tmp_path / "manual.txt"
+    txt.write_text("Nap 1:15pm-2:35pm\nbedtime around 7pm\n")
+    r = _run(
+        [
+            "--format",
+            "manual",
+            "--input",
+            str(txt),
+            "--age-months",
+            "12",
+        ]
+    )
+    assert r.returncode != 0
+    combined = r.stdout + r.stderr
+    assert "reference-date" in combined

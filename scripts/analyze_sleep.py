@@ -21,7 +21,7 @@ from baby_sleep.ingest.manual_text import parse_manual_text
 from baby_sleep.ingest.normalize import normalize
 
 
-def _load_log(fmt, text, reference_date):
+def _load_log(fmt: str, text: str, reference_date: str | None):
     warnings = []
     if fmt == "huckleberry":
         return HuckleberryCsvAdapter().parse(text), warnings
@@ -47,7 +47,7 @@ def _hhmm(minutes):
     return f"{m // 60:02d}:{m % 60:02d}"
 
 
-def main(argv=None):
+def main(argv=None) -> int:
     p = argparse.ArgumentParser(
         description="Analyze sleep input into features/baseline/signals JSON."
     )
