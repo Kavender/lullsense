@@ -10,7 +10,7 @@ dependencies = ["pyyaml>=6.0", "pydantic>=2.7"]
 dev = ["pytest>=8.0", "ruff>=0.5"]
 
 [tool.setuptools]
-packages = ["baby_sleep", "baby_sleep.contract", "baby_sleep.ingest", "baby_sleep.store", "baby_sleep.analyze"]
+packages = ["baby_sleep", "baby_sleep.contract", "baby_sleep.ingest", "baby_sleep.store", "baby_sleep.analyze", "baby_sleep.detect"]
 
 [tool.ruff]
 line-length = 100
