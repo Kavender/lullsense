@@ -88,7 +88,10 @@ def main(argv: list[str] | None = None) -> int:
         "--cases-dir",
         type=Path,
         default=REPO / "evals" / "proactive" / "cases",
-        help="Directory containing case YAML files (default: evals/proactive/cases)",
+        help=(
+            "Directory containing case YAML files; each case's `fixture:` path is"
+            " resolved relative to this directory's parent."
+        ),
     )
     args = parser.parse_args(argv)
 
@@ -101,7 +104,11 @@ def main(argv: list[str] | None = None) -> int:
 
     all_pass = True
     for case_file in case_files:
-        passed, message = _run_case(case_file, cases_dir)
+        try:
+            passed, message = _run_case(case_file, cases_dir)
+        except Exception as exc:  # noqa: BLE001
+            passed = False
+            message = f"FAIL [{case_file.name}]: runner error: {exc}"
         print(message)
         if not passed:
             all_pass = False
