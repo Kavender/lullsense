@@ -100,6 +100,34 @@ def test_cli_exact_dob_not_clobbered_by_approximate(tmp_path):
     assert got["dob_precision"] == "exact"
 
 
+def test_cli_approximate_no_dob_does_not_clobber_exact(tmp_path):
+    """Precision-without-date caller mistake: save approximate + no --dob after exact.
+    The stored exact DOB must survive, and the save-profile stdout must reflect
+    the persisted exact DOB (not null).
+    """
+    # Step 1: store an exact DOB (the exact default precision)
+    r_exact = _run(tmp_path, "save-profile", "--dob", "2025-03-01")
+    assert r_exact.returncode == 0, r_exact.stderr
+
+    # Step 2: caller mistake — precision without a date
+    r_approx = _run(tmp_path, "save-profile", "--dob-precision", "approximate")
+    assert r_approx.returncode == 0, r_approx.stderr
+
+    # save-profile stdout must reflect the persisted exact DOB, not null
+    stdout_state = json.loads(r_approx.stdout)
+    assert stdout_state["dob"] == "2025-03-01", (
+        "save-profile stdout must show the persisted exact DOB, not null"
+    )
+    assert stdout_state["dob_precision"] == "exact", (
+        "save-profile stdout must show dob_precision=exact from persisted state"
+    )
+
+    # get-profile must also agree
+    got = json.loads(_run(tmp_path, "get-profile").stdout)
+    assert got["dob"] == "2025-03-01", "approximate-no-dob save must NOT clobber stored exact DOB"
+    assert got["dob_precision"] == "exact"
+
+
 def test_cli_name_only_after_exact_preserves_dob_and_reflects_persisted_state(tmp_path):
     """save-profile --name only (no --dob) after an exact DOB:
     1. get-profile must still show the exact DOB + new name (persistence check).
