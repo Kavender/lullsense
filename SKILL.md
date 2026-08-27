@@ -72,7 +72,7 @@ If the parent provides a sleep log, run the analysis CLI, then read the JSON and
 
 ```
 python scripts/analyze_sleep.py --format {manual|huckleberry|json} --input PATH \
-    (--age-months N | --dob YYYY-MM-DD | --state-dir DIR-with-saved-profile) \
+    (--age-months N | --dob YYYY-MM-DD | a --state-dir with a saved profile DOB) \
     [--as-of-date YYYY-MM-DD]       # "today" for deriving age from DOB (default: today) \
     [--gestational-weeks N]         # else taken from the saved profile \
     [--reference-date YYYY-MM-DD]   # REQUIRED for --format manual (anchors relative times) \
@@ -101,7 +101,7 @@ python scripts/experiment.py --state-dir DIR save-constraint --key K --value V [
 python scripts/experiment.py --state-dir DIR get-constraint --key K
 python scripts/experiment.py --state-dir DIR list-experiments
 python scripts/experiment.py --state-dir DIR update-status --id ID --status {proposed|active|reviewing|concluded}
-python scripts/experiment.py --state-dir DIR save-profile --name NAME --dob YYYY-MM-DD [--gestational-weeks K]
+python scripts/experiment.py --state-dir DIR save-profile --name NAME --dob YYYY-MM-DD [--dob-precision {exact|approximate}] [--gestational-weeks K]
 python scripts/experiment.py --state-dir DIR get-profile
 ```
 

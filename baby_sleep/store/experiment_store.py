@@ -62,19 +62,34 @@ class ExperimentStore:
 
     # --- child profile ---
     def save_profile(self, profile: ChildProfile) -> None:
-        # Precedence invariant: an existing exact DOB is authoritative.
-        # If a stored profile already has dob_precision == "exact" with a non-null dob,
-        # an incoming profile that is missing a dob OR carries only an approximate one
-        # must NOT clobber it — we preserve the stored exact dob and dob_precision while
-        # still applying all other incoming fields (name, gestational_age_at_birth_weeks, …).
+        # Merge/upsert with a DOB precedence invariant, so an incremental save never
+        # loses stored data:
+        #   1. A field left unset (None) on the incoming save inherits the stored value —
+        #      a partial update (e.g. adding a name) must NOT wipe an existing dob or
+        #      gestational age. gestational_age_at_birth_weeks in particular feeds
+        #      corrected-age math, which drives the <4mo safety tiering.
+        #   2. An existing EXACT dob is authoritative: it is only replaced by another
+        #      explicit exact dob. An incoming save that omits the dob, or carries only an
+        #      approximate one, preserves the stored exact dob and its precision.
         existing = self.get_profile()
-        if (
-            existing is not None
-            and existing.dob is not None
-            and existing.dob_precision == "exact"
-            and (profile.dob is None or profile.dob_precision != "exact")
-        ):
-            profile = profile.model_copy(update={"dob": existing.dob, "dob_precision": existing.dob_precision})
+        if existing is not None:
+            updates: dict = {}
+            if profile.name is None and existing.name is not None:
+                updates["name"] = existing.name
+            if (
+                profile.gestational_age_at_birth_weeks is None
+                and existing.gestational_age_at_birth_weeks is not None
+            ):
+                updates["gestational_age_at_birth_weeks"] = existing.gestational_age_at_birth_weeks
+            keep_stored_dob = existing.dob is not None and (
+                profile.dob is None
+                or (existing.dob_precision == "exact" and profile.dob_precision != "exact")
+            )
+            if keep_stored_dob:
+                updates["dob"] = existing.dob
+                updates["dob_precision"] = existing.dob_precision
+            if updates:
+                profile = profile.model_copy(update=updates)
         self._profile.write_text(json.dumps(profile.model_dump(mode="json"), indent=2, default=str))
 
     def get_profile(self) -> ChildProfile | None:
