@@ -89,7 +89,7 @@ def main(argv=None) -> int:
             gestational_age_at_birth_weeks=args.gestational_weeks,
         )
         store.save_profile(profile)
-        print(json.dumps(profile.model_dump(mode="json")))
+        print(json.dumps(store.get_profile().model_dump(mode="json")))
     elif args.cmd == "get-profile":
         profile = store.get_profile()
         print(json.dumps(profile.model_dump(mode="json") if profile is not None else None))

@@ -98,3 +98,35 @@ def test_cli_exact_dob_not_clobbered_by_approximate(tmp_path):
     got = json.loads(_run(tmp_path, "get-profile").stdout)
     assert got["dob"] == "2025-03-01", "approximate must NOT clobber exact DOB"
     assert got["dob_precision"] == "exact"
+
+
+def test_cli_name_only_after_exact_preserves_dob_and_reflects_persisted_state(tmp_path):
+    """save-profile --name only (no --dob) after an exact DOB:
+    1. get-profile must still show the exact DOB + new name (persistence check).
+    2. The save-profile command's OWN stdout must reflect persisted state —
+       i.e. show the exact DOB, not dob: null (locks the bug fix).
+    """
+    # Step 1: store an exact DOB
+    _run(tmp_path, "save-profile", "--dob", "2025-03-01")
+
+    # Step 2: update name only (no --dob supplied → dob=None, default precision=exact)
+    r_name = _run(tmp_path, "save-profile", "--name", "Alex")
+    assert r_name.returncode == 0, r_name.stderr
+
+    # The save-profile stdout must reflect persisted state, not the incoming profile
+    saved_response = json.loads(r_name.stdout)
+    assert saved_response["dob"] == "2025-03-01", (
+        "save-profile stdout must show the persisted exact DOB, not null"
+    )
+    assert saved_response["dob_precision"] == "exact", (
+        "save-profile stdout must show dob_precision=exact from persisted state"
+    )
+    assert saved_response["name"] == "Alex", (
+        "save-profile stdout must show the updated name"
+    )
+
+    # Step 3: get-profile must agree
+    got = json.loads(_run(tmp_path, "get-profile").stdout)
+    assert got["dob"] == "2025-03-01", "persisted DOB must be preserved after name-only save"
+    assert got["dob_precision"] == "exact"
+    assert got["name"] == "Alex"
