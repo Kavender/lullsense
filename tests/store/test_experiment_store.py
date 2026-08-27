@@ -150,3 +150,32 @@ def test_approximate_over_approximate_is_replaced(tmp_path):
     got = store.get_profile()
     assert got.dob == date(2025, 3, 1), "latest approximate should replace previous approximate"
     assert got.dob_precision == "approximate"
+
+
+def test_partial_save_does_not_wipe_gestational_weeks(tmp_path):
+    """A partial update (e.g. adding a name) must NOT wipe already-stored fields.
+
+    Regression: gestational_age_at_birth_weeks feeds corrected-age math, which drives
+    the <4mo safety tiering — silently reverting it to None on an incremental save
+    could mis-tier a preterm infant near the 4-month boundary.
+    """
+    store = ExperimentStore(tmp_path / "state")
+    store.save_profile(
+        ChildProfile(dob=date(2025, 3, 1), dob_precision="exact", gestational_age_at_birth_weeks=34)
+    )
+    store.save_profile(ChildProfile(name="Alex"))  # partial: name only
+    got = store.get_profile()
+    assert got.name == "Alex", "the new name should be applied"
+    assert got.gestational_age_at_birth_weeks == 34, "gestational weeks must survive a partial save"
+    assert got.dob == date(2025, 3, 1), "exact dob must survive a partial save"
+    assert got.dob_precision == "exact"
+
+
+def test_partial_save_preserves_name_when_omitted(tmp_path):
+    """A dob-only update must not wipe a previously-stored name."""
+    store = ExperimentStore(tmp_path / "state")
+    store.save_profile(ChildProfile(name="Sam", dob=date(2025, 1, 1), dob_precision="approximate"))
+    store.save_profile(ChildProfile(dob=date(2025, 1, 5), dob_precision="exact"))  # no name
+    got = store.get_profile()
+    assert got.name == "Sam", "stored name must survive a dob-only save"
+    assert got.dob == date(2025, 1, 5) and got.dob_precision == "exact"
