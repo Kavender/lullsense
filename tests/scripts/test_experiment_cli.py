@@ -69,3 +69,32 @@ def test_save_profile_bad_dob_errors_cleanly(tmp_path):
     assert r.returncode == 1
     assert "invalid" in r.stderr.lower()
     assert "Traceback" not in r.stderr
+
+
+# --- dob_precision CLI tests (Task 6c) ---
+
+def test_cli_save_approximate_dob(tmp_path):
+    r = _run(tmp_path, "save-profile", "--dob", "2025-02-26", "--dob-precision", "approximate")
+    assert r.returncode == 0, r.stderr
+    got = json.loads(_run(tmp_path, "get-profile").stdout)
+    assert got["dob"] == "2025-02-26"
+    assert got["dob_precision"] == "approximate"
+
+
+def test_cli_exact_replaces_approximate(tmp_path):
+    _run(tmp_path, "save-profile", "--dob", "2025-02-26", "--dob-precision", "approximate")
+    _run(tmp_path, "save-profile", "--dob", "2025-03-01")  # default exact
+    got = json.loads(_run(tmp_path, "get-profile").stdout)
+    assert got["dob"] == "2025-03-01"
+    assert got["dob_precision"] == "exact"
+
+
+def test_cli_exact_dob_not_clobbered_by_approximate(tmp_path):
+    """End-to-end proof: approximate save after an exact one does NOT clobber the exact DOB."""
+    # First set exact
+    _run(tmp_path, "save-profile", "--dob", "2025-03-01")
+    # Attempt to overwrite with approximate
+    _run(tmp_path, "save-profile", "--dob", "2024-01-01", "--dob-precision", "approximate")
+    got = json.loads(_run(tmp_path, "get-profile").stdout)
+    assert got["dob"] == "2025-03-01", "approximate must NOT clobber exact DOB"
+    assert got["dob_precision"] == "exact"

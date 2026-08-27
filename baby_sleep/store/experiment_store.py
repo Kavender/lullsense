@@ -62,6 +62,19 @@ class ExperimentStore:
 
     # --- child profile ---
     def save_profile(self, profile: ChildProfile) -> None:
+        # Precedence invariant: an existing exact DOB is authoritative.
+        # If a stored profile already has dob_precision == "exact" with a non-null dob,
+        # an incoming profile that is missing a dob OR carries only an approximate one
+        # must NOT clobber it — we preserve the stored exact dob and dob_precision while
+        # still applying all other incoming fields (name, gestational_age_at_birth_weeks, …).
+        existing = self.get_profile()
+        if (
+            existing is not None
+            and existing.dob is not None
+            and existing.dob_precision == "exact"
+            and (profile.dob is None or profile.dob_precision != "exact")
+        ):
+            profile = profile.model_copy(update={"dob": existing.dob, "dob_precision": existing.dob_precision})
         self._profile.write_text(json.dumps(profile.model_dump(mode="json"), indent=2, default=str))
 
     def get_profile(self) -> ChildProfile | None:

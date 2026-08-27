@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from datetime import date
 from enum import Enum
+from typing import Literal
 
 from pydantic import BaseModel
 
@@ -35,4 +36,5 @@ class SavedConstraint(BaseModel):
 class ChildProfile(BaseModel):
     name: str | None = None
     dob: date | None = None
+    dob_precision: Literal["exact", "approximate"] = "exact"
     gestational_age_at_birth_weeks: int | None = None

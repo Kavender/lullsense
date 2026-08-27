@@ -40,6 +40,7 @@ def main(argv=None) -> int:
     sp = sub.add_parser("save-profile")
     sp.add_argument("--name", default=None)
     sp.add_argument("--dob", default=None, metavar="YYYY-MM-DD")
+    sp.add_argument("--dob-precision", default="exact", choices=["exact", "approximate"])
     sp.add_argument("--gestational-weeks", type=int, default=None)
 
     sub.add_parser("get-profile")
@@ -84,6 +85,7 @@ def main(argv=None) -> int:
         profile = ChildProfile(
             name=args.name,
             dob=dob,
+            dob_precision=args.dob_precision,
             gestational_age_at_birth_weeks=args.gestational_weeks,
         )
         store.save_profile(profile)
