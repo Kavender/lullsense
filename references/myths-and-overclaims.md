@@ -196,7 +196,7 @@ The AASM 2006 practice parameters (`aasm_2006_practice_parameters_bedtime`) reco
 
 **Defensible (reasoned/practice-based):** Observing whether a child's crying escalates or de-escalates within a brief interval, and whether the pattern is consistent across nights, provides useful information about whether the cry is likely self-resolving protest vs. distress signaling a need. This is clinical observation, not a validated instrument.
 
-**The guardrail:** Before any behavioral framing, assess for: (1) medical causes (illness, pain, feeding issues); (2) age-appropriate developmental context; (3) whether the parent has a specific goal and what methods they are comfortable with. Crying is a differential diagnosis problem first, then a behavioral consultation problem second. The system must never automatically classify bedtime or nighttime crying as "behavioral" without this triage. See `references/safety-triage.md` for escalation criteria.
+**The guardrail:** Before any behavioral framing, assess for: (1) medical causes (illness, pain, feeding issues); (2) age-appropriate developmental context; (3) whether the parent has a specific goal and what methods they are comfortable with. Crying is a differential diagnosis problem first, then a behavioral consultation problem second. The system must never automatically classify bedtime or nighttime crying as "behavioral" without this triage. See `references/safety-triage.md` for escalation criteria. How to present sleep training non-judgmentally, the full methods menu, and the safety/attachment/cortisol evidence are in `references/sleep-training.md`.
 
 ---
 

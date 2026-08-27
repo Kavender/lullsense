@@ -570,16 +570,17 @@
   age_range_months: [5, 36]
   evidence_type: systematic_review
   evidence_level: moderate
-  claim: "In studied populations, standard behavioral sleep interventions used appropriately have not been shown to cause lasting harm to the parent-child relationship or to the child's stress regulation."
-  sources: [reuter_2020_infant_sleep_systematic_review]
+  claim: "In studied populations, standard behavioral sleep interventions used appropriately have not been shown to cause lasting harm to the parent-child relationship or to the child's stress regulation; one randomized trial that measured infant salivary cortisol and later mother-child attachment found no adverse stress response or long-term attachment or behavioral effects for graduated extinction or bedtime fading."
+  sources: [reuter_2020_infant_sleep_systematic_review, gradisar_2016_infant_sleep_rct]
   use_for:
     - responding to a question about whether a graduated approach could harm the child
     - providing balanced evidence context while leaving the choice with the family
   do_not_use_for:
     - pressuring a hesitant family into an approach they are uncomfortable with
     - claiming zero distress or guaranteeing outcomes for any individual child
+    - overstating a single small RCT as proof of safety for every child (the evidence is 'in studied populations')
   individual_variability: moderate
-  last_reviewed: 2026-08-24
+  last_reviewed: 2026-08-26
 
 - claim_id: medical_ruleout_before_behavioral
   layer: C_behavioral
@@ -689,6 +690,63 @@
   individual_variability: high
   last_reviewed: 2026-08-24
 
+- claim_id: sleep_training_readiness_signals
+  layer: C_behavioral
+  topic: independent_settling
+  parent_goals: [independent_settling]
+  age_range_months: [4, 36]
+  evidence_type: expert_practice
+  evidence_level: moderate
+  claim: "Beyond simply reaching an age floor, readiness to begin sleep training is usually judged by several signals together — the child has been medically cleared, is developmentally settled rather than in an acute change, feeds and grows well, has a reasonably established sleep and feeding pattern, and the family itself feels ready to be consistent."
+  sources: [mindell_2006_behavioral_treatment_review, pediatric_sleep_council_sleep_training]
+  use_for:
+    - helping a family judge whether now is a reasonable time to start, not just whether the child is old enough
+    - framing readiness as a combination of medical, developmental, and family factors
+  do_not_use_for:
+    - presenting these signals as validated diagnostic criteria (they are practitioner judgment, not a tested checklist)
+    - overriding a medical red flag or implying a family must start once signals are present
+    - infants under about 4 months (below the practical application range)
+  individual_variability: high
+  last_reviewed: 2026-08-26
+
+- claim_id: gentle_settling_approaches
+  layer: C_behavioral
+  topic: behavioral_intervention
+  parent_goals: [independent_settling, night_waking, bedtime_resistance]
+  age_range_months: [4, 36]
+  evidence_type: expert_practice
+  evidence_level: low
+  claim: "Responsive, lower-intensity options — pick-up-put-down, the chair or camping-out method, and gradual fading of parental presence — are reasonable choices for families who prefer to stay present and minimize crying, but their specific evidence base is thinner than for graduated or standard extinction, so effectiveness and timeline are less predictable."
+  sources: [babysleepscience_pick_up_put_down, huckleberry_sleep_training_methods]
+  use_for:
+    - offering gentler, high-presence alternatives to a family uncomfortable with extinction
+    - being honest that these methods are plausibly effective but less studied than graduated/standard extinction
+  do_not_use_for:
+    - claiming these approaches have the same strength of evidence as graduated or standard extinction
+    - implying a gentler method is inherently safer (extinction methods have not been shown to cause lasting harm either)
+    - guaranteeing a specific outcome or timeline for any individual child
+  individual_variability: high
+  last_reviewed: 2026-08-26
+
+- claim_id: sleep_training_expected_trajectory
+  layer: C_behavioral
+  topic: behavioral_intervention
+  parent_goals: [independent_settling, night_waking, bedtime_resistance]
+  age_range_months: [4, 36]
+  evidence_type: expert_practice
+  evidence_level: low
+  claim: "Improvement from sleep training is usually non-linear: the first few nights are commonly the hardest, a temporary increase in protest ('extinction burst') can occur before things improve, and it often takes roughly one to two weeks of consistent application before a reliable pattern settles — so progress should be judged over days, not from a single night."
+  sources: [mindell_2006_behavioral_treatment_review, pediatric_sleep_council_sleep_training]
+  use_for:
+    - setting realistic expectations before a family starts so an early hard night is not read as failure
+    - explaining why consistency over one to two weeks matters before reassessing the method
+  do_not_use_for:
+    - promising a precise number of nights to success for any individual child
+    - dismissing worsening that coincides with illness, pain, or a medical cause as a normal 'burst' (reassess)
+    - pressuring a family to persist through distress they are no longer comfortable with
+  individual_variability: high
+  last_reviewed: 2026-08-26
+
 # ══════════════════════════════════════════════════════════════════════════════
 # D_practice — the human-consultant playbook (Layer D).
 # Practice-based heuristics and observed public practice. Most are evidence_type
@@ -713,6 +771,25 @@
     - treating elicited constraints as permanent when they can change
   individual_variability: high
   last_reviewed: 2026-08-24
+
+- claim_id: sleep_training_method_choice
+  layer: D_practice
+  topic: consultation_craft
+  parent_goals: [independent_settling, night_waking, bedtime_resistance]
+  age_range_months: [4, 36]
+  evidence_type: expert_practice
+  evidence_level: moderate
+  claim: "There is no strong evidence that any one sleep-training method is superior for every child, so the practical choice is guided by what fits the family's values and tolerance, the individual child, and the specific goal — with how consistently a method can be applied mattering more than which method is picked."
+  sources: [mindell_2006_behavioral_treatment_review, huckleberry_sleep_training_methods]
+  use_for:
+    - helping a family select among methods by fit and feasibility rather than by a claimed 'best' method
+    - explaining that method choice is values- and child-dependent, not a single right answer
+  do_not_use_for:
+    - ranking one named method as clinically superior for all children
+    - substituting for the separate point that consistency of nightly response drives outcomes (see consistent_response_settling)
+    - implying any method is appropriate before medical causes are excluded
+  individual_variability: high
+  last_reviewed: 2026-08-26
 
 - claim_id: wake_windows_as_heuristic
   layer: D_practice
