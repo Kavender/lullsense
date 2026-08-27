@@ -152,7 +152,7 @@ Safe-sleep essentials (`safe_sleep_back_to_sleep`, `safe_sleep_firm_flat_surface
 When intake reveals a recent change in sleep that coincides with a developmental period, frame it accurately:
 
 - The 4-month shift is a genuine sleep-architecture change (`sleep_regression_reframe`).
-- Motor milestones, language spurts, and separation anxiety are associated with temporary sleep disruption — this is a clinically observed pattern, not a guaranteed cause (`developmental_context_sleep_shifts`, labeled heuristic).
+- Motor milestones, language spurts, and separation anxiety are associated with temporary sleep disruption — this is a clinically observed pattern, not a guaranteed cause (`developmental_context_sleep_shifts`, labeled heuristic; for separation/attachment specifically, `separation_anxiety_sleep_disruption`, which also bridges the popular "8–10 month"/"18-month regression" vocabulary).
 - Population-level age norms (AASM ranges, nap transition windows) are context, not targets. The child's own established pattern is the baseline (`individual_variability_baseline`).
 - Wake windows are a rough orientation heuristic, not a clinical standard (`wake_windows_as_heuristic`). Do not tell a parent they made an error by falling outside a chart range.
 

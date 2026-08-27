@@ -482,6 +482,26 @@
   individual_variability: high
   last_reviewed: 2026-08-24
 
+- claim_id: separation_anxiety_sleep_disruption
+  layer: B_developmental
+  topic: developmental_context
+  parent_goals: [night_waking, bedtime_resistance, is_this_normal]
+  age_range_months: [8, 24]
+  evidence_type: expert_practice
+  evidence_level: moderate
+  claim: "Separation and attachment development — the emergence of object permanence, with more robust separation anxiety commonly appearing around 9 months and sometimes recurring later in the toddler year — is a common developmental driver of temporary increases in night waking and bedtime protest, and often underlies what families call the '8-10 month' or '18 month' sleep regression; this is an associational, widely varying pattern, not a diagnosis of any individual child's sleep change."
+  sources: [aap_separation_anxiety_healthychildren]
+  use_for:
+    - offering a developmental frame when increased night waking or bedtime protest coincides with the ~8-10 month window
+    - bridging the popular '8/9-month' or '18-month regression' vocabulary to normal separation/attachment development
+    - normalizing temporary disruption during a separation-anxiety phase
+  do_not_use_for:
+    - diagnosing separation anxiety or attributing a specific child's waking to it without assessment
+    - promising the disruption will resolve on its own by a set time
+    - implying every child experiences disruption at these ages, or overriding a screen for medical or other causes
+  individual_variability: high
+  last_reviewed: 2026-08-26
+
 - claim_id: sleep_regression_reframe
   layer: B_developmental
   topic: sleep_regression
@@ -747,6 +767,46 @@
   individual_variability: high
   last_reviewed: 2026-08-26
 
+- claim_id: responding_to_separation_protest
+  layer: C_behavioral
+  topic: separation_anxiety
+  parent_goals: [night_waking, independent_settling]
+  age_range_months: [8, 24]
+  evidence_type: expert_practice
+  evidence_level: moderate
+  claim: "During a separation-anxiety phase, responding to a child's distress with brief, calm, consistent reassurance — a predictable goodbye routine, low-key check-ins, and extra daytime connection — supports the child through a normal developmental stage and is developmentally appropriate rather than a harmful habit; whatever response a family chooses, applying it consistently still matters."
+  sources: [aap_separation_anxiety_healthychildren, pediatric_sleep_council_sleep_training]
+  use_for:
+    - guiding a supportive, non-guilt-inducing response when night waking or bedtime protest coincides with separation anxiety
+    - reassuring a family that comforting a distressed child during this phase is appropriate, not habit-forming harm
+    - emphasizing predictability and consistency of whatever approach the family picks
+  do_not_use_for:
+    - telling a family they must respond in one specific way, or guilting a family for either responding or not responding
+    - framing responsiveness as creating a bad habit, or framing a more independent approach as neglectful
+    - substituting for a screen of medical or other causes of waking
+  individual_variability: high
+  last_reviewed: 2026-08-26
+
+- claim_id: comfort_object_safe_sleep_gate
+  layer: C_behavioral
+  topic: separation_anxiety
+  parent_goals: [night_waking, independent_settling]
+  age_range_months: [8, 24]
+  evidence_type: expert_practice
+  evidence_level: moderate
+  claim: "A transitional or comfort object (children commonly attach to one between about 8 and 12 months) can help some children with separation at sleep and be built into a bedtime ritual, but it must NOT be placed in the sleep space until the child is past the safe-sleep bare-crib window — soft objects and loose bedding stay out of the crib through the first 12 months (see safe_sleep_bare_crib); before then, comfort comes from caregiver continuity and reassurance, not objects in the crib."
+  sources: [aap_transitional_objects_healthychildren, aap_safe_sleep_2022]
+  use_for:
+    - discussing comfort/transitional objects for separation at sleep while deferring to the bare-crib safe-sleep rule
+    - explaining that a lovey can be part of a bedtime ritual only once the child is past the first-year bare-crib window
+    - redirecting a family of a younger infant toward caregiver continuity rather than an object in the crib
+  do_not_use_for:
+    - endorsing placing any soft object, lovey, or blanket in the sleep space during the first 12 months (defer to safe_sleep_bare_crib — never soften it)
+    - overriding or reinterpreting the A_safety bare-crib guidance
+    - implying a comfort object is required or that a child who does not attach to one has a problem
+  individual_variability: high
+  last_reviewed: 2026-08-26
+
 # ══════════════════════════════════════════════════════════════════════════════
 # D_practice — the human-consultant playbook (Layer D).
 # Practice-based heuristics and observed public practice. Most are evidence_type
@@ -788,6 +848,26 @@
     - ranking one named method as clinically superior for all children
     - substituting for the separate point that consistency of nightly response drives outcomes (see consistent_response_settling)
     - implying any method is appropriate before medical causes are excluded
+  individual_variability: high
+  last_reviewed: 2026-08-26
+
+- claim_id: sleep_training_timing_developmental
+  layer: D_practice
+  topic: separation_anxiety
+  parent_goals: [independent_settling, night_waking]
+  age_range_months: [8, 24]
+  evidence_type: expert_practice
+  evidence_level: moderate
+  claim: "Starting a new extinction-based sleep-training program during a peak developmental or separation-anxiety phase is often harder, and a temporary worsening during training may reflect the phase rather than method failure; a gentler, more responsive approach or briefly waiting until the phase settles can fit better — while, whatever is chosen, consistency of application still drives outcomes (see sleep_training_readiness_signals for the broader readiness picture)."
+  sources: [pediatric_sleep_council_sleep_training, huckleberry_sleep_training_methods]
+  use_for:
+    - helping a family weigh timing when a separation-anxiety phase overlaps a planned or in-progress sleep-training start
+    - explaining that mid-phase worsening may reflect development, not that the method is wrong
+    - offering gentler/responsive approaches or a brief wait as reasonable options during a peak phase
+  do_not_use_for:
+    - telling a family they must stop or must not start sleep training during this phase (it remains their choice)
+    - promising that waiting will resolve the disruption, or that any timing guarantees a specific outcome
+    - overriding a medical screen or the family's own readiness (see sleep_training_readiness_signals)
   individual_variability: high
   last_reviewed: 2026-08-26
 

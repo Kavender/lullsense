@@ -27,6 +27,8 @@ It gathers material that also appears, in narrower form, in `references/interven
 
 **Readiness is more than an age.** Beyond simply clearing the age floor, readiness to begin is usually judged by several signals **together** (`sleep_training_readiness_signals`): the child has been medically cleared, is developmentally settled rather than in the middle of an acute change (illness, travel, a big milestone), feeds and grows well, has a reasonably established sleep and feeding pattern, and **the family itself feels ready to be consistent.** These are practitioner-judgment signals, **not a validated diagnostic checklist** — present them as a way to decide whether *now* is a reasonable time, never as a test the family must pass. Their presence does not obligate anyone to start.
 
+A **peak separation-anxiety phase** (the object-permanence/separation development commonly around 9 months, sometimes recurring in the toddler year — see `references/developmental-sleep.md §6`) is one example of "an acute developmental change" that can make it a harder time to *start* a fresh extinction-based program (`sleep_training_timing_developmental`). Starting mid-phase is often harder, and a temporary worsening during it may reflect the phase rather than method failure; a gentler, more responsive approach or briefly waiting until the phase settles can fit better. This is a timing consideration, not a rule — the family may still choose to start, and whatever is chosen, consistency of application still drives outcomes. Balance it honestly: there is almost always *some* developmental change in progress (teething, a motor or language leap, separation), so waiting for a perfectly disruption-free window can quietly become never starting. Behavioral approaches are supported as effective and safe across these periods (`graduated_extinction_efficacy`, `behavioral_interventions_safety`), so family readiness and consistency matter more than perfect timing — offer the timing point as information, never as a reason the family "should" wait.
+
 **Medical-first gate (hard prerequisite).** Before any method is discussed, screen for illness, pain, reflux, and hunger (`medical_ruleout_before_behavioral`). If a plausible medical or physical cause is present, address it first; if a safety red flag is present, halt and route to care per `references/safety-triage.md`. Crying is not evidence that a behavioral method is warranted.
 
 ---
@@ -108,6 +110,7 @@ Set this expectation *before* the family starts, so an early rough night is not 
 
 - Reassess the *method* after about **1–2 weeks** of genuinely consistent application (`sleep_training_expected_trajectory`, `consistent_response_settling`). Two nights of data is not enough to judge.
 - If protest is worsening and **coincides with illness, pain, or another medical change, do not dismiss it as a normal "burst" — reassess** and re-screen medically (`medical_ruleout_before_behavioral`).
+- A worsening that coincides with a **peak separation-anxiety phase** can reflect development rather than method failure (`sleep_training_timing_developmental`; `references/developmental-sleep.md §6`) — weigh whether this is a good time to be starting fresh, and consider a gentler/responsive approach or briefly waiting, without reading the worsening as proof the method is wrong.
 - If the family is **no longer comfortable continuing**, that is a legitimate stop point. Never pressure a family to persist through distress they no longer want to tolerate. Stopping or switching to a gentler approach is always a valid choice.
 
 ---
@@ -126,6 +129,8 @@ Parents arrive with their own words. Meet the language they use, then map it to 
 | "Self-soothing" / "independent settling" | The *goal* (child returns to sleep without active parental settling) | A goal, not a method; and an optional one. |
 
 **Families who will not sleep-train.** Many families choose to keep feeding, rocking, or otherwise settling their child, and that is a fully valid choice (`sleep_associations_context`, `independent_settling_readiness`). Sleep training is optional and values-dependent. Acknowledge and support these families; focus on other levers (routine, timing, environment — `references/interventions.md`). Never frame continued parental settling as a failure or a problem to fix.
+
+**Comfort / transitional objects (safe-sleep-gated).** A lovey or comfort object (children commonly attach to one between about 8 and 12 months) can help some children with separation at sleep and be built into a bedtime ritual — but it must **NOT** be placed in the sleep space until the child is past the safe-sleep bare-crib window: soft objects and loose bedding stay out of the crib through the first 12 months (`comfort_object_safe_sleep_gate`, which defers to `safe_sleep_bare_crib` and never softens it). Before then, comfort comes from caregiver continuity and reassurance, not an object in the crib. A comfort object is never required, and a child who does not attach to one does not have a problem.
 
 **Addressing cortisol / attachment fears (handle honestly, never dismissively).**
 

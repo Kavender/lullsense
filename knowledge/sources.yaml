@@ -162,6 +162,41 @@
     sleep cycle takes roughly 90 to 110 minutes."). Cycle length is highly variable and
     used only as reassurance context, never as a per-child trigger.
 
+- id: aap_separation_anxiety_healthychildren
+  organization: American Academy of Pediatrics
+  title: "How to Ease Your Child's Separation Anxiety"
+  url: https://www.healthychildren.org/English/ages-stages/toddler/Pages/Soothing-Your-Childs-Separation-Anxiety.aspx
+  source_type: review
+  verified: true
+  last_accessed: 2026-08-26
+  note: >-
+    Human-verified 2026-08-26 (maintainer reviewed the live page; PDF archived internally).
+    HealthyChildren.org parent-facing page, authored Wendy Sue Swanson MD MBE FAAP. Confirmed verbatim:
+    separation anxiety can appear "as early as 4 to 5 months of age," but "most develop
+    more robust separation anxiety at around 9 months"; "Separation anxiety develops after
+    a child gains an understanding of object permanence"; "It's rare that separation anxiety
+    persists on a daily basis after the preschool years." IMPORTANT CALIBRATION: this page
+    does NOT itself assert a link to night waking or bedtime protest — it is cited only for
+    the developmental window (object permanence -> separation anxiety, ~9mo). The sleep-
+    disruption association is practitioner-observed (expert_practice), not stated by AAP here.
+
+- id: aap_transitional_objects_healthychildren
+  organization: American Academy of Pediatrics
+  title: "Transitional Objects: Security Blankets & Beyond"
+  url: https://www.healthychildren.org/English/ages-stages/baby/Pages/Transitional-Objects.aspx
+  source_type: review
+  verified: true
+  last_accessed: 2026-08-26
+  note: >-
+    Human-verified 2026-08-26 (maintainer reviewed the live page; PDF archived internally).
+    HealthyChildren.org page adapted from "Caring for Your Baby and Young Child: Birth to Age 5"
+    (7th ed., AAP, 2019). Confirmed verbatim: children typically choose a transitional/comfort object
+    "between months eight and twelve"; "a transitional object can be so helpful you may want
+    to help [them] choose one and build it into their nighttime ritual." IMPORTANT: this page
+    does NOT give a safe-sleep age gate and does NOT address keeping objects out of the crib
+    during the first year — the bare-crib safe-sleep window is sourced separately to
+    aap_safe_sleep_2022 (verified; soft-object/loose-bedding exclusion through 12 months).
+
 # ── C_behavioral layer sources ────────────────────────────────────────────────
 
 - id: mindell_2006_behavioral_treatment_review
