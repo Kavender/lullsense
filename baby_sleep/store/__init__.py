@@ -1,4 +1,4 @@
 from .experiment_store import ExperimentStore, SessionMemory
-from .models import Experiment, ExperimentStatus, SavedConstraint
+from .models import ChildProfile, Experiment, ExperimentStatus, SavedConstraint
 
-__all__ = ["Experiment", "ExperimentStatus", "ExperimentStore", "SavedConstraint", "SessionMemory"]
+__all__ = ["ChildProfile", "Experiment", "ExperimentStatus", "ExperimentStore", "SavedConstraint", "SessionMemory"]

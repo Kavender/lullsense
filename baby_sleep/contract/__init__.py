@@ -1,5 +1,12 @@
 from .enums import DataQuality, EventKind, Location, SleepType, StartMarker
-from .models import Child, ContextEvent, SleepLog, SleepSession, corrected_age_months
+from .models import (
+    Child,
+    ContextEvent,
+    SleepLog,
+    SleepSession,
+    age_months_from_dob,
+    corrected_age_months,
+)
 from .time_types import ApproxTime, TimePrecision
 
 __all__ = [
@@ -14,5 +21,6 @@ __all__ = [
     "SleepType",
     "StartMarker",
     "TimePrecision",
+    "age_months_from_dob",
     "corrected_age_months",
 ]

@@ -482,6 +482,26 @@
   individual_variability: high
   last_reviewed: 2026-08-24
 
+- claim_id: separation_anxiety_sleep_disruption
+  layer: B_developmental
+  topic: developmental_context
+  parent_goals: [night_waking, bedtime_resistance, is_this_normal]
+  age_range_months: [8, 24]
+  evidence_type: expert_practice
+  evidence_level: moderate
+  claim: "Separation and attachment development — the emergence of object permanence, with more robust separation anxiety commonly appearing around 9 months and sometimes recurring later in the toddler year — is a common developmental driver of temporary increases in night waking and bedtime protest, and often underlies what families call the '8-10 month' or '18 month' sleep regression; this is an associational, widely varying pattern, not a diagnosis of any individual child's sleep change."
+  sources: [aap_separation_anxiety_healthychildren]
+  use_for:
+    - offering a developmental frame when increased night waking or bedtime protest coincides with the ~8-10 month window
+    - bridging the popular '8/9-month' or '18-month regression' vocabulary to normal separation/attachment development
+    - normalizing temporary disruption during a separation-anxiety phase
+  do_not_use_for:
+    - diagnosing separation anxiety or attributing a specific child's waking to it without assessment
+    - promising the disruption will resolve on its own by a set time
+    - implying every child experiences disruption at these ages, or overriding a screen for medical or other causes
+  individual_variability: high
+  last_reviewed: 2026-08-26
+
 - claim_id: sleep_regression_reframe
   layer: B_developmental
   topic: sleep_regression
@@ -570,16 +590,17 @@
   age_range_months: [5, 36]
   evidence_type: systematic_review
   evidence_level: moderate
-  claim: "In studied populations, standard behavioral sleep interventions used appropriately have not been shown to cause lasting harm to the parent-child relationship or to the child's stress regulation."
-  sources: [reuter_2020_infant_sleep_systematic_review]
+  claim: "In studied populations, standard behavioral sleep interventions used appropriately have not been shown to cause lasting harm to the parent-child relationship or to the child's stress regulation; one randomized trial that measured infant salivary cortisol and later mother-child attachment found no adverse stress response or long-term attachment or behavioral effects for graduated extinction or bedtime fading."
+  sources: [reuter_2020_infant_sleep_systematic_review, gradisar_2016_infant_sleep_rct]
   use_for:
     - responding to a question about whether a graduated approach could harm the child
     - providing balanced evidence context while leaving the choice with the family
   do_not_use_for:
     - pressuring a hesitant family into an approach they are uncomfortable with
     - claiming zero distress or guaranteeing outcomes for any individual child
+    - overstating a single small RCT as proof of safety for every child (the evidence is 'in studied populations')
   individual_variability: moderate
-  last_reviewed: 2026-08-24
+  last_reviewed: 2026-08-26
 
 - claim_id: medical_ruleout_before_behavioral
   layer: C_behavioral
@@ -689,6 +710,103 @@
   individual_variability: high
   last_reviewed: 2026-08-24
 
+- claim_id: sleep_training_readiness_signals
+  layer: C_behavioral
+  topic: independent_settling
+  parent_goals: [independent_settling]
+  age_range_months: [4, 36]
+  evidence_type: expert_practice
+  evidence_level: moderate
+  claim: "Beyond simply reaching an age floor, readiness to begin sleep training is usually judged by several signals together — the child has been medically cleared, is developmentally settled rather than in an acute change, feeds and grows well, has a reasonably established sleep and feeding pattern, and the family itself feels ready to be consistent."
+  sources: [mindell_2006_behavioral_treatment_review, pediatric_sleep_council_sleep_training]
+  use_for:
+    - helping a family judge whether now is a reasonable time to start, not just whether the child is old enough
+    - framing readiness as a combination of medical, developmental, and family factors
+  do_not_use_for:
+    - presenting these signals as validated diagnostic criteria (they are practitioner judgment, not a tested checklist)
+    - overriding a medical red flag or implying a family must start once signals are present
+    - infants under about 4 months (below the practical application range)
+  individual_variability: high
+  last_reviewed: 2026-08-26
+
+- claim_id: gentle_settling_approaches
+  layer: C_behavioral
+  topic: behavioral_intervention
+  parent_goals: [independent_settling, night_waking, bedtime_resistance]
+  age_range_months: [4, 36]
+  evidence_type: expert_practice
+  evidence_level: low
+  claim: "Responsive, lower-intensity options — pick-up-put-down, the chair or camping-out method, and gradual fading of parental presence — are reasonable choices for families who prefer to stay present and minimize crying, but their specific evidence base is thinner than for graduated or standard extinction, so effectiveness and timeline are less predictable."
+  sources: [babysleepscience_pick_up_put_down, huckleberry_sleep_training_methods]
+  use_for:
+    - offering gentler, high-presence alternatives to a family uncomfortable with extinction
+    - being honest that these methods are plausibly effective but less studied than graduated/standard extinction
+  do_not_use_for:
+    - claiming these approaches have the same strength of evidence as graduated or standard extinction
+    - implying a gentler method is inherently safer (extinction methods have not been shown to cause lasting harm either)
+    - guaranteeing a specific outcome or timeline for any individual child
+  individual_variability: high
+  last_reviewed: 2026-08-26
+
+- claim_id: sleep_training_expected_trajectory
+  layer: C_behavioral
+  topic: behavioral_intervention
+  parent_goals: [independent_settling, night_waking, bedtime_resistance]
+  age_range_months: [4, 36]
+  evidence_type: expert_practice
+  evidence_level: low
+  claim: "Improvement from sleep training is usually non-linear: the first few nights are commonly the hardest, a temporary increase in protest ('extinction burst') can occur before things improve, and it often takes roughly one to two weeks of consistent application before a reliable pattern settles — so progress should be judged over days, not from a single night."
+  sources: [mindell_2006_behavioral_treatment_review, pediatric_sleep_council_sleep_training]
+  use_for:
+    - setting realistic expectations before a family starts so an early hard night is not read as failure
+    - explaining why consistency over one to two weeks matters before reassessing the method
+  do_not_use_for:
+    - promising a precise number of nights to success for any individual child
+    - dismissing worsening that coincides with illness, pain, or a medical cause as a normal 'burst' (reassess)
+    - pressuring a family to persist through distress they are no longer comfortable with
+  individual_variability: high
+  last_reviewed: 2026-08-26
+
+- claim_id: responding_to_separation_protest
+  layer: C_behavioral
+  topic: separation_anxiety
+  parent_goals: [night_waking, independent_settling]
+  age_range_months: [8, 24]
+  evidence_type: expert_practice
+  evidence_level: moderate
+  claim: "During a separation-anxiety phase, responding to a child's distress with brief, calm, consistent reassurance — a predictable goodbye routine, low-key check-ins, and extra daytime connection — supports the child through a normal developmental stage and is developmentally appropriate rather than a harmful habit; whatever response a family chooses, applying it consistently still matters."
+  sources: [aap_separation_anxiety_healthychildren, pediatric_sleep_council_sleep_training]
+  use_for:
+    - guiding a supportive, non-guilt-inducing response when night waking or bedtime protest coincides with separation anxiety
+    - reassuring a family that comforting a distressed child during this phase is appropriate, not habit-forming harm
+    - emphasizing predictability and consistency of whatever approach the family picks
+  do_not_use_for:
+    - telling a family they must respond in one specific way, or guilting a family for either responding or not responding
+    - framing responsiveness as creating a bad habit, or framing a more independent approach as neglectful
+    - substituting for a screen of medical or other causes of waking
+  individual_variability: high
+  last_reviewed: 2026-08-26
+
+- claim_id: comfort_object_safe_sleep_gate
+  layer: C_behavioral
+  topic: separation_anxiety
+  parent_goals: [night_waking, independent_settling]
+  age_range_months: [8, 24]
+  evidence_type: expert_practice
+  evidence_level: moderate
+  claim: "A transitional or comfort object (children commonly attach to one between about 8 and 12 months) can help some children with separation at sleep and be built into a bedtime ritual, but it must NOT be placed in the sleep space until the child is past the safe-sleep bare-crib window — soft objects and loose bedding stay out of the crib through the first 12 months (see safe_sleep_bare_crib); before then, comfort comes from caregiver continuity and reassurance, not objects in the crib."
+  sources: [aap_transitional_objects_healthychildren, aap_safe_sleep_2022]
+  use_for:
+    - discussing comfort/transitional objects for separation at sleep while deferring to the bare-crib safe-sleep rule
+    - explaining that a lovey can be part of a bedtime ritual only once the child is past the first-year bare-crib window
+    - redirecting a family of a younger infant toward caregiver continuity rather than an object in the crib
+  do_not_use_for:
+    - endorsing placing any soft object, lovey, or blanket in the sleep space during the first 12 months (defer to safe_sleep_bare_crib — never soften it)
+    - overriding or reinterpreting the A_safety bare-crib guidance
+    - implying a comfort object is required or that a child who does not attach to one has a problem
+  individual_variability: high
+  last_reviewed: 2026-08-26
+
 # ══════════════════════════════════════════════════════════════════════════════
 # D_practice — the human-consultant playbook (Layer D).
 # Practice-based heuristics and observed public practice. Most are evidence_type
@@ -713,6 +831,45 @@
     - treating elicited constraints as permanent when they can change
   individual_variability: high
   last_reviewed: 2026-08-24
+
+- claim_id: sleep_training_method_choice
+  layer: D_practice
+  topic: consultation_craft
+  parent_goals: [independent_settling, night_waking, bedtime_resistance]
+  age_range_months: [4, 36]
+  evidence_type: expert_practice
+  evidence_level: moderate
+  claim: "There is no strong evidence that any one sleep-training method is superior for every child, so the practical choice is guided by what fits the family's values and tolerance, the individual child, and the specific goal — with how consistently a method can be applied mattering more than which method is picked."
+  sources: [mindell_2006_behavioral_treatment_review, huckleberry_sleep_training_methods]
+  use_for:
+    - helping a family select among methods by fit and feasibility rather than by a claimed 'best' method
+    - explaining that method choice is values- and child-dependent, not a single right answer
+  do_not_use_for:
+    - ranking one named method as clinically superior for all children
+    - substituting for the separate point that consistency of nightly response drives outcomes (see consistent_response_settling)
+    - implying any method is appropriate before medical causes are excluded
+  individual_variability: high
+  last_reviewed: 2026-08-26
+
+- claim_id: sleep_training_timing_developmental
+  layer: D_practice
+  topic: separation_anxiety
+  parent_goals: [independent_settling, night_waking]
+  age_range_months: [8, 24]
+  evidence_type: expert_practice
+  evidence_level: moderate
+  claim: "Starting a new extinction-based sleep-training program during a peak developmental or separation-anxiety phase is often harder, and a temporary worsening during training may reflect the phase rather than method failure; a gentler, more responsive approach or briefly waiting until the phase settles can fit better — while, whatever is chosen, consistency of application still drives outcomes (see sleep_training_readiness_signals for the broader readiness picture)."
+  sources: [pediatric_sleep_council_sleep_training, huckleberry_sleep_training_methods]
+  use_for:
+    - helping a family weigh timing when a separation-anxiety phase overlaps a planned or in-progress sleep-training start
+    - explaining that mid-phase worsening may reflect development, not that the method is wrong
+    - offering gentler/responsive approaches or a brief wait as reasonable options during a peak phase
+  do_not_use_for:
+    - telling a family they must stop or must not start sleep training during this phase (it remains their choice)
+    - promising that waiting will resolve the disruption, or that any timing guarantees a specific outcome
+    - overriding a medical screen or the family's own readiness (see sleep_training_readiness_signals)
+  individual_variability: high
+  last_reviewed: 2026-08-26
 
 - claim_id: wake_windows_as_heuristic
   layer: D_practice

@@ -1,0 +1,6 @@
+case_id: split_night_pattern
+fixture: fixtures/split_night.json
+format: json
+age_months: 12
+expected_signals: [split_night]
+must_not_flag: [early_waking]

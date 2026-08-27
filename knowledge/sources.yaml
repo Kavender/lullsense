@@ -162,6 +162,41 @@
     sleep cycle takes roughly 90 to 110 minutes."). Cycle length is highly variable and
     used only as reassurance context, never as a per-child trigger.
 
+- id: aap_separation_anxiety_healthychildren
+  organization: American Academy of Pediatrics
+  title: "How to Ease Your Child's Separation Anxiety"
+  url: https://www.healthychildren.org/English/ages-stages/toddler/Pages/Soothing-Your-Childs-Separation-Anxiety.aspx
+  source_type: review
+  verified: true
+  last_accessed: 2026-08-26
+  note: >-
+    Human-verified 2026-08-26 (maintainer reviewed the live page; PDF archived internally).
+    HealthyChildren.org parent-facing page, authored Wendy Sue Swanson MD MBE FAAP. Confirmed verbatim:
+    separation anxiety can appear "as early as 4 to 5 months of age," but "most develop
+    more robust separation anxiety at around 9 months"; "Separation anxiety develops after
+    a child gains an understanding of object permanence"; "It's rare that separation anxiety
+    persists on a daily basis after the preschool years." IMPORTANT CALIBRATION: this page
+    does NOT itself assert a link to night waking or bedtime protest — it is cited only for
+    the developmental window (object permanence -> separation anxiety, ~9mo). The sleep-
+    disruption association is practitioner-observed (expert_practice), not stated by AAP here.
+
+- id: aap_transitional_objects_healthychildren
+  organization: American Academy of Pediatrics
+  title: "Transitional Objects: Security Blankets & Beyond"
+  url: https://www.healthychildren.org/English/ages-stages/baby/Pages/Transitional-Objects.aspx
+  source_type: review
+  verified: true
+  last_accessed: 2026-08-26
+  note: >-
+    Human-verified 2026-08-26 (maintainer reviewed the live page; PDF archived internally).
+    HealthyChildren.org page adapted from "Caring for Your Baby and Young Child: Birth to Age 5"
+    (7th ed., AAP, 2019). Confirmed verbatim: children typically choose a transitional/comfort object
+    "between months eight and twelve"; "a transitional object can be so helpful you may want
+    to help [them] choose one and build it into their nighttime ritual." IMPORTANT: this page
+    does NOT give a safe-sleep age gate and does NOT address keeping objects out of the crib
+    during the first year — the bare-crib safe-sleep window is sourced separately to
+    aap_safe_sleep_2022 (verified; soft-object/loose-bedding exclusion through 12 months).
+
 # ── C_behavioral layer sources ────────────────────────────────────────────────
 
 - id: mindell_2006_behavioral_treatment_review
@@ -232,6 +267,39 @@
   source_type: review
   verified: false
   last_accessed: 2026-08-23
+
+- id: gradisar_2016_infant_sleep_rct
+  organization: American Academy of Pediatrics / Pediatrics
+  title: "Behavioral Interventions for Infant Sleep Problems: A Randomized Controlled Trial"
+  url: https://doi.org/10.1542/peds.2015-1486
+  source_type: primary_research
+  verified: true
+  last_accessed: 2026-08-26
+  note: >-
+    Verified against PDF (human-obtained full text, read 2026-08-26). Gradisar M,
+    Jackson K, Spurrier NJ, Gibson J, Whitham J, Sved Williams A, Dolby R, Kennaway DJ.
+    Pediatrics 2016;137(6):e20151486 (DOI 10.1542/peds.2015-1486; ANZCTR
+    ACTRN12612000813886). RCT of n=43 infants aged 6-16 mo (mean 10.8) randomized to
+    graduated extinction (n=14), bedtime fading (n=15), or sleep-education control (n=14)
+    (p.1-2). Both interventions improved sleep with large effects (sleep latency d=0.87
+    GE / 1.04 BF, p.4); diurnal infant salivary cortisol showed small-to-moderate PM
+    declines and no chronic elevation, and at 12-mo follow-up there were no significant
+    between-group differences in Strange-Situation attachment (secure 54/60/62%) or CBCL
+    emotional/behavioral problems (all P>.05) (p.1, p.5-7, Table 3). Conclusion (p.1):
+    both methods "convey no adverse stress responses or long-term effects on parent-child
+    attachment or child emotions and behavior." Authors' own caveats: real-time nocturnal
+    cortisol not measured ("We cannot conclude no cortisol response occurred," p.6), small
+    single-site sample, allocation not concealed from the coordinator, and independent
+    replication is needed (p.7-8). Supports the "in studied populations" no-lasting-harm
+    framing of behavioral_interventions_safety, NOT a blanket safety guarantee.
+
+- id: babysleepscience_pick_up_put_down
+  organization: Baby Sleep Science (Erin Flynn-Evans PhD MPH FAASM et al.)
+  title: "Sleep Training 101: Pick-up-put-down"
+  url: https://www.babysleepscience.com/single-post/sleep-training-101-pick-up-put-down
+  source_type: consultant_public_material
+  verified: false
+  last_accessed: 2026-08-26
 
 # ── D_practice layer sources ──────────────────────────────────────────────────
 

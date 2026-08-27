@@ -73,6 +73,8 @@ The term also implies predictive certainty that mismatches parent experience: ma
 
 **Defensible (reasoned/practice-based):** If a child's sleep deteriorates around a known developmental milestone period, contextualizing that change for parents — "this may be connected to what your child is working on developmentally right now" — is a legitimate and empathetic frame. It is not, however, a clinical prediction.
 
+**Defensible (reasoned/practice-based):** The popular "8/9-month" and "18-month" regressions in particular are commonly rooted in normal separation and attachment development — the emergence of object permanence and separation anxiety (`separation_anxiety_sleep_disruption`; see `references/developmental-sleep.md §6`). Naming that link can be a useful bridge from the parent's vocabulary to what is developmentally happening, consistent with the calibrated stance above: it is an associational, practitioner-observed pattern, not a diagnosis or a promise about how long the disruption will last.
+
 **The guardrail:** Do not promise parents that a "regression" will last a specific number of weeks or that it will resolve automatically. Do not imply all children will experience disruption at these ages. Instead, explain that sleep can shift around developmental changes, that the timing and severity vary widely, and that there are behavioral strategies that can help regardless of developmental cause (see Layer C claims).
 
 ---
@@ -196,7 +198,7 @@ The AASM 2006 practice parameters (`aasm_2006_practice_parameters_bedtime`) reco
 
 **Defensible (reasoned/practice-based):** Observing whether a child's crying escalates or de-escalates within a brief interval, and whether the pattern is consistent across nights, provides useful information about whether the cry is likely self-resolving protest vs. distress signaling a need. This is clinical observation, not a validated instrument.
 
-**The guardrail:** Before any behavioral framing, assess for: (1) medical causes (illness, pain, feeding issues); (2) age-appropriate developmental context; (3) whether the parent has a specific goal and what methods they are comfortable with. Crying is a differential diagnosis problem first, then a behavioral consultation problem second. The system must never automatically classify bedtime or nighttime crying as "behavioral" without this triage. See `references/safety-triage.md` for escalation criteria.
+**The guardrail:** Before any behavioral framing, assess for: (1) medical causes (illness, pain, feeding issues); (2) age-appropriate developmental context; (3) whether the parent has a specific goal and what methods they are comfortable with. Crying is a differential diagnosis problem first, then a behavioral consultation problem second. The system must never automatically classify bedtime or nighttime crying as "behavioral" without this triage. See `references/safety-triage.md` for escalation criteria. How to present sleep training non-judgmentally, the full methods menu, and the safety/attachment/cortisol evidence are in `references/sleep-training.md`.
 
 ---
 

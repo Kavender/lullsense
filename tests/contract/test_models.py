@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 
 from baby_sleep.contract.enums import DataQuality, EventKind, Location, SleepType, StartMarker
 from baby_sleep.contract.models import (
@@ -6,9 +6,35 @@ from baby_sleep.contract.models import (
     ContextEvent,
     SleepLog,
     SleepSession,
+    age_months_from_dob,
     corrected_age_months,
 )
 from baby_sleep.contract.time_types import ApproxTime
+
+
+def test_age_months_from_dob_full_year():
+    # dob 2025-01-15, as_of 2026-01-15 => exactly 12 months
+    assert age_months_from_dob(date(2025, 1, 15), date(2026, 1, 15)) == 12
+
+
+def test_age_months_from_dob_pre_birthday_rollover():
+    # dob 2025-01-20, as_of 2026-01-15 => 11 months (Jan 20 birthday not yet reached)
+    assert age_months_from_dob(date(2025, 1, 20), date(2026, 1, 15)) == 11
+
+
+def test_age_months_from_dob_exact_same_day():
+    # dob 2025-01-15, as_of 2025-01-15 => 0 months (just born)
+    assert age_months_from_dob(date(2025, 1, 15), date(2025, 1, 15)) == 0
+
+
+def test_age_months_from_dob_newborn_guard():
+    # as_of before dob => 0 (never negative)
+    assert age_months_from_dob(date(2025, 6, 1), date(2025, 1, 1)) == 0
+
+
+def test_age_months_from_dob_leap_day_dob():
+    # Feb-29 DOB: on the month-end anniversary (Feb 28 in a non-leap year) => 12 months
+    assert age_months_from_dob(date(2024, 2, 29), date(2025, 2, 28)) == 12
 
 
 def test_corrected_age_full_term_unchanged():
