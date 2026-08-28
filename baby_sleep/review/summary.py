@@ -39,7 +39,7 @@ def _derive_coverage(series: FeatureSeries, as_of: date, staleness_days: int,
     days = series.days
     if not days:
         return Coverage(covers_window=(False if requested_window_days is not None else None))
-    start, end = days[0].day, days[-1].day
+    start, end = min(d.day for d in days), max(d.day for d in days)
     span_days = (end - start).days + 1
     dsle = (as_of - end).days
     is_current = dsle <= staleness_days
@@ -69,11 +69,12 @@ def build_review_summary(
 
     # Computed, but the freshest data is too old to answer "recent" honestly.
     if not coverage.is_current:
-        return ReviewSummary(
-            status=ReviewStatus.STALE_DATA, coverage=coverage,
-            reason=(f"newest entry is {coverage.days_since_last_entry} days before the "
-                    f"review date; ask for a current export or review conversationally"),
-        )
+        if coverage.days_since_last_entry is None:
+            reason = "no dated sleep data available for the review window"
+        else:
+            reason = (f"newest entry is {coverage.days_since_last_entry} days before the "
+                      f"review date; ask for a current export or review conversationally")
+        return ReviewSummary(status=ReviewStatus.STALE_DATA, coverage=coverage, reason=reason)
 
     # Pull the context wrapper out (reframes the review; never competes for a cap slot).
     context_note = next((s for s in signals if s.signal is _CONTEXT), None)
@@ -85,7 +86,30 @@ def build_review_summary(
     for dominant, subs in DOMINANCE.items():
         if dominant in present:
             dominated |= subs
-    candidates = sorted((s for s in working if s.signal not in dominated), key=_rank_key)
+
+    # Promote dominant severity to the max of itself + any folded-in dominated signals.
+    sev_by_name = {s.signal: s.severity for s in working}
+
+    def _promote(s: Signal) -> Signal:
+        subs = DOMINANCE.get(s.signal)
+        if not subs:
+            return s
+        folded = [sev_by_name[n] for n in subs if n in sev_by_name]
+        if not folded:
+            return s
+        eff = max([s.severity, *folded], key=lambda sv: _SEV_ORDER[sv])
+        if _SEV_ORDER[eff] <= _SEV_ORDER[s.severity]:
+            return s
+        return s.model_copy(update={
+            "severity": eff,
+            "limitations": [*s.limitations,
+                            "severity reflects a more-severe related pattern folded into this signal"],
+        })
+
+    candidates = sorted(
+        (_promote(s) for s in working if s.signal not in dominated),
+        key=_rank_key,
+    )
 
     # Cap = top 2 detailed, but any significant-severity signal is always surfaced.
     surfaced = list(candidates[:CAP])

@@ -165,3 +165,62 @@ def test_non_computed_baseline_passes_through():
     assert rs.status is ReviewStatus.INSUFFICIENT_DATA
     assert rs.surfaced == []
     assert rs.reason == "only 3 days of data"
+
+
+# --- Change 1: dominant inherits max severity ---
+
+def test_dominant_inherits_max_severity_and_is_surfaced():
+    # split_night is only moderate but subsumes a SIGNIFICANT early_waking, plus two
+    # unrelated higher-noise signals that would otherwise fill the top-2.
+    signals = [
+        _sig(SignalName.SPLIT_NIGHT, sev=Severity.MODERATE),
+        _sig(SignalName.EARLY_WAKING, sev=Severity.SIGNIFICANT),  # dominated by split_night
+        _sig(SignalName.HIGH_VARIABILITY, sev=Severity.MODERATE, conf=Confidence.HIGH),
+        _sig(SignalName.BEDTIME_RESISTANCE, sev=Severity.MODERATE, conf=Confidence.HIGH),
+    ]
+    rs = build_review_summary(signals, _series(date(2026, 9, 20)), _COMPUTED, date(2026, 9, 20))
+    surfaced = {s.signal for s in rs.surfaced}
+    # split_night promoted to significant → always surfaced despite two moderate/high peers
+    assert SignalName.SPLIT_NIGHT in surfaced
+    assert SignalName.EARLY_WAKING not in surfaced  # folded, never double-counted
+    split = next(s for s in rs.surfaced if s.signal is SignalName.SPLIT_NIGHT)
+    assert split.severity is Severity.SIGNIFICANT
+    assert any("more-severe related pattern" in lim for lim in split.limitations)
+
+
+def test_no_promotion_when_dominated_is_not_more_severe():
+    signals = [
+        _sig(SignalName.SPLIT_NIGHT, sev=Severity.MODERATE),
+        _sig(SignalName.NIGHT_WAKING, sev=Severity.MILD),  # dominated, less severe
+    ]
+    rs = build_review_summary(signals, _series(date(2026, 9, 20)), _COMPUTED, date(2026, 9, 20))
+    split = next(s for s in rs.surfaced if s.signal is SignalName.SPLIT_NIGHT)
+    assert split.severity is Severity.MODERATE  # unchanged
+    assert not any("more-severe related pattern" in lim for lim in split.limitations)
+
+
+# --- Change 3: no "None days" in stale reason ---
+
+def test_empty_series_computed_baseline_is_stale_without_none_string():
+    rs = build_review_summary([], FeatureSeries(days=[]), _COMPUTED, date(2026, 9, 20))
+    assert rs.status is ReviewStatus.STALE_DATA
+    assert rs.reason is not None and "None" not in rs.reason
+
+
+def test_below_supported_range_passthrough():
+    rs = build_review_summary(
+        [], _series(date(2026, 9, 20)),
+        Baseline(status=BaselineStatus.BELOW_SUPPORTED_RANGE, reason="under 4 months"),
+        date(2026, 9, 20),
+    )
+    assert rs.status is ReviewStatus.BELOW_SUPPORTED_RANGE
+    assert rs.reason == "under 4 months"
+
+
+def test_age_unknown_passthrough():
+    rs = build_review_summary(
+        [], _series(date(2026, 9, 20)),
+        Baseline(status=BaselineStatus.AGE_UNKNOWN, reason="no age provided"),
+        date(2026, 9, 20),
+    )
+    assert rs.status is ReviewStatus.AGE_UNKNOWN
