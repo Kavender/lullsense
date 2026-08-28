@@ -19,6 +19,7 @@ from baby_sleep.ingest.huckleberry import HuckleberryCsvAdapter
 from baby_sleep.ingest.json_generic import GenericJsonAdapter
 from baby_sleep.ingest.manual_text import parse_manual_text
 from baby_sleep.ingest.normalize import normalize
+from baby_sleep.review import build_review_summary
 
 
 def _load_log(fmt: str, text: str, reference_date: str | None):
@@ -61,6 +62,10 @@ def main(argv=None) -> int:
     p.add_argument("--reference-date", default=None)
     p.add_argument("--convention", choices=["put_down", "asleep"], default=None)
     p.add_argument("--state-dir", default=None)
+    p.add_argument("--review", action="store_true",
+                   help="append a proactive review summary block to the JSON")
+    p.add_argument("--review-window-days", type=int, default=None, metavar="N",
+                   help="window the parent asked about; sets review.coverage.covers_window")
     args = p.parse_args(argv)
 
     text = Path(args.input).read_text()
@@ -160,6 +165,12 @@ def main(argv=None) -> int:
             "nap_count": _med(lambda d: float(d.nap_count)),
         },
     }
+    if args.review:
+        review = build_review_summary(
+            signals, series, baseline, as_of,
+            requested_window_days=args.review_window_days,
+        )
+        out["review"] = review.model_dump(mode="json")
     print(json.dumps(out, indent=2))
     return 0
 

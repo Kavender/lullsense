@@ -1,0 +1,11 @@
+case_id: quiet_review
+fixture: fixtures/steady.json
+format: json
+age_months: 12
+as_of_date: 2026-09-20
+review_window_days: 14
+expect:
+  status: computed
+  surfaced: []
+  also_noted_count: 0
+  steady_domains: [night_sleep, naps, bedtime, total_sleep, schedule_consistency]

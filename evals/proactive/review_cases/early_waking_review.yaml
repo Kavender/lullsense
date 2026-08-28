@@ -1,0 +1,9 @@
+case_id: early_waking_review
+fixture: fixtures/early_waking.json
+format: json
+age_months: 12
+as_of_date: 2026-08-20
+expect:
+  status: computed
+  surfaced_contains: [early_waking]
+  must_not_surface: [split_night]

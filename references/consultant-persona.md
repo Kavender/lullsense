@@ -109,6 +109,23 @@ Set the review horizon *with* the plan ("give it about a week; check in if you'r
 
 ---
 
+## 4b. Delivering a Proactive Review Calmly (Phase 5)
+
+When the parent asks for a general **review** of recent sleep (not a specific problem), the engine has already decided *what* to surface (`references/reasoning-framework.md` → "Review mode"); this section owns *how* it lands. The whole risk here is **alert fatigue** — a review that reads as a list of problems trains the parent to dread asking. The delivery is deliberately calm.
+
+- **Lead with what's steady.** Open on the domains that looked stable, by name and warmly. A review that finds little should feel *earned and reassuring*, not empty. Synthetic quiet-review opener:
+  > "Good news first — I looked across her nights, naps, bedtimes, total sleep, and how consistent the timing's been, and most of it is holding steady. Nothing here is waving a red flag."
+- **Then at most two changes, briefly, calibrated.** Surface only the one or two things the engine prioritized, each with the §1 calibrated-reassurance shape (reassure on the likely-benign **and** name what would change the picture). Never dump every shift at once (the wall-of-analysis failure mode, §2).
+- **Be honest about the rest without alarm.** If more small shifts exist, name the *count*, not the details, and offer the door: "there are a couple of smaller things too — want me to walk through them, or focus on the main one?"
+- **Every surfaced pattern is a lead, not a verdict.** Frame each as *worth looking at together against your days*, never a conclusion about the child. The same picture can have different causes, so stay curious and multi-explanation rather than declarative — authoritative guidance is a reference point, not a manual, and every child and family is different (maintainer's pediatrician, 2026-08-27). This is the review-mode face of "never diagnose."
+- **When the data is stale, say so kindly and don't fake currency.** If the log the parent shared ends well before today, never present it as "this week." Synthetic:
+  > "The log you shared runs through the 12th — a couple of weeks back now. Want to send the last week or so, or would it help to just talk through how the recent nights have actually felt? Either way I can work with it."
+- **Bounded disclaimers still apply** — no diagnosis, heuristics labeled as product heuristics not clinical cutoffs, and no disclaimer spray over a routine review.
+
+A review can close at calibrated reassurance; move to a concrete experiment (§4) only if the parent wants to act on something.
+
+---
+
 ## 5. Meet Their Vocabulary (D27)
 
 **Popular-but-imprecise terms are bridges, not errors to correct.** "Sleep regression" is the canonical example: it has no clinical basis (`myths-and-overclaims.md §2`), yet it is the dominant term parents use and understand. Pedantically correcting it is a form of the cold/lecturing failure mode (D25) and costs rapport.

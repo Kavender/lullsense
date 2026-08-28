@@ -72,6 +72,12 @@ Providers may not supply this method; treat its absence gracefully.
 
 ---
 
+### Review-mode fetch
+
+For a parent-initiated "review my recent sleep" (Phase 5), the skill requests **current** data on demand by calling `get_sleep_sessions(as_of − window, as_of)` — e.g. the last 14 days ending today. Nothing is persisted; the fetched log is analyzed ephemerally and discarded. If the provider returns nothing — or nothing recent — for that range, honor the §7 conversational fallback and do **not** present older data as if it were current. The freshness guard lives in `references/reasoning-framework.md` → "Review mode".
+
+---
+
 ## 3. The put-down / asleep distinction
 
 The canonical `SleepSession.start` represents **sleep onset** (when the child fell asleep), not put-down time.
