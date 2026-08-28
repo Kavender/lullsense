@@ -84,6 +84,22 @@ Age resolves as: explicit `--age-months` → `--dob` (derived) → the saved pro
 - **Gate on `baseline.status` FIRST.** Only `computed` emits signals; `insufficient_data` / `below_supported_range` / `age_unknown` emit `signals: []` **by design** — that means detection wasn't supported, **not** "nothing is wrong." Fall back to no-data reasoning. Read `baseline.reason`.
 - A provider/MCP integration is optional and never required (`references/mcp-data-provider.md`, `references/data-contract.md`).
 
+### 5b. Proactive review path (parent-initiated "how's sleep been?") — `references/reasoning-framework.md` → "Review mode"
+When the parent asks to **review recent sleep with no specific complaint** ("how's sleep been the last couple of weeks?", "can you look over her sleep?"), run a review instead of solving a named problem. **Safety triage (Step 1) and age (Step 2) still run first.**
+
+**Acquire fresh data first — never reuse an old or stored log** (the store persists none, so recent data cannot be reconstructed from state; it must be obtained now). In order:
+1. Ask the parent for a **current** export/paste covering the window.
+2. If a data provider is connected, fetch `get_sleep_sessions(as_of − window, as_of)` on demand (`references/mcp-data-provider.md`).
+3. Otherwise run a **conversational review** ("how have the last couple of weeks felt?"), framed explicitly as their recollection.
+
+With fresh data, run the CLI with `--review` and read the `review` block:
+```
+python scripts/analyze_sleep.py --review --review-window-days N ...   # plus the age/DOB args from Step 5
+```
+- **Gate on `review.status` and `review.coverage.is_current` FIRST.** `stale_data` means the newest data is too old to honestly call "recent" — ask for a current export or switch to conversational review; **never present old data as current.** A non-`computed` status falls back to no-data reasoning (a quiet or absent result is **not** "nothing is wrong").
+- The engine has already ranked, de-duplicated, and capped what to surface. Deliver it through the persona's **"Delivering a Proactive Review Calmly"** (`references/consultant-persona.md §4b`): steady-first, then at most the two surfaced changes, then an honest count of the rest.
+- A review can legitimately **end at calibrated reassurance.** Continue into Steps 6–7 (rank hypotheses → smallest experiment) only if the parent wants to act.
+
 ### 6. Rank 1–3 hypotheses — `references/reasoning-framework.md` Steps 5 + "Hypothesis menu"
 For each: evidence-for, evidence-against/uncertainty, and **plain-language** confidence (how well the evidence fits — never a clinical probability). Draw calibrated framing from `references/developmental-sleep.md` + `references/myths-and-overclaims.md`; interpret detector signals per `references/signal-taxonomy.md`.
 
@@ -143,6 +159,7 @@ Cite grounded figures to their source IDs (`knowledge/sources.yaml`); attribute 
 | Age-first, high-value questions, constraint elicitation | `references/conversational-intake.md` |
 | The ten-step workflow, hypothesis menu, `constraint_conflict`, reading analysis JSON | `references/reasoning-framework.md` |
 | Voice, tone, delivery, staged plans, eval dimensions | `references/consultant-persona.md` |
+| Delivering a proactive "review my recent sleep" summary (calm, steady-first) | `references/consultant-persona.md §4b` + `references/reasoning-framework.md` → "Review mode" |
 | Choosing a minimal-experiment intervention | `references/interventions.md` |
 | Developmental norms and framing | `references/developmental-sleep.md` |
 | What's true vs. popular overclaims ("regression", wake windows) | `references/myths-and-overclaims.md` |
