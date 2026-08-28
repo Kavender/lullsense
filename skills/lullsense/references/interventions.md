@@ -9,7 +9,7 @@
 
 This document is the **minimal-experiment menu** (§11 Step 7). It lists the behavioral interventions the agent may recommend, each anchored to a verified `claims.yaml` claim ID where one exists, or explicitly labeled `[heuristic]` where none does.
 
-**Minimal-change discipline (§11 Step 7, D26):** Prefer one principal change at a time. Recommend a second change only when safety or feasibility requires it, or when an inherently multi-step transition (bedtime fading, jet-lag adjustment, nap transition) makes a day-by-day plan the smallest useful experiment.
+**Minimal-change discipline:** Prefer one principal change at a time. Recommend a second change only when safety or feasibility requires it, or when an inherently multi-step transition (bedtime fading, jet-lag adjustment, nap transition) makes a day-by-day plan the smallest useful experiment.
 
 **Medical-first gate:** No behavioral intervention is appropriate until medical and physical causes (illness, pain, reflux, hunger) have been screened out. This is a hard prerequisite — see `medical_ruleout_before_behavioral` below.
 
@@ -215,7 +215,7 @@ The full methods menu (extinction, graduated/Ferber, camping-out/chair, pick-up-
 ## Change-One-Thing Discipline (§11 Step 7)
 
 - Recommend **one principal change** per experiment unless safety or feasibility clearly requires otherwise.
-- Exception: inherently multi-step transitions (bedtime fading over several weeks, jet-lag recovery, nap transition) are themselves the smallest useful experiment; a day-by-day plan for these is not a violation of this rule (D26).
+- Exception: inherently multi-step transitions (bedtime fading over several weeks, jet-lag recovery, nap transition) are themselves the smallest useful experiment; a day-by-day plan for these is not a violation of this rule.
 - When recommending a change, always pair it with:
   1. **What to observe** — the 2–3 metrics that will tell the family whether it is working.
   2. **A realistic reassessment window** — typically several days, not one night.
@@ -230,4 +230,3 @@ The full methods menu (extinction, graduated/Ferber, camping-out/chair, pick-up-
 - Developmental norms: `references/developmental-sleep.md`
 - Overclaim guardrails: `references/myths-and-overclaims.md`
 - All claim IDs: `knowledge/claims.yaml`
-- Decisions: D26 (planful staged deliverables), §11 Steps 7–10

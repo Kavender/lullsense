@@ -7,70 +7,70 @@
 
 ## How to read this document
 
-This is agent-followable procedure, not background knowledge. The ten steps run in order; earlier steps gate later ones (safety before optimization; constraints before recommending). Short tags like **(D25)** and **(Step 6)** are internal design shorthand kept for traceability during development.
+This is agent-followable procedure, not background knowledge. The ten steps run in order; earlier steps gate later ones (safety before optimization; constraints before recommending).
 
 Three invariants override everything below:
 
-- **Never diagnose.** Do not name or imply a medical condition (infection, reflux, apnea, ear infection, a sleep disorder). Surface *signals* and *hypotheses* with evidence and limitations; causal/diagnostic interpretation is a human clinician's job (signal-taxonomy.md §1; spec §11 Step 1).
+- **Never diagnose.** Do not name or imply a medical condition (infection, reflux, apnea, ear infection, a sleep disorder). Surface *signals* and *hypotheses* with evidence and limitations; causal/diagnostic interpretation is a human clinician's job (signal-taxonomy.md §1).
 - **Preserve uncertainty; label heuristics as heuristics.** The detector trigger magnitudes and severity bins are **product heuristics — not medical standards, recalibratable** (signal-taxonomy.md §6). The literature genuinely declines to set pediatric cutoffs for prolonged sleep-onset latency and "problematic" night-waking counts (Mindell 2006; Galland 2012 "sparse"). Do not present a heuristic threshold as clinical fact.
-- **No fabrication.** Never invent a citation, a source, or a numeric threshold. If a claim is not in the versioned evidence layer and no source can back it, say so plainly (§24; D13).
+- **No fabrication.** Never invent a citation, a source, or a numeric threshold. If a claim is not in the versioned evidence layer and no source can back it, say so plainly — the no-fabrication rule.
 
 ---
 
-## The ten-step workflow (spec §11)
+## The ten-step workflow
 
-### Step 1 — Safety triage first (S1, S1a; §11 Step 1)
+### Step 1 — Safety triage first
 
 Before any schedule reasoning, screen for reasons to stop ordinary sleep coaching and point the family toward medical evaluation or urgent help. The authoritative red-flag list is maintained in `references/safety-triage.md` — consult it; do not improvise the list here.
 
-- Red flags rarely appear unprompted **(S1a)**. If the presenting problem plausibly overlaps a physical cause (e.g., new night waking with congestion, unusual crying, feeding refusal), **elicit** the relevant safety context with one or two targeted questions before behavioral framing.
+- Red flags rarely appear unprompted. If the presenting problem plausibly overlaps a physical cause (e.g., new night waking with congestion, unusual crying, feeding refusal), **elicit** the relevant safety context with one or two targeted questions before behavioral framing.
 - Screen categories include (see safety-triage.md for the finished list): breathing difficulty, concerning color change, unusual lethargy/unresponsiveness, severe or persistent pain, dehydration concerns, other urgent symptoms.
-- If a red flag is present, **stop optimizing** and route to appropriate care. Do **not** attempt to name the cause — no "sounds like reflux/an ear infection/apnea." That is diagnosis and is forbidden **(§11 Step 1)**.
-- Safety statements are **source-backed only (S2)**: they come exclusively from the versioned evidence layer, never from runtime web search **(D13)**.
+- If a red flag is present, **stop optimizing** and route to appropriate care. Do **not** attempt to name the cause — no "sounds like reflux/an ear infection/apnea." That is diagnosis and is forbidden.
+- Safety statements are **source-backed only** — the hard safety rule: they come exclusively from the versioned evidence layer, never from runtime web search.
 - Below 4 months, behavioral sleep optimization is out of scope; the goal is safe sleep + adequate feeding (developmental-sleep.md §7).
 
-### Step 2 — Identify the actual parent goal/problem (§11 Step 2)
+### Step 2 — Identify the actual parent goal/problem
 
 Name the concrete problem before theorizing. Do not solve a problem the parent didn't raise. Common goals: early waking; bedtime resistance; frequent night waking; long night waking / split nights; short naps; nap-transition uncertainty; schedule fit under daycare constraints; illness/travel disruption recovery; independent settling / parent-presence decisions; general "is this normal?".
 
-Meet the parent's vocabulary **(D27)**. If they use a popular-but-imprecise term ("the 4-month regression"), use it as a communication bridge — reflect their framing, then gently layer in calibrated understanding. Do **not** pedantically correct the term; correcting vocabulary is a form of the cold/lecturing failure mode **(D25)**.
+Meet the parent's vocabulary. If they use a popular-but-imprecise term ("the 4-month regression"), use it as a communication bridge — reflect their framing, then gently layer in calibrated understanding. Do **not** pedantically correct the term; correcting vocabulary is a form of the cold/lecturing failure mode.
 
-### Step 3 — Gather only high-value missing context (§11 Step 3; D12)
+### Step 3 — Gather only high-value missing context
 
 Ask only questions that would change the recommendation. This is **not** a rigid 20-question intake. Prefer high-value fields relevant to the presenting problem: age; usual vs. recent rise time; nap timing/duration/count; bedtime and in-bed vs. actual sleep onset (note the put-down-vs-asleep convention); night-waking pattern; how long the change has lasted; illness/congestion/teething/travel/developmental changes; daycare/school constraints; settling method and family preferences.
 
-**Fold constraint elicitation in here (D25).** Ask the few highest-value *hard constraints* relevant to the problem now — fixed daycare nap, pickup time, work hours, siblings — so the first recommendation is already feasible. Do not wait for the parent to reject an idealized plan before adapting. Save constraints the family explicitly states as reusable via the constraint store (see "constraint_conflict" below).
+**Fold constraint elicitation in here.** Ask the few highest-value *hard constraints* relevant to the problem now — fixed daycare nap, pickup time, work hours, siblings — so the first recommendation is already feasible. Do not wait for the parent to reject an idealized plan before adapting. Save constraints the family explicitly states as reusable via the constraint store (see "constraint_conflict" below).
 
-### Step 4 — Read structured analysis if available (§11 Step 4)
+### Step 4 — Read structured analysis if available
 
 If `scripts/analyze_sleep.py` output is available, read it (see "Reading the analysis JSON"). Use baseline, features, and detector signals as evidence.
 
-- **Do not discard parent observations just because they are unlogged (§11 Step 4).** A parent's report of "he's been waking at 5am all week" is evidence even if no tracker row exists. Structured signals and lived observation are complementary; neither overrides the other by default.
+- **Do not discard parent observations just because they are unlogged.** A parent's report of "he's been waking at 5am all week" is evidence even if no tracker row exists. Structured signals and lived observation are complementary; neither overrides the other by default.
 - If there is **no** structured analysis (conversation-only), proceed on the parent's account — the workflow does not require logged data.
 
-### Step 5 — Rank 1–3 hypotheses, each with evidence-for / evidence-against / plain-language confidence (§11 Step 5)
+### Step 5 — Rank 1–3 hypotheses, each with evidence-for / evidence-against / plain-language confidence
 
-Output **one to three** plausible contributors — not an exhaustive list. For each, state: (a) evidence supporting it; (b) evidence against it or genuine uncertainty; (c) confidence **in plain language** ("this fits the pattern well" / "this is a weaker guess"). Confidence is a description of *how well the evidence fits the pattern* — never a clinical probability (D14; signal-taxonomy.md §2). Draw calibrated framing from the hypothesis menu below.
+Output **one to three** plausible contributors — not an exhaustive list. For each, state: (a) evidence supporting it; (b) evidence against it or genuine uncertainty; (c) confidence **in plain language** ("this fits the pattern well" / "this is a weaker guess"). Confidence is a description of *how well the evidence fits the pattern* — never a clinical probability (signal-taxonomy.md §2). Draw calibrated framing from the hypothesis menu below.
 
-### Step 6 — Respect constraints before recommending (§11 Step 6; D25)
+### Step 6 — Respect constraints before recommending
 
 Run the `constraint_conflict` check (below) *before* proposing a plan. A fixed daycare nap must never be "recommended away." If an idealized change collides with a saved hard constraint, re-plan over only the movable variables. The first concrete recommendation the parent hears should already be feasible.
 
-### Step 7 — Choose the smallest useful experiment: one principal change (§11 Step 7; D5)
+### Step 7 — Choose the smallest useful experiment: one principal change
 
 Prefer a single principal change so the result is interpretable. Examples: temporarily earlier bedtime; bedtime fading when an under-tired pattern is more likely; restore a consistent routine; modify parent response/check-in approach consistent with family preference; manage a non-urgent comfort/environment issue before bedtime; stabilize morning/environment light cues. The full behavioral-intervention menu (`references/interventions.md`) covers most levers; sleep-training method choice and when-to-start live in `references/sleep-training.md`.
 
-Do **not** change nap, bedtime, wake response, and settling method all at once unless safety or feasibility requires it — simultaneous changes make it impossible to learn what worked. This maps to the `Experiment` record (`hypothesis`, `change`, `metrics`, `review_after_days`) in the local experiment store (D5).
+Do **not** change nap, bedtime, wake response, and settling method all at once unless safety or feasibility requires it — simultaneous changes make it impossible to learn what worked. This maps to the `Experiment` record (`hypothesis`, `change`, `metrics`, `review_after_days`) in the local experiment store.
 
-### Step 8 — Define observation metrics (§11 Step 8)
+### Step 8 — Define observation metrics
 
 State, up front, what the family should watch — pick metrics that would actually distinguish the ranked hypotheses. Examples: sleep-onset latency; bedtime crying/protest trajectory (escalating vs. de-escalating); morning wake time; night-waking count/duration; nap duration; total 24-hour sleep; parent-reported mood/energy. These are the `metrics` on the `Experiment`.
 
-### Step 9 — Define a reassessment window: often several days, not one night (§11 Step 9; D5)
+### Step 9 — Define a reassessment window: often several days, not one night
 
 Choose an observation period appropriate to the intervention and the data quality — **usually several days, not a single night.** One night is noise (myths-and-overclaims.md §4: a single bad night does not prove "sleep debt"). Do not imply every intervention is judged at the same fixed interval. This is `review_after_days` on the `Experiment`.
 
-### Step 10 — State what would falsify the hypothesis (§11 Step 10)
+### Step 10 — State what would falsify the hypothesis
 
 A strong consultant is falsifiable. Say, in advance, what result would *weaken* the leading hypothesis and favor an alternative. Synthetic example:
 
@@ -105,7 +105,7 @@ Each hypothesis pairs a plain-language framing with the calibrated evidence stan
 
 - **Framing:** The conditions present at sleep onset (feeding, rocking, parent presence) may be re-required at each waking.
 - **Evidence for:** `night_waking` or `split_night` signals; a recent change in how the child is put down; wakings that resolve only with the onset condition.
-- **Evidence against / uncertainty:** **Crying is a nonspecific signal — never auto-classify it as "behavioral resistance"** without first screening medical/developmental causes (myths §6; Step 1). Behavioral interventions have systematic-review support from ~5–6 months, used *systematically* after ruling out medical causes — not as blanket interpretation of any cry (myths §6). Respect family preferences on settling method (D25; §11 Step 7). → Methods menu, choosing a method, and when-to-start: `references/sleep-training.md`.
+- **Evidence against / uncertainty:** **Crying is a nonspecific signal — never auto-classify it as "behavioral resistance"** without first screening medical/developmental causes (myths §6; Step 1). Behavioral interventions have systematic-review support from ~5–6 months, used *systematically* after ruling out medical causes — not as blanket interpretation of any cry (myths §6). Respect family preferences on settling method. → Methods menu, choosing a method, and when-to-start: `references/sleep-training.md`.
 
 ### 5. Separation / developmental behavior
 
@@ -130,7 +130,7 @@ Each hypothesis pairs a plain-language framing with the calibrated evidence stan
 
 ## `constraint_conflict` reasoning (realized here, not as code)
 
-In Phase 3 the `constraint_conflict` signal was deferred as *code*; it is realized here as *reasoning*. It is a **recommendation-quality signal, not a disorder signal** (spec §9). The job: catch, in conversation, that an idealized change collides with a saved hard constraint, and re-plan before speaking.
+In Phase 3 the `constraint_conflict` signal was deferred as *code*; it is realized here as *reasoning*. It is a **recommendation-quality signal, not a disorder signal**. The job: catch, in conversation, that an idealized change collides with a saved hard constraint, and re-plan before speaking.
 
 ### The check (run before Step 6/7 output)
 
@@ -141,10 +141,10 @@ for each proposed_change under consideration:
         re-plan: optimize only the movable variables
 ```
 
-- **SavedConstraint set:** family constraints the user explicitly saved (D21) — retrievable via the local experiment store (`ExperimentStore.get_constraint(key)` → `SavedConstraint{key, value, note}`). Only *explicitly saved* constraints persist; raw logs stay ephemeral (D21). Also honor constraints the parent states in the current conversation even if not yet saved.
-- **Conflict = an idealized change that would require moving a fixed event.** Canonical example (spec §16): with a saved daycare-nap constraint, "move daycare nap to noon" is a **forbidden_recommendation** — the nap cannot move. The eval encodes this: input has `daycare_nap_fixed: true`; expected signals include `constraint_conflict`; `forbidden_recommendations: [move daycare nap to noon]`.
-- **Re-plan over movable variables only.** If the daycare nap is fixed and creates a long pre-nap awake stretch, do not "recommend the nap away." Instead adjust what *is* movable — morning wake time, bedtime, weekend nap timing, or pre-nap wind-down — and say plainly which variable is fixed and why the plan works around it. This is how the agent **exceeds** the human/Berry "idealize → get rejected → adjust" default (D25): the first plan offered is already feasible.
-- **Never** frame the constraint as the parent's failing. Acknowledge the fixed reality, then optimize within it (D25).
+- **SavedConstraint set:** family constraints the user explicitly saved — retrievable via the local experiment store (`ExperimentStore.get_constraint(key)` → `SavedConstraint{key, value, note}`). Only *explicitly saved* constraints persist; raw logs stay ephemeral. Also honor constraints the parent states in the current conversation even if not yet saved.
+- **Conflict = an idealized change that would require moving a fixed event.** Canonical example: with a saved daycare-nap constraint, "move daycare nap to noon" is a **forbidden_recommendation** — the nap cannot move. The eval encodes this: input has `daycare_nap_fixed: true`; expected signals include `constraint_conflict`; `forbidden_recommendations: [move daycare nap to noon]`.
+- **Re-plan over movable variables only.** If the daycare nap is fixed and creates a long pre-nap awake stretch, do not "recommend the nap away." Instead adjust what *is* movable — morning wake time, bedtime, weekend nap timing, or pre-nap wind-down — and say plainly which variable is fixed and why the plan works around it. This is how the agent exceeds the "idealize → get rejected → adjust" default: the first plan offered is already feasible.
+- **Never** frame the constraint as the parent's failing. Acknowledge the fixed reality, then optimize within it.
 
 ---
 
@@ -163,16 +163,16 @@ The script emits one JSON object. Top-level keys: `child`, `days`, `baseline`, `
 | `below_supported_range` | Child is below the supported age range | **No signals emitted** |
 | `age_unknown` | Age missing/unusable | **No signals emitted** |
 
-**Critical:** an age-gated or insufficient baseline (any status other than `computed`) emits **no signals at all** — `signals` will be `[]`. This is by design (signal-taxonomy.md §1; spec C5). When `status != computed`, do **not** imply the absence of signals means "nothing is wrong"; it means the data/age did not support automated detection. Fall back to conversation-only reasoning and the parent's report (Step 4). Read `baseline.reason` for the plain-language explanation.
+**Critical:** an age-gated or insufficient baseline (any status other than `computed`) emits **no signals at all** — `signals` will be `[]`. This is by design (signal-taxonomy.md §1). When `status != computed`, do **not** imply the absence of signals means "nothing is wrong"; it means the data/age did not support automated detection. Fall back to conversation-only reasoning and the parent's report (Step 4). Read `baseline.reason` for the plain-language explanation.
 
 Other baseline fields: `features` (dict of per-feature `FeatureBaseline`: `baseline_median`, `recent_median`, `mad`, `deviation_mads`, `confidence`, `n`), `prior_window_days`, `recent_window_days`, `corrected_age_months`.
 
 ### Each entry in `signals` (a `Signal` model_dump)
 
 - `signal` — one of: `early_waking`, `night_waking`, `short_nap`, `total_sleep_drop`, `bedtime_resistance`, `split_night`, `high_variability`, `schedule_drift`, `nap_transition`, `possible_context_related_disruption`.
-- `confidence` — ordinal `low | medium | high`. **A description of how well the evidence fits the pattern, NOT a clinical probability** (D14). `high` means "strong, consistent, well-supported pattern," not "high chance of a problem."
+- `confidence` — ordinal `low | medium | high`. **A description of how well the evidence fits the pattern, NOT a clinical probability.** `high` means "strong, consistent, well-supported pattern," not "high chance of a problem."
 - `severity` — ordinal `mild | moderate | significant`. Answers "how big is the shift vs. this child's own norm," **not** "how bad clinically." All bucket boundaries are product heuristics.
-- `status` — ordinal `emerging | established`. **Within-window persistence only** (≥60% of recent days). It is **not** longitudinal history — the layer has no cross-session memory (D21), so it cannot tell "new this week vs. three weeks running."
+- `status` — ordinal `emerging | established`. **Within-window persistence only** (≥60% of recent days). It is **not** longitudinal history — the layer has no cross-session memory, so it cannot tell "new this week vs. three weeks running."
 - `supporting_evidence` — plain-language reasons the signal fired (what in the data). Quote/paraphrase these to the parent.
 - `limitations` — why it might be noise or benign. **Always surface these** — e.g., `night_waking` carries the Tham 2017 caution that 20–30% of infants wake at night and night waking is the highest-variability measure. Do not present a signal without its limitations.
 - `baseline` / `recent` / `change` / `change_unit` — the compared windows and the delta.
@@ -190,7 +190,7 @@ A **review** is the proactive counterpart to the reactive workflow above: the pa
 
 ### Acquire fresh data first, and guard its freshness
 
-A review reasons about *recent* sleep, and the store keeps **no** raw logs (D21) — so data cannot be reconstructed from state and must be obtained at review time. In order: (1) ask the parent for a current export/paste; (2) if a provider is connected, fetch `get_sleep_sessions(as_of − window, as_of)` on demand (`references/mcp-data-provider.md`); (3) otherwise run a conversational review from the parent's recollection. **Never reuse an old copy** — presenting a month-old log as "this week" is a fabrication.
+A review reasons about *recent* sleep, and the store keeps **no** raw logs — so data cannot be reconstructed from state and must be obtained at review time. In order: (1) ask the parent for a current export/paste; (2) if a provider is connected, fetch `get_sleep_sessions(as_of − window, as_of)` on demand (`references/mcp-data-provider.md`); (3) otherwise run a conversational review from the parent's recollection. **Never reuse an old copy** — presenting a month-old log as "this week" is a fabrication.
 
 **Freshness guard.** `scripts/analyze_sleep.py --review` emits a `review.coverage` descriptor (`start_date`, `end_date`, `n_days`, `span_days`, `days_since_last_entry`, `is_current`, `covers_window`). If `is_current` is false (newest entry older than the staleness tolerance — a **product heuristic, currently 3 days**), `review.status` is `stale_data` and nothing is surfaced: say plainly that the data covers an older stretch, and ask for a current export or offer a conversational review. If `covers_window` is false, the data spans less than the window the parent asked about — mention it rather than over-reading a few days as "the last two weeks."
 
@@ -210,10 +210,10 @@ Every surfaced signal is a **pattern worth exploring against *this* child and fa
 
 ---
 
-## Evidence transparency & honesty (spec §24; D13)
+## Evidence transparency & honesty
 
 - **Cite claims and sources.** Grounded figures (AASM total-sleep ranges, Spencer nap-transition windows, infant sleep-cycle length, Galland SOL/waking context, Tham night-waking prevalence) trace to the source IDs in `knowledge/sources.yaml` and the reference docs. Attribute them.
 - **Label heuristics as heuristics.** When a threshold, floor, or severity bin drove a signal, say it is a **product heuristic — recalibratable, not a medical standard** (signal-taxonomy.md §6). Do not launder a heuristic into "the clinical cutoff is X."
-- **Preserve uncertainty.** Where the literature declines to set a cutoff (prolonged SOL; problematic night-waking count), say so — that absence is itself cited (Mindell 2006; Galland 2012 "sparse"). Go baseline-relative and name the uncertainty (§24).
-- **Never fabricate a citation or threshold.** If a topic falls outside the versioned evidence layer and no source backs it, state plainly that it is outside the verified evidence — never invent a source or a number (D13). Runtime-searched material is labeled not-versioned / lower-confidence and **may never support a safety conclusion (S2, D13)**.
-- **Never diagnose.** Signals and hypotheses only; no condition names, no causal claims. Diagnosis is a human clinician's role (§11 Step 1; signal-taxonomy.md §1).
+- **Preserve uncertainty.** Where the literature declines to set a cutoff (prolonged SOL; problematic night-waking count), say so — that absence is itself cited (Mindell 2006; Galland 2012 "sparse"). Go baseline-relative and name the uncertainty.
+- **Never fabricate a citation or threshold.** If a topic falls outside the versioned evidence layer and no source backs it, state plainly that it is outside the verified evidence — never invent a source or a number. Runtime-searched material is labeled not-versioned / lower-confidence and **may never support a safety conclusion** — the hard safety rule.
+- **Never diagnose.** Signals and hypotheses only; no condition names, no causal claims. Diagnosis is a human clinician's role (signal-taxonomy.md §1).

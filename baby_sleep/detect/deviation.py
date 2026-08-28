@@ -1,5 +1,5 @@
 """The six baseline-relative deviation detectors. Trigger magnitudes are product
-heuristics (references/signal-taxonomy.md); the literature sets no pediatric absolute
+heuristics (skills/lullsense/references/signal-taxonomy.md); the literature sets no pediatric absolute
 thresholds for SOL or night-waking counts, so these are child-relative by design."""
 from __future__ import annotations
 

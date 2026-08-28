@@ -1,5 +1,5 @@
 # knowledge/sources.yaml
-# Authoritative source inventory for the Baby Sleep Specialist project.
+# Authoritative source inventory for the LullSense project.
 # Verification state: all A_safety sources are human-verified (verified: true) — accessible
 # HealthyChildren/AAP pages by review, and the four AAP journal PDFs against their primary full text.
 # Non-safety B/C/D journal sources remain verified: false pending later review. See note: fields.

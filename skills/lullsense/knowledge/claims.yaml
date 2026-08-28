@@ -1,5 +1,5 @@
 # knowledge/claims.yaml
-# Versioned, source-backed claims for the Baby Sleep Specialist.
+# Versioned, source-backed claims for LullSense.
 # Schema: references/evidence-methodology.md §5; hard safety rule (S2): §8.
 # Enforced by scripts/validate_knowledge.py. A_safety claims require
 # evidence_type in {guideline, professional_consensus, systematic_review},

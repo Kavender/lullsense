@@ -2,14 +2,20 @@
 
 [English](README.md) · **中文**
 
-# 婴幼儿睡眠顾问（Baby Sleep Consultant）
+<p align="center">
+  <img src="assets/lullsense-logo.png" alt="LullSense (知眠)" width="200">
+</p>
+
+# LullSense（知眠）
+
+> 面向每个家庭的开源婴幼儿睡眠智能。
 
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Scope](https://img.shields.io/badge/适用月龄-4–36%20个月-brightgreen)
 ![Safety](https://img.shields.io/badge/安全优先-绝不做诊断-orange)
 ![Status](https://img.shields.io/badge/状态-未发布（私有）-lightgrey)
 
-一个温暖、**证据透明**的婴幼儿睡眠顾问，以开源 **Agent Skill（智能体技能）** 的形式提供。它**仅凭对话**就能给出真正有用的帮助——不需要付费 App、记录工具或订阅——当有睡眠数据时，它会变得更强，而不是更封闭。
+LullSense 是一个 Agent Skill（智能体技能），通过**基于证据的对话**帮助家长理解婴幼儿睡眠，并在有睡眠数据时提供**可选的纵向模式检测**。它**仅凭对话**就能给出真正有用的帮助——不需要付费 App、记录工具或订阅。
 
 > **数据能让答案更好；但数据从来不是使用它的门票。**
 
@@ -70,28 +76,21 @@
 
 ## 安装与使用
 
-这是一个 **Agent Skill**：入口是仓库根目录的 [`SKILL.md`](SKILL.md)——一个精简的「路由器」，负责编排流程，并按需拉入 `references/*.md` 和 `knowledge/*.yaml`（渐进式披露）。
-
 ```bash
-git clone https://github.com/Kavender/baby-sleep-consultant.git
-cd baby-sleep-consultant
+npx skills add Kavender/lullsense
 ```
 
-- **作为技能在兼容的智能体中使用**（例如 Claude Code / 支持 Skill 格式的智能体）：把本仓库提供给智能体，让它加载 `SKILL.md`。用自然语言提出睡眠问题，技能会接管后续流程。
-- **作为知识库使用：** `references/*.md` 与 `knowledge/*.yaml` 都是自解释的，可以直接阅读。
-- **可选的分析 CLI**（数据增强 + 回顾模式）需要 **Python 3.11+**：
+将技能安装到你的智能体中（例如 `~/.claude/skills/lullsense/`）。之后只需用自然语言提出婴幼儿睡眠问题即可。
+
+**可选的分析引擎**（数据增强 + 主动回顾）：
 
 ```bash
-python -m venv .venv && . .venv/bin/activate
-pip install pydantic pyyaml            # 运行依赖；开发再加 pytest ruff
-
-# 分析一份睡眠记录，得到 特征 / 基线 / 信号
-python scripts/analyze_sleep.py --format json --input examples/<log>.json --age-months 12
-
-# 主动「回顾我最近的睡眠」
-python scripts/analyze_sleep.py --format json --input <log>.json --age-months 12 \
-    --review --review-window-days 14 --as-of-date 2026-09-20
+pip install lullsense       # 提供 lullsense-analyze / lullsense-experiment 命令
 ```
+
+仅凭对话，本技能就已完整可用——数据从来不是必需的。
+
+> 从源码使用？`git clone https://github.com/Kavender/lullsense.git`
 
 > **状态：** 未发布，且为**私有**——只有在完全建成并测试通过后才会公开发布。
 
@@ -125,10 +124,10 @@ python scripts/analyze_sleep.py --format json --input <log>.json --age-months 12
 ## 工作原理
 
 ```
-SKILL.md  ── 精简路由：安全 → 月龄 → 目标 → 约束 → 模式 → 假设 → 最小实验
+skills/lullsense/SKILL.md  ── 精简路由：安全 → 月龄 → 目标 → 约束 → 模式 → 假设 → 最小实验
    │
-   ├─ references/*.md   13 份按需加载的参考（安全、推理、人格、发育、误区、干预、睡眠训练、信号分类、provider/数据契约…）
-   ├─ knowledge/*.yaml  带版本的 claims + sources（+ validate_knowledge.py）
+   ├─ skills/lullsense/references/*.md   13 份按需加载的参考（安全、推理、人格、发育、误区、干预、睡眠训练、信号分类、provider/数据契约…）
+   ├─ skills/lullsense/knowledge/*.yaml  带版本的 claims + sources（+ validate_knowledge.py）
    │
    └─ baby_sleep/       可选、厂商中立的分析引擎（纯 Python）
         ├─ contract/    规范化睡眠记录 schema（ApproxTime、溯源）
@@ -147,15 +146,13 @@ SKILL.md  ── 精简路由：安全 → 月龄 → 目标 → 约束 → 模�
 
 | 路径 | 用途 |
 |---|---|
-| `SKILL.md` | 技能入口（精简路由 + 首要准则） |
-| `references/` | 按需参考文档（语气、推理、安全、发育、方法） |
-| `knowledge/` | `claims.yaml` + `sources.yaml`（带版本、可溯源的证据） |
+| `skills/lullsense/` | 技能：SKILL.md（精简路由 + 首要准则）+ references + knowledge |
 | `baby_sleep/` | 可选分析引擎（contract · ingest · analyze · detect · review · store） |
-| `scripts/` | 精简 CLI：`analyze_sleep.py`、`experiment.py`、`validate_knowledge.py` |
+| `scripts/` | 精简 CLI：`validate_knowledge.py`；分析命令为 `lullsense-analyze` / `lullsense-experiment` |
 | `evals/` | 确定性评测（主动信号 + 回顾）、咨询评分量表、安全红旗用例 |
 | `examples/` | 合成的示例睡眠记录 |
 | `tests/` | 测试套件（**188 项通过**） |
-| `docs/` | 覆盖矩阵与项目文档 |
+| `assets/` | 品牌 Logo |
 
 ---
 

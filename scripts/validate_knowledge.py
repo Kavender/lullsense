@@ -1,5 +1,5 @@
-"""Validate knowledge/claims.yaml and knowledge/sources.yaml against the schema
-defined in references/evidence-methodology.md.
+"""Validate skills/lullsense/knowledge/claims.yaml and skills/lullsense/knowledge/sources.yaml against the schema
+defined in skills/lullsense/references/evidence-methodology.md.
 
 Exit code 0 = valid, 1 = errors found. Safety rule (S2) is enforced hard.
 Warnings are advisory and do NOT affect the exit code.
@@ -135,7 +135,7 @@ def coverage_gaps(claims_path: Path) -> set[str]:
 
 def warnings(claims_path: Path, sources_path: Path) -> list[str]:
     """Non-failing advisories (do NOT affect exit code). Keeps the validator
-    honest with references/evidence-methodology.md sections 7 and 10."""
+    honest with skills/lullsense/references/evidence-methodology.md sections 7 and 10."""
     sources = {s["id"]: s for s in _load(sources_path) if isinstance(s, dict) and "id" in s}
     claims = _load(claims_path)
     warns: list[str] = []
@@ -154,8 +154,8 @@ def warnings(claims_path: Path, sources_path: Path) -> list[str]:
 
 def main() -> int:
     root = Path(__file__).resolve().parent.parent
-    claims_path = root / "knowledge" / "claims.yaml"
-    sources_path = root / "knowledge" / "sources.yaml"
+    claims_path = root / "skills" / "lullsense" / "knowledge" / "claims.yaml"
+    sources_path = root / "skills" / "lullsense" / "knowledge" / "sources.yaml"
     errors = validate(claims_path, sources_path)
     gaps = coverage_gaps(claims_path)
     warns = warnings(claims_path, sources_path)

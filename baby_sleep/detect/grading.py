@@ -1,5 +1,5 @@
 """Ordinal grading for detectors (D14). Product heuristics, not clinical probabilities.
-Documented in references/signal-taxonomy.md."""
+Documented in skills/lullsense/references/signal-taxonomy.md."""
 from __future__ import annotations
 
 from baby_sleep.analyze.models import Confidence, DailyFeatures

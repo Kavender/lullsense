@@ -12,7 +12,7 @@ This document distills **how experienced pediatric-sleep consultants approach a 
 
 **Two hard boundaries this document respects:**
 
-1. **Provenance and no-copying (spec §21).** Nothing here reproduces proprietary knowledge-base text from any commercial product or consultant. Where public consultant material informs an observation, it is cited by source ID and *synthesized*, never quoted at length. The richest single input is the maintainer's own first-hand experience — as a parent and as a client of a professional sleep consultant — which is labeled as such wherever it is the source. First-hand practitioner observation from one consultant is genuine practice research but is **not** validated or generalizable; it is treated as a hypothesis about good practice, to be confirmed against public professional practice and, in Phase 4/6, against real testers.
+1. **Provenance and no-copying.** Nothing here reproduces proprietary knowledge-base text from any commercial product or consultant. Where public consultant material informs an observation, it is cited by source ID and *synthesized*, never quoted at length. The richest single input is the maintainer's own first-hand experience — as a parent and as a client of a professional sleep consultant — which is labeled as such wherever it is the source. First-hand practitioner observation from one consultant is genuine practice research but is **not** validated or generalizable; it is treated as a hypothesis about good practice, to be confirmed against public professional practice and, in Phase 4/6, against real testers.
 
 2. **Tone is a persona responsibility, not a knowledge artifact.** This document describes the *structure and sequencing* of good consultation (what to do, in what order, with what boundaries). The *voice* — warmth, word choice, moment-to-moment empathy — is owned by the Phase 4 persona layer (`references/consultant-persona.md`, to be written), not encoded here or in individual claims. Where this document names an emotional function (e.g., "reduce unwarranted guilt"), it is describing a *goal of the interaction*, and leaving the delivery to the persona.
 
@@ -20,7 +20,7 @@ This document distills **how experienced pediatric-sleep consultants approach a 
 
 ---
 
-## 1. The Consultant Interaction Spine (D24)
+## 1. The Consultant Interaction Spine
 
 The single highest-value pattern, observed directly from the maintainer's own consultant and consistent with published family-centered counseling practice. It adds **pacing and sequencing** on top of a step list: the consultant must not dump a full analysis at once, but reveal it in a staged way that mirrors how a trusted human expert actually talks.
 
@@ -40,13 +40,13 @@ The sequence:
 
 ---
 
-## 2. Constraint-First Recommending (D25)
+## 2. Constraint-First Recommending
 
 **The anti-pattern to beat.** Even good human consultants — and consumer sleep products — tend to default to an idealized prescription ("put the baby down at X") and only produce a feasible alternative *after* the parent objects that it cannot be done (fixed daycare nap, pickup time, work schedule, siblings, room-sharing). This "idealize → get rejected → adjust" loop is inefficient and, worse, makes the parent feel unheard. (Primary provenance: the maintainer's first-hand experience — her consultants repeatedly ignored her child's fixed daycare schedule until she pushed back.)
 
 **The practice.** Elicit the few highest-value **hard constraints relevant to the presenting problem before the first concrete recommendation**, so the first plan is already feasible. The parent should never have to push back to get a workable answer. This is a concrete way an AI consultant can *exceed* the human/commercial baseline.
 
-**The balance — not a rigid intake.** This is emphatically **not** a 20-question questionnaire. Ask only the constraints that would actually change the recommendation, scoped to the presenting problem. This respects the passive, low-friction posture (D22) and the "no rigid intake" guidance — with the one standing exception that **age is always established first** (D20), because safety tiering and supported-range gating depend on it.
+**The balance — not a rigid intake.** This is emphatically **not** a 20-question questionnaire. Ask only the constraints that would actually change the recommendation, scoped to the presenting problem. This respects the passive, low-friction posture and the "no rigid intake" guidance — with the one standing exception that **age is always established first**, because safety tiering and supported-range gating depend on it.
 
 **Typical high-value constraints by presenting problem** (illustrative, not exhaustive):
 
@@ -62,7 +62,7 @@ Backed by the versioned claim `constraint_first_recommending` (`knowledge/claims
 
 ---
 
-## 3. Meeting Parents at Their Vocabulary (D27)
+## 3. Meeting Parents at Their Vocabulary
 
 Popular-but-imprecise terms are **bridges, not errors to correct.** "Sleep regression" is the canonical example: it has no clinical basis (`references/myths-and-overclaims.md §2`), yet it is the dominant term parents use and understand. Pedantically correcting it is a form of the cold/lecturing failure mode and costs rapport.
 
@@ -72,7 +72,7 @@ The line to hold: meet the parent's language **without** either (a) endorsing th
 
 ---
 
-## 4. Emotional Value and Reassurance Craft (D23)
+## 4. Emotional Value and Reassurance Craft
 
 Emotional reassurance is a **first-class product value, not decoration.** A parent's perceived value from a sleep consultant is roughly `professional credibility × emotional skill` — the reassurance lands *because* it is backed by competence and calibration, not despite it.
 
@@ -80,13 +80,13 @@ Emotional reassurance is a **first-class product value, not decoration.** A pare
 
 - **Actively reduce unwarranted guilt and anxiety.** Parents of sleep-troubled children are exhausted *and* worried, and often blame themselves. Normalizing what is normal (e.g., night waking is common and highly variable — `night_waking_normal_variability`) is a core move.
 - **Reassurance is bounded by honesty — never false reassurance.** The target is *calibrated* reassurance: "this is very likely normal, **and** if X appears, that changes things." Suppressing a real concern to make a parent feel better is a failure, not a kindness. This pattern is what safely marries the warm posture (§4) to the safety net (§5).
-- **Even safety referrals are delivered with care.** Routing a family to their pediatrician is done supportively, not as cold boilerplate. (See D18: over-disclaiming reads legalistic and is itself a failure mode — disclaimers belong at first contact, at medical boundaries, and on red-flag triggers, not sprinkled over routine scheduling advice.)
+- **Even safety referrals are delivered with care.** Routing a family to their pediatrician is done supportively, not as cold boilerplate. Over-disclaiming reads legalistic and is itself a failure mode — disclaimers belong at first contact, at medical boundaries, and on red-flag triggers, not sprinkled over routine scheduling advice.
 
 > **Why this is load-bearing, not soft.** The daily plan in §6 doubles as an emotional tool; the safety posture in §5 is deliberately light-touch to preserve the emotional value. Emotional skill is the connective tissue of the whole consultation, which is why it must be an explicit evaluation dimension in Phase 4, not an afterthought.
 
 ---
 
-## 5. Safety Posture in Practice (D22)
+## 5. Safety Posture in Practice
 
 **Passive safety net + newborn minimal check — not a medical-screening system.** The default conversation is sleep-focused, non-medical, and non-alarmist, mirroring how a good human consultant behaves. The safety layer activates only when:
 
@@ -102,7 +102,7 @@ Safe-sleep/SIDS essentials are surfaced **briefly** for infants — slightly mor
 
 ---
 
-## 6. Planful Staged Deliverables and Expectation-Setting (D26)
+## 6. Planful Staged Deliverables and Expectation-Setting
 
 **(a) The concrete plan scales to the problem.** Simple cases get a single small experiment (change one thing, observe). Inherently multi-day transitions — time-zone/jet-lag adjustment, bedtime fading, nap transitions — get a **day-by-day roadmap**, where each day carries:
 
@@ -165,7 +165,7 @@ Synthesized from publicly available professional/consultant material. **No propr
 | Named behavioral sleep-training methods presented as a menu of options (extinction variants, fading, pick-up/put-down), framed around family fit rather than one prescribed method | `huckleberry_sleep_training_methods`, `pediatric_sleep_council_sleep_training` | Consistent with `consistent_response_settling`, `independent_settling_readiness` |
 | Wake-time-since-last-sleep ("wake windows") presented as an age-banded orientation tool for timing sleep | `huckleberry_wake_windows_guide` | Calibrated as heuristic, not standard — `wake_windows_as_heuristic`; see myths §1 |
 | Bedtime fading described as a gentle, lower-intensity approach for bedtime resistance / long sleep onset | `babysleepscience_bedtime_fading_guide` | Consistent with the SR-backed `bedtime_fading` |
-| Public, generous parent education as a credibility/trust-building channel (out-of-band from any single consultation) | `pediatric_sleep_council_sleep_training` | Mission-driven persona note; credibility is built partly out-of-band (D24) |
+| Public, generous parent education as a credibility/trust-building channel (out-of-band from any single consultation) | `pediatric_sleep_council_sleep_training` | Mission-driven persona note; credibility is built partly out-of-band |
 
 **Primary/professional anchors used throughout this document** (higher evidence weight than the practice observations above): `aap_safe_sleep_2022` (nonjudgmental communication; bed-sharing harm reduction), `aasm_child_sleep_duration_2016` (duration ranges, individual variability), `spencer_2022_nap_transitions_pnas` (nap-transition variability and maturation), `tham_2017_infant_sleep_cognition_growth` (night-waking variability, consolidation, naps and memory), and the behavioral-intervention sources (`mindell_2006_behavioral_treatment_review`, `meltzer_mindell_2014_meta_analysis`, `reuter_2020_infant_sleep_systematic_review`, `mindell_williamson_2018_bedtime_routine`, `aasm_2006_practice_parameters_bedtime`).
 
