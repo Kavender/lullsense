@@ -2,14 +2,20 @@
 
 **English** · [中文](README_ZH.md)
 
-# Baby Sleep Consultant
+<p align="center">
+  <img src="assets/lullsense-logo.png" alt="LullSense (知眠)" width="200">
+</p>
+
+# LullSense (知眠)
+
+> Open-source baby sleep intelligence for every family.
 
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Scope](https://img.shields.io/badge/ages-4–36%20months-brightgreen)
 ![Safety](https://img.shields.io/badge/safety-first%20·%20never%20diagnoses-orange)
 ![Status](https://img.shields.io/badge/status-pre--release%20(private)-lightgrey)
 
-A warm, **evidence-transparent** sleep consultant for parents of babies and toddlers, packaged as an open-source **Agent Skill**. It gives real, useful help **from the conversation alone** — no paid app, tracker, or subscription required — and becomes more capable, not more exclusive, when sleep data is available.
+LullSense is an Agent Skill that helps parents understand baby and toddler sleep through **evidence-informed conversation**, with **optional longitudinal pattern detection** when sleep data is available. It gives real, useful help from the conversation alone — no paid app, tracker, or subscription required.
 
 > **More data improves the answer; data is never the price of admission.**
 
@@ -68,30 +74,23 @@ The skill surfaces **signals and hypotheses with evidence and limitations** — 
 
 ---
 
-## Install & use
-
-This is an **Agent Skill**: the entry point is [`SKILL.md`](SKILL.md) at the repo root — a thin router that sequences the work and pulls in `references/*.md` and `knowledge/*.yaml` on demand (progressive disclosure).
+## Install
 
 ```bash
-git clone https://github.com/Kavender/baby-sleep-consultant.git
-cd baby-sleep-consultant
+npx skills add Kavender/lullsense
 ```
 
-- **As a skill in a compatible agent** (e.g. Claude Code / an agent that supports the Skill format): make the repo available to the agent and let it load `SKILL.md`. Ask a sleep question in natural language — the skill takes it from there.
-- **As a knowledge base:** the `references/*.md` and `knowledge/*.yaml` are self-describing and can be read directly.
-- **The optional analysis CLIs** (data-enhanced + review modes) need **Python 3.11+**:
+Installs the skill into your agent (e.g. `~/.claude/skills/lullsense/`). Then just ask a baby/toddler sleep question in natural language.
+
+**Optional analysis engine** (data-enhanced + proactive review):
 
 ```bash
-python -m venv .venv && . .venv/bin/activate
-pip install pydantic pyyaml            # runtime deps; add pytest ruff for development
-
-# Analyze a sleep log and get features / baseline / signals
-python scripts/analyze_sleep.py --format json --input examples/<log>.json --age-months 12
-
-# Proactive "review my recent sleep"
-python scripts/analyze_sleep.py --format json --input <log>.json --age-months 12 \
-    --review --review-window-days 14 --as-of-date 2026-09-20
+pip install lullsense       # exposes lullsense-analyze / lullsense-experiment
 ```
+
+The skill is fully useful from conversation alone — data is never required.
+
+> Working from source? `git clone https://github.com/Kavender/lullsense.git`
 
 > **Status:** pre-release and **private** — released publicly only once fully built and tested.
 
@@ -125,10 +124,10 @@ Delivery, tone, and the consultation spine live in a dedicated **persona layer**
 ## How it works
 
 ```
-SKILL.md  ── thin router: safety → age → goal → constraints → mode → hypotheses → smallest experiment
+skills/lullsense/SKILL.md  ── thin router: safety → age → goal → constraints → mode → hypotheses → smallest experiment
    │
-   ├─ references/*.md   13 on-demand references (safety, reasoning, persona, developmental, myths, interventions, sleep-training, signal-taxonomy, provider/data-contract …)
-   ├─ knowledge/*.yaml  versioned claims + sources (+ validate_knowledge.py)
+   ├─ skills/lullsense/references/*.md   13 on-demand references (safety, reasoning, persona, developmental, myths, interventions, sleep-training, signal-taxonomy, provider/data-contract …)
+   ├─ skills/lullsense/knowledge/*.yaml  versioned claims + sources (+ validate_knowledge.py)
    │
    └─ baby_sleep/       optional, vendor-neutral analysis engine (pure Python)
         ├─ contract/    canonical sleep-log schema (ApproxTime, provenance)
@@ -147,15 +146,13 @@ Everything is inspectable and deterministic; the reasoning layer is vendor-neutr
 
 | Path | Purpose |
 |---|---|
-| `SKILL.md` | Skill entry point (thin router + prime directives) |
-| `references/` | On-demand reference docs (voice, reasoning, safety, developmental, methods) |
-| `knowledge/` | `claims.yaml` + `sources.yaml` (versioned, cited evidence) |
+| `skills/lullsense/` | Skill: SKILL.md (thin router + prime directives) + references + knowledge |
 | `baby_sleep/` | Optional analysis engine (contract · ingest · analyze · detect · review · store) |
-| `scripts/` | Thin CLIs: `analyze_sleep.py`, `experiment.py`, `validate_knowledge.py` |
+| `scripts/` | Thin CLIs: `validate_knowledge.py`; analysis via `lullsense-analyze` / `lullsense-experiment` |
 | `evals/` | Deterministic evals (proactive signals + review), consultant rubric, safety red-flag cases |
 | `examples/` | Synthetic example sleep logs |
 | `tests/` | Test suite (**188 passing**) |
-| `docs/` | Coverage matrix and project docs |
+| `assets/` | Brand logo |
 
 ---
 
