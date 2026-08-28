@@ -1,7 +1,7 @@
 [project]
-name = "baby-sleep-specialist"
-version = "0.0.0"
-description = "Open-source, evidence-informed baby/toddler sleep specialist Agent Skill"
+name = "lullsense"
+version = "0.1.0"
+description = "LullSense (知眠) — open-source, evidence-informed baby/toddler sleep Agent Skill and analysis engine"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
 dependencies = ["pyyaml>=6.0", "pydantic>=2.7"]
@@ -9,8 +9,21 @@ dependencies = ["pyyaml>=6.0", "pydantic>=2.7"]
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "ruff>=0.5"]
 
+[project.scripts]
+lullsense-analyze = "scripts.analyze_sleep:main"
+lullsense-experiment = "scripts.experiment:main"
+
 [tool.setuptools]
-packages = ["baby_sleep", "baby_sleep.contract", "baby_sleep.ingest", "baby_sleep.store", "baby_sleep.analyze", "baby_sleep.detect"]
+packages = [
+    "baby_sleep",
+    "baby_sleep.contract",
+    "baby_sleep.ingest",
+    "baby_sleep.store",
+    "baby_sleep.analyze",
+    "baby_sleep.detect",
+    "baby_sleep.review",
+    "scripts",
+]
 
 [tool.ruff]
 line-length = 100
