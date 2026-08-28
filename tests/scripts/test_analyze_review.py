@@ -39,3 +39,11 @@ def test_review_stale_when_as_of_far_future():
     review = json.loads(r.stdout)["review"]
     assert review["status"] == "stale_data"
     assert review["surfaced"] == []
+
+
+def test_review_eval_suite_passes():
+    r = subprocess.run(
+        [sys.executable, str(REPO / "evals" / "proactive" / "run_review_eval.py")],
+        capture_output=True, text=True, check=False,
+    )
+    assert r.returncode == 0, r.stdout + r.stderr

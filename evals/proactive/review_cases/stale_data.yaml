@@ -1,0 +1,8 @@
+case_id: stale_data
+fixture: fixtures/early_waking.json
+format: json
+age_months: 12
+as_of_date: 2030-01-01
+expect:
+  status: stale_data
+  surfaced: []
