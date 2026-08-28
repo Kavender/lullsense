@@ -2,7 +2,7 @@
 
 **Status:** Canonical Phase 3 reference for `baby_sleep/detect/`. Do not edit a threshold here without updating the corresponding constant in `baby_sleep/detect/grading.py`, `deviation.py`, or `trend.py` in the same commit.
 **Last updated:** 2026-08-25
-**Scope:** Behavior of the 10 signal detectors that consume Phase 2's `FeatureSeries` + `Baseline` and emit the structured detector contract (spec §10).
+**Scope:** Behavior of the 10 signal detectors that consume Phase 2's `FeatureSeries` + `Baseline` and emit the structured detector contract.
 
 ---
 
@@ -20,16 +20,16 @@ The detector layer exists to surface *inspectable, evidence-carrying observation
 
 - **Your child is the baseline.** Detectors fire on deviation from *this child's* own recent-history median, computed by Phase 2 (`Baseline`). Population norms are used as guardrails and reassurance context, never as the trigger. This mirrors the epistemic stance of `references/developmental-sleep.md §5`.
 - **Norms are guardrails, not per-child triggers.** The only population anchors used are the ones with real published grounding (AASM duration ranges, Spencer nap-transition windows, infant sleep-cycle length). They contextualize a change; they do not by themselves generate a signal.
-- **Never diagnose.** No detector names or implies a medical condition (infection, reflux, apnea, a sleep disorder). Output is a *signal* — a labeled pattern change with supporting evidence and explicit limitations (spec §10). Causal or diagnostic interpretation is out of scope for this layer and is the job of a human, not the code.
+- **Never diagnose.** No detector names or implies a medical condition (infection, reflux, apnea, a sleep disorder). Output is a *signal* — a labeled pattern change with supporting evidence and explicit limitations. Causal or diagnostic interpretation is out of scope for this layer and is the job of a human, not the code.
 - **Inspectable and honest about uncertainty.** Every `Signal` carries `supporting_evidence` (what in the data caused it) and `limitations` (why it might be noise or benign). Confidence is ordinal, not a fabricated probability.
 
-An age gate (spec C5) sits above all detectors: the runner returns `[]` unless `Baseline.status == COMPUTED`. Below the supported age range, with unknown age, or with insufficient data, **no signals are emitted at all**.
+An age gate sits above all detectors: the runner returns `[]` unless `Baseline.status == COMPUTED`. Below the supported age range, with unknown age, or with insufficient data, **no signals are emitted at all**.
 
 ---
 
-## 2. Confidence semantics (ordinal, D14)
+## 2. Confidence semantics (ordinal)
 
-Confidence is an **ordinal label — `low | medium | high`** (reusing `analyze.models.Confidence`). Per decision D14, the numeric confidence shown in the spec §10 example (e.g. `0.87`) is explicitly deferred; calibrated numeric confidence requires evaluation data that does not yet exist.
+Confidence is an **ordinal label — `low | medium | high`** (reusing `analyze.models.Confidence`). Numeric confidence (e.g. `0.87`) is explicitly deferred; calibrated numeric confidence requires evaluation data that does not yet exist.
 
 **These are NOT clinical probabilities.** A `high` confidence means "the data pattern is strong, consistent, and well-supported," not "there is an 87% chance of a clinical problem." It is a description of the *evidence for the pattern*, nothing more.
 
@@ -56,7 +56,7 @@ Severity is an **ordinal label — `mild | moderate | significant`** derived pur
 
 Status is an **ordinal label — `emerging | established`** derived from **within-window persistence only** (`grade_status`, threshold `STATUS_ESTABLISHED_FRAC = 0.6`). If ≥60% of recent-window days show the change, the signal is `established`; otherwise `emerging`.
 
-Per decision **D21 the detector layer has no cross-session memory.** It cannot know whether a pattern is "new this week vs three weeks running," because it sees only the current data window. `emerging`/`established` is a *within-window* persistence label, not a longitudinal history. Cross-session status (new / ongoing / resolving across weeks) is deferred until persistence beyond D21's ephemeral scope exists.
+**The detector layer has no cross-session memory.** It cannot know whether a pattern is "new this week vs three weeks running," because it sees only the current data window. `emerging`/`established` is a *within-window* persistence label, not a longitudinal history. Cross-session status (new / ongoing / resolving across weeks) is a known limitation of the current design.
 
 ---
 
@@ -66,7 +66,7 @@ Each detector is a pure function returning a `Signal | None`. "Feature" names ar
 
 ### 5.1 Deviation detectors (6)
 
-| Detector | Meaning (spec §9) | Feature(s) | Trigger rule | Evidence line |
+| Detector | Meaning | Feature(s) | Trigger rule | Evidence line |
 |---|---|---|---|---|
 | `early_waking` | Child is waking earlier than their own norm | `rise_time_min` | rise time earlier by ≥1.5 MAD **or** ≥20 min | **No absolute pediatric standard for "too early" exists.** Purely baseline-relative; the 20-min floor and severity bins are product heuristics. |
 | `night_waking` | More overnight wakings than the child's norm | `night_waking_count` | count up by ≥1.5 MAD **or** ≥1 waking | **No authoritative threshold for a "problematic" waking count exists.** Mindell 2006 (`mindell_2006_behavioral_treatment_review`, p.1264) states waking criteria "are not consistent across studies"; ICSD criteria are qualitative. Galland 2012 (`galland_2012_normal_sleep_patterns`) gives *typical-value context only* — wakings decline ~1.7/night at 0–2 mo → ~0.8 at 3–6 mo → ~0.7 at 1–2 y — not a cutoff. So this is baseline-relative; the +1 floor is a heuristic. |
@@ -79,7 +79,7 @@ Each detector is a pure function returning a `Signal | None`. "Feature" names ar
 
 ### 5.2 Trend / structural detectors (3)
 
-| Detector | Meaning (spec §9) | Feature(s) | Trigger rule | Evidence line |
+| Detector | Meaning | Feature(s) | Trigger rule | Evidence line |
 |---|---|---|---|---|
 | `high_variability` | Timing has become erratic vs a previously steadier pattern | `sleep_onset_time`, `rise_time` (MAD of clock minutes) | recent MAD ≥1.75× prior MAD **and** ≥25 min; or ≥40 min if the prior window was essentially stable | **No absolute standard exists.** Purely baseline-relative (this child's recent spread vs their own prior spread); ratio and floors are product heuristics. Variability is a pattern signal, not a problem in itself. |
 | `schedule_drift` | Bedtime/wake is creeping progressively in one direction | `sleep_onset_time`, `rise_time` | net first→last shift ≥45 min across the recent window **and** ≥70% of day-to-day steps in the same direction | **No absolute standard exists.** Baseline-relative and directional; magnitude/monotonicity are product heuristics. Drift can reflect developmental change or daylight — context, not a problem by itself. |
@@ -87,7 +87,7 @@ Each detector is a pure function returning a `Signal | None`. "Feature" names ar
 
 ### 5.3 Context detector (1)
 
-| Detector | Meaning (spec §9) | Reads | Trigger rule | Evidence line |
+| Detector | Meaning | Reads | Trigger rule | Evidence line |
 |---|---|---|---|---|
 | `possible_context_related_disruption` | A logged/reported context (teething, travel, illness, daycare, medication) **temporally overlaps** other sleep changes | `events`, `reported_context`, plus the other detectors' output | fires only when (a) a context label/event overlaps the recent window **and** (b) ≥1 other signal fired | **Correlational only — temporal overlap, never causation.** Confidence is **capped at `medium`**. It **never names a diagnosis**; its `limitations` state explicitly that causality is not established and this is not a medical diagnosis. This mirrors developmental-sleep.md §6: contextual contributors are "context, not diagnosis." |
 
@@ -160,6 +160,6 @@ Every value below is a **product heuristic — not a medical standard, recalibra
 ## 8. Honest limitations of this layer
 
 - **The trigger magnitudes are not validated.** They were chosen to be reasonable, not calibrated. They are marked recalibratable throughout; real cohort data should replace them.
-- **No cross-session memory (D21).** The layer cannot see history beyond the current window; `emerging/established` is within-window only.
+- **No cross-session memory.** The layer cannot see history beyond the current window; `emerging/established` is within-window only.
 - **No causality, ever.** `possible_context_related_disruption` reports temporal overlap and is capped at `medium`; nothing here establishes cause.
 - **The literature genuinely lacks pediatric cutoffs** for prolonged SOL and problematic night-waking counts. That absence is itself cited (Mindell 2006; Galland 2012 "sparse"). We do not invent one — we go baseline-relative and label the knobs as heuristics.

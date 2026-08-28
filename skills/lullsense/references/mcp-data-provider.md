@@ -10,7 +10,7 @@
 The skill works in full **no-data mode** using conversational intake alone.
 A data provider is an optional enhancement that supplies structured historical logs; it is never a required dependency.
 
-Priority order (per project spec §24):
+Priority order:
 
 1. Safety and evidence provenance
 2. Conversation-only usefulness ← **primary path**
@@ -130,7 +130,7 @@ The reasoning layer is vendor-neutral by design. It must not contain code paths 
 
 > **Legal-sensitive. Review before any connector work.**
 
-The following applies to the core project repository (see also spec §13 and §21):
+The following applies to the core project repository:
 
 - The core project may document and support **Huckleberry's official CSV export** as an import path.
 - **Do not** bundle login automation, credential handling, password storage, reverse-engineered API calls, or unofficial scraping code in this repository.

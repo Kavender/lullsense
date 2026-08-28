@@ -7,13 +7,13 @@
 
 ## Purpose
 
-This document tells the agent **what to establish and in what order** before offering advice, which questions are high-value, and which questions to skip. It operationalizes §11 Step 3 of the spec and decisions D20, D12, D22, and D25.
+This document tells the agent **what to establish and in what order** before offering advice, which questions are high-value, and which questions to skip.
 
 **Operational posture:** The intake is a *prioritized draw list*, not a fixed script. The agent asks only what it does not already know and only when the answer would change the recommendation.
 
 ---
 
-## 1. Age First — Always (D20)
+## 1. Age First — Always
 
 **Age is the single field that cannot be deferred.** Resolve it before any advice or safety tiering.
 
@@ -24,9 +24,9 @@ This document tells the agent **what to establish and in what order** before off
 3. **Preterm infants:** If a parent mentions prematurity (born before 37 weeks), establish gestational age at birth so corrected age can be computed.
    - Corrected age = chronological age − weeks premature
    - Use corrected age for all safety tiering, detector gating, and developmental framing.
-4. **Near the ~4-month boundary (corrected ~3.5–4.5 months):** Round to the conservative side — treat as under 4 months and apply the `<4mo` safety posture (D12). When in doubt, ask the parent to confirm exact corrected age.
+4. **Near the ~4-month boundary (corrected ~3.5–4.5 months):** Round to the conservative side — treat as under 4 months and apply the `<4mo` safety posture. When in doubt, ask the parent to confirm exact corrected age.
 5. **Age determines tier:**
-   - `< 4 months (corrected)` → newborn guardrail: safe-sleep essentials + brief active red-flag screening (1–2 questions per D12) + state that behavioral optimization is out of scope for this age. No schedule advice.
+   - `< 4 months (corrected)` → newborn guardrail: safe-sleep essentials + brief active red-flag screening (1–2 questions) + state that behavioral optimization is out of scope for this age. No schedule advice.
    - `≥ 4 months (corrected)` → standard supported range. Passive red-flag detection + proceed with intake.
 6. **Anchor on date-of-birth, not a month count.** A stated month count ("15 months") goes stale — the same child is 17 months two months later. Persist a DOB in the child's profile and let `scripts/analyze_sleep.py` derive current age from it every session. Two grades of DOB, tracked by `dob_precision`:
    - **Approximate** (soft anchor): inferred from a stated age (rule 1). Save with `scripts/experiment.py save-profile --dob <≈today−age> --dob-precision approximate`. Good enough to age correctly over time; treat as ±a few weeks.
@@ -57,7 +57,7 @@ The parent often names the problem. If their opening message is ambiguous, ask o
 
 ## 3. High-Value Context Fields — Prioritized Draw List
 
-Pull from this list in priority order, **skipping any field already answered** in the parent's message. The goal is the smallest set of answers that changes the recommendation. See §11 Step 3 and D25.
+Pull from this list in priority order, **skipping any field already answered** in the parent's message. The goal is the smallest set of answers that changes the recommendation.
 
 **Do not run through all of these sequentially.** Ask the top 1–3 that are still unknown and most load-bearing for the presenting problem. Revisit others only if the initial picture is ambiguous.
 
@@ -69,7 +69,7 @@ Pull from this list in priority order, **skipping any field already answered** i
 | **Rise time (usual vs. recent)** | Anchors the entire circadian rhythm picture; a shifted rise time changes every timing recommendation downstream. |
 | **Bedtime (in-bed time vs. actual sleep onset)** | Distinguishes true sleep-onset delay from time-in-bed excess (relevant to bedtime fading, split-night, early waking). |
 | **Settling method and who is present** | Required before any behavioral recommendation; determines what is changeable and what the family's preference is. |
-| **Daycare / childcare nap schedule** (if relevant) | A fixed external constraint that overrides idealized advice (D25, `constraint_first_recommending`). Ask early if daycare is in the picture. |
+| **Daycare / childcare nap schedule** (if relevant) | A fixed external constraint that overrides idealized advice (`constraint_first_recommending`). Ask early if daycare is in the picture. |
 
 ### Tier 2 — High value for most problems
 
@@ -89,13 +89,13 @@ Pull from this list in priority order, **skipping any field already answered** i
 
 ### What NOT to ask
 
-- Do not turn this into a rigid 20-question intake. That posture is explicitly prohibited by D12 and §11 Step 3 — it is alarmist, kills rapport, and often generates answers that do not change the recommendation.
+- Do not turn this into a rigid 20-question intake. That posture is explicitly prohibited — it is alarmist, kills rapport, and often generates answers that do not change the recommendation.
 - Do not ask about fields whose answers are already clear from context.
 - Do not ask multiple questions in one message if the parent seems overwhelmed. One or two at a time is better rapport practice.
 
 ---
 
-## 4. Constraint Elicitation Before Recommending (D25)
+## 4. Constraint Elicitation Before Recommending
 
 **Elicit hard constraints relevant to the presenting problem before the first concrete recommendation.** The aim is for the first plan to already be feasible — not to produce an idealized schedule that the parent then has to push back on.
 
@@ -121,7 +121,7 @@ When a parent mentions premature birth:
 
 ---
 
-## 6. Age-Tiered Safety Posture (D12, D22)
+## 6. Age-Tiered Safety Posture
 
 The safety layer is passive for most conversations — it activates when a parent surfaces a symptom, or when a red flag appears in the parent's description. The one exception is the `<4mo` tier.
 
@@ -136,14 +136,14 @@ Safe-sleep essentials (`safe_sleep_back_to_sleep`, `safe_sleep_firm_flat_surface
 
 ## 7. Intake Discipline — Summary Rules
 
-1. **Age first.** Always. (D20)
+1. **Age first.** Always.
 2. **One or two questions per turn** for a parent who is overwhelmed or in a tense moment.
 3. **Ask only what changes the recommendation.** If you can give useful guidance from what you have, do so — and leave an opening for more context if the parent wants to give it.
 4. **Skip questions already answered** in the parent's message or earlier in the conversation.
-5. **Elicit hard constraints before the first concrete recommendation.** (D25)
-6. **Never run a rigid sequential 20-question intake.** This is an explicit prohibition. (D12, §11 Step 3)
+5. **Elicit hard constraints before the first concrete recommendation.**
+6. **Never run a rigid sequential 20-question intake.** This is an explicit prohibition.
 7. **Presenting problem drives which fields you pull.** A bedtime-resistance question needs different detail than a nap-transition question.
-8. **Meet the parent's vocabulary.** If they say "4-month regression," use that term as a bridge — do not correct it (D27).
+8. **Meet the parent's vocabulary.** If they say "4-month regression," use that term as a bridge — do not correct it.
 
 ---
 
@@ -165,4 +165,3 @@ When intake reveals a recent change in sleep that coincides with a developmental
 - Myths and overclaims to avoid: `references/myths-and-overclaims.md`
 - Interventions menu: `references/interventions.md`
 - Relevant claim IDs: `safe_sleep_back_to_sleep`, `safe_sleep_firm_flat_surface`, `safe_sleep_bare_crib`, `individual_variability_baseline`, `wake_windows_as_heuristic`, `constraint_first_recommending`, `sleep_regression_reframe`, `developmental_context_sleep_shifts`
-- Decisions: D20 (age-first), D12 (safety tiering), D25 (constraint-first), D22 (passive safety posture), D27 (vocabulary bridging)

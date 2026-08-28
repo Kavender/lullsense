@@ -187,11 +187,11 @@ All sources backing claims must be declared in `knowledge/sources.yaml`. Each en
 
 ---
 
-## 8. Hard Safety Rule (S2)
+## 8. Hard Safety Rule
 
-This rule is enforced mechanically by `scripts/validate_knowledge.py`. Any claim that violates S2 must be rejected by the validator before the claim can be committed.
+This rule is enforced mechanically by `scripts/validate_knowledge.py`. Any claim that violates this rule must be rejected by the validator before the claim can be committed.
 
-**S2 states:**
+**The rule states:**
 
 A claim with `layer: A_safety` **MUST**:
 - have `evidence_type` drawn from exactly: `{guideline, professional_consensus, systematic_review}`

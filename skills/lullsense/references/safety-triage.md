@@ -8,7 +8,7 @@
 
 ---
 
-## 1. Purpose & Posture (D22 — the passive safety net)
+## 1. Purpose & Posture — The Passive Safety Net
 
 The default conversation with a parent is **sleep coaching**: non-medical, non-alarmist, warm. This mirrors how a human sleep consultant behaves — they help with schedules, routines, and settling, and they notice when something sounds off. They do **not** run a medical screening on every family.
 
@@ -22,11 +22,11 @@ The safety layer activates in exactly three situations:
 
 For a child **4 months or older** with no concern raised, the agent does **not** ask safety questions. It coaches sleep and keeps a short "when to contact your pediatrician" list ready to surface only if it becomes relevant.
 
-**Disclaimers are bounded (D18).** A safety net is not the same as a disclaimer sprayed on every message. Disclaimers belong at (a) first contact, (b) medical boundaries, and (c) red-flag triggers — not sprinkled through ordinary sleep advice. Over-disclaiming is itself a failure mode: it erodes trust and buries the moments that actually matter.
+**Disclaimers are bounded.** A safety net is not the same as a disclaimer sprayed on every message. Disclaimers belong at (a) first contact, (b) medical boundaries, and (c) red-flag triggers — not sprinkled through ordinary sleep advice. Over-disclaiming is itself a failure mode: it erodes trust and buries the moments that actually matter.
 
 ---
 
-## 2. The Halt Rule (S1)
+## 2. The Halt Rule — Safety Triage
 
 **On any red flag, STOP sleep-optimization and behavioral advice, and route to appropriate care.**
 
@@ -67,7 +67,7 @@ All thresholds below are drawn verbatim from human-verified accessible AAP pages
 
 ---
 
-## 4. Age-Tiered Posture (D12)
+## 4. Age-Tiered Posture
 
 Tiering uses **corrected age** for preterm infants (see §5). Near the ~3.5–4.5-month boundary, round to the conservative (**under-4-month**) side.
 
@@ -95,7 +95,7 @@ The list is offered as *"here's when to loop in your pediatrician,"* not as *"an
 
 ---
 
-## 5. Newborn Guardrail (C4 / S3)
+## 5. Newborn Guardrail
 
 **Alpha does not do behavioral or schedule optimization for infants under 4 months (corrected age).** This is a deliberate scope boundary for the alpha, stated plainly to parents. For this age the agent delivers three things only:
 
@@ -114,13 +114,13 @@ If a parent of a young infant asks for a schedule or sleep-training plan, the ag
 - **Keep soft objects and loose bedding out** of the sleep space: pillows, quilts, comforters, mattress toppers, non-fitted sheets, blankets, toys, and bumper pads. No weighted blankets, weighted sleepers, or weighted swaddles.
 - **Breastfeeding** and **offering a pacifier at sleep** are each associated with lower SIDS risk (for breastfed babies, establish breastfeeding before introducing a pacifier).
 
-### Corrected age (D20)
+### Corrected age
 
 For infants born preterm, use **corrected age** (chronological age minus weeks born early) for all age-tiering decisions in this reference. Near the ~3.5–4.5-month boundary, **round to the conservative (under-4-month) side** — i.e., treat as a newborn for scope and screening purposes when uncertain.
 
 ---
 
-## 6. Tone Guidance (D23 / D18)
+## 6. Tone Guidance
 
 Every escalation must be worded to be **caring, not cold or legalistic**, and must not induce panic. Convey "I want to make sure X is okay" — not "This is not medical advice, consult a professional immediately."
 
@@ -132,14 +132,14 @@ Every escalation must be worded to be **caring, not cold or legalistic**, and mu
 | "A temperature of 100.4°F in an infant under 12 weeks requires immediate medical evaluation per AAP guidance." | "In a baby this little, a temperature of 100.4°F or higher is one to call the pediatrician about right away. Let's pause the sleep plan and get her seen." |
 | "Symptoms of respiratory distress mandate emergency services activation." | "The breathing you're describing sounds like hard work for him — I'd want a doctor to hear about that now. Please call your pediatrician, or emergency services if he's struggling or changing color." |
 
-**Bounding disclaimers (D18).** Disclaimers appear at first contact, at medical boundaries, and on red-flag triggers — not sprinkled through routine sleep advice. When a red flag *is* live, one warm, clear referral is worth more than three defensive ones. The goal is a parent who feels supported and knows exactly what to do next — not one who feels lectured or alarmed.
+**Bounding disclaimers.** Disclaimers appear at first contact, at medical boundaries, and on red-flag triggers — not sprinkled through routine sleep advice. When a red flag *is* live, one warm, clear referral is worth more than three defensive ones. The goal is a parent who feels supported and knows exactly what to do next — not one who feels lectured or alarmed.
 
 ---
 
 ## 7. Provenance & Limitations
 
 - **Verified thresholds:** All specific numbers and sign-lists in §3 and §5 are drawn from **human-verified, freely-accessible AAP / HealthyChildren pages** (`aap_when_to_call_pediatrician_fever`, `aap_signs_of_dehydration`, `aap_rsv_respiratory_distress_signs`, `aap_safe_sleep_resource_center`, `aap_healthychildren_safe_sleep_guide`; corroborating signs from `aap_bronchiolitis_respiratory_distress_signs`).
-- **Authoritative guidelines — human-verified against primary full text (2026-08-24):** The febrile-infant CPG (`aap_febrile_infant_cpg_2021`), the BRUE CPG (`aap_brue_cpg_2016`), and the 2022 safe-sleep policy statement and technical report (`aap_safe_sleep_2022`, `aap_safe_sleep_2022_tech_report`) have each been read and cross-checked against their primary PDFs (page citations live in the `note:` fields of `knowledge/sources.yaml`). Clinician-level management detail — the CPG's lumbar-puncture / antibiotic / admission algorithms, and the BRUE lower-risk stratification — is **deliberately not surfaced to parents**. This is a sleep-coaching safety net that recognizes and routes, not a medical-triage tool (D22).
+- **Authoritative guidelines — human-verified against primary full text (2026-08-24):** The febrile-infant CPG (`aap_febrile_infant_cpg_2021`), the BRUE CPG (`aap_brue_cpg_2016`), and the 2022 safe-sleep policy statement and technical report (`aap_safe_sleep_2022`, `aap_safe_sleep_2022_tech_report`) have each been read and cross-checked against their primary PDFs (page citations live in the `note:` fields of `knowledge/sources.yaml`). Clinician-level management detail — the CPG's lumbar-puncture / antibiotic / admission algorithms, and the BRUE lower-risk stratification — is **deliberately not surfaced to parents**. This is a sleep-coaching safety net that recognizes and routes, not a medical-triage tool.
 - **Two wording alignments applied after verification:** bed-sharing is phrased as the AAP's "does not recommend under any circumstances" rather than an absolute "never"; room-sharing carries the "ideally for at least the first 6 months" qualifier.
 - **Screening questions in §4 are DRAFT** and would benefit from clinician review before wide use.
 - **This reference is educational and not a substitute for clinical judgment.** It exists to help a sleep-coaching agent recognize when to stop and route, not to diagnose. It does not replace a pediatrician. Safety questions never use runtime web search (`references/evidence-methodology.md` §9).
