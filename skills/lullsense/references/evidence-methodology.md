@@ -1,4 +1,4 @@
-# Evidence Methodology — Baby Sleep Specialist
+# Evidence Methodology — LullSense
 
 **Status:** Canonical reference — do not rename fields or enum values without updating `scripts/validate_knowledge.py` in the same commit.
 **Last updated:** 2026-08-23
@@ -7,7 +7,7 @@
 
 ## 1. Purpose
 
-The knowledge layer of the Baby Sleep Specialist separates two fundamentally different kinds of statements: **evidence-backed claims** (derived from clinical guidelines, research, or professional consensus) and **heuristics** (derived from practitioner experience or product convention). These two categories carry different epistemic weight and are used in different contexts.
+The knowledge layer of LullSense separates two fundamentally different kinds of statements: **evidence-backed claims** (derived from clinical guidelines, research, or professional consensus) and **heuristics** (derived from practitioner experience or product convention). These two categories carry different epistemic weight and are used in different contexts.
 
 Mixing them without labeling is a common failure mode in parenting advice tools. A fixed wake-window chart is not a clinical standard. A named "four-month sleep regression" is not a medical diagnosis. An observation that "most families find an early bedtime helpful" is not equivalent to the AASM's published recommendation for total sleep duration.
 
