@@ -4,7 +4,7 @@
 **Last updated:** 2026-08-24
 **Scope:** Confirms Phase 0 (research + evidence map) meets its spec §18 acceptance criteria before Phase 1 begins.
 
-This document maps every controlled parent goal and every high-impact recommendation category to its backing `claim_id`(s) and `source_id`(s), records what remains uncertain or unverified with a confirmation plan, and checks the Phase 0 acceptance criteria. The tables are derived directly from `knowledge/claims.yaml` and `knowledge/sources.yaml` (45 claims, 23 sources) and can be regenerated from those files.
+This document maps every controlled parent goal and every high-impact recommendation category to its backing `claim_id`(s) and `source_id`(s), records what remains uncertain or unverified with a confirmation plan, and checks the Phase 0 acceptance criteria. The tables are derived directly from `skills/lullsense/knowledge/claims.yaml` and `skills/lullsense/knowledge/sources.yaml` (45 claims, 23 sources) and can be regenerated from those files.
 
 ---
 
@@ -19,7 +19,7 @@ This document maps every controlled parent goal and every high-impact recommenda
 
 ## 2. Table 1a — Parent goal → backing claims
 
-The 10 controlled goals (`references/evidence-methodology.md §6`). "Evidence spine" names the strongest verified backing; heuristic-only goals are flagged for honesty.
+The 10 controlled goals (`skills/lullsense/references/evidence-methodology.md §6`). "Evidence spine" names the strongest verified backing; heuristic-only goals are flagged for honesty.
 
 | Parent goal | # claims | Backing `claim_id`s | Evidence spine / note |
 |---|---|---|---|
@@ -31,7 +31,7 @@ The 10 controlled goals (`references/evidence-methodology.md §6`). "Evidence sp
 | `nap_transition` | 8 | nap_phase_progression, nap_transition_2to1_timing, nap_transition_last_nap_timing, nap_transition_driven_by_maturation, naps_support_memory, wake_windows_as_heuristic, daycare_schedule_alignment, nap_transition_readiness_signs | Strong: `spencer_2022_nap_transitions_pnas` (verified) throughout. |
 | `daycare_schedule_fit` | 3 | constraint_first_recommending, daycare_schedule_alignment, jetlag_gradual_shift | **Heuristic-only** (`D_practice`). By nature a logistics/constraint problem, not an evidence one — see §5. |
 | `illness_travel_recovery` | 2 | illness_travel_recovery_approach, jetlag_gradual_shift | **Heuristic-only** (`D_practice`). Safety red flags governed separately by `A_safety` + `safety-triage.md`. |
-| `independent_settling` | 12 | bedtime_routine_benefits, graduated_extinction_efficacy, behavioral_interventions_safety, medical_ruleout_before_behavioral, bedtime_fading, consistent_response_settling, independent_settling_readiness, sleep_associations_context, sleep_training_readiness_signals, gentle_settling_approaches, sleep_training_expected_trajectory, sleep_training_method_choice | Strong: behavioral SRs + practice-parameter; method menu and non-judgment framing in `references/sleep-training.md`. |
+| `independent_settling` | 12 | bedtime_routine_benefits, graduated_extinction_efficacy, behavioral_interventions_safety, medical_ruleout_before_behavioral, bedtime_fading, consistent_response_settling, independent_settling_readiness, sleep_associations_context, sleep_training_readiness_signals, gentle_settling_approaches, sleep_training_expected_trajectory, sleep_training_method_choice | Strong: behavioral SRs + practice-parameter; method menu and non-judgment framing in `skills/lullsense/references/sleep-training.md`. |
 | `is_this_normal` | 14 | total_sleep_4_12_months, total_sleep_1_2_years, total_sleep_2_3_years, night_waking_normal_variability, sleep_consolidation_trajectory, circadian_emergence_infancy, nap_phase_progression, nap_transition_2to1_timing, nap_transition_last_nap_timing, individual_variability_baseline, developmental_context_sleep_shifts, sleep_regression_reframe, bedtime_resistance_toddler_autonomy, short_naps_context | Strongest: `aasm_child_sleep_duration_2016`, `tham_2017`, `spencer_2022` (all verified). |
 
 ---
@@ -116,7 +116,7 @@ Two distinct kinds of "not high-confidence" exist here — they must not be conf
 |---|---|---|
 | Every high-impact recommendation category has ≥1 evidence/professional-practice source | ✅ | Table 1b — all 11 categories covered. |
 | Uncertain areas marked uncertain, not filled with invented certainty | ✅ | Table 2a/2b; heuristics labeled `low`; validator warnings surfaced, not hidden. |
-| Safety red-flag list finished (D13), not an outline | ✅ | `references/safety-triage.md` (finished) + 12 `A_safety` claims (fever, dehydration, respiratory, BRUE, safe sleep). |
+| Safety red-flag list finished (D13), not an outline | ✅ | `skills/lullsense/references/safety-triage.md` (finished) + 12 `A_safety` claims (fever, dehydration, respiratory, BRUE, safe sleep). |
 | Newborn safe-sleep essentials present (S3) | ✅ | safe_sleep_* claims [0,12]; `developmental-sleep.md §7`; `safety-triage.md §5`. |
 | Age-tiered safety posture present (D12) | ✅ | `<4mo` handling in `safety-triage.md`; `circadian_emergence_infancy` [0,4]; `fever_under_3mo_urgent` [0,3]; consultant-practice-map §5. |
 | No fabrication (spec §24) | ✅ | Every A_safety fact page-cited to a verified PDF; unverified sources flagged, not asserted. |
@@ -128,14 +128,14 @@ Two distinct kinds of "not high-confidence" exist here — they must not be conf
 
 | Deliverable | Artifact | Status |
 |---|---|---|
-| Evidence methodology | `references/evidence-methodology.md` | ✅ |
-| Source inventory | `knowledge/sources.yaml` (23) | ✅ |
-| Evidence taxonomy | `references/evidence-methodology.md §2` + validator enums | ✅ |
-| Age/development knowledge map | `references/developmental-sleep.md` | ✅ |
-| Safety triage (finished, D13) | `references/safety-triage.md` + 12 `A_safety` claims | ✅ |
-| Consultant practice map | `references/consultant-practice-map.md` | ✅ |
-| Myths / unsupported-claims list | `references/myths-and-overclaims.md` | ✅ |
-| Versioned claims (D2/D13) | `knowledge/claims.yaml` (45) | ✅ |
+| Evidence methodology | `skills/lullsense/references/evidence-methodology.md` | ✅ |
+| Source inventory | `skills/lullsense/knowledge/sources.yaml` (23) | ✅ |
+| Evidence taxonomy | `skills/lullsense/references/evidence-methodology.md §2` + validator enums | ✅ |
+| Age/development knowledge map | `skills/lullsense/references/developmental-sleep.md` | ✅ |
+| Safety triage (finished, D13) | `skills/lullsense/references/safety-triage.md` + 12 `A_safety` claims | ✅ |
+| Consultant practice map | `skills/lullsense/references/consultant-practice-map.md` | ✅ |
+| Myths / unsupported-claims list | `skills/lullsense/references/myths-and-overclaims.md` | ✅ |
+| Versioned claims (D2/D13) | `skills/lullsense/knowledge/claims.yaml` (45) | ✅ |
 | Validator + tests | `scripts/validate_knowledge.py` + `tests/` (9) | ✅ |
 
 ---
@@ -158,4 +158,4 @@ ruff check .                     → All checks passed
 - **PDF-verify the C-layer behavioral sources** (Table 2a, high priority) — this clears the `graduated_extinction_efficacy` warnings and firms the behavioral spine.
 - **Consider evidence-backing the thin goals** (`split_night`, `early_waking`) if the literature supports it.
 - **Phase 1 proper** (per D5/D21): canonical data schema + parsers + local experiment store; no vendor field leaks into the reasoning contract; uncertainty metadata on approximate times.
-- **Persona consolidation (Phase 4 input ready):** `consultant-practice-map.md` + the two persona memories feed `references/consultant-persona.md` and the consultant eval rubric.
+- **Persona consolidation (Phase 4 input ready):** `consultant-practice-map.md` + the two persona memories feed `skills/lullsense/references/consultant-persona.md` and the consultant eval rubric.

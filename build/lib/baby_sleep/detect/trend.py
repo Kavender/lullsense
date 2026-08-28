@@ -16,7 +16,7 @@ from baby_sleep.detect.models import (
     SignalWindow,
 )
 
-# --- product-heuristic thresholds (skills/lullsense/references/signal-taxonomy.md) ---
+# --- product-heuristic thresholds (references/signal-taxonomy.md) ---
 VAR_RATIO_TRIGGER = 1.75        # recent MAD >= 1.75x prior MAD ...
 VAR_ABS_FLOOR_MIN = 25          # ... and recent MAD >= 25 min (avoid flagging tiny jitter)
 VAR_STABLE_PRIOR_FLOOR = 40     # if prior perfectly stable (MAD 0), require recent MAD >= 40
