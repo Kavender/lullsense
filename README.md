@@ -164,20 +164,6 @@ Guardrails for contributors: never fabricate a citation or threshold; safety con
 
 ---
 
-## Status & roadmap
-
-Built phase-by-phase; Phases 0–5 are complete and merged:
-
-- **P0** — evidence base: claims/sources, safety triage, coverage matrix.
-- **P1** — canonical schema, ingest adapters, minimal store.
-- **P2** — features + robust per-child baseline.
-- **P3** — 10 non-diagnostic, age-gated signal detectors.
-- **P4** — conversational consultant skill (persona, reasoning, intake, interventions, sleep-training).
-- **P5** — proactive *"review my recent sleep"* flow.
-- **P6 (next)** — open-source documentation hygiene, then public release.
-
----
-
 ## License
 
 **Apache-2.0.** See [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). This project reproduces **no** proprietary text from any commercial product or consultant; public practice is synthesized and cited by source.
