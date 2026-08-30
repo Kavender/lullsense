@@ -334,3 +334,48 @@
   source_type: consultant_public_material
   verified: false
   last_accessed: 2026-08-23
+
+- id: huckleberry_sleep_expectations
+  organization: Huckleberry
+  title: "First Year of Sleep Expectations (wake windows, nap counts by age)"
+  url: https://huckleberrycare.com/blog/first-year-of-sleep-expectations
+  source_type: consultant_public_material
+  verified: true
+  last_accessed: 2026-08-29
+  note: "Wake-window ranges (4-12mo) and nap counts verified live 2026-08-29 via adversarial web research; practitioner heuristic, not clinical."
+
+- id: canapari_wake_windows_critique
+  organization: Craig Canapari, MD (Yale Pediatric Sleep Center)
+  title: "Do Wake Windows Help Kids Nap Better?"
+  url: https://drcraigcanapari.com/do-wake-windows-help-kids-nap-better/
+  source_type: consultant_public_material
+  verified: true
+  last_accessed: 2026-08-29
+  note: "Pediatric sleep physician: wake-window age numbers 'do not seem to be based on any scientific evidence'; backs the heuristic labeling."
+
+- id: healthyhappysleep_wake_windows
+  organization: Healthy Happy Sleep
+  title: "Wake Windows by Age"
+  url: https://healthyhappysleep.com/sleep-training/wake-windows-by-age/
+  source_type: consultant_public_material
+  verified: true
+  last_accessed: 2026-08-29
+  note: "Wake-window ranges by age direct-fetched & verified 2026-08-29; 16mo-3yr = 4.5-6h corroborates the toddler bands. Practitioner heuristic, not clinical."
+
+- id: babysleepsite_wake_windows
+  organization: The Baby Sleep Site
+  title: "Wake Windows by Age Chart"
+  url: https://www.babysleepsite.com/schedules/wake-windows-by-age-baby-sleep-better/
+  source_type: consultant_public_material
+  verified: false
+  last_accessed: 2026-08-29
+  note: "Page blocks direct fetch; numbers corroborated via search summary 2026-08-29 (18-24mo ~5-5.5h). Practitioner heuristic."
+
+- id: thebump_wake_windows
+  organization: The Bump
+  title: "Wake Windows by Age"
+  url: https://www.thebump.com/a/wake-windows
+  source_type: consultant_public_material
+  verified: false
+  last_accessed: 2026-08-29
+  note: "Page blocks direct fetch; numbers corroborated via search summary 2026-08-29 (18mo+ 5-6h). Practitioner heuristic."

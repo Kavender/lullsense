@@ -1016,3 +1016,37 @@
     - treating a single off day as proof a nap should be dropped
   individual_variability: high
   last_reviewed: 2026-08-24
+
+- claim_id: wake_window_typical_by_age
+  layer: D_practice
+  topic: sleep_timing_prediction
+  parent_goals: [short_naps, nap_transition, is_this_normal]
+  age_range_months: [4, 36]
+  evidence_type: heuristic
+  evidence_level: low
+  claim: "Typical 'wake windows' (awake time between sleeps) lengthen with age, but no clinical source publishes wake-window values; the age ranges used are practitioner heuristics with wide individual variation, best used alongside the child's own tired cues."
+  sources: [huckleberry_sleep_expectations, healthyhappysleep_wake_windows, canapari_wake_windows_critique]
+  use_for:
+    - offering an age-typical next-sleep window as a wide, clearly-heuristic range
+    - explaining that wake windows are a guide, not a clinical standard
+  do_not_use_for:
+    - stating a single precise nap time
+    - telling a parent their child is wrong for falling outside a wake-window range
+  individual_variability: high
+  last_reviewed: 2026-08-29
+
+- claim_id: sleep_timing_prediction_is_a_range
+  layer: D_practice
+  topic: sleep_timing_prediction
+  parent_goals: [is_this_normal, short_naps, nap_transition]
+  age_range_months: [4, 36]
+  evidence_type: heuristic
+  evidence_level: low
+  claim: "A next-nap/bedtime estimate should be delivered as a time range whose width reflects confidence (wider from age alone, tighter from the child's own stable pattern) and always deferring to the child's tired cues; precise single-time prediction is not supported by evidence."
+  sources: []
+  use_for:
+    - framing any timing estimate as a calibrated range with a cues-win caveat
+  do_not_use_for:
+    - presenting a predicted time as a clinical target or a fixed schedule
+  individual_variability: high
+  last_reviewed: 2026-08-29
