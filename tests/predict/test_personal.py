@@ -34,3 +34,16 @@ def test_personal_stats_empty_series():
     stats = personal_stats_from_series(FeatureSeries(days=[]))
     assert stats.stable is False
     assert stats.wake_window_median_min is None
+
+
+def test_personal_stats_uses_only_recent_window():
+    # 30 old days with SHORT windows (infancy) + 10 recent days with LONG windows (toddler).
+    old = [_day((i % 27) + 1, [90, 100], [40]) for i in range(30)]
+    recent = [_day((i % 27) + 1, [300, 320], [90]) for i in range(10)]
+    series = FeatureSeries(days=old + recent)
+    # recent_days=10 captures exactly the 10 toddler-stage days, excluding all infancy history
+    stats = personal_stats_from_series(series, recent_days=10)
+    # must reflect the recent long windows, NOT the old short ones
+    assert stats.wake_window_median_min == 310   # median of [300,320]*10
+    assert stats.days_of_data == 10
+    assert stats.stable is True
