@@ -48,6 +48,17 @@ def _hhmm(minutes):
     return f"{m // 60:02d}:{m % 60:02d}"
 
 
+def _hhmm_to_min(s: str) -> int:
+    try:
+        h, m = s.split(":")
+        h, m = int(h), int(m)
+    except (ValueError, TypeError):
+        raise SystemExit(f"invalid --last-wake: {s!r}, expected HH:MM")
+    if not (0 <= h <= 23 and 0 <= m <= 59):
+        raise SystemExit(f"invalid --last-wake: {s!r}, hours 0-23 and minutes 0-59")
+    return h * 60 + m
+
+
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(
         description="Analyze sleep input into features/baseline/signals JSON."
@@ -66,6 +77,12 @@ def main(argv=None) -> int:
                    help="append a proactive review summary block to the JSON")
     p.add_argument("--review-window-days", type=int, default=None, metavar="N",
                    help="window the parent asked about; sets review.coverage.covers_window")
+    p.add_argument("--predict", action="store_true",
+                   help="append a next-sleep-event prediction block to the JSON")
+    p.add_argument("--last-wake", default=None, metavar="HH:MM",
+                   help="when the child last woke (required with --predict)")
+    p.add_argument("--target", choices=["nap", "bedtime"], default="nap",
+                   help="which next event to predict (Phase 1: label only)")
     args = p.parse_args(argv)
 
     text = Path(args.input).read_text()
@@ -171,6 +188,26 @@ def main(argv=None) -> int:
             requested_window_days=args.review_window_days,
         )
         out["review"] = review.model_dump(mode="json")
+    if args.predict:
+        if args.last_wake is None:
+            raise SystemExit("--last-wake HH:MM is required with --predict")
+        from baby_sleep.predict import (
+            PredictInput,
+            load_heuristics,
+            personal_stats_from_series,
+            predict_next,
+        )
+        personal = personal_stats_from_series(series)
+        pinp = PredictInput(
+            age_months=child.age_months,
+            corrected_age_months=child.corrected_age_months(),
+            last_wake_min=_hhmm_to_min(args.last_wake),
+            target=args.target,
+            as_of=datetime.combine(as_of, datetime.min.time(), tzinfo=UTC),
+            personal=personal,
+        )
+        prediction = predict_next(pinp, load_heuristics())
+        out["prediction"] = prediction.model_dump(mode="json")
     print(json.dumps(out, indent=2))
     return 0
 
