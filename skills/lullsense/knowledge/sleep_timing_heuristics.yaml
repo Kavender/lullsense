@@ -1,9 +1,17 @@
-# PROVISIONAL — wake-window & nap-length numbers are practitioner heuristics
-# (evidence_level low), NOT a clinical standard. No peer-reviewed source publishes
-# wake-window tables (Galland 2012 confirms). Bands are deliberately WIDE where
-# consumer tables (Huckleberry / Taking Cara Babies / Napper) disagree.
-# Maintainer must review/replace these values before public release.
-# total_sleep_budget_hours + expected_nap_count carry clinical anchors.
+# Wake-window & nap-length numbers are practitioner HEURISTICS (evidence_level low),
+# NOT clinical standards. No peer-reviewed source publishes wake-window tables
+# (Galland 2012; Yale's Dr. Canapari: the specific age numbers "do not seem to be
+# based on any scientific evidence"). Cross-checked across consumer sources 2026-08-29:
+#   * 4-12mo wake windows + nap counts: seeded from Huckleberry (direct-verified),
+#     corroborated by HealthyHappySleep and The Baby Sleep Site (converge ~90-240 min).
+#   * 12-36mo wake windows: corroborated by HealthyHappySleep + The Baby Sleep Site +
+#     TheBump, converging on ~5-6h (300-360) for 18mo+ and ~2-5h across the 13-15mo
+#     2->1 nap transition. Still heuristics; lean on the child's own recent pattern.
+#   * total_sleep_budget_hours (AASM/AAP) and expected_nap_count (Galland/Huckleberry)
+#     carry real anchors; wake_window_minutes never does.
+# Direct-fetched: Huckleberry, HealthyHappySleep. Search-corroborated (pages block
+# direct fetch): The Baby Sleep Site, TheBump. Consumer pages change; re-verify
+# periodically. Maintainer review required before release.
 - age_band_months: [4, 6]
   wake_window_minutes: {min: 90, max: 150}
   typical_nap_minutes: {min: 30, max: 120}
@@ -11,36 +19,36 @@
   total_sleep_budget_hours: {min: 12, max: 16}
   source_type: heuristic
   clinical_anchors: [total_sleep_4_12_months, nap_phase_progression]
-  notes: "Wake-window/nap-length are practitioner heuristics; no clinical table exists."
+  notes: "Huckleberry-verified 4-5mo (90-150 min); practitioner heuristic, no clinical table exists."
 - age_band_months: [6, 9]
-  wake_window_minutes: {min: 120, max: 180}
+  wake_window_minutes: {min: 120, max: 210}
   typical_nap_minutes: {min: 45, max: 120}
   expected_nap_count: {min: 2, max: 3}
   total_sleep_budget_hours: {min: 12, max: 16}
   source_type: heuristic
   clinical_anchors: [total_sleep_4_12_months, nap_phase_progression]
-  notes: "Practitioner heuristic; wide band."
+  notes: "Huckleberry-verified 6-8mo (6mo 120-180, 7-8mo 150-210); practitioner heuristic."
 - age_band_months: [9, 12]
-  wake_window_minutes: {min: 150, max: 210}
+  wake_window_minutes: {min: 150, max: 240}
   typical_nap_minutes: {min: 45, max: 120}
   expected_nap_count: {min: 2, max: 2}
   total_sleep_budget_hours: {min: 12, max: 16}
   source_type: heuristic
   clinical_anchors: [total_sleep_4_12_months, nap_phase_progression]
-  notes: "Practitioner heuristic; wide band."
+  notes: "Huckleberry-verified 9-12mo (9mo 150-210, 10-12mo 180-240); practitioner heuristic."
 - age_band_months: [12, 18]
-  wake_window_minutes: {min: 180, max: 270}
+  wake_window_minutes: {min: 180, max: 300}
   typical_nap_minutes: {min: 60, max: 150}
   expected_nap_count: {min: 1, max: 2}
   total_sleep_budget_hours: {min: 11, max: 14}
   source_type: heuristic
   clinical_anchors: [total_sleep_1_2_years, nap_transition_2to1_timing]
-  notes: "2->1 nap transition spans this band; wide."
+  notes: "12mo Huckleberry-verified (195-240); 13-17mo corroborated across HealthyHappySleep + Baby Sleep Site (2->1 transition; wide/uncertain)."
 - age_band_months: [18, 36]
-  wake_window_minutes: {min: 240, max: 360}
+  wake_window_minutes: {min: 270, max: 360}
   typical_nap_minutes: {min: 60, max: 150}
   expected_nap_count: {min: 1, max: 1}
   total_sleep_budget_hours: {min: 11, max: 14}
   source_type: heuristic
   clinical_anchors: [total_sleep_1_2_years]
-  notes: "Single afternoon nap; wide practitioner heuristic."
+  notes: "Single-nap toddler; ~5-6h corroborated across HealthyHappySleep + Baby Sleep Site + TheBump (270-360). Heuristic."
