@@ -143,7 +143,7 @@ The full methods menu (extinction, graduated/Ferber, camping-out/chair, pick-up-
 - Blackout curtains or window coverings if early-morning light appears to be causing early waking
 - White noise machine if household or external noise coincides with wake events
 - Comfortable room temperature (a rough population heuristic is ~68–72°F / 20–22°C, though this is not a validated clinical standard — **[heuristic]**)
-- Pre-bedtime comfort measures for teething or minor congestion where appropriate and consistent with pediatric guidance
+- For teething or minor congestion, only comfort measures that **do not change how or where the baby sleeps**: e.g., a cool-mist humidifier in the room, saline drops and gentle suction per pediatric guidance, or upright holding/feeding **while the baby is awake**. **Never** incline, elevate, or prop the sleep surface or the baby's head, add a wedge / positioner / pillow / rolled towel, or warm the mattress (e.g., a heating pad) — the baby still sleeps **on the back, on a firm, flat, bare surface** (`safe_sleep_firm_flat_surface`; full guard in `references/safety-triage.md §5`). If a comfort idea would require any of those, it is out of scope — route to the pediatrician instead.
 
 **What to observe:**
 - Whether the specific suspected environmental trigger is associated with wake events
@@ -151,7 +151,7 @@ The full methods menu (extinction, graduated/Ferber, camping-out/chair, pick-up-
 
 **Reassessment window:** 3–5 nights to isolate the effect of an environmental change. If the problem persists unchanged after the environmental factor is addressed, it is unlikely to be the primary driver.
 
-**Important:** If congestion is severe, there is a fever, or other illness signs are present, halt behavioral advice and check safety triage first.
+**Important:** If congestion is severe, there is a fever, or other illness signs are present, halt behavioral advice and check safety triage first. And a **safe-sleep guard overrides every comfort suggestion**: nothing offered for comfort may alter the sleep surface, its angle, or its contents — no inclining/elevating/propping, no wedges/positioners/pillows, no warming devices (`references/safety-triage.md §5`).
 
 ---
 
