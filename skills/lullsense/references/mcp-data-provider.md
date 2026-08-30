@@ -124,6 +124,19 @@ The `raw` field is optional but strongly recommended for traceability.
 
 The reasoning layer is vendor-neutral by design. It must not contain code paths that behave differently based on which provider was used.
 
+### 5a. Proactive detection & auto-pull (with heads-up)
+
+When structured data would sharpen the answer — data-enhanced reasoning, a review, or a next-sleep prediction — and the parent has not already supplied a log, **check first whether a provider is connected and use it, rather than asking the parent to export by hand.**
+
+1. **Detect by capability, not by vendor.** Look in your available tools for something that can *list children* and *return sleep history* (any name, any vendor). Never hard-code or assume a specific product (see §6).
+2. **Auto-pull with a one-line heads-up.** The parent connected the provider, so reading their own recent data to answer the question they just asked is within that consent — do it, but say so in one short line ("let me check your connected log…"). This is a transparency note, **not** a permission gate.
+3. **Map the child.** If the provider exposes several children, resolve which one is in scope (match the saved profile name, or ask) before fetching.
+4. **Normalize and use** per §5; apply the freshness guard (`reasoning-framework.md` → "Review mode") so stale data is never presented as current.
+5. **Fall back gracefully.** If no provider is connected, or it returns nothing / nothing recent, ask the parent to paste or export a log, or run a conversational review (§7). Never block on the provider.
+6. **Respect opt-out.** If the parent says not to use the connected data, honor it for the session and switch to conversation.
+
+This keeps the parent's experience seamless (no manual export when a provider is right there) while staying vendor-neutral and consent-respecting.
+
 ---
 
 ## 6. Huckleberry policy
