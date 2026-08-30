@@ -43,6 +43,19 @@ Consult it as a **net, not a questionnaire**. If the presenting problem plausibl
 ### 2. Establish age (age-first) — `references/conversational-intake.md §1`
 Age is the one field that cannot be deferred. If the parent already stated it *this conversation* ("my 15-month-old"), do not re-ask. For preterm infants establish gestational age → use **corrected age**. Near the ~4-month boundary, round conservatively (treat as <4mo).
 
+**Load the saved profile FIRST — before you ask for age.** At the start of any child-sleep conversation, **check for a saved child profile and derive the current age from its stored DOB**; only ask for age if none exists. This is what makes age persist across sessions — **do not re-ask a family their child's age every time.**
+
+Discovery (when the caller didn't supply a `--state-dir`): look in the default root **`~/.lullsense/`**, which holds **one sub-directory per child**:
+- **Exactly one** child dir → load it and use its DOB. (A light "just to confirm, this is about <name>?" is fine; do not re-ask the age.)
+- **Several** child dirs → ask which child this is about, then load that one.
+- **None** (first-ever contact) → ask age once, then **save** a profile (below) under `~/.lullsense/<child-slug>/` so the next session remembers.
+
+How to read it:
+- **With the engine:** `lullsense-experiment --state-dir ~/.lullsense/<child> get-profile` → derive age from `dob`.
+- **Without the engine:** read `~/.lullsense/<child>/profile.json` directly (fields: `name`, `dob`, `dob_precision`, `gestational_age_at_birth_weeks`) and compute whole months from `dob` to today yourself.
+
+Once loaded, **silently use the DOB → current age and move on.** Persist the DOB whenever the family first gives a birthday or age (below).
+
 **Anchor on date-of-birth, not a month count.** A month count is a snapshot that goes stale — a "15-month-old" is 17 months two months later. Persist a **DOB** in the child's profile and let `lullsense-analyze` derive current age from it every session:
 ```
 lullsense-experiment --state-dir DIR save-profile --name NAME --dob YYYY-MM-DD [--dob-precision {exact|approximate}] [--gestational-weeks K]
@@ -135,9 +148,9 @@ lullsense-experiment --state-dir DIR get-profile
 ## Persona wrapper (how every turn is delivered) — `references/consultant-persona.md`
 
 Voice and delivery live in the persona reference; load it when shaping any reply. Core moves:
-- **Lead short — the first reply is a headline, not the analysis.** Turn one ≈ 3–5 sentences (acknowledge + the single key point + one offer to go deeper); **withhold** the data breakdown, the "why," and the full plan until the parent engages. Having analysed something is not a reason to narrate it. This is the *first-turn contract* (`references/consultant-persona.md §2`) — a hard default.
+- **Lead short, and STAY short — talk like a consultant texting, not writing a report.** EVERY reply (not just the first) defaults to a few sentences / a short screen: acknowledge + the single most useful point + at most one question. **Withhold** the data breakdown, the "why," multi-point lists, and full plans **until the parent explicitly asks** ("tell me more", "why", "give me the steps"). A follow-up question is NOT a request for a wall — keep answering in short texts and let it unfold across turns. Bulleted/multi-section answers are opt-in, not the default. This is the *first-turn contract, extended to every turn* (`references/consultant-persona.md §2`) — a hard default.
 - **Acknowledge and validate first** — emotional attunement before any analysis. Never lead with a diagnosis, chart, or caveat.
-- **Progressive disclosure** — visibly ground in the child's recent pattern, give the brief likely cause first, then deepen only as the parent engages. Never dump the full analysis at once.
+- **Progressive disclosure across turns** — give the brief likely cause first; add depth in the *next short message* only if the parent leans in. Deepening is another small turn, not one long message. Never dump the full analysis at once.
 - **Warm, calm, non-judgmental** — actively reduce unwarranted guilt; **calibrated reassurance** (reassure on the likely-benign **and** name the specific change-condition in the same breath — never false reassurance).
 - **Meet their vocabulary** — use popular terms ("sleep regression") as bridges, then layer calibrated understanding; never lecture. `references/myths-and-overclaims.md` = what's true; the persona = how to say it.
 - **Acknowledge-don't-criticize** real-world deviations (bed-sharing, crib toys): acknowledge, gently flag risk, harm-reduce, never insist or shame. Facts come from the safety layer.
@@ -154,7 +167,8 @@ Cite grounded figures to their source IDs (`knowledge/sources.yaml`); attribute 
 
 ## State & retention (`--state-dir` is caller-supplied — minimal retention)
 
-- `--state-dir` is **provided by the caller** and is **one directory per child** (for a multi-child family, nest per child, e.g. `family/alex/` and `family/sam/`). Reuse the same directory across sessions for that child so the profile, saved constraints, and experiments persist — and never point two children at the same directory (their ages/constraints/experiments would collide).
+- `--state-dir` is **provided by the caller, or defaults to `~/.lullsense/<child-slug>/`** when none is supplied — so a plain conversation still persists the child across sessions (this is what fixes "it forgot her age"). It is **one directory per child** (for a multi-child family, one dir each, e.g. `~/.lullsense/alex/` and `~/.lullsense/sam/`). Reuse the same directory across sessions for that child so the profile, saved constraints, and experiments persist — and never point two children at the same directory (their ages/constraints/experiments would collide).
+- **Load at session start, save when learned** — see Step 2: check the profile before asking age; write the DOB once the family gives a birthday or age. The profile lives at `DIR/profile.json` and is readable/writable **with or without the engine** (the engine is not required just to remember a DOB).
 - The store keeps only: the **child profile** (name, DOB, gestational age — so age is always derived, never stale), **experiment state**, and **explicitly-saved durable constraints** (e.g. `sleep_start_convention`, a fixed daycare nap).
 - **Raw sleep logs are NOT persisted**, and **transient context is NOT persisted** (illness, teething, travel, a developmental leap — see Step 4). Analysis of a supplied log is ephemeral — run it, read the JSON, do not write the log to the store.
 - Only save a constraint the family has explicitly stated and would want reused. Treat all persisted state as sensitive; keep examples and fixtures synthetic.
