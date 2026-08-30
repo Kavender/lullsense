@@ -48,17 +48,22 @@ def predict_next(inp: PredictInput, bands: list[AgeBand]) -> Prediction:
     band = lookup(bands, eff_age)
 
     if eff_age < NEWBORN_MAX_MONTHS:
+        budget = _budget(band)
+        caveats = [
+            (
+                "Under 4 months: no nap-time prediction (newborn guardrail). Sleep is "
+                "cue- and feed-driven — watch tired cues, not the clock."
+            )
+        ]
+        if budget is not None:
+            caveats.append(
+                "Any total-sleep range is a broad normalcy guide, not a target."
+            )
         return Prediction(
             status="newborn_guardrail",
             next_event=None,
-            budget=_budget(band),
-            caveats=[
-                (
-                    "Under 4 months: no nap-time prediction (newborn guardrail). Sleep is "
-                    "cue- and feed-driven — watch tired cues, not the clock."
-                ),
-                "Any total-sleep range is a broad normalcy guide, not a target.",
-            ],
+            budget=budget,
+            caveats=caveats,
             inputs_used={"effective_age_months": eff_age},
         )
 
