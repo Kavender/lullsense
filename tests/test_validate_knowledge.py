@@ -59,3 +59,11 @@ def test_warns_on_deprecated_claim():
 def test_warnings_do_not_fail_validation():
     errors = _run("warn_deprecated.claims.yaml")
     assert errors == []
+
+
+def test_heuristics_table_valid():
+    import scripts.validate_knowledge as vk
+    root = Path(vk.__file__).resolve().parent.parent
+    path = root / "skills" / "lullsense" / "knowledge" / "sleep_timing_heuristics.yaml"
+    errors = vk.validate_heuristics(path)
+    assert errors == [], errors

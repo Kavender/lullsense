@@ -39,6 +39,37 @@ SOURCE_FIELDS = {
     "id", "organization", "title", "url", "source_type", "verified", "last_accessed",
 }
 
+HEURISTIC_FIELDS = {
+    "age_band_months", "wake_window_minutes", "typical_nap_minutes",
+    "expected_nap_count", "total_sleep_budget_hours", "source_type",
+}
+_MINMAX_KEYS = {"min", "max"}
+
+
+def validate_heuristics(path: Path) -> list[str]:
+    rows = _load(path)
+    errors: list[str] = []
+    for i, r in enumerate(rows):
+        tag = f"heuristic[{i}]"
+        missing = HEURISTIC_FIELDS - set(r)
+        if missing:
+            errors.append(f"{tag}: missing fields {sorted(missing)}")
+            continue
+        ab = r["age_band_months"]
+        if (not isinstance(ab, list) or len(ab) != 2
+                or not all(isinstance(x, int) for x in ab) or not (0 <= ab[0] < ab[1])):
+            errors.append(f"{tag}: bad age_band_months {ab!r}")
+        for key in ("wake_window_minutes", "typical_nap_minutes",
+                    "expected_nap_count", "total_sleep_budget_hours"):
+            mm = r[key]
+            if (not isinstance(mm, dict) or set(mm) != _MINMAX_KEYS
+                    or not all(isinstance(mm[k], (int, float)) for k in _MINMAX_KEYS)
+                    or mm["min"] > mm["max"]):
+                errors.append(f"{tag}: bad {key} {mm!r}")
+        if r["source_type"] != "heuristic":
+            errors.append(f"{tag}: source_type must be 'heuristic' (got {r['source_type']!r})")
+    return errors
+
 
 def _load(path: Path):
     with open(path, encoding="utf-8") as fh:
@@ -157,6 +188,9 @@ def main() -> int:
     claims_path = root / "skills" / "lullsense" / "knowledge" / "claims.yaml"
     sources_path = root / "skills" / "lullsense" / "knowledge" / "sources.yaml"
     errors = validate(claims_path, sources_path)
+    heuristics_path = root / "skills" / "lullsense" / "knowledge" / "sleep_timing_heuristics.yaml"
+    if heuristics_path.exists():
+        errors = errors + validate_heuristics(heuristics_path)
     gaps = coverage_gaps(claims_path)
     warns = warnings(claims_path, sources_path)
     for e in errors:
