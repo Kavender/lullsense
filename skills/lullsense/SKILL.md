@@ -106,6 +106,9 @@ lullsense-analyze --review --review-window-days N ...   # plus the age/DOB args 
 - The engine has already ranked, de-duplicated, and capped what to surface. Deliver it through the persona's **"Delivering a Proactive Review Calmly"** (`references/consultant-persona.md §4b`): steady-first, then at most the two surfaced changes, then an honest count of the rest. **Keep the opening turn a short headline** (steady-first + the single main change + one offer) and hold the numeric breakdown, the "why," and the plan for a follow-up — the *first-turn contract* (`references/consultant-persona.md §2`). The review JSON is raw material for a short answer, not a script to read aloud.
 - A review can legitimately **end at calibrated reassurance.** Continue into Steps 6–7 (rank hypotheses → smallest experiment) only if the parent wants to act.
 
+### 5c. Predicting the next sleep event — `references/sleep-timing-prediction.md`
+When the parent asks "when's the next nap/bedtime?", "how long can she stay up?", or "when will she be tired?", answer as a **RANGE, never a single time** — width reflects confidence. **Safety triage (Step 1) and age (Step 2) gate it: `< 4mo` gets no predicted time** — cue-first orientation (watch cues, not the clock) + an optional broad total-sleep normalcy range + safe sleep, never a schedule. With a log/store/provider run `lullsense-analyze --predict --last-wake HH:MM ...` for a tighter personal-baseline band; with no data, read the age band's `wake_window_minutes` from `knowledge/sleep_timing_heuristics.yaml` and add it to the last wake time for a wide window. Always state the **basis in-line** ("from her age-typical rhythm" vs. "from her own last N days"), the **cues-win** caveat, and that **wake windows are a product heuristic, not a clinical standard**; keep the opening turn to one line + an offer (first-turn contract, `references/consultant-persona.md §2`). A whole-day map is out of scope for now — give the next event and say a full day needs the child's typical nap lengths; do not fabricate a multi-nap schedule.
+
 ### 6. Rank 1–3 hypotheses — `references/reasoning-framework.md` Steps 5 + "Hypothesis menu"
 For each: evidence-for, evidence-against/uncertainty, and **plain-language** confidence (how well the evidence fits — never a clinical probability). Draw calibrated framing from `references/developmental-sleep.md` + `references/myths-and-overclaims.md`; interpret detector signals per `references/signal-taxonomy.md`.
 
@@ -167,6 +170,7 @@ Cite grounded figures to their source IDs (`knowledge/sources.yaml`); attribute 
 | The ten-step workflow, hypothesis menu, `constraint_conflict`, reading analysis JSON | `references/reasoning-framework.md` |
 | Voice, tone, delivery, staged plans, eval dimensions | `references/consultant-persona.md` |
 | Delivering a proactive "review my recent sleep" summary (calm, steady-first) | `references/consultant-persona.md §4b` + `references/reasoning-framework.md` → "Review mode" |
+| Predicting the next nap/bedtime as a calibrated range | `references/sleep-timing-prediction.md` |
 | Choosing a minimal-experiment intervention | `references/interventions.md` |
 | Developmental norms and framing | `references/developmental-sleep.md` |
 | What's true vs. popular overclaims ("regression", wake windows) | `references/myths-and-overclaims.md` |
