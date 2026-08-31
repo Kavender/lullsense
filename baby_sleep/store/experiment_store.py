@@ -10,11 +10,16 @@ from baby_sleep.store.models import ChildProfile, Experiment, ExperimentStatus, 
 
 class ExperimentStore:
     def __init__(self, path: Path):
+        # Don't create the directory on construction: building a store just to
+        # *read* a child that has no saved state yet should leave no empty dir
+        # behind. The directory is created lazily on the first write.
         self.path = Path(path)
-        self.path.mkdir(parents=True, exist_ok=True)
         self._experiments = self.path / "experiments.json"
         self._constraints = self.path / "constraints.json"
         self._profile = self.path / "profile.json"
+
+    def _ensure_dir(self) -> None:
+        self.path.mkdir(parents=True, exist_ok=True)
 
     def _load(self, file: Path) -> list[dict]:
         if not file.exists():
@@ -22,6 +27,7 @@ class ExperimentStore:
         return json.loads(file.read_text() or "[]")
 
     def _dump(self, file: Path, rows: list[dict]) -> None:
+        self._ensure_dir()
         file.write_text(json.dumps(rows, indent=2, default=str))
 
     # --- experiments ---
@@ -90,6 +96,7 @@ class ExperimentStore:
                 updates["dob_precision"] = existing.dob_precision
             if updates:
                 profile = profile.model_copy(update=updates)
+        self._ensure_dir()
         self._profile.write_text(json.dumps(profile.model_dump(mode="json"), indent=2, default=str))
 
     def get_profile(self) -> ChildProfile | None:

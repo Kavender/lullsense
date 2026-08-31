@@ -9,13 +9,18 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from baby_sleep.store import settings as memory_settings
 from baby_sleep.store.experiment_store import ExperimentStore
 from baby_sleep.store.models import ChildProfile, Experiment, ExperimentStatus, SavedConstraint
+
+# Commands that operate on the global memory preference (state root), not a child dir.
+MEMORY_CMDS = {"memory-status", "enable-memory", "disable-memory"}
 
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(description="Experiment/constraint store CLI.")
-    p.add_argument("--state-dir", required=True)
+    # Required for per-child commands; memory-* commands use --root instead.
+    p.add_argument("--state-dir", default=None)
     sub = p.add_subparsers(dest="cmd", required=True)
 
     sc = sub.add_parser("save-constraint")
@@ -47,7 +52,26 @@ def main(argv=None) -> int:
 
     sub.add_parser("get-profile")
 
+    for mem_cmd in ("memory-status", "enable-memory", "disable-memory"):
+        mp = sub.add_parser(mem_cmd)
+        mp.add_argument("--root", default=None,
+                        help="state root holding settings.json (default: ~/.lullsense)")
+
     args = p.parse_args(argv)
+
+    # Memory preference commands operate on the state root, not a child dir.
+    if args.cmd in MEMORY_CMDS:
+        root = args.root  # None → module default (~/.lullsense)
+        if args.cmd == "enable-memory":
+            memory_settings.set_memory(True, root)
+        elif args.cmd == "disable-memory":
+            memory_settings.set_memory(False, root)
+        print(json.dumps({"memory": "enabled" if memory_settings.memory_enabled(root) else "disabled"}))
+        return 0
+
+    if args.state_dir is None:
+        print(json.dumps({"error": "--state-dir is required for this command"}), file=sys.stderr)
+        return 1
     store = ExperimentStore(Path(args.state_dir))
 
     if args.cmd == "save-constraint":

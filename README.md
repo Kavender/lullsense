@@ -10,6 +10,7 @@
 
 > Open-source baby sleep intelligence for every family.
 
+[![CI](https://github.com/Kavender/lullsense/actions/workflows/ci.yml/badge.svg)](https://github.com/Kavender/lullsense/actions/workflows/ci.yml)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Scope](https://img.shields.io/badge/ages-4–36%20months-brightgreen)
 ![Safety](https://img.shields.io/badge/safety-first%20·%20never%20diagnoses-orange)
@@ -66,7 +67,7 @@ The skill surfaces **signals and hypotheses with evidence and limitations** — 
 - **Next-sleep timing prediction.** Answers *"when's the next nap/bedtime?"* as a **range, never a single time** — from the age-typical rhythm, or a tighter band from the child's own recent pattern — always cue-first, with wake windows labeled a *product heuristic*, not a clinical clock. Under 4 months it gives cue-based orientation, not a schedule.
 - **Proactive review.** A parent-initiated *"review my recent sleep"* flow that turns detector signals into a calm, prioritized change summary — capped, de-duplicated, and led by what's *steady* — engineered to avoid alert fatigue.
 - **Constraint-first & reality-based.** Elicits — and **remembers across sessions** — hard constraints (daycare nap, pickup, work) *before* recommending. When a fixed constraint forces sleep away from the age-typical ideal, it names the shortfall as **structural, not a parenting failure**, never prescribes the blocked ideal, and works the *movable* levers with honest expectations. Multi-day transitions get a day-by-day roadmap.
-- **A minimal local store.** Persists only a child profile (date-of-birth so age never goes stale), explicitly-saved durable constraints, and experiment state — **never raw sleep logs**.
+- **A minimal local store.** Persists only a child profile (date-of-birth so age never goes stale), explicitly-saved durable constraints, and experiment state — **never raw sleep logs**. Stored locally on your machine, never uploaded. Memory is on by default but **it tells you the first time it saves and you can turn it off anytime**; see **[DATA_HANDLING.md](DATA_HANDLING.md)** for exactly what's kept, how connected-log access works, and how to inspect or delete it.
 
 ### Core principles
 
@@ -90,10 +91,14 @@ The skill surfaces **signals and hypotheses with evidence and limitations** — 
 ## Install
 
 ```bash
+# Add the skill to the current project
 npx skills add Kavender/lullsense
+
+# See project-local vs global/user-level install options
+npx skills add --help
 ```
 
-Installs the skill into your agent (e.g. `~/.claude/skills/lullsense/`). Then just ask a baby/toddler sleep question in natural language.
+This makes the skill available to your agent (for Claude Code, under a `.claude/skills/lullsense/` directory). Then just ask a baby/toddler sleep question in natural language.
 
 **Optional analysis engine** (data-enhanced + proactive review):
 
@@ -105,7 +110,7 @@ The skill is fully useful from conversation alone — data is never required.
 
 > Working from source? `git clone https://github.com/Kavender/lullsense.git`
 
-> **Status:** public alpha — feature-complete for a first release and live-tested. Feedback and issues welcome.
+> **Status: evidence-backed public alpha.** Feature-complete for a first release and live-tested. Safety content is grounded in authoritative sources and validated for provenance, but has **not yet completed independent pediatric-sleep / clinical review** — source validation is not the same as clinical review. Independent review is planned before a stable release. Feedback and issues welcome.
 
 ---
 
@@ -152,7 +157,7 @@ skills/lullsense/SKILL.md  ── thin router: safety → age → goal → const
         └─ store/       minimal state: child profile + saved constraints + experiments (no raw logs)
 ```
 
-Everything is inspectable and deterministic; the reasoning layer is vendor-neutral (no provider-specific behavior), and a data provider / MCP integration is entirely optional.
+The analysis engine and evidence validation are deterministic and inspectable; the consultant reasoning is model-driven, with its reasoning contract, evidence sources, and eval criteria kept open. The reasoning layer is vendor-neutral (no provider-specific behavior), and a data provider / MCP integration is entirely optional.
 
 ---
 
@@ -165,7 +170,7 @@ Everything is inspectable and deterministic; the reasoning layer is vendor-neutr
 | `scripts/` | Thin CLIs: `validate_knowledge.py`; analysis via `lullsense-analyze` / `lullsense-experiment` |
 | `evals/` | Deterministic evals (proactive signals + review), consultant rubric, safety red-flag cases |
 | `examples/` | Synthetic example sleep logs |
-| `tests/` | Test suite (**221 passing**) |
+| `tests/` | Test suite (run in [CI](https://github.com/Kavender/lullsense/actions/workflows/ci.yml) on every push/PR, plus a clean-wheel install smoke test) |
 | `assets/` | Brand logo |
 
 ---
