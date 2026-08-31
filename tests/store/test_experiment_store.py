@@ -97,6 +97,25 @@ def test_get_profile_empty_dir_returns_none(tmp_path):
     assert store.get_profile() is None
 
 
+def test_reads_create_no_state_on_disk(tmp_path):
+    """Reading a child that has no saved state yet must leave NO trace on disk:
+    constructing the store and calling read methods creates no directory or
+    files. Only a write may create the directory."""
+    state = tmp_path / "child"
+    store = ExperimentStore(state)
+    assert store.get_profile() is None
+    assert store.list_constraints() == []
+    assert store.list_experiments() == []
+    assert store.get_constraint("anything") is None
+    assert store.get_experiment("nope") is None
+    assert not state.exists(), "reading must not create the child state directory"
+
+    # The first write is what creates it.
+    store.save_profile(ChildProfile(name="Ada", dob=date(2025, 2, 26)))
+    assert state.exists()
+    assert (state / "profile.json").exists()
+
+
 def test_per_child_state_separation(tmp_path):
     store_a = ExperimentStore(tmp_path / "child_a")
     store_b = ExperimentStore(tmp_path / "child_b")
