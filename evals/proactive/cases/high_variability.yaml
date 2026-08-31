@@ -1,0 +1,6 @@
+case_id: high_variability
+fixture: fixtures/high_variability.json
+format: json
+age_months: 12
+expected_signals: [high_variability]
+must_not_flag: [schedule_drift]

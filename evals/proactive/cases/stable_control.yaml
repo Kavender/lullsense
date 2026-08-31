@@ -1,0 +1,6 @@
+case_id: stable_control
+fixture: fixtures/stable_control.json
+format: json
+age_months: 12
+expected_signals: []
+must_not_flag: [early_waking, night_waking, short_nap, total_sleep_drop, split_night, high_variability, schedule_drift, nap_transition]
