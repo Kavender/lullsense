@@ -1,0 +1,6 @@
+case_id: schedule_drift
+fixture: fixtures/schedule_drift.json
+format: json
+age_months: 12
+expected_signals: [schedule_drift]
+must_not_flag: [early_waking, high_variability]

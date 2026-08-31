@@ -1,0 +1,6 @@
+case_id: nap_transition
+fixture: fixtures/nap_transition.json
+format: json
+age_months: 12
+expected_signals: [nap_transition]
+must_not_flag: [short_nap]

@@ -1,0 +1,6 @@
+case_id: total_sleep_drop
+fixture: fixtures/total_sleep_drop.json
+format: json
+age_months: 12
+expected_signals: [total_sleep_drop]
+must_not_flag: [early_waking]
