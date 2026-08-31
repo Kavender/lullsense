@@ -97,6 +97,41 @@ def test_get_profile_empty_dir_returns_none(tmp_path):
     assert store.get_profile() is None
 
 
+def test_clear_removes_individual_files(tmp_path):
+    store = ExperimentStore(tmp_path / "state")
+    store.save_profile(ChildProfile(name="Ada", dob=date(2025, 2, 26)))
+    store.save_constraint(SavedConstraint(key="daycare_nap_window", value="12:00-13:30"))
+    assert store.clear_profile() is True
+    assert store.get_profile() is None
+    assert store.list_constraints()  # constraints untouched by clear_profile
+    assert store.clear_constraints() is True
+    assert store.list_constraints() == []
+    # clearing an already-empty slot returns False (nothing removed)
+    assert store.clear_profile() is False
+
+
+def test_clear_all_removes_everything_and_dir(tmp_path):
+    state = tmp_path / "state"
+    store = ExperimentStore(state)
+    store.save_profile(ChildProfile(name="Ada", dob=date(2025, 2, 26)))
+    store.save_constraint(SavedConstraint(key="pickup", value="17:15"))
+    store.save_experiment(_exp())
+    removed = store.clear_all()
+    assert removed == {"profile": True, "constraints": True, "experiments": True}
+    assert store.get_profile() is None
+    assert store.list_constraints() == []
+    assert store.list_experiments() == []
+    # the now-empty child dir is removed too
+    assert not state.exists()
+
+
+def test_clear_all_on_empty_is_noop(tmp_path):
+    store = ExperimentStore(tmp_path / "nothing")
+    removed = store.clear_all()
+    assert removed == {"profile": False, "constraints": False, "experiments": False}
+    assert not (tmp_path / "nothing").exists()
+
+
 def test_reads_create_no_state_on_disk(tmp_path):
     """Reading a child that has no saved state yet must leave NO trace on disk:
     constructing the store and calling read methods creates no directory or

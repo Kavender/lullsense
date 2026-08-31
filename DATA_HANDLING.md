@@ -102,11 +102,18 @@ instead of remembering them.
 - **Inspect:** open the JSON files above in any text editor, or run
   `lullsense-experiment --state-dir ~/.lullsense/<child> get-profile` /
   `list-constraints` / `list-experiments` (optional engine).
-- **Delete one child:** remove that child's directory —
-  `rm -r ~/.lullsense/<child-slug>/`.
-- **Delete everything:** `rm -r ~/.lullsense/`.
+- **Delete selectively (optional engine):**
+  ```
+  lullsense-experiment --state-dir ~/.lullsense/<child> clear-profile
+  lullsense-experiment --state-dir ~/.lullsense/<child> clear-constraints
+  lullsense-experiment --state-dir ~/.lullsense/<child> clear-experiments
+  lullsense-experiment --state-dir ~/.lullsense/<child> clear-all   # and remove the now-empty child dir
+  ```
+  You can also just ask LullSense in conversation ("forget her saved info").
+- **Delete by hand:** remove one child's directory (`rm -r ~/.lullsense/<child-slug>/`) or
+  everything (`rm -r ~/.lullsense/`).
 
-There is no hidden copy elsewhere; deleting the directory removes the state.
+There is no hidden copy elsewhere; deleting the files removes the state.
 
 ## For contributors
 

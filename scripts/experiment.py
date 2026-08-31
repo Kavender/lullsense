@@ -52,6 +52,11 @@ def main(argv=None) -> int:
 
     sub.add_parser("get-profile")
 
+    sub.add_parser("clear-profile")
+    sub.add_parser("clear-constraints")
+    sub.add_parser("clear-experiments")
+    sub.add_parser("clear-all")
+
     for mem_cmd in ("memory-status", "enable-memory", "disable-memory"):
         mp = sub.add_parser(mem_cmd)
         mp.add_argument("--root", default=None,
@@ -122,6 +127,14 @@ def main(argv=None) -> int:
     elif args.cmd == "get-profile":
         profile = store.get_profile()
         print(json.dumps(profile.model_dump(mode="json") if profile is not None else None))
+    elif args.cmd == "clear-profile":
+        print(json.dumps({"cleared": {"profile": store.clear_profile()}}))
+    elif args.cmd == "clear-constraints":
+        print(json.dumps({"cleared": {"constraints": store.clear_constraints()}}))
+    elif args.cmd == "clear-experiments":
+        print(json.dumps({"cleared": {"experiments": store.clear_experiments()}}))
+    elif args.cmd == "clear-all":
+        print(json.dumps({"cleared": store.clear_all()}))
     return 0
 
 

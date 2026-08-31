@@ -65,7 +65,7 @@ The skill surfaces **signals and hypotheses with evidence and limitations** — 
 - **No-data mode (primary path).** Reasons from the parent's account using a versioned, cited knowledge base. A verbal report ("waking at 5am all week") is real evidence.
 - **Data-enhanced mode.** Optionally ingest a sleep log — typed notes, generic CSV/JSON, or an official Huckleberry export — and fold a per-child **baseline** and **detector signals** into the reasoning. If a data provider / MCP is connected, it can **auto-pull recent sleep** (with a one-line heads-up, vendor-neutral) instead of asking you to export by hand.
 - **Next-sleep timing prediction.** Answers *"when's the next nap/bedtime?"* as a **range, never a single time** — from the age-typical rhythm, or a tighter band from the child's own recent pattern — always cue-first, with wake windows labeled a *product heuristic*, not a clinical clock. Under 4 months it gives cue-based orientation, not a schedule.
-- **Proactive review.** A parent-initiated *"review my recent sleep"* flow that turns detector signals into a calm, prioritized change summary — capped, de-duplicated, and led by what's *steady* — engineered to avoid alert fatigue.
+- **Longitudinal (recent-sleep) review.** A parent-initiated *"review my recent sleep"* flow that turns detector signals into a calm, prioritized change summary — capped, de-duplicated, and led by what's *steady* — engineered to avoid alert fatigue. The skill doesn't monitor in the background; a host, scheduler, or automation can invoke the same detector proactively if it wants to.
 - **Constraint-first & reality-based.** Elicits — and **remembers across sessions** — hard constraints (daycare nap, pickup, work) *before* recommending. When a fixed constraint forces sleep away from the age-typical ideal, it names the shortfall as **structural, not a parenting failure**, never prescribes the blocked ideal, and works the *movable* levers with honest expectations. Multi-day transitions get a day-by-day roadmap.
 - **A minimal local store.** Persists only a child profile (date-of-birth so age never goes stale), explicitly-saved durable constraints, and experiment state — **never raw sleep logs**. Stored locally on your machine, never uploaded. Memory is on by default but **it tells you the first time it saves and you can turn it off anytime**; see **[DATA_HANDLING.md](DATA_HANDLING.md)** for exactly what's kept, how connected-log access works, and how to inspect or delete it.
 
@@ -100,7 +100,7 @@ npx skills add --help
 
 This makes the skill available to your agent (for Claude Code, under a `.claude/skills/lullsense/` directory). Then just ask a baby/toddler sleep question in natural language.
 
-**Optional analysis engine** (data-enhanced + proactive review):
+**Optional analysis engine** (data-enhanced + longitudinal review):
 
 ```bash
 pip install lullsense       # exposes lullsense-analyze / lullsense-experiment
@@ -152,7 +152,7 @@ skills/lullsense/SKILL.md  ── thin router: safety → age → goal → const
         ├─ ingest/      manual-text / generic-CSV / JSON / official Huckleberry adapters
         ├─ analyze/     wake-day segmentation, ~22 features, robust per-child baseline
         ├─ detect/      10 baseline-relative, age-gated, non-diagnostic signal detectors
-        ├─ review/      proactive review summary (rank · dedupe · cap · steady domains · freshness guard)
+        ├─ review/      recent-sleep review summary (rank · dedupe · cap · steady domains · freshness guard)
         ├─ predict/     next nap/bedtime timing — age-band + personal-baseline wake windows (a range, never a point)
         └─ store/       minimal state: child profile + saved constraints + experiments (no raw logs)
 ```

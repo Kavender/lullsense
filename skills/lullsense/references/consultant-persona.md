@@ -153,7 +153,7 @@ Set the review horizon *with* the plan ("give it about a week; check in if you'r
 
 ---
 
-## 4b. Delivering a Proactive Review Calmly (Phase 5)
+## 4b. Delivering a Longitudinal (Recent-Sleep) Review Calmly (Phase 5)
 
 When the parent asks for a general **review** of recent sleep (not a specific problem), the engine has already decided *what* to surface (`references/reasoning-framework.md` → "Review mode"); this section owns *how* it lands. The whole risk here is **alert fatigue** — a review that reads as a list of problems trains the parent to dread asking. The delivery is deliberately calm.
 
