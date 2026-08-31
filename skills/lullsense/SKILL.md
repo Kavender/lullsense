@@ -45,10 +45,10 @@ Age is the one field that cannot be deferred. If the parent already stated it *t
 
 **Load the saved profile FIRST — before you ask for age.** At the start of any child-sleep conversation, **check for a saved child profile and derive the current age from its stored DOB**; only ask for age if none exists. This is what makes age persist across sessions — **do not re-ask a family their child's age every time.**
 
-Discovery (when the caller didn't supply a `--state-dir`): look in the default root **`~/.lullsense/`**, which holds **one sub-directory per child**:
+Discovery (when the caller didn't supply a `--state-dir`): look in the default root **`~/.lullsense/`**, which holds **one sub-directory per child** plus an optional `settings.json` memory preference. **First check the memory preference** (`~/.lullsense/settings.json` → `memory`): if it is `disabled`, this family opted out before — run **session-only**, persist nothing, and don't show the first-time notice again. Otherwise (the default — memory is on), proceed:
 - **Exactly one** child dir → load it and use its DOB. (A light "just to confirm, this is about <name>?" is fine; do not re-ask the age.)
 - **Several** child dirs → ask which child this is about, then load that one.
-- **None** (first-ever contact) → ask age once, then **save** a profile (below) under `~/.lullsense/<child-slug>/` so the next session remembers.
+- **None** (first-ever contact) → ask age once, then **save** a profile (below) under `~/.lullsense/<child-slug>/` so the next session remembers — and **the first time you save, tell the parent in one line** (see "First-time memory notice & opt-out").
 
 How to read it:
 - **With the engine:** `lullsense-experiment --state-dir ~/.lullsense/<child> get-profile` → derive age from `dob`.
@@ -69,6 +69,10 @@ lullsense-experiment --state-dir DIR save-profile --name NAME --dob YYYY-MM-DD [
 - **Exact always wins.** When the parent gives a real birthday, save it (default `exact`); an exact DOB **supersedes and is never overwritten by an approximate one** in any downstream calculation.
 - **Boundary guardrail:** near the ~4-month tier line, don't let an *approximate* DOB flip the safety tier on its own — round conservative and confirm the real birthday first.
 - Never persist a bare month-count as durable.
+
+**First-time memory notice & opt-out (opt-in by default).** Memory is on by default, so you may save the profile without asking — but the **first time you persist anything for a new family** (first-ever contact, no prior profile), add one short, warm line so it's never a surprise: *"I'll remember her birthday so you won't have to tell me next time — just say the word if you'd rather I didn't keep it."* Fold it into your normal reply inside the persona; it does **not** block the conversation and you still help immediately. Do this **once**, not every session — a returning family already has a profile, and an opted-out family (memory `disabled`) never sees it.
+- **If the parent opts out** ("don't save that", "please don't keep her info"): turn memory off (`lullsense-experiment disable-memory`, or write `~/.lullsense/settings.json` = `{"memory": "disabled"}` directly), **delete anything you saved this session** (remove that child's `~/.lullsense/<child-slug>/` dir), confirm warmly ("Done — I won't keep anything. Tell me to remember again anytime."), and continue **session-only**. The opt-out is remembered across sessions; the only thing left on disk is that non-PII flag.
+- **Re-enable on request** ("you can remember her again"): `lullsense-experiment enable-memory` (or set the flag back to `enabled`), then resume normal persistence.
 
 **One child per profile / state-dir (see "State & retention").** If the family has more than one child, keep a **separate state-dir per child** and confirm which child each concern is about — never mix two children's ages, constraints, or experiments.
 
@@ -148,6 +152,7 @@ lullsense-experiment --state-dir DIR list-experiments
 lullsense-experiment --state-dir DIR update-status --id ID --status {proposed|active|reviewing|concluded}
 lullsense-experiment --state-dir DIR save-profile --name NAME --dob YYYY-MM-DD [--dob-precision {exact|approximate}] [--gestational-weeks K]
 lullsense-experiment --state-dir DIR get-profile
+lullsense-experiment memory-status | disable-memory | enable-memory   # global memory preference (root ~/.lullsense; no --state-dir)
 ```
 
 ---
@@ -179,6 +184,7 @@ Cite grounded figures to their source IDs (`knowledge/sources.yaml`); attribute 
 - The store keeps only: the **child profile** (name, DOB, gestational age — so age is always derived, never stale), **experiment state**, and **explicitly-saved durable constraints** (e.g. `sleep_start_convention`, a fixed daycare nap).
 - **Raw sleep logs are NOT persisted**, and **transient context is NOT persisted** (illness, teething, travel, a developmental leap — see Step 4). Analysis of a supplied log is ephemeral — run it, read the JSON, do not write the log to the store.
 - Only save a constraint the family has explicitly stated and would want reused. Treat all persisted state as sensitive; keep examples and fixtures synthetic.
+- **Memory is opt-in by default, disclosed once, and revocable.** The skill saves without asking, but the **first** time it persists anything for a new family it says so in one line (Step 2 → "First-time memory notice & opt-out"). A parent can opt out anytime; that turns memory off and is remembered as a single non-PII flag at `~/.lullsense/settings.json` (`{"memory": "disabled"}`) — checked at session start, honored as session-only, re-enabled on request. What's read, kept, and how to delete it is documented in `DATA_HANDLING.md`.
 
 ---
 

@@ -9,7 +9,14 @@ to inspect or delete it.
 it doesn't have to re-ask your child's age and daycare setup every session, and — if
 you've connected a sleep-data provider — it can read your recent log to give a better
 answer. It stores this locally only, never uploads it anywhere, never stores raw sleep
-logs, and tells you in one line whenever it reads a connected log.
+logs, tells you the first time it saves anything (and whenever it reads a connected
+log), and lets you turn memory off at any time.
+
+**Memory is on by default, disclosed, and revocable.** The first time LullSense saves
+anything for your child, it tells you in one line — e.g. *"I'll remember her birthday
+so you won't have to tell me next time — say the word if you'd rather I didn't."* You
+can decline then or later; declining turns memory off, deletes what was saved, and is
+remembered so it won't keep asking (see *Turning memory off* below).
 
 ---
 
@@ -60,14 +67,35 @@ to any server. LullSense has no backend.
 By default, one directory per child under your home directory:
 
 ```
-~/.lullsense/<child-slug>/
-    profile.json        # name, dob, dob_precision, gestational age
-    constraints.json    # saved durable constraints
-    experiments.json    # experiment state
+~/.lullsense/
+    settings.json           # memory on/off preference (non-PII)
+    <child-slug>/
+        profile.json        # name, dob, dob_precision, gestational age
+        constraints.json    # saved durable constraints
+        experiments.json    # experiment state
 ```
 
 A host application may point LullSense at a different location via `--state-dir`. Reading
 a child that has no saved state yet creates nothing.
+
+## Turning memory off (and back on)
+
+Memory is on by default. To turn it off, just tell LullSense (e.g. "don't keep her
+info"). It will stop saving, delete anything it saved this session, and remember your
+choice so it won't ask again. The only thing kept for an opted-out user is a single
+non-PII flag: `~/.lullsense/settings.json` → `{"memory": "disabled"}`.
+
+With the optional engine you can also do this directly:
+
+```
+lullsense-experiment disable-memory     # turn memory off (remembered across sessions)
+lullsense-experiment enable-memory      # turn it back on
+lullsense-experiment memory-status      # check current setting
+```
+
+Or edit `~/.lullsense/settings.json` by hand. While memory is off, LullSense works
+fully — it just re-establishes your child's details from the conversation each time
+instead of remembering them.
 
 ## How to inspect or delete your data
 
