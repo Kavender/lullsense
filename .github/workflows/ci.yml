@@ -63,3 +63,34 @@ jobs:
           /tmp/smoke/bin/lullsense-analyze --format huckleberry --input /tmp/smoke_fix.csv --age-months 9 \
             --predict --last-wake 14:30 --target nap \
             | python -c "import sys, json; d = json.load(sys.stdin); assert d['prediction']['status'] == 'computed', d['prediction']; print('prediction OK:', d['prediction']['next_event']['window_low'], '-', d['prediction']['next_event']['window_high'])"
+
+  skill-resolve-smoke:
+    name: Skills-CLI resolves the skill (npx skills add)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Resolve the skill from the local checkout (no circular GitHub fetch)
+        # Tests THIS commit's skill folder, not the pushed state: the skills CLI
+        # validates the SKILL.md frontmatter + structure and must find exactly
+        # one skill named "lullsense". Guards the install path that PR #8 only
+        # verified by hand once. Timeout so a stray prompt fails loud, not hangs.
+        run: |
+          set -o pipefail
+          raw=$(NO_COLOR=1 FORCE_COLOR=0 timeout 180 npx --yes skills add ./skills/lullsense --list -y 2>&1 || true)
+          # The CLI colour-wraps its output (incl. the skill count) even when
+          # non-interactive, so strip ANSI escapes before matching.
+          out=$(printf '%s' "$raw" | perl -pe 's/\e\[[0-9;?]*[a-zA-Z]//g')
+          echo "$out"
+          echo "$out" | grep -q "Found 1 skill" || { echo "FAIL: skills CLI did not resolve exactly 1 skill from ./skills/lullsense"; exit 1; }
+          echo "$out" | grep -qi "lullsense"      || { echo "FAIL: resolved skill is not named 'lullsense'"; exit 1; }
+          echo "OK: npx skills add resolves the lullsense skill"
+      - name: References and knowledge resolve inside the skill folder
+        run: |
+          test -f skills/lullsense/SKILL.md                                    || { echo "FAIL: missing SKILL.md"; exit 1; }
+          test "$(find skills/lullsense/references -name '*.md' | wc -l)" -gt 0 || { echo "FAIL: no reference files"; exit 1; }
+          test -d skills/lullsense/knowledge                                   || { echo "FAIL: no knowledge dir"; exit 1; }
+          if grep -q "\.\./" skills/lullsense/SKILL.md; then echo "FAIL: SKILL.md references a path outside the skill folder"; exit 1; fi
+          echo "OK: skill structure intact"

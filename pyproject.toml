@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77.0.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,7 +7,8 @@ name = "lullsense"
 version = "0.1.0"
 description = "LullSense (知眠) — open-source, evidence-informed baby/toddler sleep Agent Skill and analysis engine"
 requires-python = ">=3.11"
-license = { text = "Apache-2.0" }
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
 dependencies = ["pyyaml>=6.0", "pydantic>=2.7"]
 
 [project.optional-dependencies]
