@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "lullsense"
 version = "0.1.0"
@@ -13,17 +17,15 @@ dev = ["pytest>=8.0", "ruff>=0.5"]
 lullsense-analyze = "scripts.analyze_sleep:main"
 lullsense-experiment = "scripts.experiment:main"
 
-[tool.setuptools]
-packages = [
-    "baby_sleep",
-    "baby_sleep.contract",
-    "baby_sleep.ingest",
-    "baby_sleep.store",
-    "baby_sleep.analyze",
-    "baby_sleep.detect",
-    "baby_sleep.review",
-    "scripts",
-]
+# Automatic discovery so a new subpackage (e.g. baby_sleep.predict) can never
+# again be silently omitted from the wheel. Scoped to our namespaces so tests/
+# and evals/ stay out of the distribution.
+[tool.setuptools.packages.find]
+include = ["baby_sleep*", "scripts*"]
+
+# Runtime data shipped inside the wheel (loaded via importlib.resources).
+[tool.setuptools.package-data]
+"baby_sleep.predict" = ["data/*.yaml"]
 
 [tool.ruff]
 line-length = 100
