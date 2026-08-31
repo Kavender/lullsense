@@ -35,6 +35,13 @@ def test_age_above_table_returns_age_unknown():
     assert pred.next_event is None
 
 
+def test_age_unknown_has_no_age_band_wake_window():
+    inp = PredictInput(age_months=60, last_wake_min=600)   # beyond the table
+    pred = predict_next(inp, BANDS)
+    assert pred.status == "age_unknown"
+    assert pred.age_band_wake_window is None
+
+
 def test_package_exports_predict_next():
     import baby_sleep.predict as pkg
     assert hasattr(pkg, "predict_next")

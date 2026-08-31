@@ -26,6 +26,8 @@ def main(argv=None) -> int:
     gc = sub.add_parser("get-constraint")
     gc.add_argument("--key", required=True)
 
+    sub.add_parser("list-constraints")
+
     se = sub.add_parser("save-experiment")
     for a in ("id", "hypothesis", "change", "metrics", "start-date"):
         se.add_argument(f"--{a}", required=True)
@@ -54,6 +56,8 @@ def main(argv=None) -> int:
     elif args.cmd == "get-constraint":
         c = store.get_constraint(args.key)
         print(json.dumps(c.model_dump(mode="json") if c else None))
+    elif args.cmd == "list-constraints":
+        print(json.dumps([c.model_dump(mode="json") for c in store.list_constraints()]))
     elif args.cmd == "save-experiment":
         try:
             start = date.fromisoformat(args.start_date)

@@ -137,6 +137,8 @@ When structured data would sharpen the answer — data-enhanced reasoning, a rev
 
 This keeps the parent's experience seamless (no manual export when a provider is right there) while staying vendor-neutral and consent-respecting.
 
+**Constraints are auto-loaded too, and carry the same currency discipline.** Just as the profile and (when useful) recent data are pulled at session start, the child's saved durable constraints are loaded then as well (`SKILL.md` Step 2). But a saved constraint is **last-known, not forever-true**: apply the same freshness instinct you apply to data — confirm rather than silently trust a stale constraint when it's old or the child's actual pattern has clearly shifted (daycare ramp-up, a room move, a switch, travel). Detection → confirm → re-baseline is spelled out in `reasoning-framework.md` → "Constraints evolve."
+
 ---
 
 ## 6. Huckleberry policy
