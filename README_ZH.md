@@ -94,11 +94,14 @@ LullSense 是一个 Agent Skill（智能体技能），通过**基于证据的�
 # 安装到当前项目
 npx skills add Kavender/lullsense
 
-# 查看项目级 vs 全局/用户级安装选项
+# ……或全局（用户级）安装，在所有项目中可用
+npx skills add Kavender/lullsense -g
+
+# 查看全部选项
 npx skills add --help
 ```
 
-将技能安装到你的智能体中（在 Claude Code 中位于 `.claude/skills/lullsense/` 目录）。之后只需用自然语言提出婴幼儿睡眠问题即可。
+将技能安装到你的智能体中。项目级安装位于 `.claude/skills/lullsense/`；全局（`-g`）安装位于共享目录 `~/.agents/skills/lullsense/`，并会软链接到各智能体目录（Claude Code 中为 `~/.claude/skills/lullsense/`）。之后只需用自然语言提出婴幼儿睡眠问题即可。
 
 **可选的分析引擎**（数据增强 + 纵向回顾）：
 

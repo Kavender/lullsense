@@ -94,11 +94,14 @@ The skill surfaces **signals and hypotheses with evidence and limitations** — 
 # Add the skill to the current project
 npx skills add Kavender/lullsense
 
-# See project-local vs global/user-level install options
+# ...or install it globally (user-level), available in every project
+npx skills add Kavender/lullsense -g
+
+# See all options
 npx skills add --help
 ```
 
-This makes the skill available to your agent (for Claude Code, under a `.claude/skills/lullsense/` directory). Then just ask a baby/toddler sleep question in natural language.
+This makes the skill available to your agent. A project install lands under `.claude/skills/lullsense/`; a global (`-g`) install lands in the shared `~/.agents/skills/lullsense/` and is symlinked into each agent's directory (for Claude Code, `~/.claude/skills/lullsense/`). Then just ask a baby/toddler sleep question in natural language.
 
 **Optional analysis engine** (data-enhanced + longitudinal review):
 
