@@ -10,6 +10,7 @@
 
 > 面向每个家庭的开源婴幼儿睡眠智能。
 
+[![CI](https://github.com/Kavender/lullsense/actions/workflows/ci.yml/badge.svg)](https://github.com/Kavender/lullsense/actions/workflows/ci.yml)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Scope](https://img.shields.io/badge/适用月龄-4–36%20个月-brightgreen)
 ![Safety](https://img.shields.io/badge/安全优先-绝不做诊断-orange)
@@ -90,10 +91,14 @@ LullSense 是一个 Agent Skill（智能体技能），通过**基于证据的�
 ## 安装与使用
 
 ```bash
+# 安装到当前项目
 npx skills add Kavender/lullsense
+
+# 查看项目级 vs 全局/用户级安装选项
+npx skills add --help
 ```
 
-将技能安装到你的智能体中（例如 `~/.claude/skills/lullsense/`）。之后只需用自然语言提出婴幼儿睡眠问题即可。
+将技能安装到你的智能体中（在 Claude Code 中位于 `.claude/skills/lullsense/` 目录）。之后只需用自然语言提出婴幼儿睡眠问题即可。
 
 **可选的分析引擎**（数据增强 + 主动回顾）：
 
@@ -105,7 +110,7 @@ pip install lullsense       # 提供 lullsense-analyze / lullsense-experiment �
 
 > 从源码使用？`git clone https://github.com/Kavender/lullsense.git`
 
-> **状态：** 公开 alpha——已达成首个版本的功能完整并经过实测。欢迎反馈与提交 issue。
+> **状态：有证据支撑的公开 alpha。** 已达成首个版本的功能完整并经过实测。安全内容以权威来源为依据、并对来源出处做了校验，但**尚未完成独立的儿科睡眠 / 临床审阅**——来源校验不等于临床审阅。稳定版发布前将安排独立审阅。欢迎反馈与提交 issue。
 
 ---
 
@@ -152,7 +157,7 @@ skills/lullsense/SKILL.md  ── 精简路由：安全 → 月龄 → 目标 �
         └─ store/       极简状态：孩子档案 + 已保存约束 + 实验（不存原始记录）
 ```
 
-一切都可检查、确定性强；推理层厂商中立（不含针对特定 provider 的行为），数据 provider / MCP 集成完全可选。
+分析引擎与证据校验是确定性、可检查的；咨询推理由模型驱动，其推理契约、证据来源与评测标准均公开。推理层厂商中立（不含针对特定 provider 的行为），数据 provider / MCP 集成完全可选。
 
 ---
 
@@ -165,7 +170,7 @@ skills/lullsense/SKILL.md  ── 精简路由：安全 → 月龄 → 目标 �
 | `scripts/` | 精简 CLI：`validate_knowledge.py`；分析命令为 `lullsense-analyze` / `lullsense-experiment` |
 | `evals/` | 确定性评测（主动信号 + 回顾）、咨询评分量表、安全红旗用例 |
 | `examples/` | 合成的示例睡眠记录 |
-| `tests/` | 测试套件（**221 项通过**） |
+| `tests/` | 测试套件（每次 push/PR 均在 [CI](https://github.com/Kavender/lullsense/actions/workflows/ci.yml) 运行，另含全新 wheel 安装冒烟测试） |
 | `assets/` | 品牌 Logo |
 
 ---
