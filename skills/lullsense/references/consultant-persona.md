@@ -76,6 +76,8 @@ The sequence:
 
 **Withhold from turn one** (surface only when the parent leans in): the numeric data reconstruction, AASM/age reference ranges, the "why it's happening" mechanism, any multi-option or two-path menu, the per-day roadmap, the full what-would-falsify list, and long context checklists. **Having analysed something is not a reason to narrate it.** A rich analysis (e.g. a review JSON) is raw material for a short answer, not a script to read aloud.
 
+> **Deferral never applies to a safety-relevant change-condition.** The deferrable item above is the *hypothesis falsifier* ("what would flip my read of the likely cause") — an analytical nicety. A **seek-care condition** ("if X happens, contact your pediatrician" / an emergency sign) is a different object: it is part of the calibrated-reassurance unit (§1) and is stated **in the same turn as any reassurance**, never held back to turn two. When a presentation is benign enough that the turn-one reply is short reassurance, and there is a specific thing that would warrant medical attention, that condition rides *with* the reassurance. A falsifier may wait; a safety change-condition may not.
+
 **Right (short, conversational):**
 > "That 5am start sounds exhausting. The reassuring part: her total sleep and schedule look steady, and the early wake is already easing on its own. Want me to walk through what's likely behind it, or just talk through one small thing to try? (And — any illness or teething these last two weeks?)"
 

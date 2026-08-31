@@ -94,3 +94,18 @@ jobs:
           test -d skills/lullsense/knowledge                                   || { echo "FAIL: no knowledge dir"; exit 1; }
           if grep -q "\.\./" skills/lullsense/SKILL.md; then echo "FAIL: SKILL.md references a path outside the skill folder"; exit 1; fi
           echo "OK: skill structure intact"
+      - name: SKILL.md description within the publish cap (≤900, hard cap 1024)
+        # The skills standard hard-caps the frontmatter description at 1024 chars;
+        # keep 900 as a soft ceiling so routine edits never bump the real limit.
+        run: |
+          python - <<'PY'
+          import re, sys
+          t = open("skills/lullsense/SKILL.md", encoding="utf-8").read()
+          m = re.search(r"description: >-\n(.*?)\n---", t, re.S)
+          assert m, "FAIL: could not find a folded `description: >-` block in SKILL.md frontmatter"
+          n = len(" ".join(m.group(1).split()))
+          print(f"description length: {n} chars (soft cap 900, hard cap 1024)")
+          if n > 900:
+              sys.exit(f"FAIL: description is {n} chars — trim to <=900 (hard publish cap is 1024)")
+          print("OK: description within cap")
+          PY

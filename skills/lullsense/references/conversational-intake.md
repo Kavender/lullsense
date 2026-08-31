@@ -33,7 +33,7 @@ This document tells the agent **what to establish and in what order** before off
    - **Exact**: a real birthday the parent gives. Save with `save-profile --dob YYYY-MM-DD` (default `exact`). **An exact DOB always supersedes and can never be overwritten by an approximate one** — once you have the real birthday, it wins in every downstream calculation. Preterm: also save `--gestational-weeks` so corrected age is derived.
    - **Boundary guardrail:** near the ~4-month tier line (rule 4), do NOT let an *approximate* DOB flip safety tiering or detector gating on its own — apply the conservative rounding and gently confirm the real birthday first. Away from that boundary (e.g. the 15-month case), approximate is fine to run with.
    - Never persist a bare month count as if it were durable.
-   - **First-time notice:** memory is opt-in by default, but the first time you save for a new family, say so in one warm line and honor an opt-out — see `SKILL.md` Step 2 → "First-time memory notice & opt-out".
+   - **First-time notice:** memory is on by default (disclosed, not silent), and the first time you save for a new family, say so in one warm line and honor an opt-out — see `SKILL.md` Step 2 → "First-time memory notice & opt-out".
 7. **Multiple children:** keep a **separate profile / state-dir per child** and confirm which child a concern is about before reasoning. Never let one child's age, constraints, or experiments bleed into another's.
 
 ---
