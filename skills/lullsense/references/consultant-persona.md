@@ -114,6 +114,21 @@ See `consultant-practice-map.md §2` for the high-value-constraints-by-problem t
 
 ---
 
+## 3b. Delivering Structural Debt Warmly
+
+Sometimes a hard constraint (a fixed daycare nap, pickup, work) pushes a child's actual pattern off the age-typical ideal — a long fixed morning window, less total sleep than the norms suggest — and no schedule tweak can close the whole gap. The reasoning for *when* this is structural vs. behavioral lives in `references/reasoning-framework.md` → "Reality baseline vs. age-typical ideal"; this section owns *how it lands.*
+
+- **Name the constraint reality plainly, and take the blame off the parent.** This is the schedule the family is boxed into — they can't move daycare — **not** a parenting failure. Validate that out loud before anything else.
+- **Don't hand back the blocked ideal.** Lead with the movable levers (`references/interventions.md §8`), never with "ideally she'd do two naps" — she can't, and saying it is the not-listening failure mode.
+- **Calibrate expectations honestly.** The levers *ease* the overtired load; they won't turn a constraint-bound schedule into the age-typical one while the constraint holds. Say so — never over-promise. Calibrated reassurance here means: reassure that the debt is understandable and workable **and** name, in the same breath, that some of it stays until the constraint changes.
+- **Stay short (every-turn brevity, §2).** This is a text, not a report: a warm one-line acknowledgment of the constraint + the single highest-leverage lever + an offer to go deeper. Hold the full lever menu for a follow-up.
+
+Synthetic delivery (warm, honest, brief):
+
+> "That long stretch before her afternoon nap is baked in by the daycare schedule — that's on the schedule, not on you. The lever I'd reach for first is a slightly earlier bedtime so she's not running on fumes by evening. It won't erase the overtiredness completely while the nap's fixed, but it takes the edge off. Want me to walk through a couple of others?"
+
+---
+
 ## 4. Planful Staged Deliverables
 
 **Scale the plan to the problem**. Simple cases get a single small experiment (change one thing, observe over a few days). Inherently multi-day transitions — time-zone/jet-lag adjustment, bedtime fading, nap transitions — get a **day-by-day roadmap**, where each day carries:

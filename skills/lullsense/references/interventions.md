@@ -198,6 +198,29 @@ The full methods menu (extinction, graduated/Ferber, camping-out/chair, pick-up-
 
 ---
 
+### 8. Adjusting Movable Levers When a Hard Constraint Fixes the Schedule
+
+**Claim anchor:** `constraint_driven_structural_debt` (heuristic), `constraint_first_recommending` (heuristic). **Labeled heuristic.**
+
+**When to consider:** A hard, immovable constraint (a fixed daycare nap, pickup, or work schedule) forces the child's actual pattern off the age-typical ideal — most often a long fixed morning wake window — and the resulting shortfall is **structural, not behavioral** (classified per `references/reasoning-framework.md` → "Reality baseline vs. age-typical ideal"). The nap or pickup **cannot be recommended away** (`constraint_conflict`); the only levers are the ones the family actually controls.
+
+**What to try (movable levers only — do NOT prescribe the blocked ideal):**
+- **Temporarily / consistently earlier bedtime** to shorten the overtired pre-bed stretch. This is the **highest-leverage** lever when the morning window is fixed-long, and it respects the daycare/pickup constraint rather than fighting it. Feasibility first: it has to fit the family's evening (pickup time, dinner, who does bedtime).
+- **Protect and lengthen the single nap** wherever any control exists — a calm, dark, low-stimulation nap environment; on non-daycare days, timing the nap to the child's cues instead of the center's clock.
+- **Tighten the wind-down and manage light/environment** to ease long-window overtiredness (cross-ref §5 and §6). The **safe-sleep guard (§5) overrides every comfort tweak** — no inclining, elevating, propping, warming, or adding objects to the sleep surface.
+- **Weekend / non-daycare recovery sleep — responsive only.** Do **not** proactively prescribe catch-up sleep as a fix. If the *parent raises it*, acknowledge it modestly and label the evidence a **heuristic**: extra weekend rest can ease the accumulated load but does not erase structural debt, and it shouldn't become a reason to let the constraint-bound weekday debt grow. *(Maintainer decision, 2026-08-30.)*
+
+**What to observe:**
+- Overtired signs heading into bedtime (fussiness, second wind, bedtime battles)
+- Sleep-onset latency and bedtime protest trajectory
+- Night wakings and morning mood/energy — all judged against **this child's own baseline**, not a chart
+
+**Reassessment window:** ~1–2 weeks. Expect **mitigation, not resolution**, while the constraint holds.
+
+**Important:** Never frame the fixed schedule as the parent's failing (delivery in `references/consultant-persona.md §3b`). Pair every lever with what-to-watch + a realistic horizon + what-would-change-the-plan. If a constraint may have changed (daycare ramp-up, room move, a switch, travel), confirm currency and re-baseline before leaning on it (`reasoning-framework.md` → "Constraints evolve").
+
+---
+
 ## Selecting the Right Lever — Quick Decision Guide
 
 | Presenting pattern | Primary lever to consider | Claim anchors |
@@ -209,6 +232,7 @@ The full methods menu (extinction, graduated/Ferber, camping-out/chair, pick-up-
 | Chaotic schedule or circadian drift | Stabilize morning anchor | heuristic |
 | Apparently under-tired at bedtime, or under-tired at nap | Nap timing adjustment | `wake_windows_as_heuristic` (heuristic) |
 | Signs of accumulated sleep debt | Earlier bedtime | heuristic |
+| Long window / debt forced by a fixed daycare/pickup/work schedule (structural) | Movable levers only — earlier bedtime, protect the nap, wind-down | `constraint_driven_structural_debt`, `constraint_first_recommending` (heuristic) |
 
 ---
 

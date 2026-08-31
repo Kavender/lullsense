@@ -73,6 +73,12 @@ Worked example (age-only, conversational): a 7-month-old last woke at 07:00. The
 
 The table's wake-window and nap-length numbers are **practitioner heuristics** (`source_type: heuristic`), deliberately wide where consumer tables disagree; the `total_sleep_budget_hours` and `clinical_anchors` carry the sourced backing. Never launder a band edge into "the clinical wake window is X."
 
+### 3.5 When a long personal window signals a constraint
+
+The prediction now surfaces `prediction.age_band_wake_window` (`{min, max}`, the age-typical ideal) **alongside** the personal band — hold both. When the child's personal wake window runs **materially longer** than the age band, read it as a *possible constraint fingerprint*, not noise and not a problem to "fix" in the child. Two **tunable product heuristics** set the read (not clinical cutoffs): **≈1.3× the band max → worth a targeted question; ≈1.5× → a strong signal.**
+
+**Ask, never infer.** If a saved constraint (a fixed daycare nap/pickup) already explains the long window, use it. If none is on file, **ask one targeted question** — *"is her nap timing fixed by daycare or an outside schedule?"* — before applying any structural framing; never assume a constraint exists. The full logic (structural vs. behavioral debt, currency, transitions) lives in `references/reasoning-framework.md` → "Reality baseline vs. age-typical ideal." This is interpretation, not a new number — the §4 rendering rules (range, basis, cues-win, first-turn brevity) still hold exactly.
+
 ---
 
 ## 4. Rendering Rules (Hard)
@@ -115,6 +121,7 @@ When `status: computed`, read `next_event`:
 - **`basis`** — `age_only` or `personal_baseline`. This drives the in-line basis line (§4): `age_only` → "from her age-typical rhythm"; `personal_baseline` → "from her own last N days."
 - **`confidence`** — `low` (age-only) or `moderate` (personal). Never `high`. A wider, lower-confidence band is stated as such, not sharpened.
 - **`band_reason`** — plain-language why the band is wide or tight; useful raw material for the "why" *if the parent asks*, withheld on turn one.
+- **`age_band_wake_window`** — `{min, max}` of the age-typical band (present whenever a band exists). It is the *ideal* to compare the personal band against for reality-vs-ideal reasoning (§3.5); an internal reasoning input, **never spoken as a target**.
 
 **Optional normalcy line** — `prediction.budget` carries `total_sleep_low_h` / `total_sleep_high_h` (from the band's clinical anchor). Use it only if a total-sleep normalcy line would help; present it as a broad *per-24h* range, never as a schedule or a target. It is the same field that carries the guardrail's optional total-sleep line under `newborn_guardrail`.
 
