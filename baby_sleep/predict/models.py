@@ -45,3 +45,4 @@ class Prediction(BaseModel):
     budget: dict | None = None
     caveats: list[str] = []
     inputs_used: dict = {}
+    age_band_wake_window: dict | None = None   # {"min": float, "max": float} — age-typical ideal, for reality-vs-ideal reasoning

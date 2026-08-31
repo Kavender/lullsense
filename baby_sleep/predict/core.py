@@ -39,6 +39,12 @@ def _budget(band: AgeBand | None) -> dict | None:
     }
 
 
+def _age_band_ww(band: AgeBand | None) -> dict | None:
+    if band is None:
+        return None
+    return {"min": band.wake_window_minutes.min, "max": band.wake_window_minutes.max}
+
+
 def _effective_age(inp: PredictInput) -> int:
     return inp.corrected_age_months if inp.corrected_age_months is not None else inp.age_months
 
@@ -65,6 +71,7 @@ def predict_next(inp: PredictInput, bands: list[AgeBand]) -> Prediction:
             budget=budget,
             caveats=caveats,
             inputs_used={"effective_age_months": eff_age},
+            age_band_wake_window=_age_band_ww(band),
         )
 
     if band is None:
@@ -73,6 +80,7 @@ def predict_next(inp: PredictInput, bands: list[AgeBand]) -> Prediction:
             next_event=None,
             caveats=["No age-band heuristic available for this age."],
             inputs_used={"effective_age_months": eff_age},
+            age_band_wake_window=_age_band_ww(band),
         )
 
     p = inp.personal
@@ -117,4 +125,5 @@ def predict_next(inp: PredictInput, bands: list[AgeBand]) -> Prediction:
             "last_wake_min": base,
             "basis": basis.value,
         },
+        age_band_wake_window=_age_band_ww(band),
     )

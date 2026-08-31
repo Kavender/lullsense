@@ -47,3 +47,19 @@ def test_unstable_personal_falls_back_to_age_only():
     pred = predict_next(PredictInput(age_months=9, last_wake_min=600, personal=personal), BANDS)
     assert pred.next_event.basis == "age_only"
     assert pred.next_event.confidence == "low"
+
+
+def test_age_band_wake_window_surfaced_alongside_personal():
+    # 18mo, stable personal window 200±25 → personal band drives the answer,
+    # but the age-typical band must ALSO be surfaced for reality-vs-ideal reasoning.
+    personal = PersonalStats(wake_window_median_min=200, wake_window_mad_min=25,
+                             days_of_data=10, stable=True)
+    inp = PredictInput(age_months=18, last_wake_min=600, personal=personal)
+    pred = predict_next(inp, BANDS)
+    band = next(b for b in BANDS if b.age_band_months[0] <= 18 < b.age_band_months[1])
+    assert pred.age_band_wake_window == {
+        "min": band.wake_window_minutes.min,
+        "max": band.wake_window_minutes.max,
+    }
+    # personal basis still drives next_event
+    assert pred.next_event.basis == "personal_baseline"
