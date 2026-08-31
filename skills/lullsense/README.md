@@ -10,10 +10,11 @@ diagnoses, and always runs safety triage first.
 ## Install
 
 ```bash
-npx skills add Kavender/lullsense
+npx skills add Kavender/lullsense       # project-level
+npx skills add Kavender/lullsense -g     # global (user-level), all projects
 ```
 
-This copies the skill into your agent's skills directory (e.g. `~/.claude/skills/lullsense/`).
+A project install lands under `.claude/skills/lullsense/`. A global (`-g`) install lands in the shared `~/.agents/skills/lullsense/` and is symlinked into each agent's directory (for Claude Code, `~/.claude/skills/lullsense/`).
 Ask a baby/toddler sleep question in natural language and the skill takes over.
 
 ## Optional analysis engine
