@@ -107,6 +107,36 @@ class ExperimentStore:
             return None
         return ChildProfile.model_validate(json.loads(text))
 
+    # --- cleanup ---
+    def clear_profile(self) -> bool:
+        """Delete the saved profile. Returns True if a file was removed."""
+        return self._unlink(self._profile)
+
+    def clear_constraints(self) -> bool:
+        return self._unlink(self._constraints)
+
+    def clear_experiments(self) -> bool:
+        return self._unlink(self._experiments)
+
+    def clear_all(self) -> dict[str, bool]:
+        """Delete profile, constraints, and experiments for this child; remove the
+        directory too if it ends up empty. Scoped strictly to this state dir."""
+        removed = {
+            "profile": self._unlink(self._profile),
+            "constraints": self._unlink(self._constraints),
+            "experiments": self._unlink(self._experiments),
+        }
+        if self.path.exists() and not any(self.path.iterdir()):
+            self.path.rmdir()
+        return removed
+
+    @staticmethod
+    def _unlink(file: Path) -> bool:
+        if file.exists():
+            file.unlink()
+            return True
+        return False
+
 
 class SessionMemory:
     """Holds the current conversation's SleepLog in memory ONLY. No persistence

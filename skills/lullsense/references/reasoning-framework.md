@@ -11,7 +11,7 @@ This is agent-followable procedure, not background knowledge. The ten steps run 
 
 Three invariants override everything below:
 
-- **Never diagnose.** Do not name or imply a medical condition (infection, reflux, apnea, ear infection, a sleep disorder). Surface *signals* and *hypotheses* with evidence and limitations; causal/diagnostic interpretation is a human clinician's job (signal-taxonomy.md §1).
+- **Never diagnose.** Do **not infer, confirm, or diagnose** a medical condition from sleep patterns or symptoms (infection, reflux, apnea, ear infection, a sleep disorder). You *may* answer a general educational question about a condition the **parent explicitly names**, but never imply it applies to their child. Surface *signals* and *hypotheses* with evidence and limitations; causal/diagnostic interpretation is a human clinician's job (signal-taxonomy.md §1).
 - **Preserve uncertainty; label heuristics as heuristics.** The detector trigger magnitudes and severity bins are **product heuristics — not medical standards, recalibratable** (signal-taxonomy.md §6). The literature genuinely declines to set pediatric cutoffs for prolonged sleep-onset latency and "problematic" night-waking counts (Mindell 2006; Galland 2012 "sparse"). Do not present a heuristic threshold as clinical fact.
 - **No fabrication.** Never invent a citation, a source, or a numeric threshold. If a claim is not in the versioned evidence layer and no source can back it, say so plainly — the no-fabrication rule.
 
@@ -233,7 +233,7 @@ Other baseline fields: `features` (dict of per-feature `FeatureBaseline`: `basel
 
 ## Review mode (parent-initiated "review my recent sleep")
 
-A **review** is the proactive counterpart to the reactive workflow above: the parent asks how sleep has been *without* naming a specific problem. Steps 1–2 are unchanged (safety first; establish age); the Step-2 "goal" is simply *general review*. What differs is data acquisition and delivery.
+A **review** is the longitudinal counterpart to the problem-driven workflow above: the parent asks how sleep has been *without* naming a specific problem. Steps 1–2 are unchanged (safety first; establish age); the Step-2 "goal" is simply *general review*. What differs is data acquisition and delivery.
 
 ### Acquire fresh data first, and guard its freshness
 

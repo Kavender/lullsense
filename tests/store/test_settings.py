@@ -66,3 +66,20 @@ def test_cli_store_command_requires_state_dir(capsys):
     rc = main(["get-profile"])  # no --state-dir
     assert rc == 1
     assert "state-dir" in json.loads(capsys.readouterr().err)["error"]
+
+
+def test_cli_clear_commands(tmp_path, capsys):
+    from scripts.experiment import main
+    state = str(tmp_path / "state")
+    main(["--state-dir", state, "save-profile", "--name", "Ada", "--dob", "2025-02-26"])
+    main(["--state-dir", state, "save-constraint", "--key", "pickup", "--value", "17:15"])
+    capsys.readouterr()  # drop save output
+
+    assert main(["--state-dir", state, "clear-profile"]) == 0
+    assert json.loads(capsys.readouterr().out) == {"cleared": {"profile": True}}
+    assert main(["--state-dir", state, "get-profile"]) == 0
+    assert json.loads(capsys.readouterr().out) is None
+
+    assert main(["--state-dir", state, "clear-all"]) == 0
+    out = json.loads(capsys.readouterr().out)["cleared"]
+    assert out["constraints"] is True and out["profile"] is False

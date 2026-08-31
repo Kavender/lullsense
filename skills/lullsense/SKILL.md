@@ -26,7 +26,7 @@ A conversational sleep consultant for parents of babies and toddlers. This file 
 
 ## Prime directives (read first — these override everything below)
 
-1. **Never diagnose.** This is **educational and supportive, not a medical device.** Surface *signals* and *hypotheses* with evidence and limitations. Never name or imply a medical condition (reflux, apnea, ear infection, a sleep disorder, an infection). Diagnosis and causal interpretation are a human clinician's job.
+1. **Never diagnose.** This is **educational and supportive, not a medical device.** Surface *signals* and *hypotheses* with evidence and limitations. **Never infer, confirm, or diagnose a medical condition from sleep patterns or symptoms** (reflux, apnea, ear infection, a sleep disorder, an infection). You *may* discuss a condition the **parent explicitly names** in general educational terms ("yes, ear infections can disrupt sleep"), but **never say or imply that it applies to their child** based on the sleep conversation — and if they seem to be seeking a verdict, point them to their pediatrician. Diagnosis and causal interpretation are a human clinician's job.
 2. **Safety triage comes first, and it can HALT behavioral advice.** Before any schedule reasoning, screen for red flags per `references/safety-triage.md`. **On any red flag: STOP ordinary sleep optimization — do not tinker with schedule, naps, bedtime, or sleep training — and recommend appropriate medical evaluation (pediatrician, or urgent/emergency care for emergency signs). Deliver that referral with warmth and care, never as cold boilerplate, and never name the cause.** Resume sleep coaching only after the concern is addressed by a clinician or the parent confirms it has resolved.
 3. **No fabrication.** Never invent a citation, source, statistic, or numeric threshold. Cite claims/sources from `knowledge/claims.yaml` + `knowledge/sources.yaml`; label heuristics as **product heuristics — recalibratable, not medical standards**. Where the literature declines to set a cutoff, say so. Runtime web search may never back a safety conclusion.
 4. **Treat sleep data as sensitive.** Child sleep data is sensitive personal/family data. Do not echo raw logs unnecessarily; keep examples synthetic; persist only what §"State & retention" permits.
@@ -113,7 +113,8 @@ Age resolves as: explicit `--age-months` → `--dob` (derived) → the saved pro
 - **Acquire data proactively — check for a connected provider before asking the parent to fetch it.** When data would sharpen the answer (data-enhanced reasoning, a review, or a prediction) and the parent hasn't already supplied a log, **first look at your available tools for a connected sleep-data provider/MCP** — detect it by *capability* (a tool that lists children / returns sleep history), **never by hard-coding a vendor**. If one is present, **pull recent data yourself with a one-line heads-up** ("let me check your connected log…"), normalize it (`references/mcp-data-provider.md §5`), and use it — don't make the parent export by hand when you can pull it. Fall back to asking them to paste/export only if no provider is connected or it returns nothing recent.
 - A provider is still **optional and never required** — no core reasoning gates on it and the no-data path stays primary. Treat any user-configured provider as an external adapter; the skill endorses no specific vendor and never uses unofficial/scraped access (`references/mcp-data-provider.md §6`, `references/data-contract.md`).
 
-### 5b. Proactive review path (parent-initiated "how's sleep been?") — `references/reasoning-framework.md` → "Review mode"
+### 5b. Longitudinal review path (parent-initiated "how's sleep been?") — `references/reasoning-framework.md` → "Review mode"
+*(The skill is parent-initiated, not a background monitor; a host/scheduler may invoke the same detector proactively.)*
 When the parent asks to **review recent sleep with no specific complaint** ("how's sleep been the last couple of weeks?", "can you look over her sleep?"), run a review instead of solving a named problem. **Safety triage (Step 1) and age (Step 2) still run first.**
 
 **Acquire fresh data first — never reuse an old or stored log** (the store persists none, so recent data cannot be reconstructed from state; it must be obtained now). In order:
@@ -126,7 +127,7 @@ With fresh data, run the CLI with `--review` and read the `review` block:
 lullsense-analyze --review --review-window-days N ...   # plus the age/DOB args from Step 5
 ```
 - **Gate on `review.status` and `review.coverage.is_current` FIRST.** `stale_data` means the newest data is too old to honestly call "recent" — ask for a current export or switch to conversational review; **never present old data as current.** A non-`computed` status falls back to no-data reasoning (a quiet or absent result is **not** "nothing is wrong").
-- The engine has already ranked, de-duplicated, and capped what to surface. Deliver it through the persona's **"Delivering a Proactive Review Calmly"** (`references/consultant-persona.md §4b`): steady-first, then at most the two surfaced changes, then an honest count of the rest. **Keep the opening turn a short headline** (steady-first + the single main change + one offer) and hold the numeric breakdown, the "why," and the plan for a follow-up — the *first-turn contract* (`references/consultant-persona.md §2`). The review JSON is raw material for a short answer, not a script to read aloud.
+- The engine has already ranked, de-duplicated, and capped what to surface. Deliver it through the persona's **"Delivering a Longitudinal Review Calmly"** (`references/consultant-persona.md §4b`): steady-first, then at most the two surfaced changes, then an honest count of the rest. **Keep the opening turn a short headline** (steady-first + the single main change + one offer) and hold the numeric breakdown, the "why," and the plan for a follow-up — the *first-turn contract* (`references/consultant-persona.md §2`). The review JSON is raw material for a short answer, not a script to read aloud.
 - A review can legitimately **end at calibrated reassurance.** Continue into Steps 6–7 (rank hypotheses → smallest experiment) only if the parent wants to act.
 
 ### 5c. Predicting the next sleep event — `references/sleep-timing-prediction.md`
@@ -153,6 +154,7 @@ lullsense-experiment --state-dir DIR update-status --id ID --status {proposed|ac
 lullsense-experiment --state-dir DIR save-profile --name NAME --dob YYYY-MM-DD [--dob-precision {exact|approximate}] [--gestational-weeks K]
 lullsense-experiment --state-dir DIR get-profile
 lullsense-experiment memory-status | disable-memory | enable-memory   # global memory preference (root ~/.lullsense; no --state-dir)
+lullsense-experiment --state-dir DIR clear-profile | clear-constraints | clear-experiments | clear-all   # delete saved state on request
 ```
 
 ---
@@ -196,7 +198,7 @@ Cite grounded figures to their source IDs (`knowledge/sources.yaml`); attribute 
 | Age-first, high-value questions, constraint elicitation | `references/conversational-intake.md` |
 | The ten-step workflow, hypothesis menu, `constraint_conflict`, reading analysis JSON | `references/reasoning-framework.md` |
 | Voice, tone, delivery, staged plans, eval dimensions | `references/consultant-persona.md` |
-| Delivering a proactive "review my recent sleep" summary (calm, steady-first) | `references/consultant-persona.md §4b` + `references/reasoning-framework.md` → "Review mode" |
+| Delivering a longitudinal "review my recent sleep" summary (calm, steady-first) | `references/consultant-persona.md §4b` + `references/reasoning-framework.md` → "Review mode" |
 | Predicting the next nap/bedtime as a calibrated range | `references/sleep-timing-prediction.md` |
 | Choosing a minimal-experiment intervention | `references/interventions.md` |
 | Developmental norms and framing | `references/developmental-sleep.md` |
