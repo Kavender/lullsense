@@ -1,3 +1,4 @@
+import json
 from datetime import date, datetime
 
 from baby_sleep.contract.models import SleepLog, SleepSession
@@ -45,6 +46,29 @@ def test_store_saves_constraints(tmp_path):
     store = ExperimentStore(tmp_path / "state")
     store.save_constraint(SavedConstraint(key="daycare_nap_window", value="12:30-14:30"))
     assert store.list_constraints()[0].key == "daycare_nap_window"
+
+
+def test_cli_list_constraints(tmp_path, capsys):
+    from scripts.experiment import main
+    state = str(tmp_path / "state")
+    main(["--state-dir", state, "save-constraint", "--key", "daycare_nap_window", "--value", "12:30-14:30"])
+    main(["--state-dir", state, "save-constraint", "--key", "pickup", "--value", "17:15"])
+    capsys.readouterr()  # drop the save output
+    rc = main(["--state-dir", state, "list-constraints"])
+    assert rc == 0
+    out = json.loads(capsys.readouterr().out)
+    keys = {c["key"] for c in out}
+    assert keys == {"daycare_nap_window", "pickup"}
+
+
+def test_constraint_survives_new_store_instance(tmp_path):
+    # a saved constraint must be retrievable by a fresh instance = a new session,
+    # which is what session-start constraint auto-load relies on.
+    state = tmp_path / "state"
+    ExperimentStore(state).save_constraint(
+        SavedConstraint(key="daycare_nap_window", value="12:00-13:30", note="fixed by center"))
+    reloaded = ExperimentStore(state).list_constraints()
+    assert {c.key: c.value for c in reloaded} == {"daycare_nap_window": "12:00-13:30"}
 
 
 def test_store_reads_sleep_start_convention(tmp_path):
