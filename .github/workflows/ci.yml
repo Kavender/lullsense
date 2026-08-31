@@ -71,7 +71,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
       - name: Resolve the skill from the local checkout (no circular GitHub fetch)
         # Tests THIS commit's skill folder, not the pushed state: the skills CLI
         # validates the SKILL.md frontmatter + structure and must find exactly
@@ -79,7 +79,10 @@ jobs:
         # verified by hand once. Timeout so a stray prompt fails loud, not hangs.
         run: |
           set -o pipefail
-          out=$(timeout 180 npx --yes skills add ./skills/lullsense --list -y 2>&1 || true)
+          raw=$(NO_COLOR=1 FORCE_COLOR=0 timeout 180 npx --yes skills add ./skills/lullsense --list -y 2>&1 || true)
+          # The CLI colour-wraps its output (incl. the skill count) even when
+          # non-interactive, so strip ANSI escapes before matching.
+          out=$(printf '%s' "$raw" | perl -pe 's/\e\[[0-9;?]*[a-zA-Z]//g')
           echo "$out"
           echo "$out" | grep -q "Found 1 skill" || { echo "FAIL: skills CLI did not resolve exactly 1 skill from ./skills/lullsense"; exit 1; }
           echo "$out" | grep -qi "lullsense"      || { echo "FAIL: resolved skill is not named 'lullsense'"; exit 1; }
