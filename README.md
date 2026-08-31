@@ -13,7 +13,7 @@
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Scope](https://img.shields.io/badge/ages-4–36%20months-brightgreen)
 ![Safety](https://img.shields.io/badge/safety-first%20·%20never%20diagnoses-orange)
-![Status](https://img.shields.io/badge/status-pre--release%20(private)-lightgrey)
+![Status](https://img.shields.io/badge/status-public%20alpha-brightgreen)
 
 LullSense is an Agent Skill that helps parents understand baby and toddler sleep through **evidence-informed conversation**, with **optional longitudinal pattern detection** when sleep data is available. It gives real, useful help from the conversation alone — no paid app, tracker, or subscription required.
 
@@ -43,6 +43,18 @@ Good sleep help is expensive, gated behind subscriptions, or a timezone away at 
 >
 > **Consultant:** Good news first — across her nights, naps, bedtimes, total sleep, and how consistent the timing's been, most of it is holding steady. One thing shifted: her mornings have crept about 40 minutes earlier this week. Here's the likely why, what would change my mind, and a single adjustment to try…
 
+**Predicting the next nap or bedtime:**
+
+> **Parent:** She woke at 7 — when's her next nap?
+>
+> **Consultant:** Likely somewhere in the **9:00–10:00** window — that's from her age-typical rhythm, so a wide guess, not a fixed time, and her tired cues win over the clock. Share a few days of her actual naps and I can tighten that to her own pattern.
+
+**Reasoning around real-life constraints:**
+
+> **Parent:** She's 15 months and always a bit overtired. Daycare does one nap at noon and I can't change it — am I doing something wrong?
+>
+> **Consultant:** That long stretch before her afternoon nap is set by the daycare schedule — that's on the schedule, not on you. It means a little overtiredness is baked in, and no bedtime tweak fully erases it while the nap's fixed. The lever I'd reach for first is a slightly earlier bedtime to take the edge off. Want a couple of other options that work *around* the fixed nap?
+
 The skill surfaces **signals and hypotheses with evidence and limitations** — never a diagnosis, never a wall of analysis dumped at once.
 
 ---
@@ -50,9 +62,10 @@ The skill surfaces **signals and hypotheses with evidence and limitations** — 
 ## What it does
 
 - **No-data mode (primary path).** Reasons from the parent's account using a versioned, cited knowledge base. A verbal report ("waking at 5am all week") is real evidence.
-- **Data-enhanced mode.** Optionally ingest a sleep log — typed notes, generic CSV/JSON, or an official Huckleberry export — and fold a per-child **baseline** and **detector signals** into the reasoning.
+- **Data-enhanced mode.** Optionally ingest a sleep log — typed notes, generic CSV/JSON, or an official Huckleberry export — and fold a per-child **baseline** and **detector signals** into the reasoning. If a data provider / MCP is connected, it can **auto-pull recent sleep** (with a one-line heads-up, vendor-neutral) instead of asking you to export by hand.
+- **Next-sleep timing prediction.** Answers *"when's the next nap/bedtime?"* as a **range, never a single time** — from the age-typical rhythm, or a tighter band from the child's own recent pattern — always cue-first, with wake windows labeled a *product heuristic*, not a clinical clock. Under 4 months it gives cue-based orientation, not a schedule.
 - **Proactive review.** A parent-initiated *"review my recent sleep"* flow that turns detector signals into a calm, prioritized change summary — capped, de-duplicated, and led by what's *steady* — engineered to avoid alert fatigue.
-- **Constraint-first & planful.** Elicits hard constraints (daycare nap, pickup, work) *before* recommending, proposes the smallest useful experiment, and gives multi-day transitions a day-by-day roadmap.
+- **Constraint-first & reality-based.** Elicits — and **remembers across sessions** — hard constraints (daycare nap, pickup, work) *before* recommending. When a fixed constraint forces sleep away from the age-typical ideal, it names the shortfall as **structural, not a parenting failure**, never prescribes the blocked ideal, and works the *movable* levers with honest expectations. Multi-day transitions get a day-by-day roadmap.
 - **A minimal local store.** Persists only a child profile (date-of-birth so age never goes stale), explicitly-saved durable constraints, and experiment state — **never raw sleep logs**.
 
 ### Core principles
@@ -92,13 +105,13 @@ The skill is fully useful from conversation alone — data is never required.
 
 > Working from source? `git clone https://github.com/Kavender/lullsense.git`
 
-> **Status:** pre-release and **private** — released publicly only once fully built and tested.
+> **Status:** public alpha — feature-complete for a first release and live-tested. Feedback and issues welcome.
 
 ---
 
 ## What it knows
 
-A four-layer, versioned evidence base — **53 claims** across **29 sources**, validated by a schema/safety checker (`scripts/validate_knowledge.py`).
+A four-layer, versioned evidence base — **56 claims** across **34 sources**, validated by a schema/safety checker (`scripts/validate_knowledge.py`).
 
 | Layer | Content | Evidence bar |
 |---|---|---|
@@ -126,8 +139,8 @@ Delivery, tone, and the consultation spine live in a dedicated **persona layer**
 ```
 skills/lullsense/SKILL.md  ── thin router: safety → age → goal → constraints → mode → hypotheses → smallest experiment
    │
-   ├─ skills/lullsense/references/*.md   13 on-demand references (safety, reasoning, persona, developmental, myths, interventions, sleep-training, signal-taxonomy, provider/data-contract …)
-   ├─ skills/lullsense/knowledge/*.yaml  versioned claims + sources (+ validate_knowledge.py)
+   ├─ skills/lullsense/references/*.md   14 on-demand references (safety, reasoning, persona, developmental, myths, interventions, sleep-training, sleep-timing-prediction, signal-taxonomy, provider/data-contract …)
+   ├─ skills/lullsense/knowledge/*.yaml  versioned claims + sources + wake-window heuristics (+ validate_knowledge.py)
    │
    └─ baby_sleep/       optional, vendor-neutral analysis engine (pure Python)
         ├─ contract/    canonical sleep-log schema (ApproxTime, provenance)
@@ -135,6 +148,7 @@ skills/lullsense/SKILL.md  ── thin router: safety → age → goal → const
         ├─ analyze/     wake-day segmentation, ~22 features, robust per-child baseline
         ├─ detect/      10 baseline-relative, age-gated, non-diagnostic signal detectors
         ├─ review/      proactive review summary (rank · dedupe · cap · steady domains · freshness guard)
+        ├─ predict/     next nap/bedtime timing — age-band + personal-baseline wake windows (a range, never a point)
         └─ store/       minimal state: child profile + saved constraints + experiments (no raw logs)
 ```
 
@@ -151,7 +165,7 @@ Everything is inspectable and deterministic; the reasoning layer is vendor-neutr
 | `scripts/` | Thin CLIs: `validate_knowledge.py`; analysis via `lullsense-analyze` / `lullsense-experiment` |
 | `evals/` | Deterministic evals (proactive signals + review), consultant rubric, safety red-flag cases |
 | `examples/` | Synthetic example sleep logs |
-| `tests/` | Test suite (**188 passing**) |
+| `tests/` | Test suite (**221 passing**) |
 | `assets/` | Brand logo |
 
 ---
