@@ -96,7 +96,7 @@ Reason from the parent's account using `references/developmental-sleep.md` + `kn
 **Data-enhanced mode (when the parent supplies data).**
 If the parent provides a sleep log, run the analysis CLI, then read the JSON and fold `baseline` + `signals` into hypothesis ranking (`references/reasoning-framework.md` → "Reading the analysis JSON"). Never discard parent observations because they are unlogged.
 
-> The analysis commands (`lullsense-analyze`, `lullsense-experiment`) require the optional engine — `pip install lullsense` (or `uv tool install lullsense`). The skill is fully useful without it; no-data mode is the primary path.
+> The analysis commands (`lullsense-analyze`, `lullsense-experiment`) require the optional engine — during the alpha, install from source: `pip install "git+https://github.com/Kavender/lullsense.git"` (PyPI package planned). The skill is fully useful without it; no-data mode is the primary path.
 
 ```
 lullsense-analyze --format {manual|huckleberry|json} --input PATH \

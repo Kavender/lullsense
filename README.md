@@ -16,7 +16,9 @@
 ![Safety](https://img.shields.io/badge/safety-first%20·%20never%20diagnoses-orange)
 ![Status](https://img.shields.io/badge/status-public%20alpha-brightgreen)
 
-LullSense is an Agent Skill that helps parents understand baby and toddler sleep through **evidence-informed conversation**, with **optional longitudinal pattern detection** when sleep data is available. It gives real, useful help from the conversation alone — no paid app, tracker, or subscription required.
+**A calm, evidence-literate voice for the 3am questions — free, and no tracker required.**
+
+LullSense is an open-source **Agent Skill** that helps parents understand baby and toddler sleep through **evidence-informed conversation**, with **optional longitudinal pattern detection** when a sleep log is available. It gives real, useful help from the conversation alone — no paid app, no tracker, no subscription.
 
 > **More data improves the answer; data is never the price of admission.**
 
@@ -26,7 +28,9 @@ It is educational and supportive — **not a medical device**. It never diagnose
 
 ## Why this exists
 
-Good sleep help is expensive, gated behind subscriptions, or a timezone away at 3am. The authoritative guidance (AAP safe-sleep, AASM sleep-duration consensus, the developmental literature) is public but scattered and hard to apply to *your* child at 3am. This skill distills that public evidence into a calm, individualized consultation that any capable AI agent can carry — for free, inspectably, and safely.
+It's 3am. The baby won't resettle, you're scrolling for answers, and every door is a little bit closed: the tracker app wants a subscription, a private consultant costs hundreds and is a timezone away, and a web search returns a pile of confident, contradictory blog posts. Meanwhile the *actual* authoritative guidance — AAP safe-sleep, the AASM sleep-duration consensus, the developmental literature — is public, but scattered, technical, and nearly impossible to apply to *your* child at *that* hour.
+
+LullSense began with exactly that frustration: even a good sleep consultant is asleep at 3am, a timezone away — and plenty of families can't afford one at all. Good sleep help shouldn't depend on your budget or your timezone. So this project distills that public evidence into a calm, individualized consultation any capable AI agent can carry — free, inspectable, safety-first, and honest about the line between grounded evidence and a rule-of-thumb. Not to replace your pediatrician, but to be a steady, evidence-literate voice in the room when no one else is awake.
 
 ---
 
@@ -106,12 +110,14 @@ This makes the skill available to your agent. A project install lands under `.cl
 **Optional analysis engine** (data-enhanced + longitudinal review):
 
 ```bash
-pip install lullsense       # exposes lullsense-analyze / lullsense-experiment
+# Install from source (not yet on PyPI during the alpha)
+pip install "git+https://github.com/Kavender/lullsense.git"
+# exposes: lullsense-analyze / lullsense-experiment
 ```
 
-The skill is fully useful from conversation alone — data is never required.
+Once published, `pip install lullsense` will be the one-liner; until then use the source install above. The skill is fully useful from conversation alone — data is never required.
 
-> Working from source? `git clone https://github.com/Kavender/lullsense.git`
+> Working from a clone? `git clone https://github.com/Kavender/lullsense.git && pip install .`
 
 > **Status: evidence-backed public alpha.** Feature-complete for a first release and live-tested. Safety content is grounded in authoritative sources and validated for provenance, but has **not yet completed independent pediatric-sleep / clinical review** — source validation is not the same as clinical review. Independent review is planned before a stable release. Feedback and issues welcome.
 

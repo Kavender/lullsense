@@ -22,7 +22,9 @@ Ask a baby/toddler sleep question in natural language and the skill takes over.
 Data-enhanced and proactive-review modes use an optional Python engine:
 
 ```bash
-pip install lullsense      # exposes: lullsense-analyze, lullsense-experiment
+# From source during the alpha (not yet on PyPI):
+pip install "git+https://github.com/Kavender/lullsense.git"
+# exposes: lullsense-analyze, lullsense-experiment
 ```
 
 The skill is fully useful from conversation alone; data is never required.
