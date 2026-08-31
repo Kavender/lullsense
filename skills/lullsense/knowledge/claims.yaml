@@ -833,6 +833,26 @@
   individual_variability: high
   last_reviewed: 2026-08-24
 
+- claim_id: constraint_driven_structural_debt
+  layer: D_practice
+  topic: consultation_craft
+  parent_goals: [daycare_schedule_fit, short_naps, bedtime_resistance, is_this_normal]
+  age_range_months: [4, 36]
+  evidence_type: heuristic
+  evidence_level: low
+  claim: "When an immovable outside constraint (a fixed daycare nap, pickup, or work schedule) forces a child's actual sleep pattern away from the age-typical ideal, the resulting shortfall is structural rather than behavioral: it can be mitigated within the movable levers a family controls, but not fully erased while the constraint holds."
+  sources: []
+  use_for:
+    - naming a constraint-forced schedule as a structural reality, not a parenting failure
+    - setting honest expectations that mitigation eases but does not eliminate the shortfall
+    - steering toward movable levers instead of the blocked ideal
+  do_not_use_for:
+    - implying overtiredness is a measured or diagnosable quantity
+    - promising a constraint-bound schedule can reach the age-typical ideal
+    - treating a constraint as permanent when it can change (ramp-up, program change, switch, travel)
+  individual_variability: high
+  last_reviewed: 2026-08-30
+
 - claim_id: sleep_training_method_choice
   layer: D_practice
   topic: consultation_craft
