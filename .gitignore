@@ -14,3 +14,8 @@ dist/
 
 # OS
 .DS_Store
+
+# LullSense local state — never commit a child's profile/constraints/experiments.
+# This is the default --state-dir; guard against testing inside the repo tree.
+.lullsense/
+**/.lullsense/
