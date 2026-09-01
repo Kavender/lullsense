@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from baby_sleep.contract.enums import SleepType, StartMarker
+from baby_sleep.contract.enums import DataQuality, SleepType, StartMarker
 from baby_sleep.contract.models import SleepLog, SleepSession
 from baby_sleep.contract.time_types import ApproxTime, TimePrecision
 from baby_sleep.ingest.normalize import classify_sleep_type, is_sane, normalize, resolve_end
@@ -33,6 +33,94 @@ def test_is_sane_rejects_impossible():
     assert is_sane(start, None, 0) is False          # zero duration
     assert is_sane(start, None, 25 * 60) is False     # > 20h
     assert is_sane(start, datetime(2026, 8, 24, 12, 0), None) is False  # end before start
+
+
+def test_is_sane_rejects_no_end_and_no_duration():
+    # T1c: a session with neither an end time nor a duration is not analyzable.
+    start = datetime(2026, 8, 24, 13, 0)
+    assert is_sane(start, None, None) is False
+
+
+def test_normalize_drops_session_with_no_end_or_duration():
+    # T1c: no end + no duration must be dropped with a specific warning, not kept silently.
+    log = SleepLog(sessions=[
+        SleepSession(start=ApproxTime(value=datetime(2026, 8, 24, 13, 0))),   # no end, no duration
+    ])
+    out, warnings = normalize(log)
+    assert out.sessions == []
+    assert len(warnings) == 1
+    assert "no end time or duration" in warnings[0].lower()
+
+
+def _nap(h1, m1, h2, m2):
+    return SleepSession(
+        start=ApproxTime(value=datetime(2026, 8, 24, h1, m1)),
+        end=ApproxTime(value=datetime(2026, 8, 24, h2, m2)),
+        sleep_type=SleepType.NAP)
+
+
+def test_normalize_drops_contained_overlapping_session():
+    # T1a: a nap fully inside another nap is a double-log — drop the contained one, with a warning.
+    log = SleepLog(sessions=[_nap(13, 0, 14, 10), _nap(13, 15, 13, 45)])
+    out, warnings = normalize(log)
+    assert len(out.sessions) == 1
+    assert out.sessions[0].start.value == datetime(2026, 8, 24, 13, 0)
+    assert out.sessions[0].end.value == datetime(2026, 8, 24, 14, 10)
+    assert any("overlap" in w.lower() for w in warnings)
+
+
+def test_normalize_trims_partial_overlap_and_marks_inferred():
+    # T1a: partial overlap -> trim the later session's start to the earlier session's end,
+    # recompute its duration, mark it inferred, and warn.
+    log = SleepLog(sessions=[_nap(13, 0, 13, 45), _nap(13, 30, 14, 10)])
+    out, warnings = normalize(log)
+    assert len(out.sessions) == 2
+    trimmed = out.sessions[1]
+    assert trimmed.start.value == datetime(2026, 8, 24, 13, 45)   # trimmed to earlier end
+    assert trimmed.end.value == datetime(2026, 8, 24, 14, 10)
+    assert trimmed.duration_minutes == 25                          # 13:45 -> 14:10
+    assert trimmed.data_quality is DataQuality.INFERRED
+    assert any("overlap" in w.lower() for w in warnings)
+
+
+def _night(d1, h1, m1, d2, h2, m2):
+    return SleepSession(
+        start=ApproxTime(value=datetime(2026, 8, d1, h1, m1)),
+        end=ApproxTime(value=datetime(2026, 8, d2, h2, m2)),
+        sleep_type=SleepType.NIGHT)
+
+
+def test_normalize_repairs_forgot_to_stop_night_from_history():
+    # T1b: a 14h+ "night" (timer left running) is truncated to the child's typical
+    # morning wake (median of clean nights), marked inferred, and warned — not left to
+    # poison the baseline.
+    log = SleepLog(sessions=[
+        _night(20, 19, 0, 21, 6, 0),      # clean, wake 06:00
+        _night(21, 19, 0, 22, 6, 15),     # clean, wake 06:15
+        _night(22, 19, 0, 23, 6, 30),     # clean, wake 06:30
+        _night(23, 19, 0, 24, 9, 10),     # forgot-to-stop: 14h10m
+    ])
+    out, warnings = normalize(log)
+    repaired = out.sessions[3]
+    assert repaired.end.value == datetime(2026, 8, 24, 6, 15)     # median clean wake
+    assert repaired.duration_minutes == 675                       # 19:00 -> 06:15 = 11h15
+    assert repaired.data_quality is DataQuality.INFERRED
+    assert any("forgot-to-stop" in w.lower() for w in warnings)
+    # clean nights are untouched
+    assert out.sessions[0].data_quality is DataQuality.LOGGED
+
+
+def test_normalize_drops_forgot_to_stop_when_history_insufficient():
+    # T1b reset fallback: with fewer than 3 clean nights there's no basis to repair —
+    # drop the bad night with a warning rather than keep or silently repair it.
+    log = SleepLog(sessions=[
+        _night(20, 19, 0, 21, 6, 0),      # one clean night only
+        _night(21, 19, 0, 22, 9, 20),     # forgot-to-stop: 14h20m
+    ])
+    out, warnings = normalize(log)
+    assert len(out.sessions) == 1
+    assert out.sessions[0].start.value == datetime(2026, 8, 20, 19, 0)
+    assert any("forgot-to-stop" in w.lower() and "insufficient" in w.lower() for w in warnings)
 
 
 def test_classify_night_when_crosses_midnight():
