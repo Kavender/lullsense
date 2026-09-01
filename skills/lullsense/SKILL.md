@@ -41,38 +41,13 @@ Consult it as a **net, not a questionnaire**. If the presenting problem plausibl
 ### 2. Establish age (age-first) — `references/conversational-intake.md §1`
 Age is the one field that cannot be deferred. If the parent already stated it *this conversation* ("my 15-month-old"), do not re-ask. For preterm infants establish gestational age → use **corrected age**. Near the ~4-month boundary, round conservatively (treat as <4mo).
 
-**Load the saved profile FIRST — before you ask for age.** At the start of any child-sleep conversation, **check for a saved child profile and derive the current age from its stored DOB**; only ask for age if none exists. This is what makes age persist across sessions — **do not re-ask a family their child's age every time.**
+**Load the saved profile FIRST — before you ask for age.** At the start of any child-sleep conversation, **check for a saved child profile and derive the current age from its stored DOB**; only ask for age if none exists — **do not re-ask a family their child's age every time.** First check the memory preference (`~/.lullsense/settings.json` → `memory`): if **`disabled`**, run **session-only** and persist nothing. Full discovery / read / save / opt-out mechanics: **`references/memory-protocol.md`** — load it only when you need to save a profile, disambiguate multiple children, or handle an opt-out; the common case (one returning family) is just "load it, derive age, move on."
 
-Discovery (when the caller didn't supply a `--state-dir`): look in the default root **`~/.lullsense/`**, which holds **one sub-directory per child** plus an optional `settings.json` memory preference. **First check the memory preference** (`~/.lullsense/settings.json` → `memory`): if it is `disabled`, this family opted out before — run **session-only**, persist nothing, and don't show the first-time notice again. Otherwise (the default — memory is on), proceed:
-- **Exactly one** child dir → load it and use its DOB. (A light "just to confirm, this is about <name>?" is fine; do not re-ask the age.)
-- **Several** child dirs → ask which child this is about, then load that one.
-- **None** (first-ever contact) → ask age once, then **save** a profile (below) under `~/.lullsense/<child-slug>/` so the next session remembers — and **the first time you save, tell the parent in one line** (see "First-time memory notice & opt-out").
+**Anchor on date-of-birth, not a month count** — a "15-month-old" is 17 months two months later, so persist a **DOB** (never a bare month-count) and derive age each session; an **exact** DOB always supersedes an **approximate** soft-anchor. **Safety boundary:** near the ~4-month tier line, don't let an *approximate* DOB flip the safety tier on its own — round conservative and confirm the real birthday first. (CLI + soft-anchor rules: `references/memory-protocol.md §3`.)
 
-How to read it:
-- **With the engine:** `lullsense-experiment --state-dir ~/.lullsense/<child> get-profile` → derive age from `dob`.
-- **Without the engine:** read `~/.lullsense/<child>/profile.json` directly (fields: `name`, `dob`, `dob_precision`, `gestational_age_at_birth_weeks`) and compute whole months from `dob` to today yourself.
+**Also load the child's saved durable constraints at session start** — right after the profile, so the skill is constraint-aware from turn one and never re-asks the daycare setup. Hold the daycare nap window, pickup, work start, room-sharing, and sleep-start convention as active context; every recommendation is checked against them (`constraint_conflict`) before it's spoken. Treat a loaded constraint as **last-known, not forever-true** — confirm currency when it's stale or the pattern has clearly shifted (`references/reasoning-framework.md` → "Constraints evolve"). Transient context (travel, time-zone, illness) is used for the turn but **not** persisted. (Read/write mechanics: `references/memory-protocol.md §2`.)
 
-Once loaded, **silently use the DOB → current age and move on.** Persist the DOB whenever the family first gives a birthday or age (below).
-
-**Also load the child's saved durable constraints at session start** — right after the profile, so the skill is constraint-aware from turn one and never re-asks the daycare setup. Hold the daycare nap window, pickup, work start, room-sharing, and sleep-start convention as active context for the whole session; every recommendation is checked against them (`constraint_conflict`) before it's spoken.
-- **With the engine:** `lullsense-experiment --state-dir ~/.lullsense/<child> list-constraints` → an array of `{key, value, note}`.
-- **Without the engine:** read `~/.lullsense/<child>/constraints.json` directly (same array).
-- **Treat a loaded constraint as last-known, not forever-true** — confirm currency when it's stale or the child's actual pattern has clearly shifted (daycare ramp-up, a room move, a switch, travel); see `references/reasoning-framework.md` → "Constraints evolve." Transient context (travel, time-zone, illness) is used for the turn but **not** persisted.
-
-**Anchor on date-of-birth, not a month count.** A month count is a snapshot that goes stale — a "15-month-old" is 17 months two months later. Persist a **DOB** in the child's profile and let `lullsense-analyze` derive current age from it every session:
-```
-lullsense-experiment --state-dir DIR save-profile --name NAME --dob YYYY-MM-DD [--dob-precision {exact|approximate}] [--gestational-weeks K]
-```
-- **Soft-anchor a one-time age mention.** If the parent only says "my 15-month-old", infer an approximate DOB (≈ today − the stated age) and save it with `--dob-precision approximate` — it will age correctly over time instead of freezing.
-- **Exact always wins.** When the parent gives a real birthday, save it (default `exact`); an exact DOB **supersedes and is never overwritten by an approximate one** in any downstream calculation.
-- **Boundary guardrail:** near the ~4-month tier line, don't let an *approximate* DOB flip the safety tier on its own — round conservative and confirm the real birthday first.
-- Never persist a bare month-count as durable.
-
-**First-time memory notice & opt-out (on by default, opt-out anytime).** Memory is on by default, so you may save the profile without asking — but the **first time you persist anything for a new family** (first-ever contact, no prior profile), add one short, warm line so it's never a surprise: *"I'll remember her birthday so you won't have to tell me next time — just say the word if you'd rather I didn't keep it."* Fold it into your normal reply inside the persona; it does **not** block the conversation and you still help immediately. Do this **once**, not every session — a returning family already has a profile, and an opted-out family (memory `disabled`) never sees it.
-- **If the parent opts out** ("don't save that", "please don't keep her info"): turn memory off (`lullsense-experiment disable-memory`, or write `~/.lullsense/settings.json` = `{"memory": "disabled"}` directly), **delete anything you saved this session** (remove that child's `~/.lullsense/<child-slug>/` dir), confirm warmly ("Done — I won't keep anything. Tell me to remember again anytime."), and continue **session-only**. The opt-out is remembered across sessions; the only thing left on disk is that non-PII flag.
-- **Re-enable on request** ("you can remember her again"): `lullsense-experiment enable-memory` (or set the flag back to `enabled`), then resume normal persistence.
-
-**One child per profile / state-dir (see "State & retention").** If the family has more than one child, keep a **separate state-dir per child** and confirm which child each concern is about — never mix two children's ages, constraints, or experiments.
+**One child per profile / state-dir.** If the family has more than one child, keep a **separate state-dir per child** and confirm which child each concern is about — never mix two children's ages, constraints, or experiments.
 
 - **< 4 months (corrected) → newborn guardrail (`references/safety-triage.md §4–§5`).** No behavioral/schedule optimization. Deliver only: safe-sleep essentials, the brief active red-flag check, and routing of any concern. Say warmly that structured sleep coaching for this age is out of scope for now.
 - **≥ 4 months (corrected) → standard supported range.** Passive red-flag detection + proceed.
@@ -184,7 +159,7 @@ Cite grounded figures to their source IDs (`knowledge/sources.yaml`); attribute 
 - The store keeps only: the **child profile** (name, DOB, gestational age — so age is always derived, never stale), **experiment state**, and **explicitly-saved durable constraints** (e.g. `sleep_start_convention`, a fixed daycare nap).
 - **Raw sleep logs are NOT persisted**, and **transient context is NOT persisted** (illness, teething, travel, a developmental leap — see Step 4). Analysis of a supplied log is ephemeral — run it, read the JSON, do not write the log to the store.
 - Only save a constraint the family has explicitly stated and would want reused. Treat all persisted state as sensitive; keep examples and fixtures synthetic.
-- **Memory is on by default, disclosed once, and revocable.** The skill saves without asking, but the **first** time it persists anything for a new family it says so in one line (Step 2 → "First-time memory notice & opt-out"). A parent can opt out anytime; that turns memory off and is remembered as a single non-PII flag at `~/.lullsense/settings.json` (`{"memory": "disabled"}`) — checked at session start, honored as session-only, re-enabled on request. What's read, kept, and how to delete it is documented in `DATA_HANDLING.md`.
+- **Memory is on by default, disclosed once, and revocable.** The skill saves without asking, but the **first** time it persists anything for a new family it says so in one line (`references/memory-protocol.md §4` — "First-time memory notice & opt-out"). A parent can opt out anytime; that turns memory off and is remembered as a single non-PII flag at `~/.lullsense/settings.json` (`{"memory": "disabled"}`) — checked at session start, honored as session-only, re-enabled on request. What's read, kept, and how to delete it is documented in `DATA_HANDLING.md`.
 
 ---
 
@@ -194,6 +169,7 @@ Cite grounded figures to their source IDs (`knowledge/sources.yaml`); attribute 
 |---|---|
 | Screening red flags / halt & refer / newborn guardrail | `references/safety-triage.md` |
 | Age-first, high-value questions, constraint elicitation | `references/conversational-intake.md` |
+| Saving/loading a profile or constraints; memory opt-out; multi-child | `references/memory-protocol.md` |
 | The ten-step workflow, hypothesis menu, `constraint_conflict`, reading analysis JSON | `references/reasoning-framework.md` |
 | Voice, tone, delivery, staged plans, eval dimensions | `references/consultant-persona.md` |
 | Delivering a longitudinal "review my recent sleep" summary (calm, steady-first) | `references/consultant-persona.md §4b` + `references/reasoning-framework.md` → "Review mode" |
