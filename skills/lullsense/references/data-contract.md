@@ -154,7 +154,7 @@ An empty `SleepLog()` (no sessions, no profile) is valid and represents the no-d
 |---|---|
 | `"logged"` | Recorded at the time by an app or device |
 | `"reported"` | Recalled or estimated by a parent after the fact |
-| `"inferred"` | Derived by the skill from other signals |
+| `"inferred"` | Derived or **repaired** by the skill (e.g. a forgot-to-stop night truncated to the typical wake) — see "Data quality & repair" below |
 
 ### `StartMarker`
 | Value | Meaning |
@@ -168,6 +168,32 @@ An empty `SleepLog()` (no sessions, no profile) is valid and represents the no-d
 |---|---|
 | `"exact"` | Precisely recorded timestamp |
 | `"approximate"` | Estimated or reconstructed timestamp |
+
+### Data quality & repair (D15)
+
+Real logs are messy. The ingest layer (`normalize`) repairs the common defects **before**
+analysis so they don't silently poison the per-child baseline — and **nothing is silent**:
+every repair or drop is appended to the analyzer's `warnings` list, and repaired sessions
+are re-marked `data_quality: "inferred"`.
+
+| Defect | What the parent did | Repair | Marked |
+|---|---|---|---|
+| **No end & no duration** | Started a session, never recorded its length | Dropped (not analyzable) | warning |
+| **Overlapping sessions** | Double-logged the same sleep | Contained one dropped; a partial overlap has its start trimmed to the earlier end | warning + `inferred` on the trimmed one |
+| **Forgot-to-stop night** | Left a bedtime timer running past the real morning wake (a >13h "night") | End truncated to the child's typical morning wake (median of clean nights); if too few clean nights exist, the night is dropped instead of guessed | warning + `inferred` |
+
+Two honesty consequences flow downstream:
+
+- A session marked `inferred` is a **repair, not a measurement** — treat it as softer evidence.
+- When more than ~25% of the **baseline** window is repaired, every emitted signal is capped
+  at `medium` confidence with a "baseline includes repaired sessions" limitation. Do not
+  present such signals as firm.
+
+**Explaining a repair to a parent** (only if it's decision-relevant, and in plain language):
+*"One night looked like the timer was left running — about 14 hours — so I treated it as a
+normal night for her instead, which is why it's not throwing off the picture."* Never scold the
+logging; the repair is a courtesy, not a correction of the parent. Thresholds here (13h, 25%,
+≥3 clean nights) are **product heuristics**, not clinical rules.
 
 ---
 
