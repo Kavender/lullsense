@@ -8,9 +8,12 @@ to inspect or delete it.
 **Short version:** LullSense keeps a small amount of local state on *your* machine so
 it doesn't have to re-ask your child's age and daycare setup every session, and — if
 you've connected a sleep-data provider — it can read your recent log to give a better
-answer. It stores this locally only, never uploads it anywhere, never stores raw sleep
-logs, tells you the first time it saves anything (and whenever it reads a connected
-log), and lets you turn memory off at any time.
+answer. It keeps this state on *your* machine — LullSense has no backend of its own —
+never stores raw sleep logs, tells you the first time it saves anything (and whenever it
+reads a connected log), and lets you turn memory off at any time. One caveat worth
+naming up front: LullSense runs *inside* an AI agent, so what you type, any log you
+share, and any connected-tool output are processed by whatever AI model provider you run
+it on, under that provider's own privacy policy — see *[The AI-model boundary](#the-ai-model-boundary)* below.
 
 **Memory is on by default, disclosed, and revocable.** The first time LullSense saves
 anything for your child, it tells you in one line — e.g. *"I'll remember her birthday
@@ -35,7 +38,8 @@ remembered so it won't keep asking (see *Turning memory off* below).
   endorses no specific product and uses only official/first-party access, never
   unofficial scraping (see the Huckleberry policy in
   `skills/lullsense/references/mcp-data-provider.md §6`). If you tell it not to use the
-  connected data, it stops for the session.
+  connected data, it stops for the session. Data retrieved from a connected provider may
+  be passed to the active AI model for analysis (see *The AI-model boundary* below).
 
 ## What is session-only (never written to disk)
 
@@ -59,8 +63,19 @@ profile:
   work start, room-sharing, your put-down-vs-asleep convention.
 - **Experiment state** — the one small change you're trying and when to review it.
 
-This is stored as plain JSON files, **on your own machine only**. Nothing is uploaded
-to any server. LullSense has no backend.
+This is stored as plain JSON files, **on your own machine only**. LullSense itself has
+no backend and does not send this state to any LullSense-operated service — the profile,
+constraint, and experiment files stay on your machine.
+
+### The AI-model boundary
+
+"On your machine only" applies to the saved profile/constraint state described above —
+**not** to the conversation itself. LullSense runs *inside* an AI agent/host, so your
+conversation content, any sleep log you paste or that is pulled from a connected
+provider, and connected-tool output may be processed by the AI agent or model provider
+running LullSense, according to **that provider's** own data and privacy policies. If
+you're using a cloud-hosted model, that content is sent to the model provider. LullSense
+has no control over, and makes no promises about, what that provider does with it.
 
 ### Where it's stored
 
