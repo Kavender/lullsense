@@ -84,6 +84,13 @@ def _approx_share(day: SleepDay) -> float:
     return sum(1 for s in sessions if lower_quality(s)) / len(sessions)
 
 
+def _repaired_share(day: SleepDay) -> float:
+    sessions = list(day.night_segments) + list(day.naps)
+    if not sessions:
+        return 0.0
+    return sum(1 for s in sessions if s.data_quality is DataQuality.INFERRED) / len(sessions)
+
+
 def _dominant_location(day: SleepDay) -> Location:
     from collections import Counter
     locs = [s.location for s in list(day.night_segments) + list(day.naps)
@@ -107,6 +114,7 @@ def compute_daily_features(day: SleepDay) -> DailyFeatures:
     f.is_weekend = day.day.weekday() >= 5
     f.location = _dominant_location(day)
     f.approx_share = _approx_share(day)
+    f.repaired_share = _repaired_share(day)
     f.day_confidence = (Confidence.HIGH if f.approx_share == 0
                         else Confidence.MEDIUM if f.approx_share <= 0.5
                         else Confidence.LOW)

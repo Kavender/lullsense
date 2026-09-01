@@ -57,3 +57,23 @@ def test_runner_returns_signals_when_computed():
     inp = DetectorInput(series=series, baseline=build_baseline(series, Child(age_months=12)))
     names = {s.signal for s in run_detectors(inp)}
     assert SignalName.EARLY_WAKING in names
+
+
+def _n_inferred(d, rh, rm, dur):
+    from baby_sleep.contract.enums import DataQuality
+    return _n(d, rh, rm, dur).model_copy(update={"data_quality": DataQuality.INFERRED})
+
+
+def test_runner_caps_confidence_when_baseline_mostly_repaired():
+    # T1d: when >25% of the baseline-window sessions are repaired/inferred, every emitted
+    # signal is capped at medium and carries a "baseline includes repaired sessions" note.
+    baseline = [_n_inferred(1 + i, 6, 0, 630) for i in range(8)] \
+        + [_n(9 + i, 6, 0, 630) for i in range(6)]      # 8/14 baseline nights repaired (>25%)
+    recent = [_n(15 + i, 5, 0, 570) for i in range(5)]  # recent window is clean
+    series = build_feature_series(SleepLog(sessions=baseline + recent))
+    inp = DetectorInput(series=series, baseline=build_baseline(series, Child(age_months=12)))
+    signals = run_detectors(inp)
+    assert signals, "expected at least one signal (early waking)"
+    for s in signals:
+        assert s.confidence is not Confidence.HIGH
+        assert any("baseline includes repaired sessions" in lim for lim in s.limitations)

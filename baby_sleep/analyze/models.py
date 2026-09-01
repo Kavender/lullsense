@@ -55,6 +55,7 @@ class DailyFeatures(BaseModel):
     is_weekend: bool | None = None
     location: Location = Location.UNKNOWN
     approx_share: float = 0.0
+    repaired_share: float = 0.0            # share of sessions repaired by the D15 ingest layer
     day_confidence: Confidence = Confidence.HIGH
 
 

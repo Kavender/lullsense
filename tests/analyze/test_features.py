@@ -105,6 +105,24 @@ def test_is_weekend_and_location():
     assert f.location is Location.HOME
 
 
+def test_repaired_share_counts_only_inferred_sessions():
+    # T1d: repaired_share tracks INFERRED (repaired) sessions specifically — a
+    # parent-reported (approximate) session is NOT a repair and must not count.
+    inferred_nap = SleepSession(
+        start=ApproxTime(value=datetime(2026, 8, 24, 10, 0)),
+        end=ApproxTime(value=datetime(2026, 8, 24, 11, 0)),
+        duration_minutes=60, sleep_type=SleepType.NAP,
+        data_quality=DataQuality.INFERRED)
+    logged_nap = SleepSession(
+        start=ApproxTime(value=datetime(2026, 8, 24, 14, 0)),
+        end=ApproxTime(value=datetime(2026, 8, 24, 15, 0)),
+        duration_minutes=60, sleep_type=SleepType.NAP,
+        data_quality=DataQuality.LOGGED)
+    day = segment_days(SleepLog(sessions=[inferred_nap, logged_nap]))[0]
+    f = compute_daily_features(day)
+    assert f.repaired_share == 0.5
+
+
 def test_approx_share_lowers_day_confidence():
     night = SleepSession(
         start=ApproxTime(value=datetime(2026, 8, 24, 19, 30),
