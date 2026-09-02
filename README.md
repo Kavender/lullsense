@@ -18,7 +18,7 @@
 
 **A calm, evidence-literate voice for the 3am questions — free, and no tracker required.**
 
-LullSense is an open-source **Agent Skill** that helps parents understand baby and toddler sleep through **evidence-informed conversation**, with **optional longitudinal pattern detection** when a sleep log is available. It gives real, useful help from the conversation alone — no paid app, no tracker, no subscription.
+LullSense is an open-source **baby sleep intelligence layer** — it turns a child's **real sleep history**, **family context**, and the **evidence base** into useful, individualized guidance. It's more than an AI that answers sleep questions: it's a layer that keeps making sense of how a child's sleep actually changes over time. It runs as an **Agent Skill** any capable AI agent can carry, gives real, useful help from **conversation alone** — no paid app, no tracker, no subscription — and goes deeper with **optional longitudinal pattern detection** when a sleep log is available.
 
 > **More data improves the answer; data is never the price of admission.**
 
