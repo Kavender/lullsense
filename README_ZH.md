@@ -8,7 +8,7 @@
 
 # LullSense（知眠）
 
-> 面向每个家庭的开源婴幼儿睡眠智能。
+> 开源婴幼儿睡眠智能——为最终抵达每一个家庭而打造。
 
 [![CI](https://github.com/Kavender/lullsense/actions/workflows/ci.yml/badge.svg)](https://github.com/Kavender/lullsense/actions/workflows/ci.yml)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
@@ -23,6 +23,8 @@ LullSense 是一个开源的 Agent Skill（智能体技能），通过**基于�
 > **数据能让答案更好；但数据从来不是使用它的门票。**
 
 它是教育性、支持性的工具——**不是医疗器械**。它绝不做诊断，永远先做安全排查，并且对「哪些是有据可依的证据、哪些是可调整的经验法则」保持诚实。
+
+> **它目前触达的是谁。** LullSense 运行在 AI 智能体内部、且从源码安装，所以在这个公开 alpha 阶段，它真正的第一批用户是**对技术较熟悉的家长、智能体用户和开发者**——还不是每一个家庭。「每一个家庭」是我们努力奔赴的目标、是北极星，而不是说现在的体验对所有人都开箱即用。降低这道门槛，本身就是路线图的一部分。
 
 ---
 

@@ -7,7 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-_Nothing yet._
+### Changed
+
+- **Tagline reframed from claim to aspiration.** "…for every family" → "…built
+  to reach every family," and both READMEs now name the real first-user ICP
+  (technically comfortable parents, agent users, builders) rather than implying
+  the experience is turnkey for everyone in this alpha.
 
 ## [0.1.0] — first public alpha
 
