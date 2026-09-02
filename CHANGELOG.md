@@ -22,6 +22,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   "About" now carry the same "sleep consultant, conversation-first, sharper with
   recent sleep history" wording.
 
+### Fixed
+
+- **Prediction now auto-pulls from a connected provider before falling back to
+  age-only.** `references/sleep-timing-prediction.md` described mode selection
+  passively and its worked examples closed by asking the parent to share a log —
+  so the skill would give an age-only band and *offer* to pull instead of
+  auto-pulling, contradicting `SKILL.md` Step 5c and `mcp-data-provider.md §5a`.
+  The auto-pull step now lives at the decision point in §3, "age-only" is labeled
+  the fallback, and the examples model auto-pull-first (with the offer-instead-of-
+  pull case added as an explicit Wrong example).
+
 ## [0.1.0] — first public alpha
 
 First public alpha. Educational and supportive only — LullSense never diagnoses,
