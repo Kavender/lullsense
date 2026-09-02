@@ -51,6 +51,8 @@ Note there is **no HH:MM** anywhere in that answer. That is the guardrail workin
 
 Once safety and age clear (≥ 4 months), choose the source of the estimate. Both produce a range; they differ in *width* and *basis*.
 
+**First — acquire data before you settle on a mode. "Age-only" is the FALLBACK, not the default.** Before dropping to the heuristics table, check your available tools for a connected sleep-data provider/MCP — detect it by *capability* (a tool that lists children / returns sleep history), **never** by hard-coding a vendor. If one is present and the parent hasn't already pasted a log, **auto-pull recent sleep yourself with a one-line heads-up** ("let me check your connected log…") and run the engine for a personal-baseline band. Drop to the age-only table **only when no provider is connected, or it returns nothing recent.** The one-line heads-up *is* how you stay within first-turn brevity — it is **not** a reason to defer the pull and merely *offer* it ("want me to pull?" is the §5a permission-gate failure). Full mechanics: `references/mcp-data-provider.md §5a` and `SKILL.md` Step 5c.
+
 ### Data present (log / store / MCP) → engine, personal baseline
 
 If the parent has supplied a sleep log — typed notes, CSV, JSON, an official Huckleberry export — or a connected provider can furnish recent sessions, run the engine. It computes the child's own recent wake-window median and, if that pattern is stable, centers a **tighter** band on it:
@@ -65,7 +67,7 @@ lullsense-analyze --predict --last-wake HH:MM --target {nap|bedtime} \
 
 `--last-wake HH:MM` (the time the child last woke) is **required** with `--predict`. The prediction is emitted as a top-level `prediction` block in the analysis JSON (§5). When the child's recent wake window is stable, the engine returns `basis: personal_baseline`, `confidence: moderate`, and a band centered on the child's own median — a precise, personal estimate.
 
-### No engine / no data → read the heuristics table
+### No provider / no engine / no data → read the heuristics table (fallback)
 
 With no engine installed and no data, do **not** guess a number. Read `knowledge/sleep_timing_heuristics.yaml`, find the row whose `age_band_months` contains the child's age, take that band's `wake_window_minutes` `{min, max}`, and **add both ends to the last wake time**. Present the resulting *wide* window — never a single time.
 
@@ -91,11 +93,19 @@ Every timing answer, whichever mode produced it, obeys all of the following:
 - **First-turn brevity applies.** Turn one is a one-line answer plus an offer to go deeper — not the reasoning, not the table, not a full day. This is the *first-turn contract* (`references/consultant-persona.md §2`): a headline, then let the parent steer. Withhold the wake-window math, the band mechanics, and any schedule until they lean in.
 - **Whole-day map out of scope.** If asked for a full day, give the *next* event and say a full-day map needs a sense of the child's typical nap lengths (logged or stated). Do not fabricate a multi-nap schedule (§6).
 
-**Right (age-only, wide, one line + offer):**
+**Right (provider connected → auto-pull, don't offer):**
+> "Let me peek at her last few days from your connected log… — her wake window's been running close to **2h15**, so I'd watch for the next nap around **9:00–9:40** today. Tighter because it's her own pattern, but still a guide, not a clock; her cues win if she's telling you sooner."
+
+*(One-line heads-up, then the pull — not "want me to pull?" The parent connected the provider, so reading their own recent data to answer the question they just asked is within that consent; see `references/mcp-data-provider.md §5a`.)*
+
+**Right (personal baseline, tighter — same shape once the log is in hand):**
+> "From her own last week or so, her wake window's been running close to 2h15, so I'd watch for the next nap around **9:00–9:40** today — tighter because it's her own pattern, but still a guide, not a clock. Her cues win if she's telling you sooner."
+
+**Right (age-only — the FALLBACK, only when NO provider is connected and no log was shared):**
 > "Since she woke at 7, her next nap is likely somewhere in the **9 to 10** window — that's from her age-typical rhythm, so it's a wide guess, not a fixed time; her tired cues are the real signal. Want me to tighten that up if you can share a few days of her actual naps?"
 
-**Right (personal baseline, tighter):**
-> "From her own last week or so, her wake window's been running close to 2h15, so I'd watch for the next nap around **9:00–9:40** today — tighter because it's her own pattern, but still a guide, not a clock. Her cues win if she's telling you sooner."
+**Wrong (offered a manual export when a provider was connected):**
+> "…next nap roughly **9–10** from her age-typical rhythm. Want me to pull her recent records to give you a time closer to her own?" *(A provider was connected — this should have been **auto-pulled** with a one-line heads-up, not offered as a permission gate. Falling back to the age-only band and then asking the parent to authorize a pull is the exact `mcp-data-provider.md §5a` failure. Auto-pull first, then present the personal-baseline band.)*
 
 **Wrong (magic time):**
 > "Her next nap is at 9:17." *(A single minute implies a precision the evidence does not support — the exact failure `sleep_timing_prediction_is_a_range` exists to prevent.)*
@@ -137,9 +147,9 @@ When a parent asks for a whole day:
 
 1. Give the **next event** as a calibrated range (§4).
 2. Say plainly that a full-day map needs a sense of the child's **typical nap lengths** — logged or stated — before it would be honest rather than invented.
-3. **Do not fabricate** a multi-nap clock schedule from the age band. Offer to build toward it once the parent can share (or the log shows) real nap durations.
+3. **Do not fabricate** a multi-nap clock schedule from the age band. Get real nap durations first: **if a provider is connected, pull them yourself** (§3, one-line heads-up) rather than asking the parent to export; only ask them to share when none is connected.
 
-**Synthetic:**
+**Synthetic (no provider connected):**
 > "I can give you the next one now — she woke at 7, so the next nap is likely around **9 to 10** from her age-typical rhythm. A full day laid out I'd rather not guess at, because it really depends on how long her naps actually run. If you can tell me roughly how long she naps, or share a few days, I can map the rest of the day with you instead of making it up."
 
 ---
