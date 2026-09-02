@@ -13,12 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   to reach every family," and both READMEs now name the real first-user ICP
   (technically comfortable parents, agent users, builders) rather than implying
   the experience is turnkey for everyone in this alpha.
-- **Positioning reframed from "consultant skill" to "intelligence layer."** The
-  README intros now lead with LullSense as an open-source baby sleep
-  *intelligence layer* — turning a child's real sleep history, family context,
-  and evidence into individualized guidance — rather than only a Q&A skill. The
-  conversation-first, no-tracker-required, and optional-longitudinal-detection
-  claims are preserved.
+- **README intros sharpened.** Both intros now make explicit that LullSense
+  helps from conversation alone (no tracker required), remembers a child's
+  context, and gets sharper with *recent* sleep history — while still described
+  as an evidence-informed sleep consultant delivered as an Agent Skill.
 
 ## [0.1.0] — first public alpha
 
