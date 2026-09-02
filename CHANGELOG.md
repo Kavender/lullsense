@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Tagline reframed from claim to aspiration.** "…for every family" → "…built
+  to reach every family," and both READMEs now name the real first-user ICP
+  (technically comfortable parents, agent users, builders) rather than implying
+  the experience is turnkey for everyone in this alpha.
+- **README intros sharpened.** Both intros now make explicit that LullSense
+  helps from conversation alone (no tracker required), remembers a child's
+  context, and gets sharper with *recent* sleep history — while still described
+  as an evidence-informed sleep consultant delivered as an Agent Skill.
+- **Framing aligned across secondary surfaces.** The `pyproject.toml`
+  description, the `skills/lullsense/README.md` intro, and the GitHub repo
+  "About" now carry the same "sleep consultant, conversation-first, sharper with
+  recent sleep history" wording.
+
 ### Fixed
 
 - **Prediction now auto-pulls from a connected provider before falling back to

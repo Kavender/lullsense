@@ -1,10 +1,11 @@
 # LullSense (知眠)
 
-> Open-source baby sleep intelligence for every family.
+> Open-source baby sleep intelligence — built to reach every family.
 
-LullSense is an Agent Skill that helps parents understand baby and toddler sleep through
-evidence-informed conversation, with optional longitudinal pattern detection when sleep
-data is available. It is educational and supportive — **not a medical device** — never
+LullSense is an open-source, evidence-informed baby and toddler **sleep consultant**,
+delivered as an Agent Skill. It helps from **conversation alone** — no tracker required —
+and gets **sharper with your child's recent sleep history** (optional longitudinal
+pattern detection). It is educational and supportive — **not a medical device** — never
 diagnoses, and always runs safety triage first.
 
 ## Install

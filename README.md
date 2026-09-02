@@ -8,7 +8,7 @@
 
 # LullSense (知眠)
 
-> Open-source baby sleep intelligence for every family.
+> Open-source baby sleep intelligence — built to reach every family.
 
 [![CI](https://github.com/Kavender/lullsense/actions/workflows/ci.yml/badge.svg)](https://github.com/Kavender/lullsense/actions/workflows/ci.yml)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
@@ -18,11 +18,13 @@
 
 **A calm, evidence-literate voice for the 3am questions — free, and no tracker required.**
 
-LullSense is an open-source **Agent Skill** that helps parents understand baby and toddler sleep through **evidence-informed conversation**, with **optional longitudinal pattern detection** when a sleep log is available. It gives real, useful help from the conversation alone — no paid app, no tracker, no subscription.
+LullSense is an open-source, evidence-informed baby and toddler **sleep consultant** — delivered as an **Agent Skill** any capable AI agent can carry. It gives real, useful help from **conversation alone** — no paid app, no tracker, no subscription — and it's more than one-off answers: it remembers your child's context and gets **sharper with recent sleep history**, with **optional longitudinal pattern detection** when a sleep log is available.
 
 > **More data improves the answer; data is never the price of admission.**
 
 It is educational and supportive — **not a medical device**. It never diagnoses, always runs safety triage first, and is honest about what is grounded evidence versus a recalibratable heuristic.
+
+> **Who it reaches today.** LullSense runs inside an AI agent and installs from source, so in this public alpha its real first users are **technically comfortable parents, agent users, and builders** — not yet every family. "Every family" is the goal we're building toward, a north star, not a claim that the experience is turnkey for everyone right now. Lowering that barrier is explicitly part of the roadmap.
 
 ---
 

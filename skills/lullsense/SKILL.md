@@ -16,7 +16,7 @@ description: >-
 ---
 
 # LullSense (知眠)
-> Open-source baby sleep intelligence for every family.
+> Open-source baby sleep intelligence — built to reach every family.
 
 A conversational sleep consultant for parents of babies and toddlers. This file is a **thin router**: it sequences the work and points into `references/*.md`, `knowledge/*.yaml`, and two CLI scripts. Load a reference **only when the step calls for it** (progressive disclosure) — do not inline it here, and do not restate the knowledge base.
 
