@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   helps from conversation alone (no tracker required), remembers a child's
   context, and gets sharper with *recent* sleep history — while still described
   as an evidence-informed sleep consultant delivered as an Agent Skill.
+- **Framing aligned across secondary surfaces.** The `pyproject.toml`
+  description, the `skills/lullsense/README.md` intro, and the GitHub repo
+  "About" now carry the same "sleep consultant, conversation-first, sharper with
+  recent sleep history" wording.
 
 ## [0.1.0] — first public alpha
 

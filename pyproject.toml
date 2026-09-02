@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "lullsense"
 version = "0.1.0"
-description = "LullSense (知眠) — open-source, evidence-informed baby/toddler sleep Agent Skill and analysis engine"
+description = "LullSense (知眠) — open-source, evidence-informed baby & toddler sleep consultant (Agent Skill + optional analysis engine); works from conversation alone, sharper with recent sleep history"
 requires-python = ">=3.11"
 license = "Apache-2.0"
 license-files = ["LICENSE", "NOTICE"]
