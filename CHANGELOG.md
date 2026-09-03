@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Sleep environment / comfort hypothesis (#8) with a new `E_environment`
+  evidence layer.** The consultant can now conversationally surface 2–3
+  context-relevant environmental factors (light, noise, temperature) to observe
+  and rule out — never a checklist dump. Backed by a new evidence layer in
+  `knowledge/sources.yaml` and `knowledge/claims.yaml` (light ×4, noise ×3),
+  with evidence labeled honestly rather than dropped: light is mechanistic and
+  preschool-aged, noise efficacy and temperature are low/preference-level, and
+  noise safer-use (sound-machine output limits) is documented. The sleep
+  **surface** is deliberately *not* a comfort lever — `env_surface_comfort_defers
+  _to_safety` routes it to the firm-flat-bare safe-sleep requirement and never
+  softens it. New `references/environment-comfort-factors.md`, Hypothesis #8 in
+  `references/reasoning-framework.md`, an opt-in "quick rule-out" offer in
+  `references/consultant-persona.md`, and consultant eval scenarios 09
+  (factor surfaced conversationally) and 10 (surface safety override). All eight
+  new sources are human-verified against the primary full-text PDFs (the four
+  light circadian studies, Spencer 1990, the Öz & Demirci 2025 white-noise
+  review, Düken & Yayan 2024, and Hugh 2014). The two originally-planned noise sources
+  whose DOIs did not resolve (Riedy 2021, De Jong 2024) were replaced by the
+  Öz & Demirci 2025 review, which synthesizes both — and the noise-efficacy
+  claim was reworded to match what that review actually supports (limited,
+  mostly newborn/hospital, short-term/variable) rather than a "very-low-GRADE"
+  framing.
+
 ### Changed
 
 - **Tagline reframed from claim to aspiration.** "…for every family" → "…built

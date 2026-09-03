@@ -75,6 +75,10 @@ Behavioral sleep medicine. Covers bedtime routines and sleep hygiene, graduated 
 
 The human consultant playbook. Distilled from public materials published by reputable practitioners and sleep-specialist products: intake strategy, how constraints are elicited, practical troubleshooting, and reassessment craft. Claims in this layer describe how experienced practitioners approach common problems — not clinical standards. `expert_practice` and `heuristic` evidence types are expected here. Content must not reproduce copyrighted proprietary text; it must synthesize observable public practice.
 
+### `E_environment`
+
+The sleep-environment / comfort differential (Hypothesis #8; `references/environment-comfort-factors.md`). Covers light, noise, and temperature as *things to observe and rule out conversationally* — not a checklist. Evidence here is **deliberately mixed and labeled honestly rather than dropped**: light is mechanistic + preschool-aged (melatonin markers, not measured infant sleep), noise efficacy and temperature are low/preference-level, and noise safer-use (sound-machine output limits) is documented. The **sleep surface itself is not in this layer as a lever** — surface "comfort" is safety-governed and defers to `A_safety` (`safe_sleep_firm_flat_surface`); the boundary claim `env_surface_comfort_defers_to_safety` records that deferral. `<4 mo` is out of scope for this layer, as for the rest of the behavioral content.
+
 ---
 
 ## 5. Claim Schema

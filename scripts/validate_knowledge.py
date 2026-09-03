@@ -17,7 +17,7 @@ EVIDENCE_TYPES = {
     "primary_research", "expert_practice", "heuristic",
 }
 EVIDENCE_LEVELS = {"high", "moderate", "low"}
-LAYERS = {"A_safety", "B_developmental", "C_behavioral", "D_practice"}
+LAYERS = {"A_safety", "B_developmental", "C_behavioral", "D_practice", "E_environment"}
 VARIABILITY = {"high", "moderate", "low"}
 SOURCE_TYPES = {
     "guideline", "consensus_statement", "systematic_review",
