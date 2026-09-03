@@ -1077,7 +1077,9 @@
 # dropped. Light = mechanistic + preschool-aged (dual caveat, see sources notes).
 # Noise efficacy + temperature = low/preference. Noise hearing-risk = documented.
 # Surface "comfort" is NOT a lever — it defers to A_safety (safe_sleep_firm_flat_surface).
-# All medical-adjacent → maintainer content review before merge; sources verified: false.
+# All medical-adjacent → maintainer content review before merge. Sources human-verified
+# 2026-09-03 against primary full-text PDFs (light ×4, Spencer 1990, Öz & Demirci 2025,
+# Düken & Yayan 2024); hugh_2014 remains verified: false (full text not yet obtained).
 # ══════════════════════════════════════════════════════════════════════════════
 
 - claim_id: env_light_dim_pre_bed
@@ -1097,7 +1099,7 @@
     - claiming proven sleep-onset/duration gains in infants (evidence is melatonin markers, preschool-aged)
     - implying the finding transfers unchanged to babies below the preschool samples studied
   individual_variability: moderate
-  last_reviewed: 2026-09-02
+  last_reviewed: 2026-09-03
 
 - claim_id: env_noise_onset_may_help
   layer: E_environment
@@ -1106,15 +1108,15 @@
   age_range_months: [4, 36]
   evidence_type: primary_research
   evidence_level: low
-  claim: "White noise may help some children fall asleep faster, but the evidence is weak and strongest in newborns; it is an option to try and observe, not an established remedy."
-  sources: [spencer_1990_white_noise_neonate, riedy_2021_continuous_noise_review]
+  claim: "White noise may help some babies fall asleep faster or sleep a little longer, but the evidence is weak and comes from newborns and preterm infants (off our age band); it is an option to try and observe, not an established remedy."
+  sources: [spencer_1990_white_noise_neonate, duken_yayan_2024_massage_whitenoise_preterm, oz_demirci_2025_white_noise_review]
   use_for:
     - offering white noise as one low-cost onset experiment for a family already open to it
   do_not_use_for:
     - presenting white noise as proven to help sleep at this age
-    - extending the neonate onset finding to consolidation or duration
+    - extending the newborn/preterm findings to older infants and toddlers as established fact
   individual_variability: high
-  last_reviewed: 2026-09-02
+  last_reviewed: 2026-09-03
 
 - claim_id: env_noise_efficacy_uncertain
   layer: E_environment
@@ -1123,33 +1125,33 @@
   age_range_months: [4, 36]
   evidence_type: systematic_review
   evidence_level: low
-  claim: "Evidence that continuous noise improves sleep quality or duration is very low quality and mixed, and review authors advise against promoting it as a sleep aid; it is reasonable to keep if a family finds it helps, but it should not be presented as an evidence-based fix."
-  sources: [riedy_2021_continuous_noise_review]
+  claim: "The evidence on white noise for sleep is limited and comes mostly from newborns and hospital settings, not older infants or toddlers at home; short-term benefits are reported but effectiveness varies and long-term efficacy and safety are not established, so it is best treated as a temporary, optional aid rather than an evidence-based fix."
+  sources: [oz_demirci_2025_white_noise_review]
   use_for:
-    - being honest that continuous-noise sleep benefit is not well supported
+    - being honest that white-noise sleep benefit is not well established for our age band
     - keeping the recommendation conservative when a family asks whether a sound machine will help
   do_not_use_for:
     - telling a family they must use, or must stop using, white noise
-    - presenting continuous noise as a validated way to improve sleep
+    - presenting white noise as a validated way to improve sleep in infants or toddlers
   individual_variability: high
-  last_reviewed: 2026-09-02
+  last_reviewed: 2026-09-03
 
 - claim_id: env_noise_safer_use
   layer: E_environment
   topic: sleep_environment_noise
   parent_goals: [night_waking, independent_settling]
   age_range_months: [0, 36]
-  evidence_type: primary_research
+  evidence_type: systematic_review
   evidence_level: moderate
   claim: "Infant sound machines can produce sound levels above recommended nursery limits, so if one is used it should be at low volume, placed across the room from the baby (not next to the crib), and time-limited rather than left on all night at high volume."
-  sources: [hugh_2014_infant_sleep_machines, dejong_2024_white_noise_scoping]
+  sources: [oz_demirci_2025_white_noise_review, hugh_2014_infant_sleep_machines]
   use_for:
     - offering safer-use guidance whenever a sound machine is mentioned, especially at high volume or close range
   do_not_use_for:
     - claiming a specific decibel reading for a family's own device
     - asserting hearing damage has occurred (the evidence is device output capability, not observed harm)
   individual_variability: low
-  last_reviewed: 2026-09-02
+  last_reviewed: 2026-09-03
 
 - claim_id: env_temperature_preference
   layer: E_environment

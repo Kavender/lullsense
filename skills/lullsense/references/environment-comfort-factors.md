@@ -42,7 +42,7 @@ This is the **internal differential aid** behind Hypothesis #8, "Sleep environme
 ## 2. Noise — safer use of sound machines (documented risk)
 
 **Claim anchor:** `env_noise_safer_use`
-**Evidence-strength label:** **documented (device output).** Infant sleep machines can exceed recommended nursery sound limits; some are loud at close range. This is measured output capability, **not** observed hearing loss.
+**Evidence-strength label:** **documented.** Infant sleep machines can exceed recommended nursery sound limits, and prolonged/high-volume exposure carries hearing and neurodevelopmental concern (Öz & Demirci 2025 review, citing AAP Balk 2023 + De Jong 2024; Hugh 2014 device-output study). This is device output capability + risk, **not** observed hearing loss in a given child.
 **Gates:** applies at any age a machine is in use (0–36mo). No safe-sleep surface collision.
 
 **What to observe:** is a sound machine used? At what volume, and how close to the crib? Left on all night?
@@ -58,8 +58,8 @@ This is the **internal differential aid** behind Hypothesis #8, "Sleep environme
 
 ## 3. Noise — whether it *helps* sleep (weak / honest-limitation)
 
-**Claim anchors:** `env_noise_onset_may_help` (onset only, weak, neonate-weighted) and `env_noise_efficacy_uncertain` (continuous-noise sleep benefit is very-low-quality / mixed).
-**Evidence-strength label:** **low.** White noise *may* speed onset for some children (strongest evidence in newborns, off our age band); evidence that continuous noise improves sleep quality or duration is very low quality, and review authors advise against promoting it as a sleep aid.
+**Claim anchors:** `env_noise_onset_may_help` (onset/duration, weak, newborn/preterm-weighted) and `env_noise_efficacy_uncertain` (benefit limited, mostly newborn/hospital settings).
+**Evidence-strength label:** **low.** White noise *may* speed onset or lengthen sleep a little for some babies, but the evidence comes from newborns and preterm infants in clinical settings (off our age band); effectiveness varies and long-term efficacy/safety isn't established, so it's best treated as a temporary, optional aid (Öz & Demirci 2025; Spencer 1990; Düken & Yayan 2024).
 **Gates:** `<4mo` out of scope for behavioral framing. No surface collision.
 
 **What to observe:** does the family already use white noise, and do they feel it helps? Is a very quiet room coinciding with hard onset?
