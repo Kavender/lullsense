@@ -1070,3 +1070,119 @@
     - presenting a predicted time as a clinical target or a fixed schedule
   individual_variability: high
   last_reviewed: 2026-08-29
+
+# ══════════════════════════════════════════════════════════════════════════════
+# E_environment: sleep environment / comfort (Hypothesis #8)
+# Evidence discipline: thin-evidence factors are INCLUDED but labeled honestly, not
+# dropped. Light = mechanistic + preschool-aged (dual caveat, see sources notes).
+# Noise efficacy + temperature = low/preference. Noise hearing-risk = documented.
+# Surface "comfort" is NOT a lever — it defers to A_safety (safe_sleep_firm_flat_surface).
+# All medical-adjacent → maintainer content review before merge; sources verified: false.
+# ══════════════════════════════════════════════════════════════════════════════
+
+- claim_id: env_light_dim_pre_bed
+  layer: E_environment
+  topic: sleep_environment_light
+  parent_goals: [bedtime_resistance, night_waking]
+  age_range_months: [4, 36]
+  evidence_type: primary_research
+  evidence_level: moderate
+  claim: "A dim, low-light environment in the wind-down before sleep supports the body's natural sleep-onset signal, because even relatively dim evening light can suppress melatonin; this is mechanistic circadian evidence from preschool-aged children, not a demonstrated sleep-quality gain in infants."
+  sources: [akacem_2018_light_melatonin_preschool, hartstein_2022_light_sensitivity_preschool, hartstein_2023_light_phase_delay, hartstein_2025_light_spectrum]
+  use_for:
+    - suggesting a dim wind-down and a dark sleep space as a low-cost thing to try and observe
+    - explaining, when asked, why bright/stimulating pre-bed light can work against settling
+  do_not_use_for:
+    - presenting any lux number as a home threshold or an "ideal" brightness
+    - claiming proven sleep-onset/duration gains in infants (evidence is melatonin markers, preschool-aged)
+    - implying the finding transfers unchanged to babies below the preschool samples studied
+  individual_variability: moderate
+  last_reviewed: 2026-09-02
+
+- claim_id: env_noise_onset_may_help
+  layer: E_environment
+  topic: sleep_environment_noise
+  parent_goals: [bedtime_resistance, independent_settling]
+  age_range_months: [4, 36]
+  evidence_type: primary_research
+  evidence_level: low
+  claim: "White noise may help some children fall asleep faster, but the evidence is weak and strongest in newborns; it is an option to try and observe, not an established remedy."
+  sources: [spencer_1990_white_noise_neonate, riedy_2021_continuous_noise_review]
+  use_for:
+    - offering white noise as one low-cost onset experiment for a family already open to it
+  do_not_use_for:
+    - presenting white noise as proven to help sleep at this age
+    - extending the neonate onset finding to consolidation or duration
+  individual_variability: high
+  last_reviewed: 2026-09-02
+
+- claim_id: env_noise_efficacy_uncertain
+  layer: E_environment
+  topic: sleep_environment_noise
+  parent_goals: [night_waking, independent_settling]
+  age_range_months: [4, 36]
+  evidence_type: systematic_review
+  evidence_level: low
+  claim: "Evidence that continuous noise improves sleep quality or duration is very low quality and mixed, and review authors advise against promoting it as a sleep aid; it is reasonable to keep if a family finds it helps, but it should not be presented as an evidence-based fix."
+  sources: [riedy_2021_continuous_noise_review]
+  use_for:
+    - being honest that continuous-noise sleep benefit is not well supported
+    - keeping the recommendation conservative when a family asks whether a sound machine will help
+  do_not_use_for:
+    - telling a family they must use, or must stop using, white noise
+    - presenting continuous noise as a validated way to improve sleep
+  individual_variability: high
+  last_reviewed: 2026-09-02
+
+- claim_id: env_noise_safer_use
+  layer: E_environment
+  topic: sleep_environment_noise
+  parent_goals: [night_waking, independent_settling]
+  age_range_months: [0, 36]
+  evidence_type: primary_research
+  evidence_level: moderate
+  claim: "Infant sound machines can produce sound levels above recommended nursery limits, so if one is used it should be at low volume, placed across the room from the baby (not next to the crib), and time-limited rather than left on all night at high volume."
+  sources: [hugh_2014_infant_sleep_machines, dejong_2024_white_noise_scoping]
+  use_for:
+    - offering safer-use guidance whenever a sound machine is mentioned, especially at high volume or close range
+  do_not_use_for:
+    - claiming a specific decibel reading for a family's own device
+    - asserting hearing damage has occurred (the evidence is device output capability, not observed harm)
+  individual_variability: low
+  last_reviewed: 2026-09-02
+
+- claim_id: env_temperature_preference
+  layer: E_environment
+  topic: sleep_environment_temperature
+  parent_goals: [is_this_normal]
+  age_range_months: [4, 36]
+  evidence_type: heuristic
+  evidence_level: low
+  claim: "A comfortable, not-overheated room is a reasonable thing for a family to aim for, but no verified evidence links a specific room temperature to better sleep quality; overheating is a safe-sleep matter, not a comfort-tuning one."
+  sources: []
+  use_for:
+    - gently framing room temperature as a reasonable parent preference, worded conservatively
+    - deferring the overheating question to safe sleep rather than a comfort target
+  do_not_use_for:
+    - stating an "ideal" nursery temperature or a specific degree target
+    - implying a room-temperature change will improve sleep quality as an established fact
+  individual_variability: high
+  last_reviewed: 2026-09-02
+
+- claim_id: env_surface_comfort_defers_to_safety
+  layer: E_environment
+  topic: sleep_environment_surface
+  parent_goals: []
+  age_range_months: [0, 12]
+  evidence_type: guideline
+  evidence_level: high
+  claim: "Sleep-surface 'comfort' is not an evidence-based sleep lever: there is no evidence that a softer, inclined, or different surface improves sleep, and the safe-sleep requirement of a firm, flat, bare surface always governs (see safe_sleep_firm_flat_surface). A baby who 'only settles' on a soft or inclined surface is a settling-pattern question, never a reason to change the surface."
+  sources: [aap_safe_sleep_2022]
+  use_for:
+    - acknowledging a parent's report that the baby dislikes a surface, then routing to safe sleep without endorsing a surface change
+    - keeping any "environment/comfort" discussion clear of the sleep surface itself
+  do_not_use_for:
+    - suggesting a softer, inclined, propped, or different sleep surface for comfort (defer to safe_sleep_firm_flat_surface — never soften it)
+    - treating surface preference as an optimizable comfort factor
+  individual_variability: low
+  last_reviewed: 2026-09-02

@@ -180,6 +180,7 @@ Cite grounded figures to their source IDs (`knowledge/sources.yaml`); attribute 
 | Interpreting detector signal confidence/severity/status/limitations | `references/signal-taxonomy.md` |
 | Structure/sequencing of a good consultation | `references/consultant-practice-map.md` |
 | Evidence layering, provenance, safety-source rules | `references/evidence-methodology.md` |
+| Hypothesis #8 sleep environment/comfort (light/noise/temp; surface defers to safe sleep) | `references/environment-comfort-factors.md` |
 | Optional provider/MCP integration; Huckleberry policy | `references/mcp-data-provider.md` |
 | Canonical data shapes for integrators | `references/data-contract.md` |
 | Versioned claims / source inventory | `knowledge/claims.yaml`, `knowledge/sources.yaml` |

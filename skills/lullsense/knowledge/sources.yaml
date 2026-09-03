@@ -379,3 +379,84 @@
   verified: false
   last_accessed: 2026-08-29
   note: "Page blocks direct fetch; numbers corroborated via search summary 2026-08-29 (18mo+ 5-6h). Practitioner heuristic."
+
+# ── E_environment layer sources ─────────────────────────────────────────────────
+# Sleep-environment evidence (light, noise). All verified: false pending human full-text
+# check (same posture as B/C journal sources). Study design recorded in note: (the
+# validator's source_type enum has no 'observational'/'rct' value — mapped to the
+# nearest allowed type and the real design named in note:). Deep-research batch 2026-09-02.
+# TWO STANDING CAVEATS on all LIGHT sources: (a) samples are 3.0-5.9 yr (preschool),
+# at/above our 4-36mo top edge, NOT infant; (b) endpoints are melatonin/DLMO (circadian
+# markers), NOT measured sleep onset/waking/duration. Cite as MECHANISTIC only.
+
+- id: akacem_2018_light_melatonin_preschool
+  organization: Akacem, Wright & LeBourgeois (Physiological Reports)
+  title: "The circadian system of preschool-aged children is sensitive to bright evening light"
+  url: https://doi.org/10.14814/phy2.13617
+  source_type: primary_research
+  verified: false
+  last_accessed: 2026-09-02
+  note: "Experimental circadian study (in-lab light exposure), n small, ages 3.0-4.9 yr. Bright evening light (~1000 lux) suppressed melatonin ~88%; suppression persisted ~50 min after lights-off. CAVEAT: preschool sample (not infant); outcome is melatonin, not measured sleep. Mechanistic support for a dim pre-bed environment only. Pending human full-text verification."
+
+- id: hartstein_2022_light_sensitivity_preschool
+  organization: Hartstein et al. (Journal of Pineal Research)
+  title: "High sensitivity of melatonin suppression response to evening light in preschool-aged children"
+  url: https://doi.org/10.1111/jpi.12780
+  source_type: primary_research
+  verified: false
+  last_accessed: 2026-09-02
+  note: "Experimental circadian study, ages ~3-5 yr. Even dim evening light (5-40 lux) suppressed melatonin ~77-78%; response was steep at low intensities. CAVEAT: preschool sample (not infant); outcome is melatonin, not measured sleep. Usable point: even DIM light suppresses melatonin. Killed sibling claim (do NOT repeat): '1000 lux = ordinary household evening light' (1000 lux ~ a lit kitchen). Pending human full-text verification."
+
+- id: hartstein_2023_light_phase_delay
+  organization: Hartstein et al. (Journal of Biological Rhythms)
+  title: "Evening light and circadian phase in preschool-aged children"
+  url: https://doi.org/10.1177/07487304221134330
+  source_type: primary_research
+  verified: false
+  last_accessed: 2026-09-02
+  note: "Experimental circadian study, preschool ages. Evening light exposure produced a circadian phase delay of ~56 min. CAVEAT: preschool sample (not infant); outcome is DLMO phase, not measured sleep timing. Mechanistic. Pending human full-text verification."
+
+- id: hartstein_2025_light_spectrum
+  organization: Hartstein et al. (Journal of Biological Rhythms)
+  title: "Spectral characteristics of evening light and melatonin suppression in young children (preliminary)"
+  url: https://doi.org/10.1177/07487304241311652
+  source_type: primary_research
+  verified: false
+  last_accessed: 2026-09-02
+  note: "PRELIMINARY experimental circadian study on light spectrum/CCT effects, preschool ages. Adds spectrum nuance to the intensity findings. CAVEAT: preliminary + preschool sample (not infant); outcome is melatonin, not measured sleep. Treat as weakest of the light set. Pending human full-text verification."
+
+- id: riedy_2021_continuous_noise_review
+  organization: Riedy et al. (Sleep Medicine Reviews)
+  title: "Noise as a sleep aid: A systematic review"
+  url: https://doi.org/10.1016/j.smrv.2020.101385
+  source_type: systematic_review
+  verified: false
+  last_accessed: 2026-09-02
+  note: "Systematic review. Evidence that continuous noise IMPROVES sleep is GRADE 'very low' and findings are mixed; authors advise AGAINST promoting continuous noise as a sleep aid. Anchors the honesty/limitation claim, not an endorsement. Pending human full-text verification."
+
+- id: hugh_2014_infant_sleep_machines
+  organization: Hugh et al. (Pediatrics / AAP)
+  title: "Infant Sleep Machines and Hazardous Sound Pressure Levels"
+  url: https://doi.org/10.1542/peds.2013-3617
+  source_type: primary_research
+  verified: false
+  last_accessed: 2026-09-02
+  note: "Output-measurement study of 14 infant sleep machines: many exceeded the 50 dBA nursery limit at 30 cm; some >85 dBA at max. LIMITATION: output-capability at close range, NOT observed hearing loss. Backs safer-use guidance (low volume, across-room, time-limited). Pending human full-text verification."
+
+- id: dejong_2024_white_noise_scoping
+  organization: De Jong / Smith et al. (Sleep Medicine)
+  title: "White noise and infant sleep: a scoping review"
+  url: https://doi.org/10.1016/j.sleep.2024.04.006
+  source_type: review
+  verified: false
+  last_accessed: 2026-09-02
+  note: "Scoping review. Corroborates that sleep machines can exceed safe sound-pressure levels and that efficacy evidence is thin; supports safer-use framing. Output-capability, not observed hearing loss. Pending human full-text verification."
+
+- id: spencer_1990_white_noise_neonate
+  organization: Spencer, Moran, Lee & Talbert (Archives of Disease in Childhood)
+  title: "White noise and sleep induction"
+  url: https://doi.org/10.1136/adc.65.1.135
+  source_type: primary_research
+  verified: false
+  last_accessed: 2026-09-02
+  note: "Small RCT (n=40), ages 2-7 DAYS — OFF-SCOPE neonate. White noise sped sleep onset for most neonates. Weak, onset-only, not our age band; cite only as the origin of the 'may speed onset' point with the neonate caveat. Pending human full-text verification."
