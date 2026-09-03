@@ -381,11 +381,11 @@
   note: "Page blocks direct fetch; numbers corroborated via search summary 2026-08-29 (18mo+ 5-6h). Practitioner heuristic."
 
 # ── E_environment layer sources ─────────────────────────────────────────────────
-# Sleep-environment evidence (light, noise). LIGHT set + Spencer 1990 + Öz & Demirci 2025
-# + Düken & Yayan 2024 human-verified 2026-09-03 against the primary full-text PDFs;
-# hugh_2014 remains verified: false (full text not yet obtained). Study design recorded in
-# note: (the validator's source_type enum has no 'observational'/'rct' value — mapped to the
-# nearest allowed type and the real design named in note:).
+# Sleep-environment evidence (light, noise). All entries human-verified 2026-09-03 against
+# the primary full-text PDFs (light set, Spencer 1990, Öz & Demirci 2025, Düken & Yayan 2024,
+# Hugh 2014). Study design recorded in note: (the validator's source_type enum has no
+# 'observational'/'rct' value — mapped to the nearest allowed type and the real design
+# named in note:).
 # TWO STANDING CAVEATS on all LIGHT sources: (a) samples are 3.0-5.9 yr (preschool),
 # at/above our 4-36mo top edge, NOT infant; (b) endpoints are melatonin/DLMO (circadian
 # markers), NOT measured sleep onset/waking/duration. Cite as MECHANISTIC only.
@@ -449,9 +449,9 @@
   title: "Infant Sleep Machines and Hazardous Sound Pressure Levels"
   url: https://doi.org/10.1542/peds.2013-3617
   source_type: primary_research
-  verified: false
-  last_accessed: 2026-09-02
-  note: "Output-measurement study of 14 infant sleep machines: many exceeded the 50 dBA nursery limit at 30 cm; some >85 dBA at max. LIMITATION: output-capability at close range, NOT observed hearing loss. Backs safer-use guidance (low volume, across-room, time-limited). Full text NOT yet obtained — pending human verification; the safer-use point is independently corroborated by oz_demirci_2025 (which cites De Jong 2024 + AAP Balk 2023)."
+  verified: true
+  last_accessed: 2026-09-03
+  note: "Human-verified against the primary full text (Hugh et al., Pediatrics 2014;133(4):677-681). Output-measurement study of 14 infant sleep machines at max volume, corrected to a 6-month-old ear canal at 30/100/200 cm. ALL 14 exceeded the 50 dBA nursery limit at 30 cm; 3 exceeded 85 dBA at 30 cm (>occupational limit if run >8 h); 13/14 exceeded 50 dBA even across the room at 200 cm. LIMITATION: output-capability, NOT observed hearing loss. Authors give safer-use recommendations (place as far as possible from the infant, low volume, time-limited) — backs env_noise_safer_use."
 
 - id: spencer_1990_white_noise_neonate
   organization: Spencer, Moran, Lee & Talbert (Archives of Disease in Childhood)

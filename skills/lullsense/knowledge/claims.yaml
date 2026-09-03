@@ -1077,9 +1077,9 @@
 # dropped. Light = mechanistic + preschool-aged (dual caveat, see sources notes).
 # Noise efficacy + temperature = low/preference. Noise hearing-risk = documented.
 # Surface "comfort" is NOT a lever — it defers to A_safety (safe_sleep_firm_flat_surface).
-# All medical-adjacent → maintainer content review before merge. Sources human-verified
-# 2026-09-03 against primary full-text PDFs (light ×4, Spencer 1990, Öz & Demirci 2025,
-# Düken & Yayan 2024); hugh_2014 remains verified: false (full text not yet obtained).
+# All medical-adjacent → maintainer content review before merge. All E_environment sources
+# human-verified 2026-09-03 against primary full-text PDFs (light ×4, Spencer 1990,
+# Öz & Demirci 2025, Düken & Yayan 2024, Hugh 2014).
 # ══════════════════════════════════════════════════════════════════════════════
 
 - claim_id: env_light_dim_pre_bed

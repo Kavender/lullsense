@@ -22,11 +22,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   softens it. New `references/environment-comfort-factors.md`, Hypothesis #8 in
   `references/reasoning-framework.md`, an opt-in "quick rule-out" offer in
   `references/consultant-persona.md`, and consultant eval scenarios 09
-  (factor surfaced conversationally) and 10 (surface safety override). Seven of
-  the eight new sources are human-verified against the primary full-text PDFs
-  (the four light circadian studies, Spencer 1990, the Öz & Demirci 2025
-  white-noise review, and Düken & Yayan 2024); `hugh_2014` remains
-  `verified: false` pending full text. The two originally-planned noise sources
+  (factor surfaced conversationally) and 10 (surface safety override). All eight
+  new sources are human-verified against the primary full-text PDFs (the four
+  light circadian studies, Spencer 1990, the Öz & Demirci 2025 white-noise
+  review, Düken & Yayan 2024, and Hugh 2014). The two originally-planned noise sources
   whose DOIs did not resolve (Riedy 2021, De Jong 2024) were replaced by the
   Öz & Demirci 2025 review, which synthesizes both — and the noise-efficacy
   claim was reworded to match what that review actually supports (limited,
