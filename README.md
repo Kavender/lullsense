@@ -8,7 +8,7 @@
 
 # LullSense (知眠)
 
-> Open-source baby sleep intelligence — built to reach every family.
+> **An open-source baby sleep support Agent Skill — there when professional support isn't immediately available, helping parents make sense of what is happening first.**
 
 [![CI](https://github.com/Kavender/lullsense/actions/workflows/ci.yml/badge.svg)](https://github.com/Kavender/lullsense/actions/workflows/ci.yml)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
@@ -16,159 +16,330 @@
 ![Safety](https://img.shields.io/badge/safety-first%20·%20never%20diagnoses-orange)
 ![Status](https://img.shields.io/badge/status-public%20alpha-brightgreen)
 
-**A calm, evidence-literate voice for the 3am questions — free, and no tracker required.**
+**A calm, evidence-informed reference for the 3am questions: why is my baby waking, should I change something, or should I wait and watch?**
 
-LullSense is an open-source, evidence-informed baby and toddler **sleep consultant** — delivered as an **Agent Skill** any capable AI agent can carry. It gives real, useful help from **conversation alone** — no paid app, no tracker, no subscription — and it's more than one-off answers: it remembers your child's context and gets **sharper with recent sleep history**, with **optional longitudinal pattern detection** when a sleep log is available.
+LullSense is an open-source, evidence-informed baby and toddler sleep **support** Agent Skill.
 
-> **More data improves the answer; data is never the price of admission.**
+It can start with conversation alone. A parent can simply say: “she has been waking at 5am,” “naps suddenly got shorter,” or “daycare controls the nap and I cannot move it.” LullSense first tries to understand what changed, what the family cannot change, and what might be worth trying next.
 
-It is educational and supportive — **not a medical device**. It never diagnoses, always runs safety triage first, and is honest about what is grounded evidence versus a recalibratable heuristic.
+When recent sleep history is available, LullSense can also compare what is happening now with **that child’s own personal baseline**, helping surface meaningful changes instead of relying only on age-based norms.
 
-> **Who it reaches today.** LullSense runs inside an AI agent and installs from source, so in this public alpha its real first users are **technically comfortable parents, agent users, and builders** — not yet every family. "Every family" is the goal we're building toward, a north star, not a claim that the experience is turnkey for everyone right now. Lowering that barrier is explicitly part of the roadmap.
+> **More data can sharpen the picture, but data is never required to start.**
+
+LullSense is educational and supportive. It is **not a medical device, and it is not intended to replace pediatricians or professional sleep consultants**. It does not diagnose. When a health or safety concern should take priority, sleep optimization stops and the family is directed toward appropriate professional care.
+
+We see LullSense as **steady, always-available support around good sleep care**: something parents can use between consultations, when their consultant is not immediately available, or when they simply need help organizing what changed before deciding what to do next.
+
+Keeping LullSense **free and open source** matters to us, too: whether good sleep support is within reach shouldn't come down to budget, a subscription, or which timezone you happen to be in. That's an aim we're building toward — see the honest note below on who this alpha actually reaches today.
+
+In the long run, we do not believe good sleep support is a choice between humans and AI.
+
+**Professional judgment, family context, longitudinal sleep observation, and always-available tools can complement one another.**
+
+> **Who it reaches today.** LullSense currently runs inside an AI agent and installs from source, so this public alpha is best suited to technically comfortable parents, agent users, and builders. Making the experience easier for ordinary families is part of the roadmap, not something we pretend is solved already.
 
 ---
 
 ## Why this exists
 
-It's 3am. The baby won't resettle, you're scrolling for answers, and every door is a little bit closed: the tracker app wants a subscription, a private consultant costs hundreds and is a timezone away, and a web search returns a pile of confident, contradictory blog posts. Meanwhile the *actual* authoritative guidance — AAP safe-sleep, the AASM sleep-duration consensus, the developmental literature — is public, but scattered, technical, and nearly impossible to apply to *your* child at *that* hour.
+Parenting creates a lot of moments like this:
 
-LullSense began with exactly that frustration: even a good sleep consultant is asleep at 3am, a timezone away — and plenty of families can't afford one at all. Good sleep help shouldn't depend on your budget or your timezone. So this project distills that public evidence into a calm, individualized consultation any capable AI agent can carry — free, inspectable, safety-first, and honest about the line between grounded evidence and a rule-of-thumb. Not to replace your pediatrician, but to be a steady, evidence-literate voice in the room when no one else is awake.
+A baby suddenly starts waking earlier. Night wakings return. Naps fall apart. A schedule that worked last week suddenly stops working.
+
+There is plenty of information online about how much a child “should” sleep or what a typical wake window looks like.
+
+But the harder questions are usually more personal:
+
+**Why did this change now?**
+
+**Should we adjust something, or give it a few more days?**
+
+**If daycare nap time, pickup, work, or sibling schedules cannot move, what can we realistically change?**
+
+Professional sleep consultants can be incredibly valuable here.
+
+A good consultant does much more than read a schedule. They understand the child, the family, the constraints, what has already been tried, and how the parents themselves feel about different approaches.
+
+But sleep questions do not happen only during the hour of a consultation.
+
+Many of them happen in between:
+
+- Something changed tonight — does it matter?
+- We have tried this adjustment for three days — should we keep going?
+- Sleep feels better this week — is there actually a trend?
+- Before the next consultation, how do we make sense of everything that happened?
+
+LullSense started from that gap.
+
+**It is not designed to replace professional sleep consultants. It is designed to support the spaces around professional care.**
+
+When no one is available, it can help a parent organize the problem.  
+When sleep history exists, it can help summarize recent changes.  
+When a family is trying a plan, it can help track what happened and prepare a clearer follow-up.
+
+We want to borrow the best parts of thoughtful sleep consultation:
+
+**understand the child and family first, then decide what to try — rather than applying a generic schedule.**
+
+Long term, we hope LullSense can become an open, shared tool that both families and professionals can build on — bringing together practitioner expertise, longitudinal observation, and AI assistance to help more babies and families sleep better.
 
 ---
 
-## Example
+## What a conversation can look like
 
-**No data, just conversation:**
+### No sleep log required
 
 > **Parent:** My 8-month-old suddenly wakes at 5am every day. Is something wrong?
 >
-> **Consultant:** That 5am start sounds exhausting — let's figure it out together. First, a quick check: is she otherwise well — feeding normally, no new congestion or fever? … Good. Early waking at this age is common and has a few usual drivers. Tell me roughly when she's going down and how the last few nights have looked, and I'll walk through the two most likely explanations and one small thing to try — plus exactly what to watch so we know if it's working.
+> **LullSense:** That sounds exhausting. I would not jump straight to calling it a “sleep regression” — first I want to understand what actually changed. Roughly when has bedtime been, how have naps looked, and did the 5am waking appear suddenly or creep earlier over a few days? From there we can narrow to the most likely explanations and choose one small adjustment to test.
 
-**With a recent sleep log ("how has sleep been?"):**
+### With recent sleep history
 
 > **Parent:** Can you look over the last two weeks?
 >
-> **Consultant:** Good news first — across her nights, naps, bedtimes, total sleep, and how consistent the timing's been, most of it is holding steady. One thing shifted: her mornings have crept about 40 minutes earlier this week. Here's the likely why, what would change my mind, and a single adjustment to try…
+> **LullSense:** Most of the picture is actually steady: total night sleep, naps, and bedtime have not shifted much. One thing has changed — mornings have moved about 40 minutes earlier relative to her own recent baseline. I would focus on that change rather than rebuilding the whole schedule.
 
-**Predicting the next nap or bedtime:**
+### Working around real-life constraints
 
-> **Parent:** She woke at 7 — when's her next nap?
+> **Parent:** She is 15 months. Daycare only offers one nap at noon and I cannot change it, but she seems overtired.
 >
-> **Consultant:** Likely somewhere in the **9:00–10:00** window — that's from her age-typical rhythm, so a wide guess, not a fixed time, and her tired cues win over the clock. Share a few days of her actual naps and I can tighten that to her own pattern.
+> **LullSense:** Then the nap time is a fixed constraint, so I would not tell you to “move the nap earlier.” The useful levers are the things you can actually control — bedtime, how early mornings are handled, and possibly weekend recovery. We can start with one small change and see whether early waking and bedtime improve together.
 
-**Reasoning around real-life constraints:**
+### Asking about the next sleep
 
-> **Parent:** She's 15 months and always a bit overtired. Daycare does one nap at noon and I can't change it — am I doing something wrong?
+> **Parent:** She woke at 7. When is the next nap?
 >
-> **Consultant:** That long stretch before her afternoon nap is set by the daycare schedule — that's on the schedule, not on you. It means a little overtiredness is baked in, and no bedtime tweak fully erases it while the nap's fixed. The lever I'd reach for first is a slightly earlier bedtime to take the edge off. Want a couple of other options that work *around* the fixed nap?
+> **LullSense:** If I only have age information, I would give you a fairly broad range, not a “must sleep at” time. If I have several days of her own recent naps, I can tighten that range around her pattern. Tired cues still matter more than the clock.
 
-The skill surfaces **signals and hypotheses with evidence and limitations** — never a diagnosis, never a wall of analysis dumped at once.
+LullSense surfaces **signals, hypotheses, and ways to test them** — not diagnoses, and not a wall of analysis dumped on a tired parent.
 
 ---
 
-## What it does
+## What LullSense does
 
-- **No-data mode (primary path).** Reasons from the parent's account using a versioned, cited knowledge base. A verbal report ("waking at 5am all week") is real evidence.
-- **Data-enhanced mode.** Optionally ingest a sleep log — typed notes, generic CSV/JSON, or an official Huckleberry export — and fold a per-child **baseline** and **detector signals** into the reasoning. If a data provider / MCP is connected, it can **auto-pull recent sleep** (with a one-line heads-up, vendor-neutral) instead of asking you to export by hand.
-- **Next-sleep timing prediction.** Answers *"when's the next nap/bedtime?"* as a **range, never a single time** — from the age-typical rhythm, or a tighter band from the child's own recent pattern — always cue-first, with wake windows labeled a *product heuristic*, not a clinical clock. Under 4 months it gives cue-based orientation, not a schedule.
-- **Longitudinal (recent-sleep) review.** A parent-initiated *"review my recent sleep"* flow that turns detector signals into a calm, prioritized change summary — capped, de-duplicated, and led by what's *steady* — engineered to avoid alert fatigue. The skill doesn't monitor in the background; a host, scheduler, or automation can invoke the same detector proactively if it wants to.
-- **Constraint-first & reality-based.** Elicits — and **remembers across sessions** — hard constraints (daycare nap, pickup, work) *before* recommending. When a fixed constraint forces sleep away from the age-typical ideal, it names the shortfall as **structural, not a parenting failure**, never prescribes the blocked ideal, and works the *movable* levers with honest expectations. Multi-day transitions get a day-by-day roadmap.
-- **A minimal local store.** Persists only a child profile (date-of-birth so age never goes stale), explicitly-saved durable constraints, and experiment state — **never raw sleep logs**. This store lives on your machine — LullSense has no backend of its own, so it never uploads that state anywhere. (Note: LullSense runs *inside* an AI agent, so your conversation, any log you share, and connected-tool output are processed by whatever AI model provider you run it on, under that provider's own privacy policy.) Memory is on by default but **it tells you the first time it saves and you can turn it off anytime**; see **[DATA_HANDLING.md](DATA_HANDLING.md)** for exactly what's kept, how connected-log access works, the AI-model boundary, and how to inspect or delete it.
+- **Conversation-first support**  
+  No tracker required. Parent-reported patterns are useful information and can be enough to start discussing early waking, night waking, short naps, bedtime resistance, nap transitions, daycare schedules, and other common sleep questions.
 
-### Core principles
+- **Data-enhanced analysis**  
+  Optionally ingest typed notes, generic CSV / JSON, or an official Huckleberry export. With recent history, the analysis engine builds a **per-child baseline** and looks for meaningful changes relative to that child. If a data provider / MCP is connected, LullSense can **auto-pull recent sleep** (vendor-neutral, with a one-line heads-up) instead of asking you to export by hand.
 
-| Principle | What it means |
+- **Longitudinal pattern detection**  
+  The current engine can surface signals such as early waking, night waking, short naps, split nights, total-sleep drop, schedule drift, high variability, nap transition, and related changes. These are observations, not medical diagnoses.
+
+- **Recent-sleep review**  
+  A parent can ask, “How has sleep been lately?” LullSense leads with what is still stable, then highlights the few changes that appear most worth attention — deliberately avoiding alert fatigue.
+
+- **Next-nap / bedtime ranges**  
+  With limited information, it uses broad age-typical rhythm as orientation. With recent personal data, it can use the child’s own pattern. Wake windows are labeled as **product heuristics**, not clinical cutoffs.
+
+- **Constraint-first reasoning**  
+  Daycare naps, pickup, work, room-sharing, siblings, and other real-life constraints are part of the problem definition, not afterthoughts. The system works on the levers a family can actually move.
+
+- **Minimal local state**  
+  LullSense can keep a child profile, explicitly saved durable constraints, and experiment state. **Raw sleep logs are not persisted in the local store.**
+
+---
+
+## Principles we care about
+
+| Principle | What it means in practice |
 |---|---|
-| **Safety first** | Screens for red flags before any schedule advice; on a red flag it **halts** optimization and routes to medical care — warmly, never naming a cause. |
-| **Never diagnoses** | Surfaces signals and hypotheses with evidence and limitations. Diagnosis is a clinician's job. |
-| **No fabrication** | Every grounded figure cites a source; heuristics are labeled *product heuristics — recalibratable, not clinical cutoffs*; where the literature declines a cutoff, it says so. |
-| **Individualize** | Authoritative literature is a *reference, not a manual* — the same presentation can have different causes; advice is always about *this* child and family. |
-| **Data is optional** | Full value from conversation alone; a tracker is never required. |
+| **Safety first** | If a health or safety concern takes priority, ordinary sleep optimization stops and the family is directed toward appropriate professional care. |
+| **Never diagnoses** | LullSense can discuss factors that may affect sleep, but it does not infer a medical diagnosis from sleep behavior. |
+| **No pretending certainty** | Evidence-backed claims keep their sources; heuristics are labeled as heuristics; where the literature does not provide a precise cutoff, LullSense does not invent one. |
+| **This child before the average child** | Age-based norms are context, not an instruction manual. When personal history exists, the child’s own baseline matters. |
+| **Reality before the ideal schedule** | Daycare, work, pickup, family preferences, and other constraints are part of the recommendation from the start. |
+| **Small experiments** | Prefer one low-risk, observable adjustment over rebuilding an entire schedule at once. |
+| **Data is optional — but meaningful** | Conversation is enough to start; continuous sleep history can materially improve longitudinal, child-specific analysis. |
+| **Complement professional support** | LullSense is designed to help in the spaces around human care, not to claim that AI replaces practitioner judgment and relationship. |
 
 ---
 
-## Supported scope (first alpha)
+## Supported scope
 
-- **Ages 4–36 months** for behavioral/schedule support.
-- **Under 4 months:** a **safe-sleep guardrail only** — safe-sleep essentials and red-flag screening, no schedule optimization.
+Current public alpha scope:
+
+- **Ages 4–36 months:** behavioral / schedule support around sleep habits, naps, bedtime, night waking, early waking, and related non-medical questions.
+- **Under 4 months:** safe-sleep guardrails and safety-oriented support only; no sleep training or structured schedule optimization.
+
+This does not mean every sleep issue after 4 months is appropriate for self-management. Safety rules take priority whenever professional evaluation may be needed.
 
 ---
 
 ## Install
 
+### Add the Agent Skill
+
 ```bash
-# Add the skill to the current project
+# Add to the current project
 npx skills add Kavender/lullsense
 
-# ...or install it globally (user-level), available in every project
+# Or install globally (user-level)
 npx skills add Kavender/lullsense -g
 
 # See all options
 npx skills add --help
 ```
 
-This makes the skill available to your agent. A project install lands under `.claude/skills/lullsense/`; a global (`-g`) install lands in the shared `~/.agents/skills/lullsense/` and is symlinked into each agent's directory (for Claude Code, `~/.claude/skills/lullsense/`). Then just ask a baby/toddler sleep question in natural language.
+A project-level install lands under the project’s agent skills directory. A global install uses the shared `~/.agents/skills/lullsense/` and is symlinked into the relevant agent directory; for Claude Code, that is `~/.claude/skills/lullsense/`.
 
-**Optional analysis engine** (data-enhanced + longitudinal review):
+Then ask a baby / toddler sleep question in natural language.
+
+### Optional: analysis engine
+
+For structured sleep-log analysis, longitudinal review, and timing prediction:
 
 ```bash
-# Install from source (not yet on PyPI during the alpha)
+# Public alpha: install from source (not yet on PyPI)
 pip install "git+https://github.com/Kavender/lullsense.git"
-# exposes: lullsense-analyze / lullsense-experiment
 ```
 
-Once published, `pip install lullsense` will be the one-liner; until then use the source install above. The skill is fully useful from conversation alone — data is never required.
+This exposes:
 
-> Working from a clone? `git clone https://github.com/Kavender/lullsense.git && pip install .`
+```bash
+lullsense-analyze
+lullsense-experiment
+```
 
-> **Status: evidence-backed public alpha.** Feature-complete for a first release and live-tested. Safety content is grounded in authoritative sources and validated for provenance, but has **not yet completed independent pediatric-sleep / clinical review** — source validation is not the same as clinical review. Independent review is planned before a stable release. Feedback and issues welcome.
+Working from a clone:
+
+```bash
+git clone https://github.com/Kavender/lullsense.git
+cd lullsense
+pip install .
+```
+
+> **Status: public alpha.** Core flows are implemented and covered by CI / evals. Safety content is grounded in authoritative sources and checked for provenance, but has **not yet completed independent pediatric-sleep / clinical review**. Source validation is not the same as clinical review; independent review remains an important step before a stable release.
 
 ---
 
-## What it knows
+## Data & privacy
 
-A four-layer, versioned evidence base — **56 claims** across **34 sources**, validated by a schema/safety checker (`scripts/validate_knowledge.py`).
+LullSense itself has no cloud backend.
 
-| Layer | Content | Evidence bar |
+Its local store keeps only a small amount of cross-session state, such as:
+
+- child profile / date of birth
+- explicitly saved durable family constraints
+- current experiment state
+
+**Raw sleep logs are not written into LullSense’s local state store.**
+
+Memory is disclosed when first used, and stored state can be inspected, disabled, or deleted.
+
+One important boundary: **LullSense runs inside the AI agent / model provider you choose.** Conversation content, sleep logs you share, and connected-tool output may therefore be processed by that provider under its own privacy policy.
+
+See [`DATA_HANDLING.md`](DATA_HANDLING.md) for the full data boundary.
+
+---
+
+## Knowledge & evidence
+
+LullSense deliberately separates “what research says,” “what professional guidance says,” and “what is a practical sleep-support heuristic.”
+
+The current knowledge base is organized into four layers:
+
+| Layer | Content | How it is used |
 |---|---|---|
-| **A — Safety** | Safe sleep, red-flag triage, newborn guardrail | Guideline / professional consensus / systematic review only; high-evidence; source-backed (enforced) |
-| **B — Developmental** | Sleep norms, ranges, nap transitions, developmental phases | Cited literature (AASM, Spencer, Tham, Galland …) |
-| **C — Behavioral** | Settling, night waking, sleep-training methods | Systematic-review-informed; interventions framed non-judgmentally |
-| **D — Practice** | Consultation craft, constraint elicitation, reassessment | Synthesized public practice; heuristics labeled as heuristics |
+| **A · Safety** | Safe sleep, red-flag triage, low-age guardrails | Guideline / professional consensus / systematic-review sources only; safety rules take priority. |
+| **B · Development** | Sleep duration, developmental variation, nap transitions | Context and reference ranges, not a schedule prescription for one child. |
+| **C · Behavioral** | Settling, night waking, bedtime, sleep-training approaches | Systematic-review-informed where available; approaches are presented without moralizing. |
+| **D · Practice** | How to ask, reason around constraints, reassess, and support parents | Practical methods; heuristics are labeled rather than presented as medical fact. |
 
-Delivery, tone, and the consultation spine live in a dedicated **persona layer** — warm, non-judgmental, guilt-reducing, and calibrated (reassure on the likely-benign **and** name what would change the picture, in the same breath).
+Current knowledge base: **56 claims across 34 sources**, validated by `scripts/validate_knowledge.py` for schema, provenance, and safety rules.
 
 ---
 
 ## Safety & honest limits
 
-- **Educational / general-wellness only.** It does not diagnose, treat, or prevent any condition and is not a substitute for a pediatrician.
-- **Red flags halt advice.** Any safety red flag stops sleep-optimization and directs you to appropriate medical care.
-- **Safety content is source-backed.** It comes only from authoritative, verified sources; runtime web search may never back a safety conclusion.
-- **Heuristics are labeled.** Scheduling thresholds and severity bins are product heuristics, recalibratable — not clinical standards.
-- **First-hand practice is a hypothesis.** The consultation persona is a strong, testable hypothesis about good practice — to be validated with real users, not treated as proven.
+- **Educational / general-wellness only.** Not a substitute for pediatric medical care.
+- **Red flags halt ordinary sleep optimization.**
+- **Safety claims require authoritative, pre-verified sources.** Runtime web search cannot establish a safety conclusion.
+- **Heuristics are labeled.** Wake-window ranges, scheduling thresholds, and signal severity are product heuristics when the evidence does not define clinical cutoffs.
+- **Parent-named medical conditions may be discussed educationally, but LullSense does not infer that a child has a condition.**
+- **The consultation style is itself a testable product hypothesis.** We expect practitioner and parent feedback to improve it.
 
 ---
 
 ## How it works
 
-```
-skills/lullsense/SKILL.md  ── thin router: safety → age → goal → constraints → mode → hypotheses → smallest experiment
-   │
-   ├─ skills/lullsense/references/*.md   14 on-demand references (safety, reasoning, persona, developmental, myths, interventions, sleep-training, sleep-timing-prediction, signal-taxonomy, provider/data-contract …)
-   ├─ skills/lullsense/knowledge/*.yaml  versioned claims + sources + wake-window heuristics (+ validate_knowledge.py)
-   │
-   └─ baby_sleep/       optional, vendor-neutral analysis engine (pure Python)
-        ├─ contract/    canonical sleep-log schema (ApproxTime, provenance)
-        ├─ ingest/      manual-text / generic-CSV / JSON / official Huckleberry adapters
-        ├─ analyze/     wake-day segmentation, ~22 features, robust per-child baseline
-        ├─ detect/      10 baseline-relative, age-gated, non-diagnostic signal detectors
-        ├─ review/      recent-sleep review summary (rank · dedupe · cap · steady domains · freshness guard)
-        ├─ predict/     next nap/bedtime timing — age-band + personal-baseline wake windows (a range, never a point)
-        └─ store/       minimal state: child profile + saved constraints + experiments (no raw logs)
+LullSense has two complementary parts:
+
+1. **Sleep-support reasoning** — conversation, context, hypotheses, evidence, and a realistic small next step.
+2. **Sleep observer / analysis engine** — when logs are available, normalize the data, build a personal baseline, compute features, and surface recent changes.
+
+```text
+parent question / sleep history
+          │
+          ▼
+safety → age → goal → family constraints
+          │
+          ├── no data ─────> conversation + evidence
+          │
+          └── data ────────> normalize → personal baseline → signals
+                                                   │
+                                                   ▼
+                                           ranked hypotheses
+                                                   │
+                                                   ▼
+                                       one small testable change
+                                                   │
+                                                   ▼
+                                               observe
 ```
 
-The analysis engine and evidence validation are deterministic and inspectable; the consultant reasoning is model-driven, with its reasoning contract, evidence sources, and eval criteria kept open. The reasoning layer is vendor-neutral (no provider-specific behavior), and a data provider / MCP integration is entirely optional.
+Repository implementation:
+
+```text
+skills/lullsense/SKILL.md
+   │
+   ├─ references/*.md        16 on-demand references
+   ├─ knowledge/*.yaml       versioned claims / sources / heuristics
+   │
+   └─ baby_sleep/            optional vendor-neutral Python engine
+        ├─ contract/         canonical sleep data + provenance
+        ├─ ingest/           manual / CSV / JSON / Huckleberry export
+        ├─ analyze/          features + robust personal baseline
+        ├─ detect/           baseline-relative signal detectors
+        ├─ review/           recent-sleep change review
+        ├─ predict/          next nap / bedtime range
+        └─ store/            profile / constraints / experiments
+```
+
+The analysis engine and evidence validation are deterministic and inspectable. The support reasoning is model-driven, but its reasoning framework, evidence sources, and evaluation criteria are open in the repository.
+
+The core is vendor-neutral: CSV, JSON, MCP, or future sleep-data sources should remain replaceable adapters rather than defining the product.
+
+---
+
+## Built with practitioners, not around them
+
+LullSense is still a public alpha.
+
+Engineering can help us test code, validate citations, and evaluate reasoning behavior. But engineering alone cannot define what good real-world sleep support looks like.
+
+We especially welcome feedback from:
+
+- baby and toddler sleep consultants
+- pediatricians and child-health professionals
+- pediatric sleep researchers
+- postpartum doulas and newborn-care specialists
+- other practitioners who work closely with families
+
+We would love practitioner input on questions such as:
+
+- Which responses are genuinely useful in real consultations?
+- Which advice sounds reasonable but could mislead a parent?
+- When should the system stop sleep optimization and encourage professional evaluation?
+- What kinds of support can AI safely provide between consultations?
+- What should remain firmly in the hands of a human professional?
+- Could LullSense help with sleep-log summaries, plan tracking, or follow-up preparation without getting in the way of the practitioner-parent relationship?
+
+We do not assume AI can replace good professional support.
+
+Our goal is to find the right boundary together: **let tools handle what tools are good at, while preserving the judgment, experience, and human support that professionals uniquely provide.**
+
+Practitioner review, criticism, collaboration, and integration ideas are all very welcome.
 
 ---
 
@@ -176,24 +347,34 @@ The analysis engine and evidence validation are deterministic and inspectable; t
 
 | Path | Purpose |
 |---|---|
-| `skills/lullsense/` | Skill: SKILL.md (thin router + prime directives) + references + knowledge |
-| `baby_sleep/` | Optional analysis engine (contract · ingest · analyze · detect · review · store) |
-| `scripts/` | Thin CLIs: `validate_knowledge.py`; analysis via `lullsense-analyze` / `lullsense-experiment` |
-| `evals/` | Deterministic evals (proactive signals + review), consultant rubric, safety red-flag cases |
+| `skills/lullsense/` | Agent Skill: `SKILL.md`, references, and knowledge |
+| `baby_sleep/` | Optional Python analysis engine |
+| `scripts/` | Knowledge validator and CLI entry points |
+| `evals/` | Detector / review evals, consultation rubric, safety cases |
 | `examples/` | Synthetic example sleep logs |
-| `tests/` | Test suite (run in [CI](https://github.com/Kavender/lullsense/actions/workflows/ci.yml) on every push/PR, plus a clean-wheel install smoke test) |
-| `assets/` | Brand logo |
+| `tests/` | Automated test suite run by GitHub Actions CI |
+| `assets/` | Brand assets |
 
 ---
 
 ## Contributing & community
 
-Contributions are welcome and require a **DCO sign-off** (`git commit -s`) — see [`CONTRIBUTING.md`](CONTRIBUTING.md). Medical/safety content goes through a human review gate. Please keep examples and fixtures **synthetic** — child sleep data is sensitive.
+Issues, PRs, practitioner review, and real-world product feedback are all welcome.
 
-Guardrails for contributors: never fabricate a citation or threshold; safety conclusions come only from authoritative, verified sources; the validator (`python scripts/validate_knowledge.py`) must pass.
+Code contributions require a **DCO sign-off** (`git commit -s`) — see [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+Medical / safety content goes through a human review gate. Please keep examples and fixtures **synthetic**: child sleep and family data are sensitive.
+
+Contributor guardrails:
+
+- never fabricate a citation or threshold
+- safety conclusions must come from authoritative, verified sources
+- `python scripts/validate_knowledge.py` must pass
 
 ---
 
 ## License
 
-**Apache-2.0.** See [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). This project reproduces **no** proprietary text from any commercial product or consultant; public practice is synthesized and cited by source.
+**Apache-2.0.** See [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE).
+
+LullSense reproduces no proprietary text from commercial sleep products or private consultants. Public practice is synthesized and cited by source where applicable.
