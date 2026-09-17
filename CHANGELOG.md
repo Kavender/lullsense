@@ -19,7 +19,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   load-on-demand leaves — `hypothesis-menu.md`, `constraint-reasoning.md`, `analysis-json.md`,
   `review-mode.md`, `evidence-rules.md` — with the ten-step workflow living solely in
   `SKILL.md`'s Orchestration; the god-file is now a one-release tombstone. No behavioral rule
-  was dropped (verbatim moves, CI-guarded); safety coverage is unchanged.
+  was dropped (verbatim moves, CI-guarded); safety coverage is unchanged. (4) `SKILL.md` was
+  slimmed back to a thin router (~30.5KB → ~21.7KB) by moving the CLI invocation blocks into
+  `analysis-json.md` / `memory-protocol.md` and de-duplicating per-step prose that already
+  lived in the references; a CI + pytest **context-budget guard** now caps the router and hot
+  tier so it can't silently re-grow, and a "batch reads" rule discourages serial reference
+  loads. The zero-read hot path (inline safety net + persona core moves) is preserved.
 
 ### Added
 

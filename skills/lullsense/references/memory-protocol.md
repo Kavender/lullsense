@@ -59,6 +59,25 @@ Memory preference commands operate on the root `~/.lullsense` and take **no** `-
 
 If the family has more than one child, keep a **separate state-dir per child** and confirm which child each concern is about — never mix two children's ages, constraints, or experiments.
 
+## 6. CLI command reference (`lullsense-experiment`)
+
+Full command surface for the store (optional engine). `--state-dir DIR` is required for per-child commands; `bootstrap` and the memory-preference commands operate on the root instead.
+
+```
+lullsense-experiment bootstrap [--root DIR] | --state-dir DIR bootstrap   # session start: memory flag + every child's profile+constraints in ONE call
+lullsense-experiment --state-dir DIR save-profile --name NAME --dob YYYY-MM-DD [--dob-precision {exact|approximate}] [--gestational-weeks K]
+lullsense-experiment --state-dir DIR get-profile
+lullsense-experiment --state-dir DIR save-constraint --key K --value V [--note N]
+lullsense-experiment --state-dir DIR get-constraint --key K
+lullsense-experiment --state-dir DIR list-constraints
+lullsense-experiment --state-dir DIR save-experiment --id ID --hypothesis H --change C \
+    --metrics m1,m2 --start-date YYYY-MM-DD --review-after-days D
+lullsense-experiment --state-dir DIR list-experiments
+lullsense-experiment --state-dir DIR update-status --id ID --status {proposed|active|reviewing|concluded}
+lullsense-experiment memory-status | disable-memory | enable-memory   # global memory preference (root ~/.lullsense; no --state-dir)
+lullsense-experiment --state-dir DIR clear-profile | clear-constraints | clear-experiments | clear-all   # delete saved state on request
+```
+
 ---
 
 ## Related

@@ -30,6 +30,7 @@
 - **[Dim 8/14] Calibrated reassurance + falsifier.** "Waking and settling back — even frequently — is really common right now and, on its own, not a worry. The thing I'd watch: if she seems genuinely unwell rather than just unsettled, or the waking comes with [a specific concerning sign], that's a call to your pediatrician rather than a schedule tweak." Reassurance and boundary as one unit. (persona §1, D23c)
 - **[Dim 10/11] Feasible, minimal.** One small, do-able adjustment framed for a shattered parent; no tracker prerequisite, no overhaul.
 - **[Dim 12/13] Monitor + realistic horizon.** What to notice over the next several nights (from memory is fine), and "these stretches usually ease over a week or two, not overnight."
+- **[RTFR / progressive disclosure] Fast first turn — 0 reference reads.** An ordinary no-data first turn is answerable from `SKILL.md` alone (the safety net and persona core moves are inline): the agent screens, validates, and gives the calibrated-reassurance headline **without reading any `references/*.md` file**, and with at most **one** state read (the session bootstrap). Reading a topic reference — or loading `knowledge/claims.yaml`/`sources.yaml` wholesale — before the first reply is a **latency miss**. Count round-trips, not just answer quality; when several references *are* genuinely needed later, they should be loaded in one batch, not serially.
 
 **What scores poorly:**
 

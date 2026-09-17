@@ -1,7 +1,27 @@
-# Reading the Analysis JSON (`scripts/analyze_sleep.py`)
+# Running & Reading the Analysis CLI (`scripts/analyze_sleep.py`)
 
-**Loaded on demand** from `SKILL.md` Step 5 (data-enhanced mode) when the analysis CLI has been run.
+**Loaded on demand** from `SKILL.md` Step 5 (data-enhanced mode) — how to invoke `lullsense-analyze` and read what it emits.
 Terminating leaf — `signal-taxonomy.md §N` tags are attribution for the confidence/severity/status semantics, not load-now instructions.
+
+---
+
+## Running the CLI
+
+The analysis commands (`lullsense-analyze`, `lullsense-experiment`) require the optional engine — during the alpha, install from source: `pip install "git+https://github.com/Kavender/lullsense.git"` (PyPI package planned). The skill is fully useful without it; no-data mode is the primary path.
+
+```
+lullsense-analyze --format {manual|huckleberry|json} --input PATH \
+    (--age-months N | --dob YYYY-MM-DD | a --state-dir with a saved profile DOB) \
+    [--as-of-date YYYY-MM-DD]       # "today" for deriving age from DOB (default: today) \
+    [--gestational-weeks N]         # else taken from the saved profile \
+    [--reference-date YYYY-MM-DD]   # REQUIRED for --format manual (anchors relative times) \
+    [--convention {put_down|asleep}]  # sleep-start meaning; else read a saved constraint \
+    [--state-dir DIR]                 # reads the saved child profile (DOB) + sleep_start_convention
+```
+
+Age resolves as: explicit `--age-months` → `--dob` (derived) → the saved profile's DOB (derived) — so once a DOB profile is saved, later sessions need no age arg at all.
+- `manual` = free-text notes the parent typed; `huckleberry` = official CSV export only (no scraping — see `references/mcp-data-provider.md §6`); `json` = canonical/example JSON (`references/data-contract.md`).
+- For a longitudinal review, add `--review --review-window-days N`; read the `review` block per `references/review-mode.md`.
 
 ---
 
