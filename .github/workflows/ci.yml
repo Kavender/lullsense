@@ -28,6 +28,23 @@ jobs:
         run: python scripts/validate_knowledge.py
       - name: Safety net inline-sync guard
         run: python scripts/check_safety_inline_sync.py
+      - name: Context budget guard (SKILL.md + hot tier)
+        run: |
+          python - <<'PY'
+          import os, sys
+          skill = os.path.getsize("skills/lullsense/SKILL.md")
+          voice = os.path.getsize("skills/lullsense/references/voice-card.md")
+          SKILL_MAX, HOT_MAX = 23 * 1024, 27 * 1024
+          print(f"SKILL.md={skill}B (cap {SKILL_MAX}); hot tier={skill + voice}B (cap {HOT_MAX})")
+          bad = []
+          if skill > SKILL_MAX:
+              bad.append(f"SKILL.md {skill}B > {SKILL_MAX}B")
+          if skill + voice > HOT_MAX:
+              bad.append(f"hot tier {skill + voice}B > {HOT_MAX}B")
+          if bad:
+              sys.exit("FAIL context budget: " + "; ".join(bad) + " — move detail into a reference, don't grow the router")
+          print("OK: context budget within caps")
+          PY
       - name: Proactive detector eval
         run: python evals/proactive/run_proactive_eval.py
       - name: Longitudinal review eval
