@@ -6,28 +6,32 @@ The store is readable/writable **with or without the engine** — the engine is 
 
 ---
 
-## 1. Discovery — finding the child at session start
+## 1. Discovery — one bootstrap call at session start
 
-When the caller didn't supply a `--state-dir`, look in the default root **`~/.lullsense/`**, which holds **one sub-directory per child** plus an optional `settings.json` memory preference.
+Get the whole session's saved state in **one** call — the memory preference plus, for every known child, the profile and durable constraints — instead of three serial reads (`settings.json` → `profile.json` → `constraints.json`). Three sequential reads are three blocking round-trips before your first reply; one call is one.
 
-**First check the memory preference** (`~/.lullsense/settings.json` → `memory`):
-- **`disabled`** → this family opted out before. Run **session-only**, persist nothing, and don't show the first-time notice again.
-- **otherwise** (the default — memory is on) → proceed:
-  - **Exactly one** child dir → load it and use its DOB. (A light "just to confirm, this is about <name>?" is fine; do not re-ask the age.)
-  - **Several** child dirs → ask which child this is about, then load that one.
+- **With the engine:** `lullsense-experiment bootstrap` (scans the default root `~/.lullsense/`), or `lullsense-experiment --state-dir DIR bootstrap` for a known child dir. It returns:
+  ```
+  {"memory": "enabled"|"disabled",
+   "children": [{"dir": ..., "profile": {...}|null, "constraints": [...]|null, "warning"?: ...}]}
+  ```
+- **Without the engine:** one shell read of the same files — `cat ~/.lullsense/settings.json ~/.lullsense/*/profile.json ~/.lullsense/*/constraints.json 2>/dev/null` — then **parse the concatenated JSON into the session's memory flag, profile, and constraints yourself.** Missing files simply produce no output — that's "not saved yet," not an error.
+
+Then branch on the payload:
+- **`memory: disabled`** → this family opted out before. Run **session-only**, persist nothing, don't show the first-time notice again. (Bootstrap returns **no children** when memory is disabled — by design, so an opt-out is never scanned around.)
+- **otherwise** (the default — memory is on):
+  - **Exactly one** child → use its DOB. (A light "just to confirm, this is about <name>?" is fine; do not re-ask the age.)
+  - **Several** children → ask which child this is about, then use that one.
   - **None** (first-ever contact) → ask age once, then **save** a profile (§3) under `~/.lullsense/<child-slug>/` so the next session remembers — and the first time you save, show the first-time notice (§4).
+- A per-child **`warning`** means that child's file was unreadable — treat the affected field as "not saved," and if it matters, re-confirm with the parent rather than guessing.
 
-## 2. Reading a saved profile and constraints
+## 2. Using the loaded profile and constraints
 
-**Profile:**
-- **With the engine:** `lullsense-experiment --state-dir ~/.lullsense/<child> get-profile` → derive age from `dob`.
-- **Without the engine:** read `~/.lullsense/<child>/profile.json` directly (fields: `name`, `dob`, `dob_precision`, `gestational_age_at_birth_weeks`) and compute whole months from `dob` to today yourself.
+Bootstrap (§1) has **already** returned the profile and constraints — normally you don't read them again. Silently derive current age from the profile's `dob` (whole months to today) and move on; hold the durable constraints as active context from turn one so every recommendation is checked against them.
 
-Once loaded, **silently use the DOB → current age and move on.**
-
-**Durable constraints** (load right after the profile, so the skill is constraint-aware from turn one):
-- **With the engine:** `lullsense-experiment --state-dir ~/.lullsense/<child> list-constraints` → an array of `{key, value, note}`.
-- **Without the engine:** read `~/.lullsense/<child>/constraints.json` directly (same array).
+For a **targeted re-read** (e.g. right after a save), the per-field commands still exist:
+- **Profile** — `lullsense-experiment --state-dir ~/.lullsense/<child> get-profile`, or read `~/.lullsense/<child>/profile.json` (fields: `name`, `dob`, `dob_precision`, `gestational_age_at_birth_weeks`).
+- **Constraints** — `lullsense-experiment --state-dir ~/.lullsense/<child> list-constraints`, or read `~/.lullsense/<child>/constraints.json` (an array of `{key, value, note}`).
 - Treat a loaded constraint as **last-known, not forever-true** — confirm currency when it's stale or the child's actual pattern has clearly shifted (daycare ramp-up, a room move, a switch, travel); see `reasoning-framework.md` → "Constraints evolve." Transient context (travel, time-zone, illness) is used for the turn but **not** persisted.
 
 ## 3. Persisting the profile — anchor on DOB, never a month count

@@ -10,6 +10,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from baby_sleep.store import settings as memory_settings
+from baby_sleep.store.bootstrap import bootstrap as bootstrap_state
 from baby_sleep.store.experiment_store import ExperimentStore
 from baby_sleep.store.models import ChildProfile, Experiment, ExperimentStatus, SavedConstraint
 
@@ -62,7 +63,18 @@ def main(argv=None) -> int:
         mp.add_argument("--root", default=None,
                         help="state root holding settings.json (default: ~/.lullsense)")
 
+    # One-shot session bootstrap: memory pref + every child's profile/constraints in one call.
+    bs = sub.add_parser("bootstrap")
+    bs.add_argument("--root", default=None,
+                    help="state root scanned for children when no --state-dir (default: ~/.lullsense)")
+
     args = p.parse_args(argv)
+
+    # Session bootstrap: neither a memory-only command nor a single-child command — it may
+    # scan the whole root, so it's handled before the --state-dir requirement below.
+    if args.cmd == "bootstrap":
+        print(json.dumps(bootstrap_state(root=args.root, state_dir=args.state_dir)))
+        return 0
 
     # Memory preference commands operate on the state root, not a child dir.
     if args.cmd in MEMORY_CMDS:
