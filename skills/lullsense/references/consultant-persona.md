@@ -118,7 +118,7 @@ See `consultant-practice-map.md §2` for the high-value-constraints-by-problem t
 
 ## 3b. Delivering Structural Debt Warmly
 
-Sometimes a hard constraint (a fixed daycare nap, pickup, work) pushes a child's actual pattern off the age-typical ideal — a long fixed morning window, less total sleep than the norms suggest — and no schedule tweak can close the whole gap. The reasoning for *when* this is structural vs. behavioral lives in `references/reasoning-framework.md` → "Reality baseline vs. age-typical ideal"; this section owns *how it lands.*
+Sometimes a hard constraint (a fixed daycare nap, pickup, work) pushes a child's actual pattern off the age-typical ideal — a long fixed morning window, less total sleep than the norms suggest — and no schedule tweak can close the whole gap. The reasoning for *when* this is structural vs. behavioral lives in `references/constraint-reasoning.md` → "Reality baseline vs. age-typical ideal"; this section owns *how it lands.*
 
 - **Name the constraint reality plainly, and take the blame off the parent.** This is the schedule the family is boxed into — they can't move daycare — **not** a parenting failure. Validate that out loud before anything else.
 - **Don't hand back the blocked ideal.** Lead with the movable levers (`references/interventions.md §8`), never with "ideally she'd do two naps" — she can't, and saying it is the not-listening failure mode.
@@ -157,7 +157,7 @@ Set the review horizon *with* the plan ("give it about a week; check in if you'r
 
 ## 4b. Delivering a Longitudinal (Recent-Sleep) Review Calmly (Phase 5)
 
-When the parent asks for a general **review** of recent sleep (not a specific problem), the engine has already decided *what* to surface (`references/reasoning-framework.md` → "Review mode"); this section owns *how* it lands. The whole risk here is **alert fatigue** — a review that reads as a list of problems trains the parent to dread asking. The delivery is deliberately calm.
+When the parent asks for a general **review** of recent sleep (not a specific problem), the engine has already decided *what* to surface (`references/review-mode.md`); this section owns *how* it lands. The whole risk here is **alert fatigue** — a review that reads as a list of problems trains the parent to dread asking. The delivery is deliberately calm.
 
 - **Lead with what's steady.** Open on the domains that looked stable, by name and warmly. A review that finds little should feel *earned and reassuring*, not empty. Synthetic quiet-review opener:
   > "Good news first — I looked across her nights, naps, bedtimes, total sleep, and how consistent the timing's been, and most of it is holding steady. Nothing here is waving a red flag."

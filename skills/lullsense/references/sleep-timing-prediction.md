@@ -16,7 +16,7 @@ Use this reference when the parent is asking, in effect, *"when is the next slee
 - "How long can she stay up?" / "What's her wake window right now?"
 - "When will she be tired again?" / "She just woke up — when do I put her down next?"
 
-This is a forward-looking timing question. It is distinct from the reactive problem workflow (early waking, resistance, night waking — `references/reasoning-framework.md`) and from a proactive review (`references/reasoning-framework.md` → "Review mode"). Those may *lead into* a timing question, but this reference owns only the "next-event time" answer.
+This is a forward-looking timing question. It is distinct from the reactive problem workflow (early waking, resistance, night waking — `SKILL.md` "Orchestration") and from a proactive review (`references/review-mode.md`). Those may *lead into* a timing question, but this reference owns only the "next-event time" answer.
 
 **Whole-day map is out of scope for now (Phase 1).** This predicts the **next single event**, not a full-day schedule. If the parent asks for a whole day laid out, give the next event and say plainly that a full-day map needs a sense of the child's typical nap lengths (logged or stated) — do **not** fabricate a multi-nap schedule from age alone. See §6.
 
@@ -79,7 +79,7 @@ The table's wake-window and nap-length numbers are **practitioner heuristics** (
 
 The prediction now surfaces `prediction.age_band_wake_window` (`{min, max}`, the age-typical ideal) **alongside** the personal band — hold both. When the child's personal wake window runs **materially longer** than the age band, read it as a *possible constraint fingerprint*, not noise and not a problem to "fix" in the child. Two **tunable product heuristics** set the read (not clinical cutoffs): **≈1.3× the band max → worth a targeted question; ≈1.5× → a strong signal.**
 
-**Ask, never infer.** If a saved constraint (a fixed daycare nap/pickup) already explains the long window, use it. If none is on file, **ask one targeted question** — *"is her nap timing fixed by daycare or an outside schedule?"* — before applying any structural framing; never assume a constraint exists. The full logic (structural vs. behavioral debt, currency, transitions) lives in `references/reasoning-framework.md` → "Reality baseline vs. age-typical ideal." This is interpretation, not a new number — the §4 rendering rules (range, basis, cues-win, first-turn brevity) still hold exactly.
+**Ask, never infer.** If a saved constraint (a fixed daycare nap/pickup) already explains the long window, use it. If none is on file, **ask one targeted question** — *"is her nap timing fixed by daycare or an outside schedule?"* — before applying any structural framing; never assume a constraint exists. The full logic (structural vs. behavioral debt, currency, transitions) lives in `references/constraint-reasoning.md` → "Reality baseline vs. age-typical ideal." This is interpretation, not a new number — the §4 rendering rules (range, basis, cues-win, first-turn brevity) still hold exactly.
 
 ---
 
@@ -168,7 +168,7 @@ When a parent asks for a whole day:
 - Newborn guardrail + safe sleep (the `< 4mo` gate): `references/safety-triage.md §4–§5`
 - First-turn contract, calibrated reassurance, delivery voice: `references/consultant-persona.md §1–§2`
 - Wake windows as a heuristic; "regression" and overclaim guardrails: `references/myths-and-overclaims.md §1`
-- The ten-step workflow and reading analysis JSON generally: `references/reasoning-framework.md`
+- The ten-step workflow: `SKILL.md` "Orchestration"; reading the analysis JSON: `references/analysis-json.md`
 - Nap-timing intervention (the reactive counterpart): `references/interventions.md §7`
 - The age-band timing table this reference reads: `knowledge/sleep_timing_heuristics.yaml`
 - Claims: `wake_window_typical_by_age`, `sleep_timing_prediction_is_a_range`, `wake_windows_as_heuristic`, `total_sleep_4_12_months`, `circadian_emergence_infancy` — all in `knowledge/claims.yaml`

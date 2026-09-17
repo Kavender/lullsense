@@ -8,7 +8,7 @@
 
 ## Purpose
 
-This is the **internal differential aid** behind Hypothesis #8, "Sleep environment / comfort mismatch" (`reasoning-framework.md` Step 5). It exists so the consultant can *conversationally surface 2–3 context-relevant environmental factors to observe or rule out* — feeding the Step 7 experiment loop and Step 8 metrics.
+This is the **internal differential aid** behind Hypothesis #8, "Sleep environment / comfort mismatch" (`hypothesis-menu.md`). It exists so the consultant can *conversationally surface 2–3 context-relevant environmental factors to observe or rule out* — feeding the Step 7 experiment loop and Step 8 metrics.
 
 **This is not a user-facing checklist.** Never dump the list. Surface at most **2–3** factors, opt-in, worded as things to *observe*, and only when they fit the presenting picture. Each factor is a hypothesis against *this* child, not a verdict (same-presentation ≠ same-cause).
 

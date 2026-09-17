@@ -32,7 +32,7 @@ Bootstrap (§1) has **already** returned the profile and constraints — normall
 For a **targeted re-read** (e.g. right after a save), the per-field commands still exist:
 - **Profile** — `lullsense-experiment --state-dir ~/.lullsense/<child> get-profile`, or read `~/.lullsense/<child>/profile.json` (fields: `name`, `dob`, `dob_precision`, `gestational_age_at_birth_weeks`).
 - **Constraints** — `lullsense-experiment --state-dir ~/.lullsense/<child> list-constraints`, or read `~/.lullsense/<child>/constraints.json` (an array of `{key, value, note}`).
-- Treat a loaded constraint as **last-known, not forever-true** — confirm currency when it's stale or the child's actual pattern has clearly shifted (daycare ramp-up, a room move, a switch, travel); see `reasoning-framework.md` → "Constraints evolve." Transient context (travel, time-zone, illness) is used for the turn but **not** persisted.
+- Treat a loaded constraint as **last-known, not forever-true** — confirm currency when it's stale or the child's actual pattern has clearly shifted (daycare ramp-up, a room move, a switch, travel); see `constraint-reasoning.md` → "Constraints evolve." Transient context (travel, time-zone, illness) is used for the turn but **not** persisted.
 
 ## 3. Persisting the profile — anchor on DOB, never a month count
 
