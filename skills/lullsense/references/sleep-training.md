@@ -152,11 +152,6 @@ One honest hierarchy, so the agent never overstates:
 
 ---
 
-## Cross-references
+## Provenance & navigation
 
-- Behavioral intervention menu, procedures, observation metrics: `references/interventions.md` (esp. §2 bedtime fading, §3 routine, §4 modified parent response)
-- Hypothesis reasoning (bedtime association / changed settling): `references/hypothesis-menu.md`
-- Medical screening, red flags, halt-and-refer: `references/safety-triage.md`
-- Crying is not automatically behavioral; overclaim guardrails: `references/myths-and-overclaims.md §6`
-- Developmental norms and the under-4-month scope: `references/developmental-sleep.md`
-- All claim IDs and evidence levels: `knowledge/claims.yaml`
+Terminating leaf — the reference index in `SKILL.md` is the navigation map; the inline tags above (interventions for the lever menu, hypothesis-menu for bedtime-association reasoning, safety-triage for red flags, myths §6 on crying) are provenance/context, not load-now chains. All claim IDs and evidence levels: scan `knowledge/claims-index.md`, fetch via `lullsense-cite`.

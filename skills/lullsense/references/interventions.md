@@ -247,10 +247,6 @@ The full methods menu (extinction, graduated/Ferber, camping-out/chair, pick-up-
 
 ---
 
-## Cross-References
+## Provenance & navigation
 
-- Medical screening and safety triage: `references/safety-triage.md`
-- Intake and constraint elicitation: `references/conversational-intake.md`
-- Developmental norms: `references/developmental-sleep.md`
-- Overclaim guardrails: `references/myths-and-overclaims.md`
-- All claim IDs: `knowledge/claims.yaml`
+Terminating leaf — the reference index in `SKILL.md` is the navigation map; inline tags above are provenance/context, not load-now chains. All claim IDs: scan `knowledge/claims-index.md`, fetch via `lullsense-cite`.
