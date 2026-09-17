@@ -5,6 +5,7 @@ answer one question (a latency win). This test locks that in: the god-file stays
 the new leaves exist and carry their content, and no doc silently re-points at the god-file
 (which would resurrect the cascade-loading the split removed).
 """
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -37,6 +38,24 @@ def test_god_file_is_a_tombstone():
         assert name in text, f"tombstone should point to {name}"
     # The bulky workflow must be gone, not merely re-titled.
     assert len(text.splitlines()) < 30, "tombstone should be short (content moved out)"
+
+
+def test_no_cross_reference_menus_in_leaves():
+    """T15: reference leaves must not carry an enumerated sibling-file 'Cross-References' menu.
+
+    Those footer menus duplicated SKILL.md's load-on-demand index and invited cascade-loading
+    (read one leaf → feel obliged to open the 5–6 siblings it lists). Navigation lives in the
+    router's index; each leaf is terminating, with only inline provenance/context tags. New
+    footers should be titled 'Provenance & navigation' (or point up to SKILL.md), not enumerate
+    siblings under a Cross-References heading.
+    """
+    offenders = []
+    for md in REFS.glob("*.md"):
+        for line in md.read_text(encoding="utf-8").splitlines():
+            if re.match(r"^#+\s+.*cross-reference", line, re.IGNORECASE):
+                offenders.append(md.name)
+                break
+    assert not offenders, f"reference leaves still carry a Cross-References menu: {offenders}"
 
 
 def test_no_doc_repoints_at_the_god_file():

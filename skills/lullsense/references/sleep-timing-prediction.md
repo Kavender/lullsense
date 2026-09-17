@@ -163,12 +163,6 @@ When a parent asks for a whole day:
 
 ---
 
-## 8. Cross-References
+## 8. Provenance & navigation
 
-- Newborn guardrail + safe sleep (the `< 4mo` gate): `references/safety-triage.md §4–§5`
-- First-turn contract, calibrated reassurance, delivery voice: `references/consultant-persona.md §1–§2`
-- Wake windows as a heuristic; "regression" and overclaim guardrails: `references/myths-and-overclaims.md §1`
-- The ten-step workflow: `SKILL.md` "Orchestration"; reading the analysis JSON: `references/analysis-json.md`
-- Nap-timing intervention (the reactive counterpart): `references/interventions.md §7`
-- The age-band timing table this reference reads: `knowledge/sleep_timing_heuristics.yaml`
-- Claims: `wake_window_typical_by_age`, `sleep_timing_prediction_is_a_range`, `wake_windows_as_heuristic`, `total_sleep_4_12_months`, `circadian_emergence_infancy` — all in `knowledge/claims.yaml`
+Terminating leaf — the reference index in `SKILL.md` is the navigation map; the inline tags above (safety-triage for the `<4mo` gate, persona for the first-turn contract, constraint-reasoning for the deviation logic) are provenance/context, not load-now chains. The age-band timing table this reference reads: `knowledge/sleep_timing_heuristics.yaml`. Claims (fetch via `lullsense-cite`): `wake_window_typical_by_age`, `sleep_timing_prediction_is_a_range`, `wake_windows_as_heuristic`, `total_sleep_4_12_months`, `circadian_emergence_infancy`.

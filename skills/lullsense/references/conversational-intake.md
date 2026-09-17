@@ -159,10 +159,6 @@ When intake reveals a recent change in sleep that coincides with a developmental
 
 ---
 
-## Cross-References
+## Provenance & navigation
 
-- Safety triage and red-flag list: `references/safety-triage.md`
-- Developmental norms: `references/developmental-sleep.md`
-- Myths and overclaims to avoid: `references/myths-and-overclaims.md`
-- Interventions menu: `references/interventions.md`
-- Relevant claim IDs: `safe_sleep_back_to_sleep`, `safe_sleep_firm_flat_surface`, `safe_sleep_bare_crib`, `individual_variability_baseline`, `wake_windows_as_heuristic`, `constraint_first_recommending`, `sleep_regression_reframe`, `developmental_context_sleep_shifts`
+Terminating leaf — the reference index in `SKILL.md` is the navigation map; inline tags above are provenance/context, not load-now chains. Relevant claim IDs (fetch via `lullsense-cite`): `safe_sleep_back_to_sleep`, `safe_sleep_firm_flat_surface`, `safe_sleep_bare_crib`, `individual_variability_baseline`, `wake_windows_as_heuristic`, `constraint_first_recommending`, `sleep_regression_reframe`, `developmental_context_sleep_shifts`.

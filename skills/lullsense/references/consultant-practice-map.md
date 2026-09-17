@@ -180,10 +180,6 @@ Synthesized from publicly available professional/consultant material. **No propr
 
 ---
 
-## 11. Cross-References
+## 11. Provenance & navigation
 
-- `references/consultant-persona.md` — the voice/tone layer that delivers this structure (passive safety net, emotional value, interaction spine, constraint-first, planful staged deliverables, meet-their-vocabulary).
-- `references/safety-triage.md` — the red-flag reference the passive net consults (§5).
-- `references/developmental-sleep.md` — the developmental priors behind the troubleshooting craft (§7).
-- `references/myths-and-overclaims.md` — the calibrated positions the vocabulary-bridging (§3) and reassurance (§4) rely on.
-- `knowledge/claims.yaml` — the versioned `D_practice`, `C_behavioral`, and `B_developmental` claims referenced throughout.
+Terminating leaf — the reference index in `SKILL.md` is the navigation map; inline tags above are provenance/context, not load-now chains. The versioned `D_practice`, `C_behavioral`, and `B_developmental` claims referenced throughout live in `knowledge/claims.yaml` (scan `knowledge/claims-index.md`, fetch via `lullsense-cite`).

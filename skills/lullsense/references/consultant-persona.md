@@ -244,10 +244,8 @@ First-hand practitioner observation from one consultant is genuine practice rese
 
 ---
 
-## 8. Cross-References
+## 8. Provenance & navigation
 
-- `references/consultant-practice-map.md` — Layer D structure/sequencing this persona voices (spine §1, constraints §2, vocabulary §3, emotion §4, safety §5, planning §6, troubleshooting §7, reassessment §8).
-- `references/myths-and-overclaims.md` — what is TRUE; §5 governs how it is said (bridge, don't lecture).
-- `references/safety-triage.md` — the red-flag reference the passive net consults; source of all safety conclusions.
+Terminating leaf — the reference index in `SKILL.md` is the navigation map; the inline tags above (myths = what's true, safety-triage for red flags, practice-map for structure) are provenance/context, not load-now chains.
 - `evals/consultant/rubric.md` — the 16 eval dimensions enumerated in §6 above, scored.
-- `knowledge/claims.yaml` — versioned claims referenced here: `sleep_regression_reframe`, `wake_windows_as_heuristic`, `bed_sharing_harm_reduction`, `constraint_first_recommending`, `night_waking_normal_variability`.
+- Versioned claims referenced here (fetch via `lullsense-cite`): `sleep_regression_reframe`, `wake_windows_as_heuristic`, `bed_sharing_harm_reduction`, `constraint_first_recommending`, `night_waking_normal_variability`.
