@@ -74,7 +74,7 @@ Providers may not supply this method; treat its absence gracefully.
 
 ### Review-mode fetch
 
-For a parent-initiated "review my recent sleep" (Phase 5), the skill requests **current** data on demand by calling `get_sleep_sessions(as_of − window, as_of)` — e.g. the last 14 days ending today. Nothing is persisted; the fetched log is analyzed ephemerally and discarded. If the provider returns nothing — or nothing recent — for that range, honor the §7 conversational fallback and do **not** present older data as if it were current. The freshness guard lives in `references/reasoning-framework.md` → "Review mode".
+For a parent-initiated "review my recent sleep" (Phase 5), the skill requests **current** data on demand by calling `get_sleep_sessions(as_of − window, as_of)` — e.g. the last 14 days ending today. Nothing is persisted; the fetched log is analyzed ephemerally and discarded. If the provider returns nothing — or nothing recent — for that range, honor the §7 conversational fallback and do **not** present older data as if it were current. The freshness guard lives in `references/review-mode.md`.
 
 ---
 
@@ -131,13 +131,13 @@ When structured data would sharpen the answer — data-enhanced reasoning, a rev
 1. **Detect by capability, not by vendor.** Look in your available tools for something that can *list children* and *return sleep history* (any name, any vendor). Never hard-code or assume a specific product (see §6).
 2. **Auto-pull with a one-line heads-up.** The parent connected the provider, so reading their own recent data to answer the question they just asked is within that consent — do it, but say so in one short line ("let me check your connected log…"). This is a transparency note, **not** a permission gate.
 3. **Map the child.** If the provider exposes several children, resolve which one is in scope (match the saved profile name, or ask) before fetching.
-4. **Normalize and use** per §5; apply the freshness guard (`reasoning-framework.md` → "Review mode") so stale data is never presented as current.
+4. **Normalize and use** per §5; apply the freshness guard (`review-mode.md`) so stale data is never presented as current.
 5. **Fall back gracefully.** If no provider is connected, or it returns nothing / nothing recent, ask the parent to paste or export a log, or run a conversational review (§7). Never block on the provider.
 6. **Respect opt-out.** If the parent says not to use the connected data, honor it for the session and switch to conversation.
 
 This keeps the parent's experience seamless (no manual export when a provider is right there) while staying vendor-neutral and consent-respecting.
 
-**Constraints are auto-loaded too, and carry the same currency discipline.** Just as the profile and (when useful) recent data are pulled at session start, the child's saved durable constraints are loaded then as well (`SKILL.md` Step 2). But a saved constraint is **last-known, not forever-true**: apply the same freshness instinct you apply to data — confirm rather than silently trust a stale constraint when it's old or the child's actual pattern has clearly shifted (daycare ramp-up, a room move, a switch, travel). Detection → confirm → re-baseline is spelled out in `reasoning-framework.md` → "Constraints evolve."
+**Constraints are auto-loaded too, and carry the same currency discipline.** Just as the profile and (when useful) recent data are pulled at session start, the child's saved durable constraints are loaded then as well (`SKILL.md` Step 2). But a saved constraint is **last-known, not forever-true**: apply the same freshness instinct you apply to data — confirm rather than silently trust a stale constraint when it's old or the child's actual pattern has clearly shifted (daycare ramp-up, a room move, a switch, travel). Detection → confirm → re-baseline is spelled out in `constraint-reasoning.md` → "Constraints evolve."
 
 ---
 

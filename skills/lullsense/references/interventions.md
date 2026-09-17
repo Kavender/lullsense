@@ -202,7 +202,7 @@ The full methods menu (extinction, graduated/Ferber, camping-out/chair, pick-up-
 
 **Claim anchor:** `constraint_driven_structural_debt` (heuristic), `constraint_first_recommending` (heuristic). **Labeled heuristic.**
 
-**When to consider:** A hard, immovable constraint (a fixed daycare nap, pickup, or work schedule) forces the child's actual pattern off the age-typical ideal — most often a long fixed morning wake window — and the resulting shortfall is **structural, not behavioral** (classified per `references/reasoning-framework.md` → "Reality baseline vs. age-typical ideal"). The nap or pickup **cannot be recommended away** (`constraint_conflict`); the only levers are the ones the family actually controls.
+**When to consider:** A hard, immovable constraint (a fixed daycare nap, pickup, or work schedule) forces the child's actual pattern off the age-typical ideal — most often a long fixed morning wake window — and the resulting shortfall is **structural, not behavioral** (classified per `references/constraint-reasoning.md` → "Reality baseline vs. age-typical ideal"). The nap or pickup **cannot be recommended away** (`constraint_conflict`); the only levers are the ones the family actually controls.
 
 **What to try (movable levers only — do NOT prescribe the blocked ideal):**
 - **Temporarily / consistently earlier bedtime** to shorten the overtired pre-bed stretch. This is the **highest-leverage** lever when the morning window is fixed-long, and it respects the daycare/pickup constraint rather than fighting it. Feasibility first: it has to fit the family's evening (pickup time, dinner, who does bedtime).
@@ -217,7 +217,7 @@ The full methods menu (extinction, graduated/Ferber, camping-out/chair, pick-up-
 
 **Reassessment window:** ~1–2 weeks. Expect **mitigation, not resolution**, while the constraint holds.
 
-**Important:** Never frame the fixed schedule as the parent's failing (delivery in `references/consultant-persona.md §3b`). Pair every lever with what-to-watch + a realistic horizon + what-would-change-the-plan. If a constraint may have changed (daycare ramp-up, room move, a switch, travel), confirm currency and re-baseline before leaning on it (`reasoning-framework.md` → "Constraints evolve").
+**Important:** Never frame the fixed schedule as the parent's failing (delivery in `references/consultant-persona.md §3b`). Pair every lever with what-to-watch + a realistic horizon + what-would-change-the-plan. If a constraint may have changed (daycare ramp-up, room move, a switch, travel), confirm currency and re-baseline before leaning on it (`constraint-reasoning.md` → "Constraints evolve").
 
 ---
 

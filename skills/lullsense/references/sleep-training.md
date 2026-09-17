@@ -8,7 +8,7 @@
 
 This is the single navigable place for the "sleep training" topic. It lets the agent answer, from one document: *what are my options, which do I pick, when can I start, what is Ferber vs extinction, I want the gentlest method, is it safe — what about the crying?*
 
-It gathers material that also appears, in narrower form, in `references/interventions.md` (the minimal-experiment menu), `references/reasoning-framework.md` (hypothesis: bedtime association / changed settling pattern), and `references/myths-and-overclaims.md §6` (crying is not automatically behavioral). Where those docs go deeper on a mechanism, this file cross-references rather than restates.
+It gathers material that also appears, in narrower form, in `references/interventions.md` (the minimal-experiment menu), `references/hypothesis-menu.md` (hypothesis: bedtime association / changed settling pattern), and `references/myths-and-overclaims.md §6` (crying is not automatically behavioral). Where those docs go deeper on a mechanism, this file cross-references rather than restates.
 
 **Framing invariants for every answer here:**
 
@@ -155,7 +155,7 @@ One honest hierarchy, so the agent never overstates:
 ## Cross-references
 
 - Behavioral intervention menu, procedures, observation metrics: `references/interventions.md` (esp. §2 bedtime fading, §3 routine, §4 modified parent response)
-- Hypothesis reasoning (bedtime association / changed settling): `references/reasoning-framework.md`
+- Hypothesis reasoning (bedtime association / changed settling): `references/hypothesis-menu.md`
 - Medical screening, red flags, halt-and-refer: `references/safety-triage.md`
 - Crying is not automatically behavioral; overclaim guardrails: `references/myths-and-overclaims.md §6`
 - Developmental norms and the under-4-month scope: `references/developmental-sleep.md`

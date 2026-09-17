@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Performance: cut time-to-first-reply by removing serial reads from the common turn.**
+  An ordinary no-data question previously drove ~9 sequential file reads before the agent
+  could answer. Three phases addressed it: (1) the safety red-flag net and a hot-path
+  voice-card are inlined into `SKILL.md`, so an ordinary turn screens and delivers with no
+  reference read; (2) a new `lullsense-experiment bootstrap` returns the memory flag plus
+  every child's profile and constraints in one call, replacing three serial state reads;
+  (3) the 32KB `references/reasoning-framework.md` god-file is split into focused,
+  load-on-demand leaves — `hypothesis-menu.md`, `constraint-reasoning.md`, `analysis-json.md`,
+  `review-mode.md`, `evidence-rules.md` — with the ten-step workflow living solely in
+  `SKILL.md`'s Orchestration; the god-file is now a one-release tombstone. No behavioral rule
+  was dropped (verbatim moves, CI-guarded); safety coverage is unchanged.
+
 ### Added
 
 - **Sleep environment / comfort hypothesis (#8) with a new `E_environment`
@@ -20,7 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   **surface** is deliberately *not* a comfort lever — `env_surface_comfort_defers
   _to_safety` routes it to the firm-flat-bare safe-sleep requirement and never
   softens it. New `references/environment-comfort-factors.md`, Hypothesis #8 in
-  `references/reasoning-framework.md`, an opt-in "quick rule-out" offer in
+  `references/hypothesis-menu.md`, an opt-in "quick rule-out" offer in
   `references/consultant-persona.md`, and consultant eval scenarios 09
   (factor surfaced conversationally) and 10 (surface safety override). All eight
   new sources are human-verified against the primary full-text PDFs (the four

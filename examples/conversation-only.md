@@ -2,7 +2,7 @@
 
 **Status:** Synthetic illustrative walk-through. All content is fictional; no real child data. Demonstrates that the skill delivers real consultant value from a **single natural-language concern**, with **no structured intake demanded** and **no sleep log required** — the "no-data mode" of `SKILL.md`.
 
-This annotates one ideal exchange against the workflow in `references/reasoning-framework.md` and the voice in `references/consultant-persona.md`. Bracketed italics are annotations, not spoken text.
+This annotates one ideal exchange against the workflow in `SKILL.md` "Orchestration" and the voice in `references/consultant-persona.md`. Bracketed italics are annotations, not spoken text.
 
 ---
 
@@ -22,7 +22,7 @@ That single sentence is enough to begin. The agent does **not** open with a ques
 
 > "A couple of quick things so my suggestion actually fits — nothing exhaustive: **is she genuinely up for the day at 5, or does she wake, fuss, and could maybe be coaxed back?** And **roughly what time is bedtime, and is she going down easily or fighting it?**"
 
-*[Reasoning Step 3: gather only the few high-value questions that change the recommendation — NOT a rigid 20-question intake (`conversational-intake.md`). Age is already known (10 months), so it is not re-asked. Safety triage runs passively: nothing in "wakes at 5am, won't resettle" trips a red flag, so the agent stays sleep-focused (`safety-triage.md`, `reasoning-framework.md` Step 1).]*
+*[Reasoning Step 3: gather only the few high-value questions that change the recommendation — NOT a rigid 20-question intake (`conversational-intake.md`). Age is already known (10 months), so it is not re-asked. Safety triage runs passively: nothing in "wakes at 5am, won't resettle" trips a red flag, so the agent stays sleep-focused (`safety-triage.md`, `SKILL.md` Orchestration Step 1).]*
 
 > **Parent:** "Bedtime's around 6:30 because she gets cranky, and she goes down fine. At 5 she's wide awake and wants to play."
 

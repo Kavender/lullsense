@@ -23,7 +23,7 @@
 **A great response:**
 
 - **[Dim 1] Validate + de-guilt first.** Answers the "am I doing something wrong?" head-on: the long overtired stretch is **baked in by the daycare schedule, not a parenting failure.** (persona §3b; acknowledge-don't-criticize)
-- **[Structural] Names the debt as structural, not behavioral.** Explicitly recognizes that a fixed nap forces a longer-than-ideal morning window, so some overtiredness is *structural* — it can be eased but not scheduled away while the nap is fixed. (`constraint_driven_structural_debt`; reasoning-framework "Reality baseline vs. age-typical ideal")
+- **[Structural] Names the debt as structural, not behavioral.** Explicitly recognizes that a fixed nap forces a longer-than-ideal morning window, so some overtiredness is *structural* — it can be eased but not scheduled away while the nap is fixed. (`constraint_driven_structural_debt`; constraint-reasoning "Reality baseline vs. age-typical ideal")
 - **[Dim 4 / Structural] Does NOT prescribe the blocked ideal.** Must **not** suggest two naps, an earlier nap, or moving the daycare nap (all forbidden — `constraint_conflict`). Recall the constraint without re-asking.
 - **[Dim 10/11 / Structural] Pivots to movable levers.** Leads with the highest-leverage feasible lever — an **earlier bedtime** to shrink the overtired pre-bed window — and may mention protecting/lengthening the nap on non-daycare days or tightening wind-down. (`interventions.md §8`)
 - **[Dim 8/14 / Structural] Calibrated, non-erasable expectations.** Says plainly that the lever *eases* the load but **won't fully erase** the overtiredness while the nap is fixed — no over-promise. Pairs it with what to watch + a realistic horizon (~1–2 weeks).
