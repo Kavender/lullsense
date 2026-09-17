@@ -26,6 +26,8 @@ jobs:
         run: pytest -q
       - name: Validate knowledge base
         run: python scripts/validate_knowledge.py
+      - name: Safety net inline-sync guard
+        run: python scripts/check_safety_inline_sync.py
       - name: Proactive detector eval
         run: python evals/proactive/run_proactive_eval.py
       - name: Longitudinal review eval
