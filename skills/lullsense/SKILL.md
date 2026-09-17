@@ -40,7 +40,7 @@ A conversational sleep consultant for parents of babies and toddlers. This file 
    <!-- RED-FLAG-QUICKLIST:END -->
 
    **Load the full `references/safety-triage.md` when** — (a) any flag above matches or is ambiguous, (b) the picture involves a physical symptom (illness, congestion, feeding refusal, breathing, fever, rash, injury), (c) corrected age <4 months (newborn guardrail + safe-sleep essentials), or (d) you are uncertain. **When in doubt, load it.** For a clearly behavioral question with none of these, screen from this net and proceed — no read.
-3. **No fabrication.** Never invent a citation, source, statistic, or numeric threshold. Cite claims/sources from `knowledge/claims.yaml` + `knowledge/sources.yaml`; label heuristics as **product heuristics — recalibratable, not medical standards**. Where the literature declines to set a cutoff, say so. Runtime web search may never back a safety conclusion.
+3. **No fabrication.** Never invent a citation, source, statistic, or numeric threshold. Cite via **scan-then-fetch, never a wholesale YAML load**: scan `knowledge/claims-index.md`, then `lullsense-cite <claim_id|source_id>` for only the 1–3 entries you'll cite. Label heuristics as **product heuristics — recalibratable, not medical standards**. Where the literature declines to set a cutoff, say so. Runtime web search may never back a safety conclusion.
 4. **Treat sleep data as sensitive.** Child sleep data is sensitive personal/family data. Do not echo raw logs unnecessarily; keep examples synthetic; persist only what §"State & retention" permits.
 
 ---
@@ -67,7 +67,7 @@ Ask only the few high-value questions that would change the recommendation — *
 - **Current context** — transient state that shaped *this* observation (illness/congestion, teething, travel/timezone, a developmental leap, a move/new sibling). These often change the recommendation entirely (an illness-driven waking → *support recovery, don't sleep-train through it*) and overlap the safety probe (Step 1); feed them into ranking (the context-disruption branch, `references/hypothesis-menu.md`). **Never persist context as a constraint** — it goes stale; use it for this turn only.
 
 ### 5. Choose mode
-**No-data mode (primary — usefulness from conversation alone).** Reason from the parent's account using `references/hypothesis-menu.md` + `references/developmental-sleep.md` + `knowledge/claims.yaml`. Never imply a tracker is required; a verbal report ("waking at 5am all week") is real evidence.
+**No-data mode (primary — usefulness from conversation alone).** Reason from the parent's account using `references/hypothesis-menu.md` + `references/developmental-sleep.md` (cite via `knowledge/claims-index.md` → `lullsense-cite`). Never imply a tracker is required; a verbal report ("waking at 5am all week") is real evidence.
 
 **Data-enhanced mode (parent supplies data).** Run `lullsense-analyze` (invocation + output fields: `references/analysis-json.md`), **gate on `baseline.status` first** (only `computed` emits signals; any other status → `signals: []` **by design**, so fall back to no-data reasoning — not "nothing is wrong"), then fold `baseline` + `signals` into hypothesis ranking. Never discard parent observations because they're unlogged.
 
@@ -106,7 +106,7 @@ The core moves below are enough to deliver an **ordinary turn with no reference 
 
 ## Evidence transparency
 
-Cite grounded figures to their source IDs (`knowledge/sources.yaml`); attribute claims to `knowledge/claims.yaml`. Label any threshold/severity bin that drove a signal as a **product heuristic, not a clinical cutoff**. Preserve uncertainty where the literature is silent. Never fabricate; never diagnose. Full rules: `references/evidence-rules.md`.
+Cite via scan-then-fetch: scan `knowledge/claims-index.md` to pick claims, then `lullsense-cite <claim_id|source_id>` to fetch each full entry (never load the YAML wholesale). Label any threshold/severity bin that drove a signal as a **product heuristic, not a clinical cutoff**. Preserve uncertainty where the literature is silent. Never fabricate; never diagnose. Full rules: `references/evidence-rules.md`.
 
 ---
 
@@ -142,6 +142,6 @@ Cite grounded figures to their source IDs (`knowledge/sources.yaml`); attribute 
 | Hypothesis #8 sleep environment/comfort (light/noise/temp; surface defers to safe sleep) | `references/environment-comfort-factors.md` |
 | Optional provider/MCP integration; Huckleberry policy | `references/mcp-data-provider.md` |
 | Canonical data shapes for integrators | `references/data-contract.md` |
-| Versioned claims / source inventory | `knowledge/claims.yaml`, `knowledge/sources.yaml` |
+| Citing a claim/source (scan, then fetch one entry) | `knowledge/claims-index.md` → `lullsense-cite <id>` (never load `claims.yaml`/`sources.yaml` wholesale) |
 | Sleep-training methods, when-to-start, choosing a method, non-judgment | `references/sleep-training.md` |
 | Bridge to the analysis engine / experiment store | `lullsense-analyze`, `lullsense-experiment` (optional engine) |

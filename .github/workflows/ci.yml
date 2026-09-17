@@ -26,6 +26,11 @@ jobs:
         run: pytest -q
       - name: Validate knowledge base
         run: python scripts/validate_knowledge.py
+      - name: Knowledge index up to date (regenerate + fail on drift)
+        run: |
+          python scripts/build_knowledge_index.py
+          git diff --exit-code skills/lullsense/knowledge/claims-index.md \
+            || { echo "FAIL: claims-index.md is stale — run scripts/build_knowledge_index.py and commit"; exit 1; }
       - name: Safety net inline-sync guard
         run: python scripts/check_safety_inline_sync.py
       - name: Context budget guard (SKILL.md + hot tier)
@@ -34,13 +39,16 @@ jobs:
           import os, sys
           skill = os.path.getsize("skills/lullsense/SKILL.md")
           voice = os.path.getsize("skills/lullsense/references/voice-card.md")
-          SKILL_MAX, HOT_MAX = 23 * 1024, 27 * 1024
-          print(f"SKILL.md={skill}B (cap {SKILL_MAX}); hot tier={skill + voice}B (cap {HOT_MAX})")
+          index = os.path.getsize("skills/lullsense/knowledge/claims-index.md")
+          SKILL_MAX, HOT_MAX, INDEX_MAX = 23 * 1024, 27 * 1024, 9 * 1024
+          print(f"SKILL.md={skill}B (cap {SKILL_MAX}); hot tier={skill + voice}B (cap {HOT_MAX}); claims-index={index}B (cap {INDEX_MAX})")
           bad = []
           if skill > SKILL_MAX:
               bad.append(f"SKILL.md {skill}B > {SKILL_MAX}B")
           if skill + voice > HOT_MAX:
               bad.append(f"hot tier {skill + voice}B > {HOT_MAX}B")
+          if index > INDEX_MAX:
+              bad.append(f"claims-index.md {index}B > {INDEX_MAX}B (tighten GIST_MAX in build_knowledge_index.py)")
           if bad:
               sys.exit("FAIL context budget: " + "; ".join(bad) + " — move detail into a reference, don't grow the router")
           print("OK: context budget within caps")

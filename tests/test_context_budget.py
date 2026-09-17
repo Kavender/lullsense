@@ -15,11 +15,13 @@ import os
 
 SKILL = "skills/lullsense/SKILL.md"
 VOICE_CARD = "skills/lullsense/references/voice-card.md"
+CLAIMS_INDEX = "skills/lullsense/knowledge/claims-index.md"
 
 # Ceilings (bytes). Headroom over the Phase-4 sizes (SKILL ~21.7KB, hot tier ~24.7KB) for
 # routine edits; well under the pre-slim 30.5KB the guard exists to prevent returning to.
 SKILL_MAX = 23 * 1024        # 23552
 HOT_TIER_MAX = 27 * 1024     # 27648
+CLAIMS_INDEX_MAX = 9 * 1024  # 9216 — the scan aid must stay far smaller than claims.yaml (~64KB)
 
 
 def test_skill_md_within_budget():
@@ -35,4 +37,12 @@ def test_hot_tier_within_budget():
     assert size <= HOT_TIER_MAX, (
         f"hot tier (SKILL.md + voice-card.md) is {size}B (> {HOT_TIER_MAX}B). The hot tier "
         f"gates time-to-first-reply — keep it lean."
+    )
+
+
+def test_claims_index_within_budget():
+    size = os.path.getsize(CLAIMS_INDEX)
+    assert size <= CLAIMS_INDEX_MAX, (
+        f"claims-index.md is {size}B (> {CLAIMS_INDEX_MAX}B) — tighten GIST_MAX in "
+        f"scripts/build_knowledge_index.py so the scan aid stays small."
     )

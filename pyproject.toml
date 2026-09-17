@@ -17,6 +17,7 @@ dev = ["pytest>=8.0", "ruff>=0.5"]
 [project.scripts]
 lullsense-analyze = "scripts.analyze_sleep:main"
 lullsense-experiment = "scripts.experiment:main"
+lullsense-cite = "scripts.cite:main"
 
 # Automatic discovery so a new subpackage (e.g. baby_sleep.predict) can never
 # again be silently omitted from the wheel. Scoped to our namespaces so tests/
