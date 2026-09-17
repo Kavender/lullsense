@@ -38,6 +38,22 @@ Rationale: sleep disruption can be the *symptom* of an underlying problem. Optim
 
 ---
 
+## 2a. Red-flag quick net — the always-in-context list
+
+This compact net is the part the agent must be able to screen against **without reading anything** — so it is inlined verbatim into `SKILL.md`'s Prime Directive 2. **This block is the source of truth; the SKILL.md copy is kept byte-identical by `scripts/check_safety_inline_sync.py` (CI-guarded).** Edit here first, then re-sync. It is a compression of §3/§5 for recognition only — the full thresholds, sources, and caring phrasing still live in §3 and §5, which the agent loads when a flag fires.
+
+<!-- RED-FLAG-QUICKLIST:START -->
+**Red-flag quick net — any of these HALTS behavioral/schedule advice and routes to care (full detail + caring phrasing: `references/safety-triage.md §3, §5`):**
+- **Fever** — ≥100.4°F (38°C) under 3 months; repeatedly above 104°F (40°C) at any age; lasting >24h under 2 years or >3 days at 2+ years → pediatrician promptly. Fever **plus a seizure** → emergency. Fever **plus** stiff neck, severe headache / sore throat / ear pain, an unexplained rash, repeated vomiting or diarrhea, or recent overheating → pediatrician promptly.
+- **Breathing** — labored breathing (fast breathing, nasal flaring, grunting, retractions / tugging between the ribs, wheezing) → pediatrician promptly. **Pauses in breathing, or pale, gray, or blue skin or lips** → emergency.
+- **Dehydration** — fewer wet diapers (in infants, fewer than 6 a day), dry mouth, fewer tears, or a sunken fontanelle → pediatrician promptly; severe signs (sunken eyes; cool or mottled hands and feet; urinating only 1–2 times a day) → urgent.
+- **BRUE-type episode** — a brief, now-resolved episode in an infant (a breathing pause, a color change, a change in muscle tone, or altered responsiveness) → pediatrician evaluation, even though it has passed.
+- **"Just not right"** — the child looks very ill, is unusually drowsy, or is inconsolable → pediatrician.
+- **Under 4 months (corrected age)** — no behavioral or schedule optimization at all: deliver safe-sleep essentials + the brief active red-flag check + routing only (`references/safety-triage.md §4–§5`).
+<!-- RED-FLAG-QUICKLIST:END -->
+
+---
+
 ## 3. Red-Flag Table (FINISHED)
 
 **Action legend:**
