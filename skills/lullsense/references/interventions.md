@@ -7,7 +7,7 @@
 
 ## Purpose
 
-This document is the **minimal-experiment menu** (§11 Step 7). It lists the behavioral interventions the agent may recommend, each anchored to a verified `claims.yaml` claim ID where one exists, or explicitly labeled `[heuristic]` where none does.
+This document is the **minimal-experiment menu** (SKILL.md Orchestration Step 7). It lists the behavioral interventions the agent may recommend, each anchored to a verified `claims.yaml` claim ID where one exists, or explicitly labeled `[heuristic]` where none does.
 
 **Minimal-change discipline:** Prefer one principal change at a time. Recommend a second change only when safety or feasibility requires it, or when an inherently multi-step transition (bedtime fading, jet-lag adjustment, nap transition) makes a day-by-day plan the smallest useful experiment.
 
@@ -41,7 +41,7 @@ Behavioral sleep approaches are appropriate only after ruling out illness, pain,
 - Night waking count and duration
 - Parent-reported daytime mood and energy
 
-**Reassessment window:** 5–7 nights minimum. One night is not sufficient to assess a timing shift. If settling becomes consistently longer while morning wake time does not improve, earlier bedtime is not helping and may not be the right lever (§11 Step 10).
+**Reassessment window:** 5–7 nights minimum. One night is not sufficient to assess a timing shift. If settling becomes consistently longer while morning wake time does not improve, earlier bedtime is not helping and may not be the right lever (the falsification pairing in SKILL.md Step 7).
 
 **Contraindication:** If a split-night pattern is present, consider whether total time-in-bed is already too long before moving bedtime earlier (see Intervention 6).
 
@@ -236,14 +236,14 @@ The full methods menu (extinction, graduated/Ferber, camping-out/chair, pick-up-
 
 ---
 
-## Change-One-Thing Discipline (§11 Step 7)
+## Change-One-Thing Discipline (SKILL.md Orchestration Step 7)
 
 - Recommend **one principal change** per experiment unless safety or feasibility clearly requires otherwise.
 - Exception: inherently multi-step transitions (bedtime fading over several weeks, jet-lag recovery, nap transition) are themselves the smallest useful experiment; a day-by-day plan for these is not a violation of this rule.
 - When recommending a change, always pair it with:
   1. **What to observe** — the 2–3 metrics that will tell the family whether it is working.
   2. **A realistic reassessment window** — typically several days, not one night.
-  3. **What would change the conclusion** — make the experiment falsifiable (§11 Step 10).
+  3. **What would change the conclusion** — make the experiment falsifiable (SKILL.md Step 7).
 
 ---
 

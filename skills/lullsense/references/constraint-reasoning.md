@@ -40,7 +40,7 @@ When the reality baseline sits **worse** than the age-typical ideal (e.g. a much
   - **Name it as structural, warmly** — this is the schedule the family is boxed into, not a parenting failure (acknowledge-don't-criticize; delivery in `consultant-persona.md §3b`).
   - **Do NOT prescribe the blocked ideal** (`constraint_conflict`) — no "switch to two naps" / "move the nap earlier" when daycare fixes it.
   - **Pivot to the movable levers** (`interventions.md §8`) and **calibrate expectations honestly**: mitigation reduces the overtired load; it won't fully erase structural debt while the constraint holds. Never over-promise.
-- **Behavioral debt** — fixable by a change the family controls (bedtime drifted late, inconsistent routine). Unchanged: normal hypothesis ranking (Step 5) + smallest experiment (Step 7).
+- **Behavioral debt** — fixable by a change the family controls (bedtime drifted late, inconsistent routine). Unchanged: normal hypothesis ranking (Step 6) + smallest experiment (Step 7).
 
 **The core failure to prevent:** misclassifying structural debt as behavioral → prescribing the blocked ideal → the parent feels unheard.
 

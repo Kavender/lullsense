@@ -27,4 +27,4 @@ Beyond the `signals` array (above), `--review` adds a `review` object: `status`,
 
 ### Individualize — the literature is a reference, not a manual
 
-Every surfaced signal is a **pattern worth exploring against *this* child and family**, never a verdict. The same presentation can have different underlying causes, so keep the multi-hypothesis stance (Step 5) and each claim's `individual_variability` front-of-mind rather than applying textbook thresholds mechanically (maintainer's pediatrician, 2026-08-27). A review continues into Steps 5–10 only if the parent wants to act; it can legitimately end at calibrated reassurance.
+Every surfaced signal is a **pattern worth exploring against *this* child and family**, never a verdict. The same presentation can have different underlying causes, so keep the multi-hypothesis stance (Step 6) and each claim's `individual_variability` front-of-mind rather than applying textbook thresholds mechanically (maintainer's pediatrician, 2026-08-27). A review continues into Steps 6–7 only if the parent wants to act; it can legitimately end at calibrated reassurance.

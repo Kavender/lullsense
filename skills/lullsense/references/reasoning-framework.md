@@ -3,7 +3,7 @@
 This reference was split into focused, load-on-demand leaves so a turn no longer pulls the whole 32KB workflow. Its content now lives in:
 
 - **Ten-step workflow** → `SKILL.md` → "Orchestration" (its single home — earlier steps gate later ones).
-- **Hypothesis menu (ranking 1–3 contributors, Step 5/6)** → `references/hypothesis-menu.md`
+- **Hypothesis menu (ranking 1–3 contributors, Step 6)** → `references/hypothesis-menu.md`
 - **`constraint_conflict`, structural-vs-behavioral debt, "Constraints evolve"** → `references/constraint-reasoning.md`
 - **Reading the analysis JSON** → `references/analysis-json.md`
 - **Review mode (parent-initiated "review my recent sleep")** → `references/review-mode.md`
