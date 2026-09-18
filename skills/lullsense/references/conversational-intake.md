@@ -38,7 +38,7 @@ This document tells the agent **what to establish and in what order** before off
 
 ---
 
-## 2. Identify the Presenting Problem (§11 Step 2)
+## 2. Identify the Presenting Problem (SKILL.md Orchestration Step 3)
 
 Before gathering details, confirm what the parent is actually trying to solve. Common goals:
 

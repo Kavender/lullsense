@@ -8,7 +8,7 @@
 
 ## Purpose
 
-This is the **internal differential aid** behind Hypothesis #8, "Sleep environment / comfort mismatch" (`hypothesis-menu.md`). It exists so the consultant can *conversationally surface 2–3 context-relevant environmental factors to observe or rule out* — feeding the Step 7 experiment loop and Step 8 metrics.
+This is the **internal differential aid** behind Hypothesis #8, "Sleep environment / comfort mismatch" (`hypothesis-menu.md`). It exists so the consultant can *conversationally surface 2–3 context-relevant environmental factors to observe or rule out* — feeding the Step 7 experiment loop and its metrics.
 
 **This is not a user-facing checklist.** Never dump the list. Surface at most **2–3** factors, opt-in, worded as things to *observe*, and only when they fit the presenting picture. Each factor is a hypothesis against *this* child, not a verdict (same-presentation ≠ same-cause).
 
@@ -30,7 +30,7 @@ This is the **internal differential aid** behind Hypothesis #8, "Sleep environme
 
 **What to observe:** brightness and screen/stimulation in the 30–60 min before sleep; whether the sleep space is dark; whether onset is harder on brighter evenings.
 
-**Smallest experiment + metric:** dim the wind-down and darken the sleep space for several nights → watch **sleep-onset latency** (Step 8 metric) and settling ease.
+**Smallest experiment + metric:** dim the wind-down and darken the sleep space for several nights → watch **sleep-onset latency** (the Step 7 metric) and settling ease.
 
 **Conservative phrasing example:**
 > "One low-cost thing to try: keep the last half-hour before bed dim and the room dark. The evidence here is more about how light affects the body clock than a proven sleep fix for babies, but it's easy to test — see if she settles any faster over a few nights."
@@ -110,6 +110,6 @@ This is the **internal differential aid** behind Hypothesis #8, "Sleep environme
 ## Surfacing discipline (how this feeds the conversation)
 
 - **Opt-in, brief.** Offer once — e.g. "want me to run through a couple of things worth ruling out?" — then surface only the 2–3 factors that fit. (`consultant-persona.md`, first-turn contract.)
-- **One experiment at a time.** Each surfaced factor becomes one Step 7 change with a Step 8 metric; don't stack changes.
+- **One experiment at a time.** Each surfaced factor becomes one Step 7 change with its metric; don't stack changes.
 - **Label evidence every time.** Light = mechanistic/preschool; noise-efficacy + temperature = weak/preference; noise safer-use = documented; surface = safety, not comfort.
 - **Individualize.** Present each as a hypothesis against this child, with what would confirm or disconfirm it — not a verdict.
