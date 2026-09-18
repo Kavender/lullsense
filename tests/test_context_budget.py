@@ -16,6 +16,8 @@ import os
 SKILL = "skills/lullsense/SKILL.md"
 VOICE_CARD = "skills/lullsense/references/voice-card.md"
 CLAIMS_INDEX = "skills/lullsense/knowledge/claims-index.md"
+REFS_DIR = "skills/lullsense/references"
+REF_MAX = 32 * 1024  # 32768 — "no god-file" ceiling for any single reference (see test below)
 
 # Ceilings (bytes). Headroom over the Phase-4 sizes (SKILL ~21.7KB, hot tier ~24.7KB) for
 # routine edits; well under the pre-slim 30.5KB the guard exists to prevent returning to.
@@ -46,3 +48,18 @@ def test_claims_index_within_budget():
         f"claims-index.md is {size}B (> {CLAIMS_INDEX_MAX}B) — tighten GIST_MAX in "
         f"scripts/build_knowledge_index.py so the scan aid stays small."
     )
+
+
+def test_no_reference_is_god_file_sized():
+    """No single reference may balloon to god-file scale. References are topic-content loaded
+    on-topic (not routers), so they're legitimately large — this ceiling only prevents a return
+    to the ~32KB god-file that Phase 3 dismantled. If a file trips it, split by *load-occasion*
+    (as safe-sleep.md was carved out of safety-triage.md), not by arbitrary byte-trimming."""
+    import glob
+
+    offenders = {
+        os.path.basename(f): os.path.getsize(f)
+        for f in glob.glob(os.path.join(REFS_DIR, "*.md"))
+        if os.path.getsize(f) > REF_MAX
+    }
+    assert not offenders, f"reference files over the {REF_MAX}B no-god-file ceiling: {offenders}"

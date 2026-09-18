@@ -35,7 +35,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   they duplicated `SKILL.md`'s load-on-demand index and invited cascade-loading. Each is now a
   short "Provenance & navigation" note (claim-id provenance kept) marking the file a
   terminating leaf; the remaining inline cross-layer pointers (voice ↔ facts ↔ safety) are the
-  intended layer architecture, not accidental mesh.
+  intended layer architecture, not accidental mesh. (7) `safety-triage.md` was split by
+  load-occasion: the `<4 months` newborn guardrail, safe-sleep essentials, and the
+  comfort-measure safe-sleep guard moved to a new `references/safe-sleep.md` (loaded on the
+  `<4mo` / safe-sleep occasion, distinct from the red-flag table). Safety content moved
+  verbatim; the inline red-flag net stays byte-synced. A per-reference **"no god-file"
+  budget guard** (≤32KB) now prevents any single reference regrowing to the ~32KB the Phase-3
+  god-file had — set at that ceiling rather than a low cap because references are topic-content
+  loaded on-topic, so forcing tiny files would add round-trips.
 
 ### Added
 

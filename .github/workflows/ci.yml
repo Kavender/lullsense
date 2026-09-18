@@ -36,11 +36,11 @@ jobs:
       - name: Context budget guard (SKILL.md + hot tier)
         run: |
           python - <<'PY'
-          import os, sys
+          import glob, os, sys
           skill = os.path.getsize("skills/lullsense/SKILL.md")
           voice = os.path.getsize("skills/lullsense/references/voice-card.md")
           index = os.path.getsize("skills/lullsense/knowledge/claims-index.md")
-          SKILL_MAX, HOT_MAX, INDEX_MAX = 23 * 1024, 27 * 1024, 9 * 1024
+          SKILL_MAX, HOT_MAX, INDEX_MAX, REF_MAX = 23 * 1024, 27 * 1024, 9 * 1024, 32 * 1024
           print(f"SKILL.md={skill}B (cap {SKILL_MAX}); hot tier={skill + voice}B (cap {HOT_MAX}); claims-index={index}B (cap {INDEX_MAX})")
           bad = []
           if skill > SKILL_MAX:
@@ -49,6 +49,10 @@ jobs:
               bad.append(f"hot tier {skill + voice}B > {HOT_MAX}B")
           if index > INDEX_MAX:
               bad.append(f"claims-index.md {index}B > {INDEX_MAX}B (tighten GIST_MAX in build_knowledge_index.py)")
+          for f in glob.glob("skills/lullsense/references/*.md"):
+              sz = os.path.getsize(f)
+              if sz > REF_MAX:
+                  bad.append(f"{os.path.basename(f)} {sz}B > {REF_MAX}B no-god-file ceiling (split by load-occasion)")
           if bad:
               sys.exit("FAIL context budget: " + "; ".join(bad) + " — move detail into a reference, don't grow the router")
           print("OK: context budget within caps")
