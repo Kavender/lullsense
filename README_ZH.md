@@ -190,6 +190,17 @@ npx skills add --help
 
 安装以后，直接用自然语言问宝宝睡眠问题即可。
 
+### 更新与卸载
+
+更新时，重新运行同一条 `skills add …` 命令即可，会就地刷新安装。
+
+> ⚠️ **在执行 `skills remove`（或"先删后加"式升级）之前，先运行 `skills ls` 看一下 `Source:` 那一行。**
+> 如果 LullSense 的 `Source:` 指向的是*你在意的某个仓库 / 工作目录*，`skills remove lullsense`
+> **会把那份源文件一起删掉**。这种情况出现在：你是从本地 clone 安装的，或者用了像 **OpenClaw**
+> 这类**就地注册（in-place）**而非复制的 agent（此时加 `--copy` 也**挡不住**）。而 Claude Code 的
+> 正常安装是复制到 `~/.claude/skills/`（项目级则是 `.claude/skills/`）下的一份副本，删除是安全的。
+> 拿不准就先 commit——被删掉的、已被 git 跟踪的文件可以用 `git restore <path>` 找回来。
+
 ### 可选：安装分析引擎
 
 如果想使用结构化睡眠日志分析、longitudinal review 和 timing prediction，可以再安装 Python engine：

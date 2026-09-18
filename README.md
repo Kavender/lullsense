@@ -185,6 +185,19 @@ A project-level install lands under the project’s agent skills directory. A gl
 
 Then ask a baby / toddler sleep question in natural language.
 
+### Updating & uninstalling
+
+To update, re-run the same `skills add …` command — it refreshes the install in place.
+
+> ⚠️ **Before `skills remove` (or a remove-then-add upgrade), run `skills ls` and check the
+> `Source:` line.** If LullSense's `Source:` points *inside a repository or working tree you
+> care about*, `skills remove lullsense` **deletes those source files**. This happens when you
+> installed from a local clone, or with agents such as **OpenClaw** that register a skill
+> **in place** instead of copying it (the `--copy` flag does **not** prevent this for in-place
+> agents). A normal Claude Code install is a copy under `~/.claude/skills/` (or `.claude/skills/`
+> for a project install) and is safe to remove. If unsure, commit first — deleted tracked files
+> can be recovered with `git restore <path>`.
+
 ### Optional: analysis engine
 
 For structured sleep-log analysis, longitudinal review, and timing prediction:

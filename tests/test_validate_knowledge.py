@@ -42,11 +42,14 @@ def test_coverage_reports_missing_goals():
     assert "is_this_normal" not in gaps
 
 
-def test_warns_on_unverified_high_source():
-    from scripts.validate_knowledge import warnings
-
-    warns = warnings(FIX / "valid_min.claims.yaml", FIX / "valid_min.sources.yaml")
-    assert any("unverified source" in w for w in warns)
+def test_rejects_unverified_high_source():
+    # Promoted from an advisory warning to a hard error: a high-evidence claim
+    # that cites an unverified source must fail validation.
+    errors = _run(
+        "invalid_unverified_high.claims.yaml",
+        sources_name="invalid_unverified_high.sources.yaml",
+    )
+    assert any("unverified" in e and "high" in e for e in errors)
 
 
 def test_warns_on_deprecated_claim():
