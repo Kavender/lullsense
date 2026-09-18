@@ -1,7 +1,7 @@
 # Sleep-Timing Prediction — Predicting the Next Nap / Bedtime as a Calibrated Range
 
 **Status:** Operational reference for the consultant skill. Cross-check any change against the claims in `knowledge/claims.yaml`, the timing table in `knowledge/sleep_timing_heuristics.yaml`, and the persona contract in `references/consultant-persona.md`.
-**Scope:** 4–36 months for a predicted *time*. Below 4 months the newborn guardrail governs and no time is given (`references/safety-triage.md §4–§5`).
+**Scope:** 4–36 months for a predicted *time*. Below 4 months the newborn guardrail governs and no time is given (`references/safe-sleep.md`; screening posture in `references/safety-triage.md §4`).
 **Last updated:** 2026-08-29
 
 > **A next-sleep time is always a RANGE, never a magic minute — and the child's tired cues outrank any clock.** Wake windows are a product heuristic, not a clinical standard; no peer-reviewed source publishes wake-window values (`wake_window_typical_by_age`, `sleep_timing_prediction_is_a_range`).
@@ -36,7 +36,7 @@ For an infant under 4 months (corrected), **give no clock time and no schedule.*
 
 - **Cue-first orientation** — orient the parent to watching the baby's tired cues and feeding rhythm, not a wake-window clock.
 - **Optional broad total-sleep normalcy range** — if it helps reassure, you may offer the wide *total-sleep-per-24h* range as a normalcy guide (cite `total_sleep_4_12_months` for 4–12 months context, applied here only as a broad "this much sleep across the day is typical" band, never as a schedule). Frame it as a range, not a target.
-- **Safe-sleep essentials** (`references/safety-triage.md §5`) and routing of any concern.
+- **Safe-sleep essentials** (`references/safe-sleep.md`) and routing of any concern.
 
 Say warmly that structured timing coaching for this age is out of scope for now — this mirrors the newborn-guardrail scope boundary the whole skill holds.
 

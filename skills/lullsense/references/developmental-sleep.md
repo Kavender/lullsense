@@ -157,7 +157,7 @@ This document's primary scope is 4–36 months. The following brief note on newb
 
 **No formal recommendations possible.** Because of this wide variation and the absence of a functioning circadian clock, population-level duration recommendations cannot meaningfully apply to newborns. Feeding needs drive much of the sleep-wake schedule in this period.
 
-**Behavioral sleep optimization is out of scope for <4 months in this system.** See `references/safety-triage.md §5` for the scope boundary and the reasons for it. The primary goal for newborns is safe sleep (AAP guidelines; `aap_safe_sleep_2022`) and adequate feeding — not schedule optimization.
+**Behavioral sleep optimization is out of scope for <4 months in this system.** See `references/safe-sleep.md` for the scope boundary and the reasons for it. The primary goal for newborns is safe sleep (AAP guidelines; `aap_safe_sleep_2022`) and adequate feeding — not schedule optimization.
 
 ---
 

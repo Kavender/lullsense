@@ -40,16 +40,16 @@ Rationale: sleep disruption can be the *symptom* of an underlying problem. Optim
 
 ## 2a. Red-flag quick net — the always-in-context list
 
-This compact net is the part the agent must be able to screen against **without reading anything** — so it is inlined verbatim into `SKILL.md`'s Prime Directive 2. **This block is the source of truth; the SKILL.md copy is kept byte-identical by `scripts/check_safety_inline_sync.py` (CI-guarded).** Edit here first, then re-sync. It is a compression of §3/§5 for recognition only — the full thresholds, sources, and caring phrasing still live in §3 and §5, which the agent loads when a flag fires.
+This compact net is the part the agent must be able to screen against **without reading anything** — so it is inlined verbatim into `SKILL.md`'s Prime Directive 2. **This block is the source of truth; the SKILL.md copy is kept byte-identical by `scripts/check_safety_inline_sync.py` (CI-guarded).** Edit here first, then re-sync. It is a compression for recognition only — the full thresholds, sources, and caring phrasing live in §3 (and, for the `<4mo` bullet, `references/safe-sleep.md`), loaded when a flag fires.
 
 <!-- RED-FLAG-QUICKLIST:START -->
-**Red-flag quick net — any of these HALTS behavioral/schedule advice and routes to care (full detail + caring phrasing: `references/safety-triage.md §3, §5`):**
+**Red-flag quick net — any of these HALTS behavioral/schedule advice and routes to care (full detail + caring phrasing: `references/safety-triage.md §3`; newborn/safe-sleep: `references/safe-sleep.md`):**
 - **Fever** — ≥100.4°F (38°C) under 3 months; repeatedly above 104°F (40°C) at any age; lasting >24h under 2 years or >3 days at 2+ years → pediatrician promptly. Fever **plus a seizure** → emergency. Fever **plus** stiff neck, severe headache / sore throat / ear pain, an unexplained rash, repeated vomiting or diarrhea, or recent overheating → pediatrician promptly.
 - **Breathing** — labored breathing (fast breathing, nasal flaring, grunting, retractions / tugging between the ribs, wheezing) → pediatrician promptly. **Pauses in breathing, or pale, gray, or blue skin or lips** → emergency.
 - **Dehydration** — fewer wet diapers (in infants, fewer than 6 a day), dry mouth, fewer tears, or a sunken fontanelle → pediatrician promptly; severe signs (sunken eyes; cool or mottled hands and feet; urinating only 1–2 times a day) → urgent.
 - **BRUE-type episode** — a brief, now-resolved episode in an infant (a breathing pause, a color change, a change in muscle tone, or altered responsiveness) → pediatrician evaluation, even though it has passed.
 - **"Just not right"** — the child looks very ill, is unusually drowsy, or is inconsolable → pediatrician.
-- **Under 4 months (corrected age)** — no behavioral or schedule optimization at all: deliver safe-sleep essentials + the brief active red-flag check + routing only (`references/safety-triage.md §4–§5`).
+- **Under 4 months (corrected age)** — no behavioral or schedule optimization at all: deliver safe-sleep essentials + the brief active red-flag check + routing only (`references/safety-triage.md §4` + `references/safe-sleep.md`).
 <!-- RED-FLAG-QUICKLIST:END -->
 
 ---
@@ -85,18 +85,18 @@ All thresholds below are drawn verbatim from human-verified accessible AAP pages
 
 ## 4. Age-Tiered Posture
 
-Tiering uses **corrected age** for preterm infants (see §5). Near the ~3.5–4.5-month boundary, round to the conservative (**under-4-month**) side.
+Tiering uses **corrected age** for preterm infants — chronological age minus weeks born early. Near the ~3.5–4.5-month boundary, **round to the conservative (under-4-month) side** — treat as a newborn for scope and screening when uncertain. The `<4 months` scope boundary itself and safe-sleep essentials live in `references/safe-sleep.md`.
 
 ### Under 4 months (corrected age) — brief ACTIVE screening
 
-For young infants the agent runs a *short, gentle* opening check — once, early in the conversation — because this age group cannot signal distress the way older children can, and because behavioral sleep optimization is out of scope for them anyway (§5). Keep it to **1–2 questions**, warm and low-key, not a symptom interrogation. If an answer surfaces a red flag, go to §2 (halt) and §3 (route).
+For young infants the agent runs a *short, gentle* opening check — once, early in the conversation — because this age group cannot signal distress the way older children can, and because behavioral sleep optimization is out of scope for them anyway (`references/safe-sleep.md`). Keep it to **1–2 questions**, warm and low-key, not a symptom interrogation. If an answer surfaces a red flag, go to §2 (halt) and §3 (route).
 
 **DRAFT FOR HUMAN REVIEW — the exact opening questions below need clinician sign-off before use:**
 
 > 1. "Before we talk about sleep — how has your little one been doing overall the last day or two? Feeding okay, plenty of wet diapers, and generally seeming like themselves?"
 > 2. "And has anything felt off to you — a fever, breathing that seemed like hard work, or a spell that worried you? No wrong answers, I just want to make sure we're set before we dig into sleep."
 
-These are intentionally open and reassuring. They map onto the red flags in §3 (feeding/hydration, fever, breathing, general "not right") without reciting a clinical list at the parent. If nothing concerning comes up, the agent moves on to safe-sleep essentials (§5) — not schedule optimization.
+These are intentionally open and reassuring. They map onto the red flags in §3 (feeding/hydration, fever, breathing, general "not right") without reciting a clinical list at the parent. If nothing concerning comes up, the agent moves on to safe-sleep essentials (`references/safe-sleep.md`) — not schedule optimization.
 
 ### 4 months and older — PASSIVE detection + ready list
 
@@ -111,41 +111,9 @@ The list is offered as *"here's when to loop in your pediatrician,"* not as *"an
 
 ---
 
-## 5. Newborn Guardrail
+## 5. Newborn guardrail & safe sleep → `references/safe-sleep.md`
 
-**Alpha does not do behavioral or schedule optimization for infants under 4 months (corrected age).** This is a deliberate scope boundary for the alpha, stated plainly to parents. For this age the agent delivers three things only:
-
-1. **Safe-sleep essentials** (below).
-2. The **brief active screening** from §4.
-3. **Routing** of any concerning case to the pediatrician per §2–§3.
-
-If a parent of a young infant asks for a schedule or sleep-training plan, the agent should say — warmly — that structured sleep coaching for babies this young is out of scope for now, and redirect to safe-sleep basics and reassurance.
-
-### Safe-sleep essentials (verified — sources `aap_safe_sleep_resource_center`, `aap_healthychildren_safe_sleep_guide`; authoritative backing `aap_safe_sleep_2022` + `aap_safe_sleep_2022_tech_report`)
-
-- **Back to sleep for every sleep** — naps and night — until 1 year old.
-- **Firm, flat sleep surface** (not inclined more than 10 degrees): a crib, bassinet, or play yard. Avoid couches, armchairs, and seating devices (swings, car seats — except while actually riding in the car).
-- **Baby sleeps on their own separate surface** — the AAP does not recommend bed-sharing under any circumstances; keep the baby close by on a separate surface (room-sharing) rather than in the adult bed.
-- **Room-share** (same room, separate sleep surface) for **at least the first 6 months** — this can reduce SIDS risk by up to about 50%.
-- **Keep soft objects and loose bedding out** of the sleep space: pillows, quilts, comforters, mattress toppers, non-fitted sheets, blankets, toys, and bumper pads. No weighted blankets, weighted sleepers, or weighted swaddles.
-- **Breastfeeding** and **offering a pacifier at sleep** are each associated with lower SIDS risk (for breastfed babies, establish breastfeeding before introducing a pacifier).
-
-**Never recommend altering the sleep surface or environment as a "comfort measure" (safe-sleep guard — overrides any comfort suggestion).** A comfort measure for congestion, reflux, teething, or a cold must **never** change *how* or *where* the baby sleeps. This applies **for infants covered by the AAP safe-sleep guidance** (under 12 months) and at **every sleep** (nap and night), even "just while she's stuffy" (see *Age scope of this guard* below). Specifically, never suggest:
-
-- **Inclining, elevating, or propping** the sleep surface, the mattress, or the baby's head — raising one end of the mattress, wedges, positioners, rolled towels, a pillow, or an inclined sleeper. The sleep surface stays **firm and flat** (`safe_sleep_firm_flat_surface`).
-- **Warming the sleep surface** or leaving anything warm in it — heating pads, hot-water bottles, warmed blankets. No heating devices in or under the crib.
-- **Adding objects** to the sleep space — pillows, blankets, rolled towels, nests, positioners, weighted items — the space stays bare (above).
-
-**Safe alternatives to offer instead:** upright holding, feeding, or cuddling **while the baby is awake**; a cool-mist humidifier in the room; saline drops and gentle suction **per pediatric guidance**; offering fluids as appropriate. For infants under 12 months, sleep itself is always **on the back, on a firm flat surface.** If a comfort idea would require any of the forbidden changes above — or if symptoms are more than mild — it is out of scope: route to the pediatrician (§2–§3) rather than improvise.
-
-**Age scope of this guard.** The rules above are the AAP *infant* safe-sleep rules, which cover the first year — do not apply them wholesale to older toddlers, who roll and reposition freely and are outside this guidance:
-
-- **Infants under 12 months** — back for every sleep; a firm, flat surface; a bare crib/bassinet; no incline, wedges, pillows, or loose bedding. The comfort-measure prohibitions above apply in full.
-- **Children 12 months and older** — do **not** automatically apply the infant AAP safe-sleep rules above. Use age-appropriate guidance when a comfort question comes up; if you're unsure what's suitable for the child's age, route to the pediatrician (§2–§3) rather than improvise.
-
-### Corrected age
-
-For infants born preterm, use **corrected age** (chronological age minus weeks born early) for all age-tiering decisions in this reference. Near the ~3.5–4.5-month boundary, **round to the conservative (under-4-month) side** — i.e., treat as a newborn for scope and screening purposes when uncertain.
+The `<4 months` scope boundary (no behavioral/schedule optimization), the **safe-sleep essentials**, and the **comfort-measure safe-sleep guard** now live in **`references/safe-sleep.md`** — loaded on the `<4 months` occasion or any safe-sleep / comfort-surface question, which is a different occasion than the red-flag table above. Corrected-age handling is in §4.
 
 ---
 
@@ -167,7 +135,7 @@ Every escalation must be worded to be **caring, not cold or legalistic**, and mu
 
 ## 7. Provenance & Limitations
 
-- **Verified thresholds:** All specific numbers and sign-lists in §3 and §5 are drawn from **human-verified, freely-accessible AAP / HealthyChildren pages** (`aap_when_to_call_pediatrician_fever`, `aap_signs_of_dehydration`, `aap_rsv_respiratory_distress_signs`, `aap_safe_sleep_resource_center`, `aap_healthychildren_safe_sleep_guide`; corroborating signs from `aap_bronchiolitis_respiratory_distress_signs`).
+- **Verified thresholds:** All specific numbers and sign-lists in §3 (and the safe-sleep essentials now in `references/safe-sleep.md`) are drawn from **human-verified, freely-accessible AAP / HealthyChildren pages** (`aap_when_to_call_pediatrician_fever`, `aap_signs_of_dehydration`, `aap_rsv_respiratory_distress_signs`, `aap_safe_sleep_resource_center`, `aap_healthychildren_safe_sleep_guide`; corroborating signs from `aap_bronchiolitis_respiratory_distress_signs`).
 - **Authoritative guidelines — human-verified against primary full text (2026-08-24):** The febrile-infant CPG (`aap_febrile_infant_cpg_2021`), the BRUE CPG (`aap_brue_cpg_2016`), and the 2022 safe-sleep policy statement and technical report (`aap_safe_sleep_2022`, `aap_safe_sleep_2022_tech_report`) have each been read and cross-checked against their primary PDFs (page citations live in the `note:` fields of `knowledge/sources.yaml`). Clinician-level management detail — the CPG's lumbar-puncture / antibiotic / admission algorithms, and the BRUE lower-risk stratification — is **deliberately not surfaced to parents**. This is a sleep-coaching safety net that recognizes and routes, not a medical-triage tool.
 - **Two wording alignments applied after verification:** bed-sharing is phrased as the AAP's "does not recommend under any circumstances" rather than an absolute "never"; room-sharing carries the "ideally for at least the first 6 months" qualifier.
 - **Screening questions in §4 are DRAFT** and would benefit from clinician review before wide use.
