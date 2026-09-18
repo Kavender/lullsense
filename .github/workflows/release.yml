@@ -4,7 +4,7 @@ name: Release
 # wheel, and attach both to a GitHub Release. Users can then install a pinned
 # artifact from the Releases page (or `pip install <wheel-url>`) — no build
 # toolchain, no PyPI publish. Tag a GREEN commit on main, e.g.:
-#   git tag v0.1.0 && git push origin v0.1.0
+#   git tag v0.2.0 && git push origin v0.2.0
 on:
   push:
     tags:

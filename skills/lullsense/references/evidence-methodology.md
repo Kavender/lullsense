@@ -185,7 +185,7 @@ All sources backing claims must be declared in `knowledge/sources.yaml`. Each en
 | `review` | A narrative review, professional educational article, or evidence summary that does not meet systematic-review criteria. |
 | `consultant_public_material` | Publicly available material from a named sleep consultant, practitioner organization, or sleep-specialist product (e.g., a published protocol, a public blog post with professional authorship). |
 
-**`verified`** — Boolean. Set to `false` at initial entry. A human contributor must access the URL, confirm the content matches the claim it is cited for, and change this to `true`. Automated agents must not set `verified: true` unless they can confirm the current content at the URL. The validator will warn (not fail) when unverified sources back `evidence_level: high` claims.
+**`verified`** — Boolean. Set to `false` at initial entry. A human contributor must access the URL, confirm the content matches the claim it is cited for, and change this to `true`. Automated agents must not set `verified: true` unless they can confirm the current content at the URL. When an unverified source backs an `evidence_level: high` claim the validator **fails** (a hard error, exit code 1): verify the source or lower the claim's `evidence_level`. (This was an advisory warning until it had trailed a dozen-plus PRs unheeded — a standing warning everyone learns to ignore is how a real regression slips through — so it was promoted to an error.) A `moderate`/`low` claim may still cite an unverified source.
 
 **`last_accessed`** — ISO 8601 date (`YYYY-MM-DD`) on which the URL was last confirmed to be accessible and to contain the expected content.
 

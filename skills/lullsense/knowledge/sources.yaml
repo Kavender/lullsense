@@ -234,8 +234,9 @@
   title: "Systematic Review and Meta-Analysis of Behavioral Interventions for Pediatric Insomnia"
   url: https://academic.oup.com/jpepsy/article-abstract/39/8/932/2951972
   source_type: systematic_review
-  verified: false
-  last_accessed: 2026-08-23
+  verified: true
+  last_accessed: 2026-09-18
+  note: "Verified 2026-09-18 against the OUP abstract page and PubMed (PMID 24947271, DOI 10.1093/jpepsy/jsu041): authors (Meltzer & Mindell), title, journal, and 2014;39(8):932-948 match; meta-analysis of 26 studies finds behavioral interventions reduce sleep-onset latency and number/duration of night wakings in young children — consistent with the cited claim. Abstract/PubMed-level verification, not a full-text PDF read."
 
 - id: reuter_2020_infant_sleep_systematic_review
   organization: Wiley / Acta Paediatrica

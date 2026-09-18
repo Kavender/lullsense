@@ -2,7 +2,9 @@
 defined in skills/lullsense/references/evidence-methodology.md.
 
 Exit code 0 = valid, 1 = errors found. Safety rule (S2) is enforced hard.
-Warnings are advisory and do NOT affect the exit code.
+A high-evidence claim resting on an unverified source is also a hard error
+(promoted from an advisory warning that had gone stale — see §7). Remaining
+warnings are advisory and do NOT affect the exit code.
 """
 from __future__ import annotations
 
@@ -76,9 +78,10 @@ def _load(path: Path):
         return yaml.safe_load(fh) or []
 
 
-def _validate_sources(sources) -> tuple[list[str], set[str]]:
+def _validate_sources(sources) -> tuple[list[str], set[str], set[str]]:
     errors: list[str] = []
     ids: set[str] = set()
+    verified: set[str] = set()
     for i, s in enumerate(sources):
         tag = f"source[{i}]"
         missing = SOURCE_FIELDS - set(s)
@@ -94,10 +97,12 @@ def _validate_sources(sources) -> tuple[list[str], set[str]]:
             errors.append(f"{tag} {s['id']}: url must be http(s)")
         if not isinstance(s["verified"], bool):
             errors.append(f"{tag} {s['id']}: verified must be bool")
-    return errors, ids
+        elif s["verified"] is True:
+            verified.add(s["id"])
+    return errors, ids, verified
 
 
-def _validate_claims(claims, source_ids: set[str]) -> list[str]:
+def _validate_claims(claims, source_ids: set[str], verified_ids: set[str]) -> list[str]:
     errors: list[str] = []
     seen: set[str] = set()
     for i, c in enumerate(claims):
@@ -129,6 +134,16 @@ def _validate_claims(claims, source_ids: set[str]) -> list[str]:
         for sid in c["sources"]:
             if sid not in source_ids:
                 errors.append(f"{tag} {cid}: source {sid!r} not in sources.yaml")
+        # A high-evidence claim must rest on verified sources. This was an advisory
+        # warning for ~a dozen PRs; everyone learned to ignore it, which is exactly
+        # how a real regression would slip past. Now a hard error: verify the source
+        # (set verified: true after confirming it) or lower evidence_level.
+        if c["evidence_level"] == "high":
+            for sid in c["sources"]:
+                if sid in source_ids and sid not in verified_ids:
+                    errors.append(
+                        f"{tag} {cid}: evidence_level high must cite verified sources; "
+                        f"{sid!r} is unverified")
         if not isinstance(c["last_reviewed"], date):
             errors.append(f"{tag} {cid}: last_reviewed must be a YYYY-MM-DD date")
         is_safety = c["layer"] == "A_safety"
@@ -151,8 +166,8 @@ def _validate_claims(claims, source_ids: set[str]) -> list[str]:
 def validate(claims_path: Path, sources_path: Path) -> list[str]:
     sources = _load(sources_path)
     claims = _load(claims_path)
-    src_errors, source_ids = _validate_sources(sources)
-    claim_errors = _validate_claims(claims, source_ids)
+    src_errors, source_ids, verified_ids = _validate_sources(sources)
+    claim_errors = _validate_claims(claims, source_ids, verified_ids)
     return src_errors + claim_errors
 
 
@@ -166,20 +181,18 @@ def coverage_gaps(claims_path: Path) -> set[str]:
 
 def warnings(claims_path: Path, sources_path: Path) -> list[str]:
     """Non-failing advisories (do NOT affect exit code). Keeps the validator
-    honest with skills/lullsense/references/evidence-methodology.md sections 7 and 10."""
-    sources = {s["id"]: s for s in _load(sources_path) if isinstance(s, dict) and "id" in s}
+    honest with skills/lullsense/references/evidence-methodology.md sections 7 and 10.
+
+    Note: high-evidence claims backed by unverified sources used to warn here; that
+    is now a hard error in _validate_claims (§7), so it is no longer an advisory.
+    """
+    del sources_path  # retained for signature stability; no longer needed here
     claims = _load(claims_path)
     warns: list[str] = []
     for c in claims:
         cid = c.get("claim_id", "?")
         if c.get("deprecated") is True:
             warns.append(f"{cid}: claim is deprecated")
-        if c.get("evidence_level") == "high":
-            for sid in c.get("sources", []):
-                s = sources.get(sid)
-                if s is not None and s.get("verified") is False:
-                    warns.append(
-                        f"{cid}: evidence_level high backed by unverified source {sid!r}")
     return warns
 
 

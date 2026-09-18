@@ -7,8 +7,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] — 2026-09-18
+
+Second alpha. The headline is a latency-focused skill refactor that cuts
+time-to-first-reply on an ordinary no-data turn from ~9 sequential file reads to
+roughly one, plus a new sleep-environment/comfort evidence layer. No safety rule
+or medical claim changed; every content move was verbatim and CI-guarded.
+
+### Added
+
+- **Sleep environment / comfort hypothesis (#8) with a new `E_environment`
+  evidence layer.** The consultant can now conversationally surface 2–3
+  context-relevant environmental factors (light, noise, temperature) to observe
+  and rule out — never a checklist dump. Backed by a new evidence layer in
+  `knowledge/sources.yaml` and `knowledge/claims.yaml` (light ×4, noise ×3),
+  with evidence labeled honestly rather than dropped: light is mechanistic and
+  preschool-aged, noise efficacy and temperature are low/preference-level, and
+  noise safer-use (sound-machine output limits) is documented. The sleep
+  **surface** is deliberately *not* a comfort lever — `env_surface_comfort_defers
+  _to_safety` routes it to the firm-flat-bare safe-sleep requirement and never
+  softens it. New `references/environment-comfort-factors.md`, Hypothesis #8 in
+  `references/hypothesis-menu.md`, an opt-in "quick rule-out" offer in
+  `references/consultant-persona.md`, and consultant eval scenarios 09
+  (factor surfaced conversationally) and 10 (surface safety override). All eight
+  new sources are human-verified against the primary full-text PDFs (the four
+  light circadian studies, Spencer 1990, the Öz & Demirci 2025 white-noise
+  review, Düken & Yayan 2024, and Hugh 2014). The two originally-planned noise sources
+  whose DOIs did not resolve (Riedy 2021, De Jong 2024) were replaced by the
+  Öz & Demirci 2025 review, which synthesizes both — and the noise-efficacy
+  claim was reworded to match what that review actually supports (limited,
+  mostly newborn/hospital, short-term/variable) rather than a "very-low-GRADE"
+  framing.
+
 ### Changed
 
+- **Knowledge validator: a high-evidence claim on an unverified source is now a hard
+  error, not a warning.** The advisory had trailed a dozen-plus PRs unheeded — the exact
+  way a standing warning trains everyone to ignore it (and a real regression with it). To
+  clear the last offender, the Meltzer & Mindell (2014) meta-analysis
+  (*J Pediatric Psychology* 39(8):932–948, PMID 24947271) backing
+  `graduated_extinction_efficacy` was verified against the source and marked
+  `verified: true`; `scripts/validate_knowledge.py` now fails CI (exit 1) if any
+  `evidence_level: high` claim cites an unverified source. `moderate`/`low` claims may
+  still cite unverified sources.
 - **Performance: cut time-to-first-reply by removing serial reads from the common turn.**
   An ordinary no-data question previously drove ~9 sequential file reads before the agent
   could answer. Three phases addressed it: (1) the safety red-flag net and a hot-path
@@ -43,34 +84,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   budget guard** (≤32KB) now prevents any single reference regrowing to the ~32KB the Phase-3
   god-file had — set at that ceiling rather than a low cap because references are topic-content
   loaded on-topic, so forcing tiny files would add round-trips.
-
-### Added
-
-- **Sleep environment / comfort hypothesis (#8) with a new `E_environment`
-  evidence layer.** The consultant can now conversationally surface 2–3
-  context-relevant environmental factors (light, noise, temperature) to observe
-  and rule out — never a checklist dump. Backed by a new evidence layer in
-  `knowledge/sources.yaml` and `knowledge/claims.yaml` (light ×4, noise ×3),
-  with evidence labeled honestly rather than dropped: light is mechanistic and
-  preschool-aged, noise efficacy and temperature are low/preference-level, and
-  noise safer-use (sound-machine output limits) is documented. The sleep
-  **surface** is deliberately *not* a comfort lever — `env_surface_comfort_defers
-  _to_safety` routes it to the firm-flat-bare safe-sleep requirement and never
-  softens it. New `references/environment-comfort-factors.md`, Hypothesis #8 in
-  `references/hypothesis-menu.md`, an opt-in "quick rule-out" offer in
-  `references/consultant-persona.md`, and consultant eval scenarios 09
-  (factor surfaced conversationally) and 10 (surface safety override). All eight
-  new sources are human-verified against the primary full-text PDFs (the four
-  light circadian studies, Spencer 1990, the Öz & Demirci 2025 white-noise
-  review, Düken & Yayan 2024, and Hugh 2014). The two originally-planned noise sources
-  whose DOIs did not resolve (Riedy 2021, De Jong 2024) were replaced by the
-  Öz & Demirci 2025 review, which synthesizes both — and the noise-efficacy
-  claim was reworded to match what that review actually supports (limited,
-  mostly newborn/hospital, short-term/variable) rather than a "very-low-GRADE"
-  framing.
-
-### Changed
-
 - **Tagline reframed from claim to aspiration.** "…for every family" → "…built
   to reach every family," and both READMEs now name the real first-user ICP
   (technically comfortable parents, agent users, builders) rather than implying
@@ -127,5 +140,6 @@ and it runs safety triage before any sleep advice.
 - **CI and Release workflows** — lint/test on PRs; tagging `v*` builds and
   smoke-tests the wheel + sdist and attaches them to a GitHub Release (no PyPI).
 
-[Unreleased]: https://github.com/Kavender/lullsense/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/Kavender/lullsense/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/Kavender/lullsense/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Kavender/lullsense/releases/tag/v0.1.0

@@ -1,0 +1,7 @@
+- id: unverified_review_2020
+  organization: Example Publisher
+  title: "An unverified systematic review used only in tests"
+  url: https://example.org/unverified-review
+  source_type: systematic_review
+  verified: false
+  last_accessed: 2026-08-23

@@ -1,0 +1,13 @@
+- claim_id: high_on_unverified
+  layer: C_behavioral
+  topic: behavioral_intervention
+  parent_goals: [night_waking]
+  age_range_months: [5, 36]
+  evidence_type: systematic_review
+  evidence_level: high
+  claim: "A high-evidence claim resting on an unverified source (test fixture)."
+  sources: [unverified_review_2020]
+  use_for: [testing]
+  do_not_use_for: [production]
+  individual_variability: moderate
+  last_reviewed: 2026-08-23
