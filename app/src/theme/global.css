@@ -1,0 +1,73 @@
+/* Design canvas: mirrors the .dc.html preview background so the phone frame
+   sits on a neutral surface, matching the handoff reference. */
+:root {
+  --canvas: #eeece7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--canvas);
+  font-family: "Baloo 2", "Noto Sans SC", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #22335c;
+}
+
+/* Mascot / in-progress pulse — opacity .6↔1 ease-in-out (README: Animations) */
+@keyframes lsPulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Slow breathing pulse for the night mascot (4s) */
+@keyframes lsBreathe {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+/* Sheet slide-up (system sheet transition approximation) */
+@keyframes lsSheetUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes lsFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+  color: inherit;
+}
