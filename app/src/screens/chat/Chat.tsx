@@ -3,15 +3,27 @@ import { day, font, shadow } from "../../theme/tokens";
 import { Mascot } from "../../components/Mascot";
 import { TabBar } from "../../components/TabBar";
 import { useApp, type ChatMessage } from "../../state/store";
+import { ChatNight } from "./ChatNight";
+import { ChatPaused } from "./ChatPaused";
+import { ChatOffline } from "./ChatOffline";
 
 const SUGGESTIONS = ["那第二觉呢", "暂停计划"];
 
 /**
- * D1 聊知眠 (白天) — chat with the assistant, which also logs sleep from natural
- * language. Header remembers family facts; optional plan strip; logged-card
- * bubbles; suggestion chips; composer that also records.
+ * D 聊知眠 — dispatches to the right state: D3 安全暂停 (paused) · D4 断网 (offline)
+ * · D2 夜间 (night theme) · else D1 白天 (the live chat).
  */
-export function Chat() {
+export function Chat({ now }: { now: number }) {
+  void now;
+  const app = useApp();
+  if (app.optimizationPaused) return <ChatPaused />;
+  if (app.network === "offline") return <ChatOffline />;
+  if (app.theme === "night") return <ChatNight />;
+  return <ChatDay />;
+}
+
+/** D1 聊知眠 (白天) — chat that also logs sleep from natural language. */
+function ChatDay() {
   const app = useApp();
   const [draft, setDraft] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -47,7 +59,9 @@ export function Chat() {
           </div>
           <div style={{ lineHeight: 1.15 }}>
             <div style={{ fontSize: 20, fontWeight: 800 }}>知眠</div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: day.periwinkle }}>记得小满 · 托班 12:30、同房、不睡训 ›</div>
+            <button onClick={() => app.openOverlay("memory")} style={{ fontSize: 13, fontWeight: 700, color: day.periwinkle, textAlign: "left" }}>
+              记得小满 · 托班 12:30、同房、不睡训 ›
+            </button>
           </div>
         </div>
         <button style={{ fontSize: 13, fontWeight: 800, color: day.periwinkle }}>新对话</button>

@@ -3,13 +3,24 @@ import { day, font, radius, shadow } from "../../theme/tokens";
 import { Mascot } from "../../components/Mascot";
 import { TabBar } from "../../components/TabBar";
 import { fmtElapsed, useApp, type SleepEvent } from "../../state/store";
+import { TodayNight } from "./TodayNight";
+import { TodayFirstDay } from "./TodayFirstDay";
+import { TodayPaused } from "./TodayPaused";
 
 /**
- * B 今天 — the home tab. Renders the "已醒 · 等下一觉" state (B1) and, once a
- * sleep is logged, the "小觉进行中" state (B2, navy status card). Shared header,
- * status card, action row, timeline and tab bar.
+ * B 今天 — the home tab. Dispatches to the right state:
+ * B5 安全暂停 (paused) · B3 夜间 (night theme) · B4 数据不足 (first day) ·
+ * else the live day screen (B1 已醒 ↔ B2 小觉进行中).
  */
 export function Today({ now }: { now: number }) {
+  const app = useApp();
+  if (app.optimizationPaused) return <TodayPaused />;
+  if (app.theme === "night") return <TodayNight now={now} />;
+  if (app.firstDay) return <TodayFirstDay />;
+  return <TodayDay now={now} />;
+}
+
+function TodayDay({ now }: { now: number }) {
   const app = useApp();
   const napping = app.statusKind === "napping";
   const elapsed = fmtElapsed(app.statusSince, now);
@@ -28,13 +39,17 @@ export function Today({ now }: { now: number }) {
         overflow: "hidden",
       }}
     >
-      <Header baby={app.baby} />
+      <Header
+        baby={app.baby}
+        onGear={() => app.openOverlay("settings")}
+        onName={() => app.openOverlay("babySwitcher")}
+      />
 
       {napping ? <NapCard elapsed={elapsed} napIndex={app.napIndex} /> : <AwakeCard elapsed={elapsed} />}
 
       <ActionRow napping={napping} onAsleep={app.markAsleep} onAwake={app.markAwake} onBackfill={app.openSheet} />
 
-      {!napping && <NightRingCard />}
+      {!napping && <NightRingCard onReview={() => app.openOverlay("review")} />}
 
       <TimelineHeader />
       <TimelineBar napping={napping} />
@@ -47,10 +62,18 @@ export function Today({ now }: { now: number }) {
   );
 }
 
-function Header({ baby }: { baby: { initial: string; name: string; ageLabel: string } }) {
+function Header({
+  baby,
+  onGear,
+  onName,
+}: {
+  baby: { initial: string; name: string; ageLabel: string };
+  onGear: () => void;
+  onName: () => void;
+}) {
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+      <button onClick={onName} style={{ display: "flex", alignItems: "center", gap: 10, textAlign: "left" }}>
         <span
           style={{
             width: 40,
@@ -68,13 +91,14 @@ function Header({ baby }: { baby: { initial: string; name: string; ageLabel: str
           {baby.initial}
         </span>
         <div style={{ lineHeight: 1.1 }}>
-          <div style={{ fontSize: 17, fontWeight: 800 }}>
+          <div style={{ fontSize: 17, fontWeight: 800, color: day.ink }}>
             {baby.name} <span style={{ fontSize: 12, color: day.periwinkle }}>▾</span>
           </div>
           <div style={{ fontSize: 13, color: day.periwinkle, fontWeight: 700 }}>{baby.ageLabel}</div>
         </div>
-      </div>
-      <div
+      </button>
+      <button
+        onClick={onGear}
         style={{
           width: 40,
           height: 40,
@@ -88,7 +112,7 @@ function Header({ baby }: { baby: { initial: string; name: string; ageLabel: str
         }}
       >
         ⚙
-      </div>
+      </button>
     </div>
   );
 }
@@ -261,7 +285,7 @@ const secondaryPill: CSSProperties = {
   color: day.navy,
 };
 
-function NightRingCard() {
+function NightRingCard({ onReview }: { onReview: () => void }) {
   return (
     <div
       style={{
@@ -318,7 +342,7 @@ function NightRingCard() {
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
           <span style={{ fontSize: 12, fontWeight: 800, color: day.periwinkle, letterSpacing: ".06em" }}>昨晚 · 9月24日</span>
-          <span style={{ fontSize: 12, fontWeight: 800, color: day.navy }}>回看 ›</span>
+          <button onClick={onReview} style={{ fontSize: 12, fontWeight: 800, color: day.navy }}>回看 ›</button>
         </div>
         <div style={{ marginTop: 4, fontSize: 16, fontWeight: 800, lineHeight: 1.3 }}>在她的常态区间偏上</div>
         <div style={{ marginTop: 4, fontSize: 12, fontWeight: 600, color: "#4A5570", lineHeight: 1.5 }}>

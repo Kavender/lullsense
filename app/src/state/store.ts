@@ -4,6 +4,19 @@ export type Tab = "today" | "chat";
 export type Theme = "day" | "night";
 export type StatusKind = "awake" | "napping";
 export type LogSource = "button" | "chat" | "backfill" | "notification";
+export type Network = "online" | "offline";
+
+/** Pushed full-screens, sheets and popovers layered over the current tab. */
+export type Overlay =
+  | "settings" // E2
+  | "dataControl" // E3
+  | "memory" // E1
+  | "review" // H1–H3
+  | "subscription" // F1
+  | "editRecord" // C2
+  | "babySwitcher" // C4
+  | "nightWake" // C3
+  | "lockScreen"; // G1
 
 /** One entry in the on-device sleep log (README: State Management). */
 export interface SleepEvent {
@@ -44,6 +57,13 @@ export interface AppState {
   sheetOpen: boolean;
   toast: { message: string; undo?: () => void } | null;
   messages: ChatMessage[];
+  // Cross-screen flags that select variants (B1–B5, D1–D4, F1)
+  optimizationPaused: boolean; // safety pause → B5 / D3
+  network: Network; // offline → D4
+  firstDay: boolean; // data-insufficient → B4
+  babies: Baby[];
+  selectedBabyId: string;
+  overlay: Overlay | null;
 }
 
 export interface AppActions {
@@ -60,6 +80,16 @@ export interface AppActions {
   saveBackfill: (entry: { kind: "nap" | "night" | "nightWake"; start: string; end: string }) => void;
   dismissToast: () => void;
   sendMessage: (text: string) => void;
+  // Variant flags (also driven by the demo bar)
+  setPaused: (b: boolean) => void;
+  setNetwork: (n: Network) => void;
+  setFirstDay: (b: boolean) => void;
+  selectBaby: (id: string) => void;
+  // Overlay navigation
+  openOverlay: (o: Overlay) => void;
+  closeOverlay: () => void;
+  logNightWake: () => void; // C3 → 夜里醒了
+  getUp: () => void; // C3 → 起床了
 }
 
 export type AppStore = AppState & AppActions;

@@ -19,6 +19,15 @@ import { Today } from "./screens/today/Today";
 import { Chat } from "./screens/chat/Chat";
 import { RecordSheet } from "./screens/record/RecordSheet";
 import { Toast } from "./components/Toast";
+import { EditRecord } from "./screens/record/EditRecord";
+import { NightWakeSheet } from "./screens/record/NightWakeSheet";
+import { BabySwitcher } from "./screens/record/BabySwitcher";
+import { Review } from "./screens/review/Review";
+import { Memory } from "./screens/memory/Memory";
+import { Settings } from "./screens/settings/Settings";
+import { DataControl } from "./screens/settings/DataControl";
+import { Subscription } from "./screens/subscription/Subscription";
+import { LockScreen } from "./screens/lockscreen/LockScreen";
 
 const SEED_LOG: SleepEvent[] = [
   { id: uid("ev"), kind: "morningWake", label: "晨醒 · 开始今天", time: "10:15", source: "button" },
@@ -56,11 +65,20 @@ export function App() {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [toast, setToast] = useState<AppState["toast"]>(null);
   const [messages, setMessages] = useState<ChatMessage[]>(SEED_MESSAGES);
+  const [optimizationPaused, setOptimizationPaused] = useState(false);
+  const [network, setNetwork] = useState<AppState["network"]>("online");
+  const [firstDay, setFirstDay] = useState(false);
+  const [selectedBabyId, setSelectedBabyId] = useState("b1");
+  const [overlay, setOverlay] = useState<AppState["overlay"]>(null);
 
-  const baby = useMemo(
-    () => ({ id: "b1", name: "小满", initial: "满", ageLabel: "7 个月 · 2 觉宝宝" }),
+  const babies = useMemo<AppState["babies"]>(
+    () => [
+      { id: "b1", name: "小满", initial: "满", ageLabel: "7 个月 · 2 觉宝宝" },
+      { id: "b2", name: "安安", initial: "安", ageLabel: "2 岁 3 个月 · 2 觉宝宝" },
+    ],
     [],
   );
+  const baby = babies.find((b) => b.id === selectedBabyId) ?? babies[0];
 
   // Live clock — one tick per second drives every elapsed display.
   useEffect(() => {
@@ -150,6 +168,22 @@ export function App() {
     }, 600);
   }, []);
 
+  const logNightWake = useCallback(() => {
+    const t = nowHHMM(Date.now());
+    setLog((l) => [{ id: uid("ev"), kind: "nightWake", label: "夜醒", time: t, source: "button" }, ...l]);
+    setOverlay(null);
+    showToast("已记录 · 夜醒");
+  }, [showToast]);
+
+  const getUp = useCallback(() => {
+    const t = nowHHMM(Date.now());
+    setStatusKind("awake");
+    setStatusSince(Date.now());
+    setLog((l) => [{ id: uid("ev"), kind: "morningWake", label: "晨醒 · 开始今天", time: t, source: "button" }, ...l]);
+    setOverlay(null);
+    showToast("已记录 · 起床了");
+  }, [showToast]);
+
   const store: AppStore = {
     phase,
     onboardingStep,
@@ -163,6 +197,12 @@ export function App() {
     sheetOpen,
     toast,
     messages,
+    optimizationPaused,
+    network,
+    firstDay,
+    babies,
+    selectedBabyId,
+    overlay,
     advanceOnboarding: () => setOnboardingStep((s) => (s < 3 ? ((s + 1) as 1 | 2 | 3) : s)),
     skipToApp: () => setPhase("app"),
     restartOnboarding: () => {
@@ -179,6 +219,17 @@ export function App() {
     saveBackfill,
     dismissToast: () => setToast(null),
     sendMessage,
+    setPaused: setOptimizationPaused,
+    setNetwork,
+    setFirstDay,
+    selectBaby: (id) => {
+      setSelectedBabyId(id);
+      setOverlay(null);
+    },
+    openOverlay: (o) => setOverlay(o),
+    closeOverlay: () => setOverlay(null),
+    logNightWake,
+    getUp,
   };
 
   // Onboarding A3 -> enter app; A1/A2 -> advance step.
@@ -187,7 +238,8 @@ export function App() {
     else store.skipToApp();
   };
 
-  const dark = theme === "night";
+  // Some overlays force a dark status bar regardless of the day/night theme.
+  const dark = theme === "night" || overlay === "lockScreen" || overlay === "nightWake";
 
   return (
     <AppContext.Provider value={store}>
@@ -215,10 +267,11 @@ export function App() {
             ) : tab === "today" ? (
               <Today now={now} />
             ) : (
-              <Chat />
+              <Chat now={now} />
             )}
 
             {sheetOpen && <RecordSheet onCancel={store.closeSheet} onSave={saveBackfill} />}
+            <OverlayHost now={now} />
             {toast && <Toast message={toast.message} undo={toast.undo} onUndo={store.dismissToast} />}
           </IOSFrame>
         </div>
@@ -227,35 +280,71 @@ export function App() {
   );
 }
 
+/** Renders whichever overlay (pushed screen / sheet / popover) is active. */
+function OverlayHost({ now }: { now: number }) {
+  const app = useApp();
+  const close = app.closeOverlay;
+  switch (app.overlay) {
+    case "settings":
+      return <Settings onBack={close} onOpen={app.openOverlay} />;
+    case "dataControl":
+      return <DataControl onBack={() => app.openOverlay("settings")} />;
+    case "memory":
+      return <Memory onBack={close} />;
+    case "review":
+      return <Review onBack={close} onConsult={() => app.openOverlay("subscription")} />;
+    case "subscription":
+      return <Subscription onClose={close} />;
+    case "editRecord":
+      return <EditRecord onBack={close} />;
+    case "babySwitcher":
+      return <BabySwitcher onClose={close} />;
+    case "nightWake":
+      return <NightWakeSheet now={now} onCancel={close} onNightWake={app.logNightWake} onGetUp={app.getUp} />;
+    case "lockScreen":
+      return <LockScreen onDismiss={close} />;
+    default:
+      return null;
+  }
+}
+
 /**
- * Small out-of-frame control strip for demoing the prototype (not a screen).
- * Lets you flip the day/night theme and restart the onboarding flow.
+ * Out-of-frame control strip for demoing the prototype (not a screen). Flips the
+ * day/night theme + state flags (safety pause, offline, first-day) that select
+ * screen variants, and opens the pushed screens that have no in-flow entry yet.
  */
 function DemoBar() {
-  const store = useApp();
+  const s = useApp();
   return (
     <div
       style={{
         display: "flex",
-        gap: 10,
+        flexWrap: "wrap",
+        justifyContent: "center",
+        gap: 8,
         alignItems: "center",
+        maxWidth: 620,
         fontFamily: "system-ui, sans-serif",
         fontSize: 13,
         color: "#4a4a4a",
       }}
     >
       <strong style={{ fontWeight: 700 }}>知眠 LullSense</strong>
-      <span style={{ opacity: 0.5 }}>·</span>
-      <button onClick={() => store.setTheme("day")} style={demoBtn(store.theme === "day")}>
-        白天
-      </button>
-      <button onClick={() => store.setTheme("night")} style={demoBtn(store.theme === "night")}>
-        夜间
-      </button>
-      <span style={{ opacity: 0.5 }}>·</span>
-      <button onClick={store.restartOnboarding} style={demoBtn(false)}>
-        重新上手
-      </button>
+      <button onClick={() => s.setTheme("day")} style={demoBtn(s.theme === "day")}>白天</button>
+      <button onClick={() => s.setTheme("night")} style={demoBtn(s.theme === "night")}>夜间</button>
+      <span style={{ opacity: 0.4 }}>|</span>
+      <button onClick={() => s.setPaused(!s.optimizationPaused)} style={demoBtn(s.optimizationPaused)}>安全暂停</button>
+      <button onClick={() => s.setNetwork(s.network === "offline" ? "online" : "offline")} style={demoBtn(s.network === "offline")}>断网</button>
+      <button onClick={() => s.setFirstDay(!s.firstDay)} style={demoBtn(s.firstDay)}>数据不足</button>
+      <span style={{ opacity: 0.4 }}>|</span>
+      <button onClick={() => s.openOverlay("review")} style={demoBtn(false)}>回看</button>
+      <button onClick={() => s.openOverlay("memory")} style={demoBtn(false)}>记忆</button>
+      <button onClick={() => s.openOverlay("settings")} style={demoBtn(false)}>设置</button>
+      <button onClick={() => s.openOverlay("subscription")} style={demoBtn(false)}>订阅</button>
+      <button onClick={() => s.openOverlay("editRecord")} style={demoBtn(false)}>编辑记录</button>
+      <button onClick={() => s.openOverlay("lockScreen")} style={demoBtn(false)}>锁屏</button>
+      <span style={{ opacity: 0.4 }}>|</span>
+      <button onClick={s.restartOnboarding} style={demoBtn(false)}>重新上手</button>
     </div>
   );
 }
