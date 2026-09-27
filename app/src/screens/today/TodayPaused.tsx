@@ -28,7 +28,7 @@ export function TodayPaused() {
             <div style={{ fontSize: 17, fontWeight: 800, color: day.ink }}>
               {app.baby.name} <span style={{ fontSize: 12, color: day.periwinkle }}>▾</span>
             </div>
-            <div style={{ fontSize: 13, color: day.amberText, fontWeight: 700 }}>7 个月 · 优化已暂停</div>
+            <div style={{ fontSize: 13, color: day.amberText, fontWeight: 700 }}>{app.baby.age} · 优化已暂停</div>
           </div>
         </button>
         <button onClick={() => app.openOverlay("settings")} style={gear}>⚙</button>

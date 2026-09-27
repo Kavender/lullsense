@@ -27,7 +27,7 @@ export function TodayFirstDay() {
           <span style={avatar}>{app.baby.initial}</span>
           <div style={{ lineHeight: 1.1, textAlign: "left" }}>
             <div style={{ fontSize: 17, fontWeight: 800, color: day.ink }}>{app.baby.name}</div>
-            <div style={{ fontSize: 13, color: day.periwinkle, fontWeight: 700 }}>7 个月 · 第 1 天</div>
+            <div style={{ fontSize: 13, color: day.periwinkle, fontWeight: 700 }}>{app.baby.age} · 第 1 天</div>
           </div>
         </button>
         <button onClick={() => app.openOverlay("settings")} style={gear}>⚙</button>

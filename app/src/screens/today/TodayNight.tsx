@@ -31,7 +31,7 @@ export function TodayNight({ now }: { now: number }) {
           </span>
           <div style={{ lineHeight: 1.1, textAlign: "left" }}>
             <div style={{ fontSize: 17, fontWeight: 800, color: night.ink }}>{app.baby.name}</div>
-            <div style={{ fontSize: 13, color: night.muted, fontWeight: 700 }}>7 个月 · 夜间</div>
+            <div style={{ fontSize: 13, color: night.muted, fontWeight: 700 }}>{app.baby.age} · 夜间</div>
           </div>
         </button>
         <button onClick={() => app.openOverlay("settings")} style={{ width: 40, height: 40, borderRadius: 20, background: night.controlFill, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, color: night.muted }}>

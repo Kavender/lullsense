@@ -7,6 +7,7 @@ import { day, font, radius } from "../../theme/tokens";
  */
 export function BabyProfile({ onNext, onSkip }: { onNext: () => void; onSkip: () => void }) {
   const [preterm, setPreterm] = useState(false);
+  const [monthAge, setMonthAge] = useState(false);
 
   return (
     <div
@@ -39,11 +40,21 @@ export function BabyProfile({ onNext, onSkip }: { onNext: () => void; onSkip: ()
 
         <Field
           label="生日 或 大致月龄"
-          trailing={<span style={{ fontSize: 12, fontWeight: 800, color: day.navy }}>改成填月龄</span>}
+          trailing={
+            <button onClick={() => setMonthAge((v) => !v)} style={{ fontSize: 12, fontWeight: 800, color: day.navy }}>
+              {monthAge ? "改成填生日" : "改成填月龄"}
+            </button>
+          }
         >
-          <div style={{ marginTop: 4, fontSize: 20, fontWeight: 800 }}>
-            2026 年 2 月 18 日 <span style={{ fontSize: 14, color: day.periwinkle }}>· 7 个月 1 周</span>
-          </div>
+          {monthAge ? (
+            <div style={{ marginTop: 4, fontSize: 20, fontWeight: 800 }}>
+              7 个月 <span style={{ fontSize: 14, color: day.periwinkle }}>· 大致月龄</span>
+            </div>
+          ) : (
+            <div style={{ marginTop: 4, fontSize: 20, fontWeight: 800 }}>
+              2026 年 2 月 18 日 <span style={{ fontSize: 14, color: day.periwinkle }}>· 7 个月 1 周</span>
+            </div>
+          )}
         </Field>
 
         <div

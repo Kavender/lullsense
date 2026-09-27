@@ -41,6 +41,7 @@ export interface Baby {
   id: string;
   name: string;
   initial: string;
+  age: string; // "7 个月" / "2 岁 3 个月"
   ageLabel: string; // "7 个月 · 2 觉宝宝"
 }
 
@@ -80,6 +81,11 @@ export interface AppActions {
   saveBackfill: (entry: { kind: "nap" | "night" | "nightWake"; start: string; end: string }) => void;
   dismissToast: () => void;
   sendMessage: (text: string) => void;
+  removeMessage: (id: string) => void; // 撤销 a logged card
+  newChat: () => void; // 新对话 — reset the thread
+  notify: (msg: string) => void; // fire a toast (export/delete feedback etc.)
+  /** Per-baby status line for the switcher popover, e.g. "7 个月 · 已醒 1h 12m". */
+  babyStatusLabel: (id: string, now: number) => string;
   // Variant flags (also driven by the demo bar)
   setPaused: (b: boolean) => void;
   setNetwork: (n: Network) => void;

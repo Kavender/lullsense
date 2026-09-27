@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties }
 import { IOSFrame } from "./components/IOSFrame";
 import {
   AppContext,
+  fmtElapsed,
   nowHHMM,
   uid,
   useApp,
@@ -49,36 +50,58 @@ const SEED_MESSAGES: ChatMessage[] = [
   },
 ];
 
+// 安安 (b2) — a second baby so the switcher shows genuinely different data.
+const SEED_LOG_ANAN: SleepEvent[] = [
+  { id: uid("ev"), kind: "nap", label: "午觉 · 进行中", time: "13:05", source: "button", inProgress: true },
+  { id: uid("ev"), kind: "morningWake", label: "晨醒 · 开始今天", time: "07:00", source: "button" },
+];
+const SEED_MESSAGES_ANAN: ChatMessage[] = [
+  { id: uid("m"), role: "assistant", text: "安安今天午觉刚开始。需要我记点什么，或者聊聊最近的作息都可以。" },
+];
+
+/** Everything that is scoped per-baby (each baby has its own log/status/chat). */
+interface BabyData {
+  statusKind: AppState["statusKind"];
+  statusSince: number;
+  napIndex: number;
+  log: SleepEvent[];
+  messages: ChatMessage[];
+}
+
 export function App() {
-  // Anchor the awake timer so the initial render reads ~1h 12m like the design,
-  // then ticks live. Lazy init so it's stable across renders.
-  const [statusSince, setStatusSince] = useState<number>(() => Date.now() - 72 * 60000);
   const [now, setNow] = useState<number>(() => Date.now());
 
   const [phase, setPhase] = useState<AppState["phase"]>("onboarding");
   const [onboardingStep, setOnboardingStep] = useState<AppState["onboardingStep"]>(1);
   const [tab, setTab] = useState<Tab>("today");
   const [theme, setTheme] = useState<Theme>("day");
-  const [statusKind, setStatusKind] = useState<AppState["statusKind"]>("awake");
-  const [napIndex, setNapIndex] = useState(2);
-  const [log, setLog] = useState<SleepEvent[]>(SEED_LOG);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [toast, setToast] = useState<AppState["toast"]>(null);
-  const [messages, setMessages] = useState<ChatMessage[]>(SEED_MESSAGES);
   const [optimizationPaused, setOptimizationPaused] = useState(false);
   const [network, setNetwork] = useState<AppState["network"]>("online");
   const [firstDay, setFirstDay] = useState(false);
   const [selectedBabyId, setSelectedBabyId] = useState("b1");
   const [overlay, setOverlay] = useState<AppState["overlay"]>(null);
 
+  // Per-baby record. Anchors are set once (lazy init) so timers read like the
+  // design on first paint (小满 已醒 ~1h12m · 安安 正在睡 ~0h20m), then tick live.
+  const [babyData, setBabyData] = useState<Record<string, BabyData>>(() => {
+    const t = Date.now();
+    return {
+      b1: { statusKind: "awake", statusSince: t - 72 * 60000, napIndex: 2, log: SEED_LOG, messages: SEED_MESSAGES },
+      b2: { statusKind: "napping", statusSince: t - 20 * 60000, napIndex: 2, log: SEED_LOG_ANAN, messages: SEED_MESSAGES_ANAN },
+    };
+  });
+
   const babies = useMemo<AppState["babies"]>(
     () => [
-      { id: "b1", name: "小满", initial: "满", ageLabel: "7 个月 · 2 觉宝宝" },
-      { id: "b2", name: "安安", initial: "安", ageLabel: "2 岁 3 个月 · 2 觉宝宝" },
+      { id: "b1", name: "小满", initial: "满", age: "7 个月", ageLabel: "7 个月 · 2 觉宝宝" },
+      { id: "b2", name: "安安", initial: "安", age: "2 岁 3 个月", ageLabel: "2 岁 3 个月 · 2 觉宝宝" },
     ],
     [],
   );
   const baby = babies.find((b) => b.id === selectedBabyId) ?? babies[0];
+  const cur = babyData[selectedBabyId] ?? babyData.b1;
 
   // Live clock — one tick per second drives every elapsed display.
   useEffect(() => {
@@ -94,95 +117,105 @@ export function App() {
     toastTimer.current = window.setTimeout(() => setToast(null), 6000);
   }, []);
 
+  const patchBaby = useCallback(
+    (id: string, fn: (b: BabyData) => BabyData) => setBabyData((d) => ({ ...d, [id]: fn(d[id]) })),
+    [],
+  );
+
   const markAsleep = useCallback(() => {
-    const prevLog = log;
-    const prevSince = statusSince;
+    const id = selectedBabyId;
+    const prev = babyData[id];
     const t = nowHHMM(Date.now());
-    setStatusKind("napping");
-    setStatusSince(Date.now());
-    setLog((l) => [
-      { id: uid("ev"), kind: "nap", label: `第${napIndex}觉 · 进行中`, time: t, source: "button", inProgress: true },
-      ...l,
-    ]);
-    showToast("已记录 · 睡着了", () => {
-      setStatusKind("awake");
-      setStatusSince(prevSince);
-      setLog(prevLog);
-    });
-  }, [log, statusSince, napIndex, showToast]);
+    patchBaby(id, (b) => ({
+      ...b,
+      statusKind: "napping",
+      statusSince: Date.now(),
+      log: [{ id: uid("ev"), kind: "nap", label: `第${b.napIndex}觉 · 进行中`, time: t, source: "button", inProgress: true }, ...b.log],
+    }));
+    showToast("已记录 · 睡着了", () => setBabyData((d) => ({ ...d, [id]: prev })));
+  }, [selectedBabyId, babyData, patchBaby, showToast]);
 
   const markAwake = useCallback(() => {
-    const prevLog = log;
-    const prevSince = statusSince;
-    const prevKind = statusKind;
-    const endedMin = Math.max(1, Math.floor((Date.now() - statusSince) / 60000));
-    setStatusKind("awake");
-    setStatusSince(Date.now());
-    setNapIndex((n) => n + 1);
-    setLog((l) =>
-      l.map((e) => (e.inProgress ? { ...e, inProgress: false, label: `第${napIndex}觉`, detail: `${endedMin} 分钟` } : e)),
-    );
-    showToast("已记录 · 醒了", () => {
-      setStatusKind(prevKind);
-      setStatusSince(prevSince);
-      setNapIndex((n) => n - 1);
-      setLog(prevLog);
-    });
-  }, [log, statusSince, statusKind, napIndex, showToast]);
+    const id = selectedBabyId;
+    const prev = babyData[id];
+    const endedMin = Math.max(1, Math.floor((Date.now() - prev.statusSince) / 60000));
+    patchBaby(id, (b) => ({
+      ...b,
+      statusKind: "awake",
+      statusSince: Date.now(),
+      napIndex: b.napIndex + 1,
+      log: b.log.map((e) => (e.inProgress ? { ...e, inProgress: false, label: `第${b.napIndex}觉`, detail: `${endedMin} 分钟` } : e)),
+    }));
+    showToast("已记录 · 醒了", () => setBabyData((d) => ({ ...d, [id]: prev })));
+  }, [selectedBabyId, babyData, patchBaby, showToast]);
 
   const saveBackfill = useCallback<AppStore["saveBackfill"]>(
     (entry) => {
+      const id = selectedBabyId;
       const label = entry.kind === "nap" ? "补记的小觉" : entry.kind === "night" ? "补记的夜觉" : "夜醒";
-      setLog((l) => [
-        { id: uid("ev"), kind: entry.kind, label, time: entry.start, detail: `– ${entry.end}`, source: "backfill" },
-        ...l,
-      ]);
+      patchBaby(id, (b) => ({
+        ...b,
+        log: [{ id: uid("ev"), kind: entry.kind, label, time: entry.start, detail: `– ${entry.end}`, source: "backfill" }, ...b.log],
+      }));
       setSheetOpen(false);
       showToast("已保存到今天");
     },
-    [showToast],
+    [selectedBabyId, patchBaby, showToast],
   );
 
-  const sendMessage = useCallback<AppStore["sendMessage"]>((text) => {
-    const trimmed = text.trim();
-    if (!trimmed) return;
-    setMessages((m) => [...m, { id: uid("m"), role: "user", text: trimmed }]);
-    // Canned assistant follow-up so the composer feels live.
-    const looksLikeLog = /(睡|醒|觉|nap|sleep|woke)/i.test(trimmed);
-    window.setTimeout(() => {
-      setMessages((m) => [
-        ...m,
-        looksLikeLog
-          ? {
-              id: uid("m"),
-              role: "assistant",
-              text: "",
-              logged: { title: "记好了 · 已加入今天", detail: "按发送时刻推算，可随时改。" },
-            }
-          : {
-              id: uid("m"),
-              role: "assistant",
-              text: "我在。跟我说说当下的情况，我们一起看看下一步怎么安排。",
-            },
-      ]);
-    }, 600);
-  }, []);
+  const sendMessage = useCallback<AppStore["sendMessage"]>(
+    (text) => {
+      const id = selectedBabyId;
+      const trimmed = text.trim();
+      if (!trimmed) return;
+      patchBaby(id, (b) => ({ ...b, messages: [...b.messages, { id: uid("m"), role: "user", text: trimmed }] }));
+      // Canned assistant follow-up so the composer feels live.
+      const looksLikeLog = /(睡|醒|觉|nap|sleep|woke)/i.test(trimmed);
+      window.setTimeout(() => {
+        patchBaby(id, (b) => ({
+          ...b,
+          messages: [
+            ...b.messages,
+            looksLikeLog
+              ? { id: uid("m"), role: "assistant", text: "", logged: { title: "记好了 · 已加入今天", detail: "按发送时刻推算，可随时改。" } }
+              : { id: uid("m"), role: "assistant", text: "我在。跟我说说当下的情况，我们一起看看下一步怎么安排。" },
+          ],
+        }));
+      }, 600);
+    },
+    [selectedBabyId, patchBaby],
+  );
+
+  const removeMessage = useCallback(
+    (msgId: string) => {
+      patchBaby(selectedBabyId, (b) => ({ ...b, messages: b.messages.filter((m) => m.id !== msgId) }));
+      showToast("已撤销");
+    },
+    [selectedBabyId, patchBaby, showToast],
+  );
+
+  const newChat = useCallback(() => {
+    patchBaby(selectedBabyId, (b) => ({ ...b, messages: [{ id: uid("m"), role: "assistant", text: "新对话开始。跟我说说现在的情况吧。" }] }));
+  }, [selectedBabyId, patchBaby]);
 
   const logNightWake = useCallback(() => {
     const t = nowHHMM(Date.now());
-    setLog((l) => [{ id: uid("ev"), kind: "nightWake", label: "夜醒", time: t, source: "button" }, ...l]);
+    patchBaby(selectedBabyId, (b) => ({ ...b, log: [{ id: uid("ev"), kind: "nightWake", label: "夜醒", time: t, source: "button" }, ...b.log] }));
     setOverlay(null);
     showToast("已记录 · 夜醒");
-  }, [showToast]);
+  }, [selectedBabyId, patchBaby, showToast]);
 
   const getUp = useCallback(() => {
     const t = nowHHMM(Date.now());
-    setStatusKind("awake");
-    setStatusSince(Date.now());
-    setLog((l) => [{ id: uid("ev"), kind: "morningWake", label: "晨醒 · 开始今天", time: t, source: "button" }, ...l]);
+    patchBaby(selectedBabyId, (b) => ({
+      ...b,
+      statusKind: "awake",
+      statusSince: Date.now(),
+      log: [{ id: uid("ev"), kind: "morningWake", label: "晨醒 · 开始今天", time: t, source: "button" }, ...b.log],
+    }));
     setOverlay(null);
     showToast("已记录 · 起床了");
-  }, [showToast]);
+  }, [selectedBabyId, patchBaby, showToast]);
 
   const store: AppStore = {
     phase,
@@ -190,13 +223,13 @@ export function App() {
     tab,
     theme,
     baby,
-    statusKind,
-    statusSince,
-    napIndex,
-    log,
+    statusKind: cur.statusKind,
+    statusSince: cur.statusSince,
+    napIndex: cur.napIndex,
+    log: cur.log,
     sheetOpen,
     toast,
-    messages,
+    messages: cur.messages,
     optimizationPaused,
     network,
     firstDay,
@@ -219,6 +252,15 @@ export function App() {
     saveBackfill,
     dismissToast: () => setToast(null),
     sendMessage,
+    removeMessage,
+    newChat,
+    notify: showToast,
+    babyStatusLabel: (id, atNow) => {
+      const b = babyData[id];
+      const meta = babies.find((x) => x.id === id);
+      if (!b || !meta) return "";
+      return `${meta.age} · ${b.statusKind === "napping" ? "正在睡" : "已醒"} ${fmtElapsed(b.statusSince, atNow)}`;
+    },
     setPaused: setOptimizationPaused,
     setNetwork,
     setFirstDay,
@@ -298,7 +340,7 @@ function OverlayHost({ now }: { now: number }) {
     case "editRecord":
       return <EditRecord onBack={close} />;
     case "babySwitcher":
-      return <BabySwitcher onClose={close} />;
+      return <BabySwitcher now={now} onClose={close} />;
     case "nightWake":
       return <NightWakeSheet now={now} onCancel={close} onNightWake={app.logNightWake} onGetUp={app.getUp} />;
     case "lockScreen":

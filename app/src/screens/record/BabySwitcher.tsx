@@ -5,7 +5,7 @@ import { useApp } from "../../state/store";
  * C4 多宝宝切换 — popover from the baby name. Each baby has its own log,
  * prediction and memory. Naming a baby in chat routes directly, no switch needed.
  */
-export function BabySwitcher({ onClose }: { onClose: () => void }) {
+export function BabySwitcher({ now, onClose }: { now: number; onClose: () => void }) {
   const app = useApp();
   return (
     <div style={{ position: "absolute", inset: 0, zIndex: 65 }}>
@@ -42,9 +42,7 @@ export function BabySwitcher({ onClose }: { onClose: () => void }) {
                 </span>
                 <div style={{ flex: 1, lineHeight: 1.15 }}>
                   <div style={{ fontSize: 16, fontWeight: 800, color: day.ink }}>{b.name}</div>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: day.periwinkle }}>
-                    {b.id === "b1" ? "7 个月 · 已醒 1h 12m" : "2 岁 3 个月 · 正在睡 0h 20m"}
-                  </div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: day.periwinkle }}>{app.babyStatusLabel(b.id, now)}</div>
                 </div>
                 {selected && <span style={{ color: day.navy, fontWeight: 800 }}>✓</span>}
               </button>

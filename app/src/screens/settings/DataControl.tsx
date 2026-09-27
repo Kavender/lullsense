@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { day, font, radius } from "../../theme/tokens";
+import { useApp } from "../../state/store";
 import { Group, Label, Row, Switch } from "./Settings";
 
 /**
@@ -8,6 +9,7 @@ import { Group, Label, Row, Switch } from "./Settings";
  * server vs sent-to-model). Never says "整个 App 免费" or "零留存".
  */
 export function DataControl({ onBack }: { onBack: () => void }) {
+  const app = useApp();
   const [saveLog, setSaveLog] = useState(true);
   const [chatMemory, setChatMemory] = useState(true);
 
@@ -52,8 +54,8 @@ export function DataControl({ onBack }: { onBack: () => void }) {
 
       <Label>导出与删除</Label>
       <Group>
-        <Row left="导出小满的记录（JSON）" right={<span style={{ color: day.periwinkle }}>分享 ›</span>} />
-        <Row last left={<span style={{ color: day.destructive }}>删除小满的全部数据</span>} />
+        <Row left="导出小满的记录（JSON）" right={<span style={{ color: day.periwinkle }}>分享 ›</span>} onClick={() => app.notify("已导出小满的记录（JSON）")} />
+        <Row last left={<span style={{ color: day.destructive }}>删除小满的全部数据</span>} onClick={() => app.notify("请在下方确认删除范围")} />
       </Group>
 
       <div style={{ marginTop: 12, marginBottom: 22, background: day.ink, color: "#fff", borderRadius: 28, padding: "16px 20px", boxShadow: "0 14px 40px rgba(34,51,92,.35)" }}>
@@ -66,8 +68,8 @@ export function DataControl({ onBack }: { onBack: () => void }) {
           <br />iCloud 备份中的旧副本需你在 iOS 设置里另行处理。
         </div>
         <div style={{ marginTop: 12, display: "flex", gap: 10 }}>
-          <span style={{ flex: 1, height: 48, borderRadius: 24, background: "rgba(255,255,255,.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 800 }}>先导出</span>
-          <span style={{ flex: 1, height: 48, borderRadius: 24, background: day.destructiveSoft, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 800 }}>确认删除</span>
+          <button onClick={() => app.notify("已导出小满的记录（JSON）")} style={{ flex: 1, height: 48, borderRadius: 24, background: "rgba(255,255,255,.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 800, color: "#fff" }}>先导出</button>
+          <button onClick={() => app.notify("已删除小满的全部数据")} style={{ flex: 1, height: 48, borderRadius: 24, background: day.destructiveSoft, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 800, color: "#fff" }}>确认删除</button>
         </div>
       </div>
     </div>

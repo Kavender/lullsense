@@ -64,7 +64,7 @@ function ChatDay() {
             </button>
           </div>
         </div>
-        <button style={{ fontSize: 13, fontWeight: 800, color: day.periwinkle }}>新对话</button>
+        <button onClick={app.newChat} style={{ fontSize: 13, fontWeight: 800, color: day.periwinkle }}>新对话</button>
       </div>
 
       {/* Plan strip */}
@@ -87,7 +87,7 @@ function ChatDay() {
           <br />
           <span>第一觉提前到 8:45，看早醒是否缓解</span>
         </div>
-        <div style={{ color: day.navy, whiteSpace: "nowrap" }}>复盘 ›</div>
+        <button onClick={() => app.openOverlay("review")} style={{ color: day.navy, whiteSpace: "nowrap", fontWeight: 700 }}>复盘 ›</button>
       </div>
 
       {/* Messages */}
@@ -142,6 +142,7 @@ function ChatDay() {
 }
 
 function Bubble({ message }: { message: ChatMessage }) {
+  const app = useApp();
   if (message.role === "user") {
     return (
       <div
@@ -191,12 +192,12 @@ function Bubble({ message }: { message: ChatMessage }) {
         </div>
         <div style={{ marginTop: 6, color: day.periwinkle, fontSize: 14 }}>{message.logged.detail}</div>
         <div style={{ marginTop: 10, display: "flex", gap: 8 }}>
-          <span style={{ padding: "8px 16px", borderRadius: 16, background: day.periTintStrong, fontSize: 13, fontWeight: 800, color: day.navy }}>
+          <button onClick={() => app.openOverlay("editRecord")} style={{ padding: "8px 16px", borderRadius: 16, background: day.periTintStrong, fontSize: 13, fontWeight: 800, color: day.navy }}>
             改一下
-          </span>
-          <span style={{ padding: "8px 16px", borderRadius: 16, background: "#F1F1F1", fontSize: 13, fontWeight: 800, color: day.periwinkle }}>
+          </button>
+          <button onClick={() => app.removeMessage(message.id)} style={{ padding: "8px 16px", borderRadius: 16, background: "#F1F1F1", fontSize: 13, fontWeight: 800, color: day.periwinkle }}>
             撤销
-          </span>
+          </button>
         </div>
       </div>
     );
