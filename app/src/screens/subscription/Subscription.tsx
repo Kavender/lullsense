@@ -2,9 +2,18 @@ import { day, font, radius, shadow } from "../../theme/tokens";
 import { Mascot } from "../../components/Mascot";
 
 /**
+ * PLACEHOLDER PRICE — not the real price, which is undecided. The beta (内测)
+ * build is FREE and must NOT show this gate or any concrete price; F1 is a
+ * post-public-launch (公开上架后) screen only. Gate it behind a post-launch flag
+ * before shipping, and keep §6 wording ("整个 App 免费" / "零留存" are banned).
+ */
+const PLACEHOLDER_PRICE = "$3.99";
+
+/**
  * F1 深度咨询 gate — appears inline in chat when the weekly free consult quota is
  * used and the request needs full history. Logging / prediction / reminders and
  * unlimited safety guidance stay free forever. Never says "整个 App 免费".
+ * Post-public-launch only; excluded from the beta build (see PLACEHOLDER_PRICE).
  */
 export function Subscription({ onClose }: { onClose: () => void }) {
   return (
@@ -31,8 +40,10 @@ export function Subscription({ onClose }: { onClose: () => void }) {
 
       <div style={{ marginTop: 16, background: "#fff", borderRadius: radius.pageCard, padding: 22, boxShadow: shadow.card }}>
         <div style={{ fontSize: 12, fontWeight: 800, color: day.goldText, letterSpacing: ".08em" }}>深度咨询</div>
+        {/* Placeholder price — hidden in the beta build; see PLACEHOLDER_PRICE. */}
         <div style={{ marginTop: 4, fontSize: 34, fontWeight: 800, letterSpacing: "-.02em" }}>
-          $3.99<span style={{ fontSize: 15, color: day.periwinkle, fontWeight: 700 }}> / 月</span>
+          {PLACEHOLDER_PRICE}
+          <span style={{ fontSize: 15, color: day.periwinkle, fontWeight: 700 }}> / 月</span>
         </div>
         <div style={{ marginTop: 10, fontSize: 14, fontWeight: 600, color: "#4A5570", lineHeight: 1.6 }}>
           · 结合完整历史的分析与复盘
