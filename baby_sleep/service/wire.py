@@ -16,8 +16,6 @@ from pydantic import (
     model_validator,
 )
 
-SCHEMA_VERSION = 1
-
 
 def _aware(v: object) -> datetime:
     if not isinstance(v, str):

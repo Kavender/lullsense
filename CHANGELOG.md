@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+Package version **0.3.0** (new module + additive contract fields).
+
+### Added
+
+- **Stateless analysis service: `python -m baby_sleep.service` (CAM-12).** One JSON
+  request on stdin (schema version 1: `op` analyze / detect / review, `asOf`, the child's
+  corrected age in months, up to 400 app records with tz-aware times and their IANA `tz`),
+  one JSON document on stdout, exit 0 on a response and 1 on an error document. Nothing is
+  stored, logged or written to disk, and stderr stays empty; error documents carry only
+  field paths, never input values. The response reports `serviceVersion` so a caller can
+  gate on major.minor. See the README section "Stateless analysis service".
+- **Structured fixes.** `normalize(..., fixes=[...])` collects a `Fix` per sanity drop,
+  forgot-to-stop repair and overlap repair, keyed by the app's record id; the service
+  returns them as `fixes[]` so the app can point the parent at the record to edit. The
+  parent's raw record is never changed.
+- `SleepSession.record_id` and `SleepSession.tz` (optional, default `None`; adapters leave
+  them unset).
+
+### Fixed
+
+- DST-safe elapsed time, ordering, overlap resolution and put-down shift for tz-aware logs
+  (IANA zones): durations are real elapsed minutes across a DST change, and a repaired
+  end / trimmed start carries the record's own offset at that instant.
+- A forgot-to-stop repair on a tz-aware log no longer raises `TypeError` (naive repaired
+  end compared with an aware start).
+
 ## [0.2.0] — 2026-09-18
 
 Second alpha. The headline is a latency-focused skill refactor that cuts

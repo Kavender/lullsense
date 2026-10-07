@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from baby_sleep.contract.enums import DataQuality, SleepType, StartMarker
@@ -201,8 +201,9 @@ def test_normalize_repairs_forgot_to_stop_night_with_aware_datetimes():
     ])
     out, warnings = normalize(log)
     repaired = out.sessions[3]
-    assert repaired.end.value == datetime(2026, 11, 1, 6, 15, tzinfo=NY)
-    assert repaired.end.value.tzinfo is not None
+    assert repaired.end.value == datetime(2026, 11, 1, 6, 15, tzinfo=NY)   # same instant ...
+    assert repaired.end.value.isoformat() == "2026-11-01T06:15:00-05:00"    # ... and offset
+    assert repaired.end.value.utcoffset() == timedelta(hours=-5)            # EST, not EDT
     assert repaired.duration_minutes == 735                       # 11h15 wall + 1h DST
     assert repaired.data_quality is DataQuality.INFERRED
     assert any("forgot-to-stop" in w.lower() for w in warnings)
@@ -263,6 +264,19 @@ def test_normalize_shifts_put_down_to_asleep_when_convention_given():
     assert s.duration_minutes == 15                          # real sleep, not 35
     assert s.start_marks is StartMarker.ASLEEP
     assert s.onset_latency_minutes == 20                     # SOL retained, never discarded
+
+
+def test_put_down_shift_uses_real_time_across_dst_fall_back():
+    # put down 01:50 EDT (05:50Z), 20 min to fall asleep -> 01:10 EST (06:10Z); woke
+    # 06:00 EST (11:00Z). Wall-clock arithmetic would say asleep 02:10 and 230 minutes.
+    log = SleepLog(sessions=[SleepSession(
+        start=ApproxTime(value=datetime(2026, 11, 1, 1, 50, tzinfo=NY)),
+        end=ApproxTime(value=datetime(2026, 11, 1, 6, 0, tzinfo=NY)),
+        sleep_type=SleepType.NIGHT, onset_latency_minutes=20)])
+    out, _ = normalize(log, start_convention=StartMarker.PUT_DOWN)
+    s = out.sessions[0]
+    assert s.start.value.isoformat() == "2026-11-01T01:10:00-05:00"
+    assert s.duration_minutes == 290
 
 
 def test_normalize_flags_put_down_without_onset():

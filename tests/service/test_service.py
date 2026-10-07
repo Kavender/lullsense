@@ -45,9 +45,9 @@ def _request(nights: int = 10, op: str = "review", age: int | None = 9) -> dict:
     }
 
 
-def _main(payload: str, cwd=None, env=None) -> subprocess.CompletedProcess:
+def _main(payload: str, cwd=None, env=None, flags=()) -> subprocess.CompletedProcess:
     return subprocess.run(
-        [sys.executable, "-I", "-B", "-X", "utf8", "-m", "baby_sleep.service"],
+        [sys.executable, "-I", "-B", "-X", "utf8", *flags, "-m", "baby_sleep.service"],
         input=payload, capture_output=True, text=True, check=False, cwd=cwd, env=env)
 
 
@@ -176,6 +176,24 @@ def test_main_success_exit_zero_and_quiet():
     assert json.loads(proc.stdout)["status"] == "computed"
 
 
+def test_package_import_is_light_so_mains_guard_covers_heavy_imports():
+    # `python -m baby_sleep.service` imports the package before __main__ runs; anything
+    # it imports at module scope escapes __main__'s warnings filter and error mapping.
+    code = ("import sys, baby_sleep.service; "
+            "print(sorted(m for m in sys.modules if m.split('.')[0] in "
+            "('pydantic', 'pydantic_core') or m.startswith('baby_sleep.') "
+            "and m != 'baby_sleep.service'))")
+    proc = subprocess.run([sys.executable, "-I", "-c", code],
+                          capture_output=True, text=True, check=True)
+    assert proc.stdout.strip() == "[]"
+
+
+def test_main_stays_quiet_when_warnings_are_errors():
+    proc = _main(json.dumps(_request()), flags=("-W", "error"))
+    assert proc.returncode == 0 and proc.stderr == ""
+    assert json.loads(proc.stdout)["status"] == "computed"
+
+
 @pytest.mark.parametrize("payload, error", [
     ("{not json " + SENTINEL, "invalid_request"),
     ("", "invalid_request"),
@@ -189,12 +207,12 @@ def test_main_handled_errors_exit_one_and_quiet(payload, error):
 
 
 def test_internal_error_maps_to_type_only(monkeypatch):
-    import baby_sleep.service as svc
+    from baby_sleep.service import api
 
     def boom(*_a, **_k):
         raise RuntimeError(SENTINEL)
-    monkeypatch.setattr(svc, "build_feature_series", boom)
-    out = svc.run(_request())
+    monkeypatch.setattr(api, "build_feature_series", boom)
+    out = run(_request())
     assert out == {"schemaVersion": 1, "error": "internal", "type": "RuntimeError"}
 
 
@@ -251,3 +269,11 @@ def test_service_version_is_installed_package_version():
     version = run(_request(nights=1))["serviceVersion"]
     assert version == importlib.metadata.version("lullsense")
     assert version.startswith("0.3.")
+
+
+def test_empty_records_report_null_first_and_last_day():
+    req = _request(nights=1)
+    req["records"] = []
+    used = run(req)["used"]
+    assert used == {"recordsReceived": 0, "sessionsAnalyzed": 0, "days": 0,
+                    "firstDay": None, "lastDay": None}

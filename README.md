@@ -222,6 +222,36 @@ cd lullsense
 pip install .
 ```
 
+#### Stateless analysis service
+
+The LullSense app's server calls the engine as a one-shot subprocess (since 0.3.0):
+
+```bash
+python -I -B -X utf8 -m baby_sleep.service < request.json > response.json
+```
+
+- **Contract.** One JSON request on stdin, one JSON document on stdout, then the process
+  exits. Exit `0` with a response, exit `1` with an error document
+  (`{"schemaVersion": 1, "error": "invalid_request" | "unsupported_schema" | "internal", ...}`;
+  `invalid_request` lists field paths only, `internal` only the exception class name).
+- **Request** (schema version 1): `op` (`analyze` | `detect` | `review`), `asOf`,
+  `requestedWindowDays` (null or 1–28), `child.ageMonths` (null or 0–72), and up to 400
+  `records` with `id`, `kind` (`nap` | `night_sleep`), IANA `tz`, `start` / `end` as ISO 8601
+  **with an offset**, `startPrecision` / `endPrecision`, and `wakings`. Unknown keys are
+  rejected.
+- **Response:** `schemaVersion`, `serviceVersion` (the installed package version; callers
+  gate on major.minor), `status`, `reason`, `used`, `summary`, `baseline`, `signals`
+  (detect / review), `review` (review), `fixes`, `warnings`.
+  `used = { recordsReceived, sessionsAnalyzed, days, firstDay, lastDay }`;
+  **`firstDay` and `lastDay` are `null`** when no day could be built (e.g. `records: []`).
+  Each `fixes[]` entry names the app record (`recordId`), the `action`
+  (`truncate_end` | `drop` | `trim_start`), the `reason`, the `original` bounds as sent and
+  the `derived` bounds (null for a drop) in the record's own offset; the raw record is never
+  changed.
+- **Stateless.** Nothing in a request outlives the call: no file writes, no store, no
+  network, no logging, and stderr stays empty, also for handled errors. Run it with an
+  empty environment; it needs only the installed package.
+
 > **Status: public alpha.** Core flows are implemented and covered by CI / evals. Safety content is grounded in authoritative sources and checked for provenance, but has **not yet completed independent pediatric-sleep / clinical review**. Source validation is not the same as clinical review; independent review remains an important step before a stable release.
 
 ---

@@ -310,9 +310,9 @@ def normalize(
         onset = s.onset_latency_minutes
         if marks is StartMarker.PUT_DOWN and onset is not None:
             put_down_at = s.start.model_copy()             # preserve original anchor's precision/raw
-            start = start + timedelta(minutes=onset)       # canonical start = asleep
+            start = _add_minutes(start, onset)             # canonical start = asleep
             if end is not None:
-                duration = int((end - start).total_seconds() // 60)
+                duration = _elapsed_minutes(start, end)
             elif duration is not None:
                 duration = duration - onset
             marks = StartMarker.ASLEEP
