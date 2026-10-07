@@ -64,13 +64,15 @@ def _split(s: SleepSession, wakings: list[Waking]) -> list[SleepSession]:
             count += 1
             if not _before(back, seg_end.value):
                 tail = False                               # covers the rest: awake
-            elif _before(seg_start.value, back):
+                break                                      # record ends here
+            if _before(seg_start.value, back):
                 seg_start = ApproxTime(value=back)
         elif not _before(back, end):                       # straddles end
             count += 1
             if not _before(seg_start.value, woke):
                 tail = False                               # covers the rest: awake
-            elif _before(woke, seg_end.value):
+                break                                      # record ends here
+            if _before(woke, seg_end.value):
                 seg_end = ApproxTime(value=woke)
         elif (_before(seg_start.value, woke) and _before(woke, back)
               and _before(back, seg_end.value)):
@@ -80,6 +82,8 @@ def _split(s: SleepSession, wakings: list[Waking]) -> list[SleepSession]:
             count += 1                                     # overlapping: counted, uncut
     if tail:
         segs.append((seg_start, seg_end))
+    elif segs:
+        count += 1      # the last cut's gap lost its following segment: count it explicitly
     return [s.model_copy(update={
         "start": a, "end": b,
         "duration_minutes": _elapsed_minutes(a.value, b.value),

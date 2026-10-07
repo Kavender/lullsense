@@ -320,6 +320,30 @@ def test_waking_covering_the_post_fix_span_drops_the_record():
     assert _log([c]).sessions == []
 
 
+def test_covering_waking_ends_the_record_before_later_cuts():
+    # 18:00 -> 08:00 covers the whole 19:00 -> 07:00 night; the later interior 22:00 ->
+    # 23:00 waking must not resurrect a 19:00 -> 22:00 segment.
+    d = date(2026, 10, 7)
+    eve = d - timedelta(1)
+    n = _rec("n", "night_sleep", _at(eve, 19, 0), _at(d, 7, 0), wakings=[
+        _wk(_at(eve, 18, 0), _at(d, 8, 0)), _wk(_at(eve, 22, 0), _at(eve, 23, 0))])
+    assert _log([n]).sessions == []
+
+
+def test_cut_then_covered_tail_keeps_both_wakings():
+    # 22:00 -> 23:00 cuts the night; 22:30 -> 08:00 then covers the rest: one segment
+    # 19:00 -> 22:00, and both wakings are still counted.
+    d = date(2026, 10, 7)
+    eve = d - timedelta(1)
+    n = _rec("n", "night_sleep", _at(eve, 19, 0), _at(d, 7, 0), wakings=[
+        _wk(_at(eve, 22, 0), _at(eve, 23, 0)), _wk(_at(eve, 22, 30), _at(d, 8, 0))])
+    log = _log([n])
+    assert [(s.start.value.strftime("%H:%M"), s.end.value.strftime("%H:%M"))
+            for s in log.sessions] == [("19:00", "22:00")]
+    assert log.sessions[0].night_wakings == 2
+    assert _day(build_feature_series(log), d).night_waking_count == 2
+
+
 def test_every_emitted_segment_has_positive_duration():
     from .test_fixes import _golden_request
     req = _golden_request()
