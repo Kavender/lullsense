@@ -12,6 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))  # make baby_sle
 
 from baby_sleep.analyze.baseline import build_baseline
 from baby_sleep.analyze.features import build_feature_series
+from baby_sleep.analyze.summary import summarize
 from baby_sleep.contract.enums import StartMarker
 from baby_sleep.contract.models import Child, age_months_from_dob
 from baby_sleep.detect import DetectorInput, run_detectors
@@ -39,13 +40,6 @@ def _load_log(fmt: str, text: str, reference_date: str | None):
             warnings,
         )
     raise SystemExit(f"unknown --format: {fmt}")
-
-
-def _hhmm(minutes):
-    if minutes is None:
-        return None
-    m = round(minutes)
-    return f"{m // 60:02d}:{m % 60:02d}"
 
 
 def _hhmm_to_min(s: str) -> int:
@@ -142,16 +136,6 @@ def main(argv=None) -> int:
     baseline = build_baseline(series, child)
     signals = run_detectors(DetectorInput(series=series, baseline=baseline))
 
-    recent = (
-        series.days[-baseline.recent_window_days :]
-        if baseline.recent_window_days
-        else series.days
-    )
-
-    def _med(getter):
-        vals = sorted(v for v in (getter(d) for d in recent) if v is not None)
-        return vals[len(vals) // 2] if vals else None
-
     out = {
         "child": {
             "age_months": child.age_months,
@@ -162,25 +146,7 @@ def main(argv=None) -> int:
         "baseline": baseline.model_dump(mode="json"),
         "signals": [s.model_dump(mode="json") for s in signals],
         "warnings": parse_warnings + norm_warnings,
-        "summary": {
-            "rise_time": _hhmm(
-                _med(
-                    lambda d: d.rise_time.hour * 60 + d.rise_time.minute
-                    if d.rise_time
-                    else None
-                )
-            ),
-            "sleep_onset_time": _hhmm(
-                _med(
-                    lambda d: d.sleep_onset_time.hour * 60 + d.sleep_onset_time.minute
-                    if d.sleep_onset_time
-                    else None
-                )
-            ),
-            "night_sleep_duration_min": _med(lambda d: d.night_sleep_duration_min),
-            "total_24h_sleep_min": _med(lambda d: d.total_24h_sleep_min),
-            "nap_count": _med(lambda d: float(d.nap_count)),
-        },
+        "summary": summarize(series, baseline),
     }
     if args.review:
         review = build_review_summary(
