@@ -33,6 +33,11 @@ def _add_minutes(start: datetime, minutes: int) -> datetime:
     return (start.astimezone(UTC) + timedelta(minutes=minutes)).astimezone(start.tzinfo)
 
 
+def _instant(dt: datetime) -> datetime:
+    """Sort/max key that orders aware datetimes by real time (see ``_before``)."""
+    return dt.astimezone(UTC) if dt.tzinfo is not None else dt
+
+
 def _before(a: datetime, b: datetime) -> bool:
     """``a`` strictly before ``b`` in real time. Aware datetimes sharing a tzinfo compare by
     wall clock in Python (fold is ignored), which misorders the repeated DST fall-back hour."""
@@ -161,7 +166,7 @@ def _resolve_overlaps(
     """
     if not sessions:
         return sessions, []
-    order = sorted(range(len(sessions)), key=lambda i: sessions[i].start.value)
+    order = sorted(range(len(sessions)), key=lambda i: _instant(sessions[i].start.value))
     actions: dict[int, tuple[str, datetime | None]] = {}
     warnings: list[str] = []
     fixed = 0
@@ -170,8 +175,8 @@ def _resolve_overlaps(
         s = sessions[i]
         s_start = s.start.value
         s_end = s.end.value if s.end is not None else None
-        if frontier_end is not None and s_start < frontier_end:
-            if s_end is not None and s_end <= frontier_end:
+        if frontier_end is not None and _before(s_start, frontier_end):
+            if s_end is not None and not _before(frontier_end, s_end):
                 actions[i] = ("drop", None)
                 warnings.append(
                     f"dropped overlapping session {s_start.isoformat()}–{s_end.isoformat()} "
@@ -184,9 +189,9 @@ def _resolve_overlaps(
                 f"{frontier_end.isoformat()} (overlaps an earlier session)")
             fixed += 1
             if s_end is not None:
-                frontier_end = max(frontier_end, s_end)
+                frontier_end = max(frontier_end, s_end, key=_instant)
         elif s_end is not None:
-            frontier_end = s_end if frontier_end is None else max(frontier_end, s_end)
+            frontier_end = s_end if frontier_end is None else max(frontier_end, s_end, key=_instant)
 
     kept: list[SleepSession] = []
     for i, s in enumerate(sessions):
@@ -199,7 +204,7 @@ def _resolve_overlaps(
             new_start = act[1]
             s_end = s.end.value if s.end is not None else None
             new_duration = (
-                int((s_end - new_start).total_seconds() // 60) if s_end is not None else None)
+                _elapsed_minutes(new_start, s_end) if s_end is not None else None)
             kept.append(s.model_copy(update={
                 "start": s.start.model_copy(update={"value": new_start}),
                 "duration_minutes": new_duration,

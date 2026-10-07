@@ -125,6 +125,40 @@ def test_normalize_trims_partial_overlap_and_marks_inferred():
     assert any("overlap" in w.lower() for w in warnings)
 
 
+
+def _ny(h, m, fold=0, day=1):
+    return ApproxTime(value=datetime(2026, 11, day, h, m, tzinfo=NY, fold=fold))
+
+
+def test_overlap_resolution_uses_real_time_in_fall_back_hour():
+    # P-overlap-dst. 2026-11-01 01:00-02:00 repeats in America/New_York (EDT fold=0, then
+    # EST fold=1). Same-tzinfo datetimes compare/subtract by wall clock, so every spot below
+    # was wrong before: B's end (01:15 EST) is 45 real minutes AFTER A's end (01:30 EDT).
+    a = SleepSession(start=_ny(0, 0), end=_ny(1, 30), sleep_type=SleepType.NIGHT)
+    b = SleepSession(start=_ny(1, 0), end=_ny(1, 15, fold=1), sleep_type=SleepType.NIGHT)
+    # C starts 01:00 EST (06:00Z), before B's real end (06:15Z): a partial overlap only if
+    # the frontier advanced to B's end in real time (max by wall clock would keep A's 05:30Z).
+    c = SleepSession(start=_ny(1, 0, fold=1), end=_ny(1, 45, fold=1), sleep_type=SleepType.NIGHT)
+    out, _ = normalize(SleepLog(sessions=[a, b, c]))
+    assert len(out.sessions) == 3                                    # B trimmed, not dropped
+    tb, tc = out.sessions[1], out.sessions[2]
+    assert tb.start.value == datetime(2026, 11, 1, 1, 30, tzinfo=NY)  # A's end, EDT
+    assert tb.duration_minutes == 45                                 # 05:30Z -> 06:15Z
+    assert tc.start.value.fold == 1 and tc.duration_minutes == 30    # trimmed to B's end
+    assert tb.data_quality is DataQuality.INFERRED
+
+
+def test_overlap_containment_uses_real_time_in_fall_back_hour():
+    # B (01:30 EDT -> 01:10 EST, 05:30Z-06:10Z) lies inside A (00:30 EDT -> 01:20 EST,
+    # 04:30Z-06:20Z); by wall clock B's start 01:30 looks later than A's end 01:20.
+    a = SleepSession(start=_ny(0, 30), end=_ny(1, 20, fold=1), sleep_type=SleepType.NIGHT)
+    b = SleepSession(start=_ny(1, 30), end=_ny(1, 10, fold=1), sleep_type=SleepType.NIGHT)
+    out, warnings = normalize(SleepLog(sessions=[a, b]))
+    assert len(out.sessions) == 1
+    assert out.sessions[0].start.value == a.start.value
+    assert any("contained" in w for w in warnings)
+
+
 def _night(d1, h1, m1, d2, h2, m2):
     return SleepSession(
         start=ApproxTime(value=datetime(2026, 8, d1, h1, m1)),
