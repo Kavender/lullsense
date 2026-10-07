@@ -11,12 +11,10 @@ from pydantic import ValidationError
 from baby_sleep.analyze.baseline import build_baseline
 from baby_sleep.analyze.features import build_feature_series
 from baby_sleep.analyze.summary import summarize
-from baby_sleep.contract.enums import StartMarker
 from baby_sleep.detect import DetectorInput, run_detectors
-from baby_sleep.ingest.normalize import normalize
 from baby_sleep.review import build_review_summary
 
-from .build import to_sleep_log
+from .build import build_log
 from .wire import SCHEMA_VERSION, AnalysisRequest
 
 __all__ = ["SCHEMA_VERSION", "run"]
@@ -36,7 +34,7 @@ def _loc(err: dict) -> str:
 
 
 def _compute(req: AnalysisRequest) -> dict:
-    log, warnings = normalize(to_sleep_log(req), start_convention=StartMarker.ASLEEP)
+    log, warnings = build_log(req)
     series = build_feature_series(log)
     baseline = build_baseline(series, log.child)
     days = series.days

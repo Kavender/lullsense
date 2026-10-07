@@ -3,7 +3,8 @@ resolve midnight crossings, reconcile durations, classify nap vs night,
 and drop impossible rows (D15 sanity pre-filter)."""
 from __future__ import annotations
 
-from datetime import UTC, datetime, time, timedelta
+from datetime import UTC, datetime, time, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 from baby_sleep.contract.enums import DataQuality, SleepType, StartMarker
 from baby_sleep.contract.models import SleepLog, SleepSession
@@ -44,6 +45,18 @@ def _before(a: datetime, b: datetime) -> bool:
     if a.tzinfo is not None and b.tzinfo is not None:
         return a.astimezone(UTC) < b.astimezone(UTC)
     return a < b
+
+
+def _in_own_zone(dt: datetime, s: SleepSession) -> datetime:
+    """A derived instant expressed in session ``s``'s own local time (CAM-12 §5.5): the
+    offset its IANA ``tz`` has at that instant, as a fixed offset (a wall time inside a
+    spring-forward gap resolves to a real instant). Without ``tz`` (adapters) the instant
+    is re-expressed in ``s.start``'s own tzinfo; naive values pass through."""
+    if s.tz is not None:
+        local = dt.astimezone(UTC).astimezone(ZoneInfo(s.tz))   # via UTC: normalises gaps
+        return local.astimezone(timezone(local.utcoffset()))
+    own = s.start.value.tzinfo
+    return dt.astimezone(own) if dt.tzinfo is not None and own is not None else dt
 
 
 def resolve_end(
@@ -138,10 +151,14 @@ def _repair_forgot_to_stop(
                 "(insufficient clean-night history to repair)")
             continue
         start = s.start.value
-        repaired_end = datetime.combine(
-            start.date(), time(median_wake // 60, median_wake % 60), tzinfo=start.tzinfo)
-        if repaired_end <= start:
-            repaired_end = repaired_end + timedelta(days=1)
+        wake = time(median_wake // 60, median_wake % 60)
+        zone = ZoneInfo(s.tz) if s.tz is not None else start.tzinfo
+        day = (start.astimezone(zone) if s.tz is not None else start).date()
+        repaired_end = datetime.combine(day, wake, tzinfo=zone)
+        if not _before(start, repaired_end):    # a new combine, never a timedelta on aware
+            repaired_end = datetime.combine(day + timedelta(days=1), wake, tzinfo=zone)
+        if s.tz is not None:
+            repaired_end = _in_own_zone(repaired_end, s)
         new_duration = _elapsed_minutes(start, repaired_end)
         warnings.append(
             f"repaired forgot-to-stop night: truncated end from {s.end.value.isoformat()} to "
@@ -201,7 +218,7 @@ def _resolve_overlaps(
         elif act[0] == "drop":
             continue
         else:  # trim
-            new_start = act[1]
+            new_start = _in_own_zone(act[1], s)   # never the earlier record's offset
             s_end = s.end.value if s.end is not None else None
             new_duration = (
                 _elapsed_minutes(new_start, s_end) if s_end is not None else None)

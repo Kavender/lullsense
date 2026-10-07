@@ -55,6 +55,8 @@ class SleepSession(BaseModel):
     data_quality: DataQuality = DataQuality.LOGGED
     source: str = ""
     notes: str | None = None
+    record_id: str | None = None      # app RecordId (analysis service); adapters leave None
+    tz: str | None = None             # the record's IANA zone; only for derived instants
 
 
 class ContextEvent(BaseModel):

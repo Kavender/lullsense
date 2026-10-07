@@ -16,7 +16,7 @@ def wake_day(dt: datetime) -> date:
     return dt.date() if dt.time() >= CUTOVER else dt.date() - timedelta(days=1)
 
 
-def _anchor_day(session) -> date:
+def _anchor_day(session, start: datetime | None = None) -> date:
     """A night is attributed to the morning it ends on; naps to the day they start.
 
     We key a night off its START clock position (not its end), so every segment of one
@@ -26,9 +26,11 @@ def _anchor_day(session) -> date:
     - a post-midnight start (< 03:00, e.g. a 01:10 resettle) -> that same calendar date's
       morning.
     This is robust to end=None and to evening wakings, which an end-based rule split apart.
-    Naps are attributed by start via wake_day()."""
+    Naps are attributed by start via wake_day(). ``start`` overrides the night's anchor:
+    segments split from one app record pass that record's first segment start, so a
+    04:30 resettle (>= cutover) stays on the record's wake-day."""
     if session.sleep_type is SleepType.NIGHT:
-        start = session.start.value
+        start = start or session.start.value
         return start.date() + timedelta(days=1) if start.time() >= CUTOVER else start.date()
     return wake_day(session.start.value)
 
@@ -41,8 +43,14 @@ def segment_days(log: SleepLog) -> list[SleepDay]:
             buckets[d] = SleepDay(day=d)
         return buckets[d]
 
+    # first segment start per split record (the service emits segments in order)
+    firsts: dict[str, datetime] = {}
     for s in log.sessions:
-        d = _anchor_day(s)
+        if s.sleep_type is SleepType.NIGHT and s.record_id is not None:
+            firsts.setdefault(s.record_id, s.start.value)
+
+    for s in log.sessions:
+        d = _anchor_day(s, firsts.get(s.record_id) if s.record_id is not None else None)
         day = bucket(d)
         if s.sleep_type is SleepType.NIGHT:
             day.night_segments.append(s)
