@@ -26,9 +26,11 @@ def _anchor_day(session) -> date:
     - a post-midnight start (< 03:00, e.g. a 01:10 resettle) -> that same calendar date's
       morning.
     This is robust to end=None and to evening wakings, which an end-based rule split apart.
-    Naps are attributed by start via wake_day()."""
+    Naps are attributed by start via wake_day(). Segments split from one app record
+    anchor on that record's post-fix start (``record_start``), so a 04:30 resettle or a
+    start clipped past the cutover by a waking stays on the record's wake-day."""
     if session.sleep_type is SleepType.NIGHT:
-        start = session.start.value
+        start = session.record_start or session.start.value
         return start.date() + timedelta(days=1) if start.time() >= CUTOVER else start.date()
     return wake_day(session.start.value)
 
@@ -42,8 +44,7 @@ def segment_days(log: SleepLog) -> list[SleepDay]:
         return buckets[d]
 
     for s in log.sessions:
-        d = _anchor_day(s)
-        day = bucket(d)
+        day = bucket(_anchor_day(s))
         if s.sleep_type is SleepType.NIGHT:
             day.night_segments.append(s)
         else:

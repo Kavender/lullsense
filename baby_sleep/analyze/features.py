@@ -37,7 +37,8 @@ def _night_features(day: SleepDay) -> dict:
             if a.end is not None and b.start is not None:
                 # clamp: overlapping/mis-ordered segments must never yield negative WASO
                 gaps.append(max(0, _minutes(a.end.value, b.start.value)))
-        out["night_waking_count"] = len(gaps)
+        # split segments carry the record's unresolved/uncut wakings on the first one
+        out["night_waking_count"] = len(gaps) + sum(s.night_wakings or 0 for s in segs)
         out["total_awake_overnight_min"] = sum(gaps) if gaps else None
         out["longest_night_waking_min"] = max(gaps) if gaps else None
     else:

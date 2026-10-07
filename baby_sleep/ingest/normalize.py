@@ -3,7 +3,12 @@ resolve midnight crossings, reconcile durations, classify nap vs night,
 and drop impossible rows (D15 sanity pre-filter)."""
 from __future__ import annotations
 
-from datetime import datetime, time, timedelta
+from collections.abc import Callable, Mapping
+from datetime import UTC, datetime, time, timedelta, timezone
+from typing import Annotated, Literal
+from zoneinfo import ZoneInfo
+
+from pydantic import BaseModel, ConfigDict, PlainSerializer
 
 from baby_sleep.contract.enums import DataQuality, SleepType, StartMarker
 from baby_sleep.contract.models import SleepLog, SleepSession
@@ -17,6 +22,73 @@ FORGOT_STOP_LATE_END = (9, 30)          # ...or one that ends after 09:30 local 
 FORGOT_STOP_LATE_END_MIN_HOURS = 11     # ... while still running past 11h
 MIN_CLEAN_NIGHTS_FOR_REPAIR = 3         # need this many clean nights to infer a morning wake
 
+IsoDatetime = Annotated[datetime, PlainSerializer(lambda d: d.isoformat())]   # offset as-is
+
+
+class Span(BaseModel):
+    model_config = ConfigDict(frozen=True)
+    start: IsoDatetime
+    end: IsoDatetime | None
+
+
+class Fix(BaseModel):
+    """One repair applied to a session, keyed by its ``record_id`` (CAM-12 §3.4; field
+    names are the wire's). ``original`` is the bounds as given to ``normalize`` (without a
+    ``record_id``: the bounds before this step); ``derived`` the bounds after this step,
+    ``None`` for a drop."""
+    model_config = ConfigDict(frozen=True)
+    recordId: str | None
+    action: Literal["truncate_end", "drop", "trim_start"]
+    reason: Literal["forgot_to_stop", "forgot_to_stop_no_history", "implausible_duration",
+                    "overlap_contained", "overlap_partial"]
+    original: Span
+    derived: Span | None
+    overlapsRecordId: str | None = None
+
+
+# (session, action, reason, derived (start, end) | None, overlapped session | None)
+FixNote = Callable[..., None]
+
+
+def _elapsed_minutes(start: datetime, end: datetime) -> int:
+    """Real elapsed minutes. Aware datetimes sharing a tzinfo subtract by wall clock in
+    Python, which is off by an hour across a DST transition, so compare in UTC."""
+    if start.tzinfo is not None and end.tzinfo is not None:
+        start, end = start.astimezone(UTC), end.astimezone(UTC)
+    return int((end - start).total_seconds() // 60)
+
+
+def _add_minutes(start: datetime, minutes: int) -> datetime:
+    """``start`` plus real elapsed minutes, expressed in ``start``'s own timezone."""
+    if start.tzinfo is None:
+        return start + timedelta(minutes=minutes)
+    return (start.astimezone(UTC) + timedelta(minutes=minutes)).astimezone(start.tzinfo)
+
+
+def _instant(dt: datetime) -> datetime:
+    """Sort/max key that orders aware datetimes by real time (see ``_before``)."""
+    return dt.astimezone(UTC) if dt.tzinfo is not None else dt
+
+
+def _before(a: datetime, b: datetime) -> bool:
+    """``a`` strictly before ``b`` in real time. Aware datetimes sharing a tzinfo compare by
+    wall clock in Python (fold is ignored), which misorders the repeated DST fall-back hour."""
+    if a.tzinfo is not None and b.tzinfo is not None:
+        return a.astimezone(UTC) < b.astimezone(UTC)
+    return a < b
+
+
+def _in_own_zone(dt: datetime, s: SleepSession) -> datetime:
+    """A derived instant expressed in session ``s``'s own local time (CAM-12 §5.5): the
+    offset its IANA ``tz`` has at that instant, as a fixed offset (a wall time inside a
+    spring-forward gap resolves to a real instant). Without ``tz`` (adapters) the instant
+    is re-expressed in ``s.start``'s own tzinfo; naive values pass through."""
+    if s.tz is not None:
+        local = dt.astimezone(UTC).astimezone(ZoneInfo(s.tz))   # via UTC: normalises gaps
+        return local.astimezone(timezone(local.utcoffset()))
+    own = s.start.value.tzinfo
+    return dt.astimezone(own) if dt.tzinfo is not None and own is not None else dt
+
 
 def resolve_end(
     start: datetime, end: datetime | None, duration_minutes: int | None
@@ -24,12 +96,12 @@ def resolve_end(
     """Return a consistent (end, duration_minutes). If end is time-only and lands
     before start, roll it to the next day. If only duration is known, compute end;
     if only end is known, compute duration."""
-    if end is not None and end < start:
+    if end is not None and _before(end, start):
         end = end + timedelta(days=1)
     if end is None and duration_minutes is not None:
-        end = start + timedelta(minutes=duration_minutes)
+        end = _add_minutes(start, duration_minutes)
     if duration_minutes is None and end is not None:
-        duration_minutes = int((end - start).total_seconds() // 60)
+        duration_minutes = _elapsed_minutes(start, end)
     return end, duration_minutes
 
 
@@ -38,7 +110,7 @@ def is_sane(start: datetime, end: datetime | None, duration_minutes: int | None)
     measure), non-positive or >20h duration, or end before start."""
     if end is None and duration_minutes is None:
         return False
-    if end is not None and end < start:
+    if end is not None and _before(end, start):
         return False
     return duration_minutes is None or (0 < duration_minutes <= MAX_SANE_MINUTES)
 
@@ -68,27 +140,32 @@ def _effective_marks(marks: StartMarker, convention: StartMarker | None) -> Star
     return convention or StartMarker.UNKNOWN
 
 
-def _is_forgot_to_stop(s: SleepSession) -> bool:
-    """A night whose duration betrays a timer left running past the real morning wake."""
+def _is_forgot_to_stop(s: SleepSession, awake: int = 0) -> bool:
+    """A night whose ASLEEP minutes (duration minus ``awake`` in-bed waking minutes)
+    betray a timer left running past the real morning wake."""
     if s.sleep_type is not SleepType.NIGHT or s.duration_minutes is None:
         return False
-    if s.duration_minutes > FORGOT_STOP_NIGHT_HOURS * 60:
+    asleep = s.duration_minutes - awake
+    if asleep > FORGOT_STOP_NIGHT_HOURS * 60:
         return True
     end = s.end.value if s.end is not None else None
     if end is not None and (end.hour, end.minute) > FORGOT_STOP_LATE_END:
-        return s.duration_minutes > FORGOT_STOP_LATE_END_MIN_HOURS * 60
+        return asleep > FORGOT_STOP_LATE_END_MIN_HOURS * 60
     return False
 
 
 def _repair_forgot_to_stop(
-    sessions: list[SleepSession],
+    sessions: list[SleepSession], note: FixNote | None = None,
+    awake_minutes: Mapping[str, int] | None = None,
 ) -> tuple[list[SleepSession], list[str]]:
     """Repair forgot-to-stop nights (D15). Truncate a left-running night's end to the
     child's typical morning wake — the median end-of-day across the *clean* nights in the
     same log — when at least ``MIN_CLEAN_NIGHTS_FOR_REPAIR`` clean nights exist; mark the
     repaired end ``INFERRED`` and warn. With too little clean history to infer a wake time,
     reset: drop the bad night with a warning rather than keep or guess at it."""
-    flagged = {i for i, s in enumerate(sessions) if _is_forgot_to_stop(s)}
+    awake = awake_minutes or {}
+    flagged = {i for i, s in enumerate(sessions)
+               if _is_forgot_to_stop(s, awake.get(s.record_id, 0))}
     if not flagged:
         return sessions, []
     clean_wakes = sorted(
@@ -108,15 +185,24 @@ def _repair_forgot_to_stop(
             warnings.append(
                 f"dropped forgot-to-stop night starting {s.start.value.isoformat()} "
                 "(insufficient clean-night history to repair)")
+            if note:
+                note(s, "drop", "forgot_to_stop_no_history")
             continue
         start = s.start.value
-        repaired_end = datetime.combine(start.date(), time(median_wake // 60, median_wake % 60))
-        if repaired_end <= start:
-            repaired_end = repaired_end + timedelta(days=1)
-        new_duration = int((repaired_end - start).total_seconds() // 60)
+        wake = time(median_wake // 60, median_wake % 60)
+        zone = ZoneInfo(s.tz) if s.tz is not None else start.tzinfo
+        day = (start.astimezone(zone) if s.tz is not None else start).date()
+        repaired_end = datetime.combine(day, wake, tzinfo=zone)
+        if not _before(start, repaired_end):    # a new combine, never a timedelta on aware
+            repaired_end = datetime.combine(day + timedelta(days=1), wake, tzinfo=zone)
+        if s.tz is not None:
+            repaired_end = _in_own_zone(repaired_end, s)
+        new_duration = _elapsed_minutes(start, repaired_end)
         warnings.append(
             f"repaired forgot-to-stop night: truncated end from {s.end.value.isoformat()} to "
             f"{repaired_end.isoformat()} (inferred from typical morning wake)")
+        if note:
+            note(s, "truncate_end", "forgot_to_stop", (start, repaired_end))
         out.append(s.model_copy(update={
             "end": s.end.model_copy(update={"value": repaired_end}),
             "duration_minutes": new_duration,
@@ -126,7 +212,7 @@ def _repair_forgot_to_stop(
 
 
 def _resolve_overlaps(
-    sessions: list[SleepSession],
+    sessions: list[SleepSession], note: FixNote | None = None,
 ) -> tuple[list[SleepSession], list[str]]:
     """Detect and repair overlapping sessions (D15), preserving original order.
 
@@ -137,32 +223,36 @@ def _resolve_overlaps(
     """
     if not sessions:
         return sessions, []
-    order = sorted(range(len(sessions)), key=lambda i: sessions[i].start.value)
+    order = sorted(range(len(sessions)), key=lambda i: _instant(sessions[i].start.value))
     actions: dict[int, tuple[str, datetime | None]] = {}
     warnings: list[str] = []
     fixed = 0
     frontier_end: datetime | None = None
+    owner: SleepSession | None = None           # the session whose end is frontier_end
     for i in order:
         s = sessions[i]
         s_start = s.start.value
         s_end = s.end.value if s.end is not None else None
-        if frontier_end is not None and s_start < frontier_end:
-            if s_end is not None and s_end <= frontier_end:
+        if frontier_end is not None and _before(s_start, frontier_end):
+            if s_end is not None and not _before(frontier_end, s_end):
                 actions[i] = ("drop", None)
                 warnings.append(
                     f"dropped overlapping session {s_start.isoformat()}–{s_end.isoformat()} "
                     "contained within an earlier session")
+                if note:
+                    note(s, "drop", "overlap_contained", None, owner)
                 fixed += 1
                 continue
-            actions[i] = ("trim", frontier_end)
+            new_start = _in_own_zone(frontier_end, s)   # never the earlier record's offset
+            actions[i] = ("trim", new_start)
             warnings.append(
                 f"trimmed overlapping session start from {s_start.isoformat()} to "
                 f"{frontier_end.isoformat()} (overlaps an earlier session)")
+            if note:
+                note(s, "trim_start", "overlap_partial", (new_start, s_end), owner)
             fixed += 1
-            if s_end is not None:
-                frontier_end = max(frontier_end, s_end)
-        elif s_end is not None:
-            frontier_end = s_end if frontier_end is None else max(frontier_end, s_end)
+        if s_end is not None and (frontier_end is None or _before(frontier_end, s_end)):
+            frontier_end, owner = s_end, s
 
     kept: list[SleepSession] = []
     for i, s in enumerate(sessions):
@@ -175,7 +265,7 @@ def _resolve_overlaps(
             new_start = act[1]
             s_end = s.end.value if s.end is not None else None
             new_duration = (
-                int((s_end - new_start).total_seconds() // 60) if s_end is not None else None)
+                _elapsed_minutes(new_start, s_end) if s_end is not None else None)
             kept.append(s.model_copy(update={
                 "start": s.start.model_copy(update={"value": new_start}),
                 "duration_minutes": new_duration,
@@ -189,7 +279,8 @@ def _resolve_overlaps(
 
 
 def normalize(
-    log: SleepLog, start_convention: StartMarker | None = None
+    log: SleepLog, start_convention: StartMarker | None = None, fixes: list[Fix] | None = None,
+    awake_minutes: Mapping[str, int] | None = None,
 ) -> tuple[SleepLog, list[str]]:
     """Return a cleaned copy of the log plus human-readable warnings.
 
@@ -198,7 +289,23 @@ def normalize(
     asleep time (recording ``put_down_at`` and trimming duration); the SOL is kept
     in ``onset_latency_minutes`` and never discarded. PUT_DOWN without a known SOL
     is preserved and flagged uncertain. Impossible rows are dropped with a warning.
+
+    When ``fixes`` is a list, every sanity drop, forgot-to-stop repair and overlap repair
+    also appends a structured ``Fix`` to it (CAM-12 §3.4); the return value is unchanged.
+    ``awake_minutes`` (``record_id`` -> in-bed waking minutes) makes the forgot-to-stop
+    thresholds compare asleep time, not the whole record span.
     """
+    note: FixNote | None = None
+    if fixes is not None:
+        sent = {s.record_id: s for s in log.sessions if s.record_id is not None}
+
+        def note(s, action, reason, derived=None, other=None):
+            o = sent.get(s.record_id, s) if s.record_id is not None else s
+            fixes.append(Fix(
+                recordId=s.record_id, action=action, reason=reason,
+                original=Span(start=o.start.value, end=o.end.value if o.end else None),
+                derived=Span(start=derived[0], end=derived[1]) if derived else None,
+                overlapsRecordId=other.record_id if other is not None else None))
     kept: list[SleepSession] = []
     warnings: list[str] = []
     for s in log.sessions:
@@ -211,9 +318,9 @@ def normalize(
         onset = s.onset_latency_minutes
         if marks is StartMarker.PUT_DOWN and onset is not None:
             put_down_at = s.start.model_copy()             # preserve original anchor's precision/raw
-            start = start + timedelta(minutes=onset)       # canonical start = asleep
+            start = _add_minutes(start, onset)             # canonical start = asleep
             if end is not None:
-                duration = int((end - start).total_seconds() // 60)
+                duration = _elapsed_minutes(start, end)
             elif duration is not None:
                 duration = duration - onset
             marks = StartMarker.ASLEEP
@@ -228,6 +335,8 @@ def normalize(
             continue
         if not is_sane(start, end, duration):
             warnings.append(f"dropped impossible sleep session starting {s.start.value.isoformat()}")
+            if note:
+                note(s, "drop", "implausible_duration")
             continue
         crosses = end is not None and end.date() > start.date()
         sleep_type = s.sleep_type
@@ -246,8 +355,8 @@ def normalize(
         })
         kept.append(updated)
 
-    kept, forgot_warnings = _repair_forgot_to_stop(kept)
+    kept, forgot_warnings = _repair_forgot_to_stop(kept, note, awake_minutes)
     warnings.extend(forgot_warnings)
-    kept, overlap_warnings = _resolve_overlaps(kept)
+    kept, overlap_warnings = _resolve_overlaps(kept, note)
     warnings.extend(overlap_warnings)
     return log.model_copy(update={"sessions": kept}), warnings
