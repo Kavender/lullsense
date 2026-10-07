@@ -145,9 +145,11 @@ def test_normalize_output_unchanged_by_the_collector():
 # --- P-golden -------------------------------------------------------------------------
 
 def _golden_request() -> dict:
-    """28 Asia/Shanghai wake-days ending 2026-10-07: varied nights with resolved and
-    unresolved wakings, one or two naps a day, an early-waking last 5 days, plus a forgot-to-stop night, a contained
-    double-log, a partial overlap and a 21-hour row."""
+    """28 Asia/Shanghai nights waking 2026-09-10 .. 2026-10-07 (29 wake-days: each
+    night's naps fall on the previous day, so 2026-09-09 holds naps only): varied nights
+    with resolved and unresolved wakings, one or two naps a day, an early-waking last 5
+    days, plus a forgot-to-stop night, a contained double-log, a partial overlap and a
+    21-hour row."""
     recs = []
     last = date(2026, 10, 7)
     for k in range(28):
@@ -182,3 +184,20 @@ def test_golden_28_day_review_response():
     if os.environ.get("UPDATE_GOLDEN"):
         path.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n")
     assert out == json.loads(path.read_text())
+
+
+def test_golden_hand_checked_split_night():
+    # independent of the fixture: n01 wakes 2026-09-11, 19:22 -> 06:21 (659 min) with a
+    # resolved 01:11 -> 01:36 waking: two segments, 634 min asleep, one waking.
+    from baby_sleep.analyze.features import build_feature_series
+    from baby_sleep.service.build import build_log
+    from baby_sleep.service.wire import AnalysisRequest
+
+    log = build_log(AnalysisRequest.model_validate(_golden_request()))[0]
+    segs = [s for s in log.sessions if s.record_id == "n01"]
+    assert [(s.start.value.strftime("%H:%M"), s.end.value.strftime("%H:%M")) for s in segs] \
+        == [("19:22", "01:11"), ("01:36", "06:21")]
+    f = next(d for d in build_feature_series(log).days if d.day == date(2026, 9, 11))
+    assert f.night_waking_count == 1 and f.night_sleep_duration_min == 634
+    out = run(_golden_request())
+    assert out["used"]["days"] == 29 and out["used"]["firstDay"] == "2026-09-09"

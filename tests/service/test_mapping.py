@@ -293,3 +293,76 @@ def test_trim_same_zone_fall_back_uses_offset_at_the_instant():
     tb = out.sessions[1]
     assert tb.start.value.isoformat() == "2026-11-01T02:30:00-04:00"
     assert tb.duration_minutes == 90
+
+
+# --- final-review fixes ---------------------------------------------------------------
+
+def _assert_positive_segments(log):
+    for s in log.sessions:
+        assert s.duration_minutes > 0, (s.record_id, s.start.value, s.end.value)
+
+
+def test_waking_covering_the_post_fix_span_drops_the_record():
+    # B 19:00 -> 07:00 is trimmed by A (18:00 -> 06:00) to 06:00 -> 07:00; the 05:00 ->
+    # 07:30 waking covers it all: awake the whole record -> no segment, nothing counted.
+    d = date(2026, 10, 7)
+    eve = d - timedelta(1)
+    a = _rec("a", "night_sleep", _at(eve, 18, 0), _at(d, 6, 0))
+    b = _rec("b", "night_sleep", _at(eve, 19, 0), _at(d, 7, 0),
+             wakings=[_wk(_at(d, 5, 0), _at(d, 7, 30))])
+    log = _log([a, b])
+    assert [s.record_id for s in log.sessions] == ["a"]
+    _assert_positive_segments(log)
+    # overlapping wakings whose union covers the span (start clipped to 03:00, then an
+    # end-straddler waking at 02:00): the remaining tail is awake -> dropped too.
+    c = _rec("c", "night_sleep", _at(eve, 19, 30), _at(d, 6, 30),
+             wakings=[_wk(_at(eve, 19, 0), _at(d, 3, 0)), _wk(_at(d, 2, 0), _at(d, 7, 0))])
+    assert _log([c]).sessions == []
+
+
+def test_every_emitted_segment_has_positive_duration():
+    from .test_fixes import _golden_request
+    req = _golden_request()
+    _assert_positive_segments(build_log(AnalysisRequest.model_validate(req))[0])
+    _assert_positive_segments(_log(_ny_month(), as_of="2026-11-11T20:00:00-05:00"))
+
+
+def test_forgot_to_stop_compares_asleep_minutes_not_record_span():
+    # 18:30 -> 07:45 is 13h15 in bed, but 01:00 -> 02:30 awake leaves 11h45 asleep: clean.
+    d = date(2026, 10, 7)
+    ok = _rec("ok", "night_sleep", _at(d - timedelta(1), 18, 30), _at(d, 7, 45),
+              wakings=[_wk(_at(d, 1, 0), _at(d, 2, 30)),
+                       _wk(_at(d, 3, 0), _at(d, 3, 30), unresolved=True)])   # contributes 0
+    out = run(_req([*_nights(3, last=d - timedelta(1)), ok]))
+    assert out["fixes"] == [] and out["warnings"] == []
+    log = _log([*_nights(3, last=d - timedelta(1)), ok])
+    assert sum(s.duration_minutes for s in log.sessions if s.record_id == "ok") == 705
+    # a genuine left-running timer is still flagged despite its wakings (16h - 30m asleep)
+    bad = _rec("bad", "night_sleep", _at(d - timedelta(1), 19, 0), _at(d, 11, 30),
+               wakings=[_wk(_at(d, 2, 0), _at(d, 2, 30))])
+    fixes = run(_req([*_nights(3, last=d - timedelta(1)), bad]))["fixes"]
+    assert [(f["recordId"], f["action"]) for f in fixes] == [("bad", "truncate_end")]
+
+
+def test_waking_straddling_start_keeps_the_records_wake_day():
+    # record 23:00 on 10-03 with a 22:50 -> 03:30 waking: the segment starts 03:30 (past
+    # the cutover) but the night still belongs to the 10-04 morning.
+    night = _rec("n", "night_sleep", _at(date(2026, 10, 3), 23, 0), _at(date(2026, 10, 4), 6, 30),
+                 wakings=[_wk(_at(date(2026, 10, 3), 22, 50), _at(date(2026, 10, 4), 3, 30))])
+    days = build_feature_series(_log([night])).days
+    assert [x.day for x in days] == [date(2026, 10, 4)]
+    assert days[0].night_sleep_duration_min == 180 and days[0].night_waking_count == 1
+
+
+def test_ny_fall_back_night_end_to_end():
+    # 8 New York nights; the 2026-11-01 one crosses fall-back (19:30 EDT -> 06:00 EST is
+    # 690 real minutes) with a 45-min waking inside the repeated hour.
+    recs = _nights(8, last=date(2026, 11, 2), tz=NY, end=(6, 0))
+    recs[-2]["wakings"] = [_wk("2026-11-01T01:30:00-04:00", "2026-11-01T01:15:00-05:00")]
+    out = run(_req(recs, as_of="2026-11-02T20:00:00-05:00"))
+    assert out["status"] == "computed" and out["fixes"] == [] and out["warnings"] == []
+    assert out["used"]["days"] == 8
+    log = _log(recs, as_of="2026-11-02T20:00:00-05:00")
+    f = _day(build_feature_series(log), date(2026, 11, 1))
+    assert f.night_sleep_duration_min == 690 - 45
+    assert f.night_waking_count == 1 and f.total_awake_overnight_min == 45

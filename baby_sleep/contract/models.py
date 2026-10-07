@@ -57,6 +57,7 @@ class SleepSession(BaseModel):
     notes: str | None = None
     record_id: str | None = None      # app RecordId (analysis service); adapters leave None
     tz: str | None = None             # the record's IANA zone; only for derived instants
+    record_start: datetime | None = None  # split segments: the record's post-fix start
 
 
 class ContextEvent(BaseModel):

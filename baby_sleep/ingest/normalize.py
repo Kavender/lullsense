@@ -3,7 +3,7 @@ resolve midnight crossings, reconcile durations, classify nap vs night,
 and drop impossible rows (D15 sanity pre-filter)."""
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from datetime import UTC, datetime, time, timedelta, timezone
 from typing import Annotated, Literal
 from zoneinfo import ZoneInfo
@@ -140,27 +140,32 @@ def _effective_marks(marks: StartMarker, convention: StartMarker | None) -> Star
     return convention or StartMarker.UNKNOWN
 
 
-def _is_forgot_to_stop(s: SleepSession) -> bool:
-    """A night whose duration betrays a timer left running past the real morning wake."""
+def _is_forgot_to_stop(s: SleepSession, awake: int = 0) -> bool:
+    """A night whose ASLEEP minutes (duration minus ``awake`` in-bed waking minutes)
+    betray a timer left running past the real morning wake."""
     if s.sleep_type is not SleepType.NIGHT or s.duration_minutes is None:
         return False
-    if s.duration_minutes > FORGOT_STOP_NIGHT_HOURS * 60:
+    asleep = s.duration_minutes - awake
+    if asleep > FORGOT_STOP_NIGHT_HOURS * 60:
         return True
     end = s.end.value if s.end is not None else None
     if end is not None and (end.hour, end.minute) > FORGOT_STOP_LATE_END:
-        return s.duration_minutes > FORGOT_STOP_LATE_END_MIN_HOURS * 60
+        return asleep > FORGOT_STOP_LATE_END_MIN_HOURS * 60
     return False
 
 
 def _repair_forgot_to_stop(
     sessions: list[SleepSession], note: FixNote | None = None,
+    awake_minutes: Mapping[str, int] | None = None,
 ) -> tuple[list[SleepSession], list[str]]:
     """Repair forgot-to-stop nights (D15). Truncate a left-running night's end to the
     child's typical morning wake — the median end-of-day across the *clean* nights in the
     same log — when at least ``MIN_CLEAN_NIGHTS_FOR_REPAIR`` clean nights exist; mark the
     repaired end ``INFERRED`` and warn. With too little clean history to infer a wake time,
     reset: drop the bad night with a warning rather than keep or guess at it."""
-    flagged = {i for i, s in enumerate(sessions) if _is_forgot_to_stop(s)}
+    awake = awake_minutes or {}
+    flagged = {i for i, s in enumerate(sessions)
+               if _is_forgot_to_stop(s, awake.get(s.record_id, 0))}
     if not flagged:
         return sessions, []
     clean_wakes = sorted(
@@ -275,6 +280,7 @@ def _resolve_overlaps(
 
 def normalize(
     log: SleepLog, start_convention: StartMarker | None = None, fixes: list[Fix] | None = None,
+    awake_minutes: Mapping[str, int] | None = None,
 ) -> tuple[SleepLog, list[str]]:
     """Return a cleaned copy of the log plus human-readable warnings.
 
@@ -286,6 +292,8 @@ def normalize(
 
     When ``fixes`` is a list, every sanity drop, forgot-to-stop repair and overlap repair
     also appends a structured ``Fix`` to it (CAM-12 §3.4); the return value is unchanged.
+    ``awake_minutes`` (``record_id`` -> in-bed waking minutes) makes the forgot-to-stop
+    thresholds compare asleep time, not the whole record span.
     """
     note: FixNote | None = None
     if fixes is not None:
@@ -347,7 +355,7 @@ def normalize(
         })
         kept.append(updated)
 
-    kept, forgot_warnings = _repair_forgot_to_stop(kept, note)
+    kept, forgot_warnings = _repair_forgot_to_stop(kept, note, awake_minutes)
     warnings.extend(forgot_warnings)
     kept, overlap_warnings = _resolve_overlaps(kept, note)
     warnings.extend(overlap_warnings)
