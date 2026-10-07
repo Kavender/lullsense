@@ -1,4 +1,5 @@
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from baby_sleep.contract.enums import DataQuality, SleepType, StartMarker
 from baby_sleep.contract.models import SleepLog, SleepSession
@@ -25,6 +26,47 @@ def test_resolve_end_rolls_time_only_end_past_midnight():
     end = datetime(2026, 8, 24, 6, 0)
     got_end, dur = resolve_end(start, end, None)
     assert got_end == datetime(2026, 8, 25, 6, 0) and dur == 660
+
+
+NY = ZoneInfo("America/New_York")
+
+
+def test_resolve_end_duration_from_end_across_dst_fall_back():
+    # 2026-11-01 02:00 EDT -> 01:00 EST: wall clock says 11h, elapsed time is 12h.
+    start = datetime(2026, 10, 31, 19, 0, tzinfo=NY)
+    end = datetime(2026, 11, 1, 6, 0, tzinfo=NY)
+    _, dur = resolve_end(start, end, None)
+    assert dur == 720
+
+
+def test_resolve_end_end_from_duration_across_dst_spring_forward():
+    # 2026-03-08 02:00 EST -> 03:00 EDT: 11h elapsed from 19:00 lands at 07:00 wall.
+    start = datetime(2026, 3, 7, 19, 0, tzinfo=NY)
+    end, dur = resolve_end(start, None, 660)
+    assert dur == 660
+    assert end == datetime(2026, 3, 8, 7, 0, tzinfo=NY)
+    assert end.utcoffset() == datetime(2026, 3, 8, 7, 0, tzinfo=NY).utcoffset()
+
+
+def test_resolve_end_orders_repeated_fall_back_hour_by_real_time():
+    # 01:30 EDT (fold=0) -> 01:15 EST (fold=1) is 45 real minutes later, even though the
+    # wall clock went backwards; it must not be rolled to the next day.
+    start = datetime(2026, 11, 1, 1, 30, tzinfo=NY)
+    end = datetime(2026, 11, 1, 1, 15, tzinfo=NY, fold=1)
+    out_end, dur = resolve_end(start, end, None)
+    assert out_end == end
+    assert dur == 45
+
+
+def test_normalize_keeps_session_ending_in_repeated_fall_back_hour():
+    # Same fold case end-to-end: previously rolled to 1485 min and dropped as impossible.
+    s = SleepSession(
+        start=ApproxTime(value=datetime(2026, 11, 1, 1, 30, tzinfo=NY)),
+        end=ApproxTime(value=datetime(2026, 11, 1, 1, 15, tzinfo=NY, fold=1)),
+        sleep_type=SleepType.NIGHT)
+    out, _ = normalize(SleepLog(sessions=[s]))
+    assert len(out.sessions) == 1
+    assert out.sessions[0].duration_minutes == 45
 
 
 def test_is_sane_rejects_impossible():
@@ -108,6 +150,28 @@ def test_normalize_repairs_forgot_to_stop_night_from_history():
     assert any("forgot-to-stop" in w.lower() for w in warnings)
     # clean nights are untouched
     assert out.sessions[0].data_quality is DataQuality.LOGGED
+
+
+def test_normalize_repairs_forgot_to_stop_night_with_aware_datetimes():
+    # Timezone-aware logs must not crash the repair (naive/aware mix) and the repaired
+    # duration must be real elapsed time across the DST fall-back night.
+    def night(start, end):
+        return SleepSession(
+            start=ApproxTime(value=start), end=ApproxTime(value=end), sleep_type=SleepType.NIGHT)
+    log = SleepLog(sessions=[
+        night(datetime(2026, 10, 28, 19, 0, tzinfo=NY), datetime(2026, 10, 29, 6, 0, tzinfo=NY)),
+        night(datetime(2026, 10, 29, 19, 0, tzinfo=NY), datetime(2026, 10, 30, 6, 15, tzinfo=NY)),
+        night(datetime(2026, 10, 30, 19, 0, tzinfo=NY), datetime(2026, 10, 31, 6, 30, tzinfo=NY)),
+        # forgot-to-stop across the DST fall-back night (2026-11-01)
+        night(datetime(2026, 10, 31, 19, 0, tzinfo=NY), datetime(2026, 11, 1, 9, 10, tzinfo=NY)),
+    ])
+    out, warnings = normalize(log)
+    repaired = out.sessions[3]
+    assert repaired.end.value == datetime(2026, 11, 1, 6, 15, tzinfo=NY)
+    assert repaired.end.value.tzinfo is not None
+    assert repaired.duration_minutes == 735                       # 11h15 wall + 1h DST
+    assert repaired.data_quality is DataQuality.INFERRED
+    assert any("forgot-to-stop" in w.lower() for w in warnings)
 
 
 def test_normalize_drops_forgot_to_stop_when_history_insufficient():

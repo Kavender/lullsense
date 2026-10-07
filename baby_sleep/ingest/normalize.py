@@ -3,7 +3,7 @@ resolve midnight crossings, reconcile durations, classify nap vs night,
 and drop impossible rows (D15 sanity pre-filter)."""
 from __future__ import annotations
 
-from datetime import datetime, time, timedelta
+from datetime import UTC, datetime, time, timedelta
 
 from baby_sleep.contract.enums import DataQuality, SleepType, StartMarker
 from baby_sleep.contract.models import SleepLog, SleepSession
@@ -18,18 +18,41 @@ FORGOT_STOP_LATE_END_MIN_HOURS = 11     # ... while still running past 11h
 MIN_CLEAN_NIGHTS_FOR_REPAIR = 3         # need this many clean nights to infer a morning wake
 
 
+def _elapsed_minutes(start: datetime, end: datetime) -> int:
+    """Real elapsed minutes. Aware datetimes sharing a tzinfo subtract by wall clock in
+    Python, which is off by an hour across a DST transition, so compare in UTC."""
+    if start.tzinfo is not None and end.tzinfo is not None:
+        start, end = start.astimezone(UTC), end.astimezone(UTC)
+    return int((end - start).total_seconds() // 60)
+
+
+def _add_minutes(start: datetime, minutes: int) -> datetime:
+    """``start`` plus real elapsed minutes, expressed in ``start``'s own timezone."""
+    if start.tzinfo is None:
+        return start + timedelta(minutes=minutes)
+    return (start.astimezone(UTC) + timedelta(minutes=minutes)).astimezone(start.tzinfo)
+
+
+def _before(a: datetime, b: datetime) -> bool:
+    """``a`` strictly before ``b`` in real time. Aware datetimes sharing a tzinfo compare by
+    wall clock in Python (fold is ignored), which misorders the repeated DST fall-back hour."""
+    if a.tzinfo is not None and b.tzinfo is not None:
+        return a.astimezone(UTC) < b.astimezone(UTC)
+    return a < b
+
+
 def resolve_end(
     start: datetime, end: datetime | None, duration_minutes: int | None
 ) -> tuple[datetime | None, int | None]:
     """Return a consistent (end, duration_minutes). If end is time-only and lands
     before start, roll it to the next day. If only duration is known, compute end;
     if only end is known, compute duration."""
-    if end is not None and end < start:
+    if end is not None and _before(end, start):
         end = end + timedelta(days=1)
     if end is None and duration_minutes is not None:
-        end = start + timedelta(minutes=duration_minutes)
+        end = _add_minutes(start, duration_minutes)
     if duration_minutes is None and end is not None:
-        duration_minutes = int((end - start).total_seconds() // 60)
+        duration_minutes = _elapsed_minutes(start, end)
     return end, duration_minutes
 
 
@@ -38,7 +61,7 @@ def is_sane(start: datetime, end: datetime | None, duration_minutes: int | None)
     measure), non-positive or >20h duration, or end before start."""
     if end is None and duration_minutes is None:
         return False
-    if end is not None and end < start:
+    if end is not None and _before(end, start):
         return False
     return duration_minutes is None or (0 < duration_minutes <= MAX_SANE_MINUTES)
 
@@ -110,10 +133,11 @@ def _repair_forgot_to_stop(
                 "(insufficient clean-night history to repair)")
             continue
         start = s.start.value
-        repaired_end = datetime.combine(start.date(), time(median_wake // 60, median_wake % 60))
+        repaired_end = datetime.combine(
+            start.date(), time(median_wake // 60, median_wake % 60), tzinfo=start.tzinfo)
         if repaired_end <= start:
             repaired_end = repaired_end + timedelta(days=1)
-        new_duration = int((repaired_end - start).total_seconds() // 60)
+        new_duration = _elapsed_minutes(start, repaired_end)
         warnings.append(
             f"repaired forgot-to-stop night: truncated end from {s.end.value.isoformat()} to "
             f"{repaired_end.isoformat()} (inferred from typical morning wake)")
