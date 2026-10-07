@@ -5,7 +5,7 @@ from __future__ import annotations
 from baby_sleep.contract.enums import DataQuality, SleepType, StartMarker
 from baby_sleep.contract.models import Child, SleepLog, SleepSession
 from baby_sleep.contract.time_types import ApproxTime, TimePrecision
-from baby_sleep.ingest.normalize import _before, _elapsed_minutes, _instant, normalize
+from baby_sleep.ingest.normalize import Fix, _before, _elapsed_minutes, _instant, normalize
 
 from .wire import AnalysisRequest, Record, Waking
 
@@ -62,9 +62,11 @@ def _split(s: SleepSession, wakings: list[Waking]) -> list[SleepSession]:
     }) for k, (a, b) in enumerate(segs)]
 
 
-def build_log(req: AnalysisRequest) -> tuple[SleepLog, list[str]]:
+def build_log(req: AnalysisRequest) -> tuple[SleepLog, list[str], list[Fix]]:
     """Map, normalize (fixes on WHOLE records), then split nights at resolved wakings."""
-    log, warnings = normalize(to_sleep_log(req), start_convention=StartMarker.ASLEEP)
+    fixes: list[Fix] = []
+    log, warnings = normalize(to_sleep_log(req), start_convention=StartMarker.ASLEEP,
+                              fixes=fixes)
     wakings = {r.id: r.wakings for r in req.records}
     sessions = []
     for s in log.sessions:
@@ -72,4 +74,4 @@ def build_log(req: AnalysisRequest) -> tuple[SleepLog, list[str]]:
             sessions.extend(_split(s, wakings[s.record_id]))
         else:
             sessions.append(s)
-    return log.model_copy(update={"sessions": sessions}), warnings
+    return log.model_copy(update={"sessions": sessions}), warnings, fixes

@@ -1,0 +1,298 @@
+{
+  "schemaVersion": 1,
+  "serviceVersion": "<version>",
+  "status": "computed",
+  "reason": null,
+  "used": {
+    "recordsReceived": 73,
+    "sessionsAnalyzed": 89,
+    "days": 29,
+    "firstDay": "2026-09-09",
+    "lastDay": "2026-10-07"
+  },
+  "summary": {
+    "rise_time": "05:27",
+    "sleep_onset_time": "19:30",
+    "night_sleep_duration_min": 583,
+    "total_24h_sleep_min": 648,
+    "nap_count": 1.0
+  },
+  "baseline": {
+    "status": "computed",
+    "reason": null,
+    "features": {
+      "rise_time_min": {
+        "feature": "rise_time_min",
+        "baseline_median": 388.5,
+        "mad": 10.5,
+        "n": 14,
+        "recent_median": 327.0,
+        "deviation": -61.5,
+        "deviation_mads": -5.857142857142857,
+        "source": "history",
+        "confidence": "high"
+      },
+      "sleep_onset_min": {
+        "feature": "sleep_onset_min",
+        "baseline_median": 1179.0,
+        "mad": 9.0,
+        "n": 14,
+        "recent_median": 1170.0,
+        "deviation": -9.0,
+        "deviation_mads": -1.0,
+        "source": "history",
+        "confidence": "high"
+      },
+      "night_sleep_duration_min": {
+        "feature": "night_sleep_duration_min",
+        "baseline_median": 632.5,
+        "mad": 10.5,
+        "n": 14,
+        "recent_median": 583.0,
+        "deviation": -49.5,
+        "deviation_mads": -4.714285714285714,
+        "source": "history",
+        "confidence": "high"
+      },
+      "total_24h_sleep_min": {
+        "feature": "total_24h_sleep_min",
+        "baseline_median": 741.0,
+        "mad": 42.0,
+        "n": 14,
+        "recent_median": 648.0,
+        "deviation": -93.0,
+        "deviation_mads": -2.2142857142857144,
+        "source": "history",
+        "confidence": "high"
+      },
+      "total_daytime_sleep_min": {
+        "feature": "total_daytime_sleep_min",
+        "baseline_median": 116.0,
+        "mad": 34.0,
+        "n": 14,
+        "recent_median": 100.5,
+        "deviation": -15.5,
+        "deviation_mads": -0.45588235294117646,
+        "source": "history",
+        "confidence": "low"
+      },
+      "nap_count": {
+        "feature": "nap_count",
+        "baseline_median": 2.0,
+        "mad": 0.0,
+        "n": 14,
+        "recent_median": 1.0,
+        "deviation": -1.0,
+        "deviation_mads": null,
+        "source": "history",
+        "confidence": "high"
+      },
+      "night_waking_count": {
+        "feature": "night_waking_count",
+        "baseline_median": 1.0,
+        "mad": 0.0,
+        "n": 14,
+        "recent_median": 1.0,
+        "deviation": 0.0,
+        "deviation_mads": null,
+        "source": "history",
+        "confidence": "high"
+      },
+      "total_awake_overnight_min": {
+        "feature": "total_awake_overnight_min",
+        "baseline_median": 25.0,
+        "mad": 0.0,
+        "n": 9,
+        "recent_median": 25.0,
+        "deviation": 0.0,
+        "deviation_mads": null,
+        "source": "history",
+        "confidence": "medium"
+      },
+      "longest_night_waking_min": {
+        "feature": "longest_night_waking_min",
+        "baseline_median": 25.0,
+        "mad": 0.0,
+        "n": 9,
+        "recent_median": 25.0,
+        "deviation": 0.0,
+        "deviation_mads": null,
+        "source": "history",
+        "confidence": "medium"
+      }
+    },
+    "prior_window_days": 14,
+    "recent_window_days": 5,
+    "corrected_age_months": 10
+  },
+  "signals": [
+    {
+      "signal": "early_waking",
+      "confidence": "high",
+      "severity": "significant",
+      "status": "established",
+      "baseline": {
+        "window_days": 14,
+        "value": 388.5,
+        "label": "06:28"
+      },
+      "recent": {
+        "window_days": 5,
+        "value": 327.0,
+        "label": "05:27"
+      },
+      "change": -61.5,
+      "change_unit": "minutes",
+      "supporting_evidence": [
+        "5 of the last 5 days moved down vs baseline (rise_time_min: 62 minutes change)"
+      ],
+      "limitations": []
+    },
+    {
+      "signal": "total_sleep_drop",
+      "confidence": "medium",
+      "severity": "significant",
+      "status": "established",
+      "baseline": {
+        "window_days": 14,
+        "value": 741.0,
+        "label": null
+      },
+      "recent": {
+        "window_days": 5,
+        "value": 648.0,
+        "label": null
+      },
+      "change": -93.0,
+      "change_unit": "minutes",
+      "supporting_evidence": [
+        "4 of the last 5 days moved down vs baseline (total_24h_sleep_min: 93 minutes change)"
+      ],
+      "limitations": []
+    }
+  ],
+  "review": {
+    "status": "computed",
+    "coverage": {
+      "start_date": "2026-09-09",
+      "end_date": "2026-10-07",
+      "n_days": 29,
+      "span_days": 29,
+      "days_since_last_entry": 0,
+      "is_current": true,
+      "covers_window": null
+    },
+    "surfaced": [
+      {
+        "signal": "early_waking",
+        "confidence": "high",
+        "severity": "significant",
+        "status": "established",
+        "baseline": {
+          "window_days": 14,
+          "value": 388.5,
+          "label": "06:28"
+        },
+        "recent": {
+          "window_days": 5,
+          "value": 327.0,
+          "label": "05:27"
+        },
+        "change": -61.5,
+        "change_unit": "minutes",
+        "supporting_evidence": [
+          "5 of the last 5 days moved down vs baseline (rise_time_min: 62 minutes change)"
+        ],
+        "limitations": []
+      },
+      {
+        "signal": "total_sleep_drop",
+        "confidence": "medium",
+        "severity": "significant",
+        "status": "established",
+        "baseline": {
+          "window_days": 14,
+          "value": 741.0,
+          "label": null
+        },
+        "recent": {
+          "window_days": 5,
+          "value": 648.0,
+          "label": null
+        },
+        "change": -93.0,
+        "change_unit": "minutes",
+        "supporting_evidence": [
+          "4 of the last 5 days moved down vs baseline (total_24h_sleep_min: 93 minutes change)"
+        ],
+        "limitations": []
+      }
+    ],
+    "also_noted_count": 0,
+    "steady_domains": [
+      "naps",
+      "bedtime",
+      "schedule_consistency"
+    ],
+    "context_note": null,
+    "reason": null
+  },
+  "fixes": [
+    {
+      "recordId": "long",
+      "action": "drop",
+      "reason": "implausible_duration",
+      "original": {
+        "start": "2026-09-27T15:00:00+08:00",
+        "end": "2026-09-28T12:00:00+08:00"
+      },
+      "derived": null,
+      "overlapsRecordId": null
+    },
+    {
+      "recordId": "n20",
+      "action": "truncate_end",
+      "reason": "forgot_to_stop",
+      "original": {
+        "start": "2026-09-29T19:35:00+08:00",
+        "end": "2026-09-30T11:40:00+08:00"
+      },
+      "derived": {
+        "start": "2026-09-29T19:35:00+08:00",
+        "end": "2026-09-30T06:28:00+08:00"
+      },
+      "overlapsRecordId": null
+    },
+    {
+      "recordId": "dup",
+      "action": "drop",
+      "reason": "overlap_contained",
+      "original": {
+        "start": "2026-09-27T09:50:00+08:00",
+        "end": "2026-09-27T10:20:00+08:00"
+      },
+      "derived": null,
+      "overlapsRecordId": "a18"
+    },
+    {
+      "recordId": "late",
+      "action": "trim_start",
+      "reason": "overlap_partial",
+      "original": {
+        "start": "2026-09-27T10:30:00+08:00",
+        "end": "2026-09-27T11:10:00+08:00"
+      },
+      "derived": {
+        "start": "2026-09-27T10:40:00+08:00",
+        "end": "2026-09-27T11:10:00+08:00"
+      },
+      "overlapsRecordId": "a18"
+    }
+  ],
+  "warnings": [
+    "dropped impossible sleep session starting 2026-09-27T15:00:00+08:00",
+    "repaired forgot-to-stop night: truncated end from 2026-09-30T11:40:00+08:00 to 2026-09-30T06:28:00+08:00 (inferred from typical morning wake)",
+    "dropped overlapping session 2026-09-27T09:50:00+08:00–2026-09-27T10:20:00+08:00 contained within an earlier session",
+    "trimmed overlapping session start from 2026-09-27T10:30:00+08:00 to 2026-09-27T10:40:00+08:00 (overlaps an earlier session)"
+  ]
+}

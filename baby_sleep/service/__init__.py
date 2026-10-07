@@ -34,7 +34,7 @@ def _loc(err: dict) -> str:
 
 
 def _compute(req: AnalysisRequest) -> dict:
-    log, warnings = build_log(req)
+    log, warnings, fixes = build_log(req)
     series = build_feature_series(log)
     baseline = build_baseline(series, log.child)
     days = series.days
@@ -62,7 +62,7 @@ def _compute(req: AnalysisRequest) -> dict:
             requested_window_days=req.requestedWindowDays, staleness_days=STALENESS_DAYS)
         out["review"] = review.model_dump(mode="json")
         out["status"], out["reason"] = review.status.value, review.reason
-    out["fixes"] = []                       # P3 (CAM-12): normalize() fix collector
+    out["fixes"] = [f.model_dump(mode="json") for f in fixes]
     out["warnings"] = warnings
     return out
 
