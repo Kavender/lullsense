@@ -27,7 +27,7 @@ def _session(r: Record) -> SleepSession:
         sleep_type=_KIND[r.kind],
         start_marks=StartMarker.ASLEEP,
         data_quality=DataQuality.REPORTED if approx else DataQuality.LOGGED,
-        night_wakings=sum(not _resolved(w) for w in r.wakings) if night else None,
+        night_wakings=0 if night else None,       # wakings are counted post-fix by _split
         record_id=r.id,
         tz=r.tz,
     )
@@ -42,23 +42,40 @@ def to_sleep_log(req: AnalysisRequest) -> SleepLog:
 
 
 def _split(s: SleepSession, wakings: list[Waking]) -> list[SleepSession]:
-    """Cut a post-fix night at each resolved waking strictly inside the current segment
-    (``segStart < wokeAt < backAsleepAt < end`` in real time); others are counted."""
-    seg_start, end = s.start, s.end
-    uncut, segs = 0, []
+    """Apply wakings to a post-fix night [start, end] (real time).
+
+    Resolved: wholly outside the span -> dropped; strictly inside the current segment ->
+    cut (the gap is the waking); straddling an edge -> counted and the span is clipped so
+    awake time is not asleep (start moves to backAsleepAt / end moves to wokeAt); any
+    other (overlapping) -> counted, uncut. Unresolved/open: counted iff start <= wokeAt <= end.
+    """
+    start, end = s.start.value, s.end.value
+    count = sum(not _resolved(w) and not _before(w.wokeAt, start)
+                and not _before(end, w.wokeAt) for w in wakings)
+    seg_start, seg_end, segs = s.start, s.end, []
     for w in sorted((w for w in wakings if _resolved(w)), key=lambda w: _instant(w.wokeAt)):
         woke, back = w.wokeAt, w.backAsleepAt
-        if not (_before(seg_start.value, woke) and _before(woke, back)
-                and _before(back, end.value)):
-            uncut += 1
-            continue
-        segs.append((seg_start, ApproxTime(value=woke)))
-        seg_start = ApproxTime(value=back)
-    segs.append((seg_start, end))
+        if not _before(woke, end) or not _before(start, back):
+            continue                                       # wholly outside: dropped
+        if not _before(start, woke):                       # straddles start
+            count += 1
+            if _before(seg_start.value, back):
+                seg_start = ApproxTime(value=back)
+        elif not _before(back, end):                       # straddles end
+            count += 1
+            if _before(seg_start.value, woke) and _before(woke, seg_end.value):
+                seg_end = ApproxTime(value=woke)
+        elif (_before(seg_start.value, woke) and _before(woke, back)
+              and _before(back, seg_end.value)):
+            segs.append((seg_start, ApproxTime(value=woke)))   # inside: cut, gap counts
+            seg_start = ApproxTime(value=back)
+        else:
+            count += 1                                     # overlapping: counted, uncut
+    segs.append((seg_start, seg_end))
     return [s.model_copy(update={
         "start": a, "end": b,
         "duration_minutes": _elapsed_minutes(a.value, b.value),
-        "night_wakings": (s.night_wakings or 0) + uncut if k == 0 else 0,
+        "night_wakings": count if k == 0 else 0,
     }) for k, (a, b) in enumerate(segs)]
 
 

@@ -125,10 +125,10 @@ def test_resettle_after_cutover_stays_on_the_same_wake_day():
     assert f.rise_time.strftime("%H:%M") == "06:30"
 
 
-def test_waking_after_repaired_end_is_not_cut():
+def test_waking_after_repaired_end_is_dropped():
     # forgot-to-stop: 19:30 -> 11:30 (16 h), three clean 06:30 wakes -> repaired to 06:30.
-    # The fix runs on the WHOLE record first, so it is still detected despite the waking,
-    # and the 08:00 waking past the derived end makes no cut (it is counted).
+    # The fix runs on the WHOLE record first, so it is still detected despite the waking;
+    # the 08:00 waking lies wholly after the derived end, so it is dropped (not counted).
     d = date(2026, 10, 7)
     bad = _rec("bad", "night_sleep", _at(d - timedelta(1), 19, 30), _at(d, 11, 30),
                wakings=[_wk(_at(d, 2, 0), _at(d, 2, 30)), _wk(_at(d, 8, 0), _at(d, 8, 30))])
@@ -136,9 +136,55 @@ def test_waking_after_repaired_end_is_not_cut():
     segs = [s for s in log.sessions if s.record_id == "bad"]
     assert len(segs) == 2
     assert segs[-1].end.value.isoformat() == "2026-10-07T06:30:00+08:00"
-    assert segs[0].night_wakings == 1
+    assert [s.night_wakings for s in segs] == [0, 0]
     f = _day(build_feature_series(log), d)
-    assert f.night_waking_count == 2 and f.night_sleep_duration_min == 630
+    assert f.night_waking_count == 1 and f.night_sleep_duration_min == 630
+
+
+def test_waking_before_trimmed_start_is_dropped():
+    # an 18:00 -> 20:00 nap trims the 19:30 night to start 20:00; a 19:35 -> 19:50 waking
+    # now lies wholly before the span and is dropped.
+    d = date(2026, 10, 7)
+    eve = d - timedelta(1)
+    nap = _rec("nap", "nap", _at(eve, 18, 0), _at(eve, 20, 0))
+    night = _rec("n", "night_sleep", _at(eve, 19, 30), _at(d, 6, 30),
+                 wakings=[_wk(_at(eve, 19, 35), _at(eve, 19, 50))])
+    (seg,) = [s for s in _log([nap, night]).sessions if s.record_id == "n"]
+    assert seg.start.value.strftime("%H:%M") == "20:00" and seg.night_wakings == 0
+    assert seg.duration_minutes == 630
+
+
+def test_waking_straddling_end_clips_last_segment():
+    # woke 06:00, back 06:45, end 06:30: counted; the night ends at 06:00.
+    d = date(2026, 10, 7)
+    night = _rec("n", "night_sleep", _at(d - timedelta(1), 19, 30), _at(d, 6, 30),
+                 wakings=[_wk(_at(d, 2, 0), _at(d, 2, 30)), _wk(_at(d, 6, 0), _at(d, 6, 45))])
+    segs = _log([night]).sessions
+    assert [s.end.value.strftime("%H:%M") for s in segs] == ["02:00", "06:00"]
+    assert [s.night_wakings for s in segs] == [1, 0]
+    assert sum(s.duration_minutes for s in segs) == 11 * 60 - 30 - 30
+    f = _day(build_feature_series(_log([night])), d)
+    assert f.night_waking_count == 2
+
+
+def test_unresolved_waking_outside_span_is_dropped():
+    d = date(2026, 10, 7)
+    bad = _rec("bad", "night_sleep", _at(d - timedelta(1), 19, 30), _at(d, 11, 30),
+               wakings=[_wk(_at(d, 3, 0)), _wk(_at(d, 8, 0)),
+                        _wk(_at(d, 9, 0), _at(d, 9, 10), unresolved=True)])
+    log = _log([*_nights(3, last=d - timedelta(1)), bad])
+    (seg,) = [s for s in log.sessions if s.record_id == "bad"]
+    assert seg.end.value.strftime("%H:%M") == "06:30" and seg.night_wakings == 1
+
+
+def test_outer_edge_approx_precision_survives_split():
+    d = date(2026, 10, 7)
+    night = _rec("n", "night_sleep", _at(d - timedelta(1), 19, 30), _at(d, 6, 30),
+                 wakings=[_wk(_at(d, 2, 0), _at(d, 2, 30))], sp="approx", ep="approx")
+    first, last = _log([night]).sessions
+    assert first.start.precision is last.end.precision is TimePrecision.APPROXIMATE
+    assert first.end.precision is last.start.precision is TimePrecision.EXACT
+    assert first.data_quality is last.data_quality is DataQuality.REPORTED
 
 
 def test_six_nights_insufficient_seven_computed():
