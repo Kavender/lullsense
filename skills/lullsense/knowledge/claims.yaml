@@ -510,7 +510,7 @@
   age_range_months: [4, 20]
   evidence_type: primary_research
   evidence_level: low
-  claim: "The 'leap' / 'wonder weeks' calendar (ten strictly timed fussy periods in the first 20 months) rests on one small maternal-report study by its commercial authors; an independent replication found periods of instability but no evidence they were strictly timed, so the calendar cannot predict when any individual baby will be unsettled or sleep worse."
+  claim: "The 'leap' / 'wonder weeks' calendar (ten strictly timed fussy periods in the first 20 months) rests on one small maternal-report study (15 Dutch pairs; difficult weeks clustered near 5, 8, 12, 17, 26, 36, 44, 52, 61 and 72 weeks, with less and more fragmented sleep reported in most of them) by its commercial authors; an independent replication found periods of instability but no evidence they were strictly timed, so the calendar cannot predict when any individual baby will be unsettled or sleep worse."
   sources: [van_de_rijt_plooij_1992_infantile_regressions, de_weerth_van_geert_1998_regression_replication]
   use_for:
     - meeting a parent who says "it's leap 5" or "a wonder week" without correcting the vocabulary, then redirecting to what the baby is actually newly doing

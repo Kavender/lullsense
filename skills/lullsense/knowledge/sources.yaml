@@ -202,16 +202,22 @@
   title: "Infantile regressions: disorganization and the onset of transition periods"
   url: https://doi.org/10.1080/02646839208403946
   source_type: primary_research
-  verified: false
+  verified: true
   last_accessed: 2026-11-04
   note: >-
-    van de Rijt-Plooij & Plooij 1992;10(3):129-149. The research basis of the popular
-    "Wonder Weeks" / "Oei, ik groei!" leap calendar: maternal reports from 15 mother-infant
-    pairs describing 10 strictly timed "difficult" periods in the first 20 months (increased
-    crying, clinging, less sleep). Abstract reviewed 2026-11-04; full text paywalled, not
-    reviewed (the free Heimann 2003 volume discusses it but does not reprint it). Small
-    sample, maternal report, authors are the calendar's commercial authors.
-    Cite only as the origin of the leap vocabulary — never as a timetable.
+    van de Rijt-Plooij & Plooij 1992;10(3):129-149. Human-verified 2026-11-04 against the
+    publisher's full text (PDF archived internally). The research basis of the popular
+    "Wonder Weeks" / "Oei, ik groei!" leap calendar. Multiple case-study design: 15 Dutch
+    mother-infant pairs (14 full-term + 1 born 4 weeks early, age-corrected) followed 0-20
+    months with weekly maternal questionnaires/checksheets plus home observation. Mothers'
+    "difficult" weeks clustered around 5, 8, 12, 17, 26, 36, 44, 52, 61-62 and 72-73 weeks
+    (median difficult period 3 weeks, range 1-6). Only increased crying and increased body
+    contact were reported by all mothers in all periods; "decrease in amount of sleep" was
+    reported by a majority for all periods except ~12 weeks — infants "slept less ... slept
+    in shorter bouts: they woke up more often" (Results). Small sample, maternal report,
+    authors are the calendar's commercial authors; strict timing was not supported by the
+    independent replication (de_weerth_van_geert_1998_regression_replication). Cite only
+    as the origin of the leap vocabulary — never as a timetable.
 
 - id: de_weerth_van_geert_1998_regression_replication
   organization: British Journal of Developmental Psychology
