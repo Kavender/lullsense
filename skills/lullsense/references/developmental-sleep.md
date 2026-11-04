@@ -160,7 +160,18 @@ The useful move is not to predict a milestone from the calendar but to **ask wha
 | Standing alone | 6.9–16.9 |
 | Walking alone | 8.2–17.6 |
 
-**CDC "Learn the Signs. Act Early." 2022 checklists** (`cdc_milestones_2022_zubler`; each item is what ≥75% of children do by that age — a conversation aid, not a screening tool). Sleep-relevant items by checklist age: 6 mo rolls tummy-to-back, knows familiar people; 9 mo gets to sitting by herself, reacts when you leave, looks for objects dropped out of sight (object permanence); 12 mo pulls up to stand, cruises holding furniture, looks for hidden things; 18 mo walks without holding on, climbs on and off furniture, tries three or more words. Fetch the live page for the full list at a given age rather than quoting from memory.
+**CDC "Learn the Signs. Act Early." 2022 checklists** (`cdc_milestones_2022_zubler`; each item is what ≥75% of children do by that age — a conversation aid, not a screening tool). The sleep-relevant items, by checklist age (live pages reviewed 2026-11-04; fetch the page for the full list rather than quoting from memory):
+
+| By | Newly doing (sleep-relevant subset) | Why it can touch sleep |
+|---|---|---|
+| 4 mo | Holds head steady; brings hands to mouth; pushes up on forearms on tummy; coos and answers sounds; smiles to get your attention | Pre-rolling practice; this is also the window of the sleep-architecture shift (§2) |
+| 6 mo | Rolls tummy-to-back; leans on hands when sitting; knows familiar people; laughs; takes turns making sounds | New rolling in the crib; first stranger awareness |
+| 9 mo | Gets to sitting by herself; sits without support; reacts when you leave; shy/clingy with strangers; looks for objects dropped out of sight | Object permanence → separation protest at bedtime and after wakings (§6 separation) |
+| 12 mo | Pulls up to stand; walks holding furniture; looks for hidden things; waves bye-bye; says "mama"/"dada" | Standing practice in the crib; cannot always get back down |
+| 15 mo | Takes a few steps on his own; points to ask for things; one or two words besides mama/dada; shows affection; copies other children | Early walking practice; wanting to communicate at bedtime |
+| 18 mo | Walks without holding on; climbs on and off furniture; three or more words; moves away but checks you are close | Climbing (crib-exit risk, §E environment); renewed separation checking |
+| 24 mo | Runs; kicks a ball; walks up stairs; two-word phrases; notices when others are upset | Big-body activity; language for protest and negotiation (§6 autonomy) |
+| 30 mo | Jumps with both feet; about 50 words; two-step instructions; pretend play; "Look at me!" | Pretend play and imagination at bedtime; autonomy and routines |
 
 How to use these in conversation: when a parent reports a new night-waking pattern, ask "what is he newly doing — pulling up, babbling more, crawling?" If a skill is emerging, say so as context: "she started pulling to stand this week; babies often practise a new skill in the crib, so the extra wakings may be that — it is a plausible reason, not a diagnosis" (`developmental_context_sleep_shifts`, `motor_milestone_windows_wide`). Never reverse the direction — do not tell a parent a skill or a bad week is "due" at this age.
 
