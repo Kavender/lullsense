@@ -1,7 +1,7 @@
 # Developmental Sleep Map — Layer B Reference
 
 **Status:** Canonical Layer B reference. Do not edit without updating `knowledge/claims.yaml` in the same commit.
-**Last updated:** 2026-08-24
+**Last updated:** 2026-11-04
 **Scope:** 4–36 months (primary); brief newborn context note for <4 months.
 
 ---
@@ -145,6 +145,27 @@ Several developmental events that occur between 4 and 36 months are plausibly as
 
 **Toddler autonomy development (18–36 months).** Toddlers are in a phase of establishing autonomy, which can manifest as bedtime resistance. This is developmentally normative rather than necessarily a "sleep problem." Distinguishing developmentally normal bedtime negotiation from clinically significant sleep-onset association difficulties requires contextual assessment.
 
+### Aligning "what is the baby learning right now" with the sleep change
+
+The useful move is not to predict a milestone from the calendar but to **ask what the baby is newly doing this week** and line that up against the sleep change the parent is describing. Two public, free-to-cite references give the age scaffolding for that conversation:
+
+**WHO gross-motor windows** (`who_mgrs_2006_motor_windows`; 816 healthy children, five countries). Windows are the 1st–99th percentile in months, so a skill emerging anywhere inside the window is normal and the practice period lands at a different age for every baby:
+
+| Skill | Window (months) |
+|---|---|
+| Sitting without support | 3.8–9.2 |
+| Standing with assistance | 4.8–11.4 |
+| Hands-and-knees crawling | 5.2–13.5 (≈4% never crawl) |
+| Walking with assistance | 5.9–13.7 |
+| Standing alone | 6.9–16.9 |
+| Walking alone | 8.2–17.6 |
+
+**CDC "Learn the Signs. Act Early." 2022 checklists** (`cdc_milestones_2022_zubler`; each item is what ≥75% of children do by that age — a conversation aid, not a screening tool). Sleep-relevant items by checklist age: 6 mo rolls tummy-to-back, knows familiar people; 9 mo gets to sitting by herself, reacts when you leave, looks for objects dropped out of sight (object permanence); 12 mo pulls up to stand, cruises holding furniture, looks for hidden things; 18 mo walks without holding on, climbs on and off furniture, tries three or more words. Fetch the live page for the full list at a given age rather than quoting from memory.
+
+How to use these in conversation: when a parent reports a new night-waking pattern, ask "what is he newly doing — pulling up, babbling more, crawling?" If a skill is emerging, say so as context: "she started pulling to stand this week; babies often practise a new skill in the crib, so the extra wakings may be that — it is a plausible reason, not a diagnosis" (`developmental_context_sleep_shifts`, `motor_milestone_windows_wide`). Never reverse the direction — do not tell a parent a skill or a bad week is "due" at this age.
+
+**On "leap" / "wonder weeks" calendars** (`leap_calendar_low_evidence`). The ten strictly timed fussy periods come from one maternal-report study of 15 pairs by the calendar's commercial authors (`van_de_rijt_plooij_1992_infantile_regressions`); the independent replication found unsettled periods but no evidence they were strictly timed (`de_weerth_van_geert_1998_regression_replication`). Treat the vocabulary like "regression" (`references/myths-and-overclaims.md §2`): do not correct a parent who uses it, do not confirm "yes, it's leap 6", and redirect to the observed skill. The baby's fussiness can be real even when the timetable is not.
+
 > **Important calibration:** These developmental contexts provide plausible "prior" reasons why sleep might shift at a given period. They do not explain every sleep change, and they do not mean that behavioral optimization during these periods is futile or harmful. They are context, not diagnosis.
 
 ---
@@ -176,3 +197,6 @@ This document's primary scope is 4–36 months. The following brief note on newb
 | Individual variability in sleep need | `aasm_child_sleep_duration_2016` | high | p. 786 |
 | Newborn <4mo exclusion | `aasm_child_sleep_duration_2016` | high | p. 785 |
 | Motor/language/separation context contributors | (practice-based) | low | No specific primary source; clinically observed pattern |
+| Gross-motor windows (1st–99th percentile) | `who_mgrs_2006_motor_windows` | moderate | Abstract p. 86 of the WHO-hosted supplement; descriptive, not targets |
+| Milestone checklist ages (≥75% of children) | `cdc_milestones_2022_zubler` | moderate | Surveillance aid, not a screening tool; public domain |
+| Leap / wonder-weeks calendar | `van_de_rijt_plooij_1992_infantile_regressions`, `de_weerth_van_geert_1998_regression_replication` | low | Origin study + failed strict-timing replication; vocabulary bridge only |

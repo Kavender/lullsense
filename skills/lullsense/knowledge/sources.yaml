@@ -197,6 +197,66 @@
     during the first year — the bare-crib safe-sleep window is sourced separately to
     aap_safe_sleep_2022 (verified; soft-object/loose-bedding exclusion through 12 months).
 
+- id: van_de_rijt_plooij_1992_infantile_regressions
+  organization: Journal of Reproductive and Infant Psychology (Taylor & Francis)
+  title: "Infantile regressions: disorganization and the onset of transition periods"
+  url: https://doi.org/10.1080/02646839208403946
+  source_type: primary_research
+  verified: false
+  last_accessed: 2026-11-04
+  note: >-
+    van de Rijt-Plooij & Plooij 1992;10(3):129-149. The research basis of the popular
+    "Wonder Weeks" / "Oei, ik groei!" leap calendar: maternal reports from 15 mother-infant
+    pairs describing 10 strictly timed "difficult" periods in the first 20 months (increased
+    crying, clinging, less sleep). Abstract reviewed 2026-11-04; full text paywalled, not
+    reviewed. Small sample, maternal report, authors are the calendar's commercial authors.
+    Cite only as the origin of the leap vocabulary — never as a timetable.
+
+- id: de_weerth_van_geert_1998_regression_replication
+  organization: British Journal of Developmental Psychology
+  title: "Emotional instability as an indicator of strictly timed infantile developmental transitions"
+  url: https://doi.org/10.1111/j.2044-835X.1998.tb00748.x
+  source_type: primary_research
+  verified: false
+  last_accessed: 2026-11-04
+  note: >-
+    de Weerth & van Geert 1998;16:15-44 (University of Groningen). Independent ethological
+    replication of the 1992 regression-period pattern in 4 infants: periods of emotional
+    instability were seen, but no evidence that they were strictly timed. Plooij disputed the
+    analysis (1998 exchange); a partial Catalan replication (Sadurní & Rostan 2002) is also
+    cited in the literature. Abstract + Groningen portal summary reviewed 2026-11-04; full
+    text paywalled. Net: the fixed-week calendar is contested and unreplicated at scale.
+
+- id: cdc_milestones_2022_zubler
+  organization: Centers for Disease Control and Prevention / American Academy of Pediatrics
+  title: "Evidence-Informed Milestones for Developmental Surveillance Tools (CDC 'Learn the Signs. Act Early.' checklists, 2022 revision)"
+  url: https://www.cdc.gov/act-early/milestones/index.html
+  source_type: guideline
+  verified: true
+  last_accessed: 2026-11-04
+  note: >-
+    Zubler et al., Pediatrics 2022;149(3):e2021052138 (doi:10.1542/peds.2021-052138; free
+    full text at stacks.cdc.gov/view/cdc/122643). Checklists at 2, 4, 6, 9, 12, 15, 18, 24,
+    30 mo (then yearly to 5 y); each item is what >=75% of children do by that age — a
+    surveillance / conversation aid, explicitly "not guidelines or standards" and not a
+    screening instrument. US government work, public domain. Live 6-, 9-, 12- and 18-month
+    pages reviewed 2026-11-04 for the sleep-relevant items quoted in developmental-sleep.md §6.
+
+- id: who_mgrs_2006_motor_windows
+  organization: World Health Organization — Multicentre Growth Reference Study Group
+  title: "WHO Motor Development Study: windows of achievement for six gross motor development milestones"
+  url: https://doi.org/10.1111/j.1651-2227.2006.tb02379.x
+  source_type: primary_research
+  verified: true
+  last_accessed: 2026-11-04
+  note: >-
+    Acta Paediatr Suppl 2006;450:86-95. Verified 2026-11-04 against the WHO-hosted
+    supplement PDF (abstract p.86): 816 healthy children, 5 countries, monthly visits;
+    1st-99th percentile windows in months — sitting without support 3.8-9.2; standing with
+    assistance 4.8-11.4; hands-and-knees crawling 5.2-13.5 (4.3% never crawled);
+    walking with assistance 5.9-13.7; standing alone 6.9-16.9; walking alone 8.2-17.6.
+    No sex differences. Windows describe normal variation, not targets.
+
 # ── C_behavioral layer sources ────────────────────────────────────────────────
 
 - id: mindell_2006_behavioral_treatment_review

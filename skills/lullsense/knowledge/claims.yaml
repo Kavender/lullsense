@@ -472,16 +472,54 @@
   age_range_months: [8, 24]
   evidence_type: heuristic
   evidence_level: low
-  claim: "Periods of rapid motor, language, and separation-anxiety development are commonly associated with temporary sleep disruption, but this is a clinically observed pattern, not something proven to explain any individual child's sleep change."
-  sources: []
+  claim: "Periods of rapid motor, language, and separation-anxiety development are commonly associated with temporary sleep disruption, but this is a clinically observed pattern, not something proven to explain any individual child's sleep change; the useful anchor is the skill the parent has actually seen emerge this week, not a calendar prediction."
+  sources: [cdc_milestones_2022_zubler, who_mgrs_2006_motor_windows]
   use_for:
     - offering a plausible developmental frame for why sleep may have shifted around a milestone
     - normalizing temporary disruption during active developmental periods
+    - asking "what is she newly doing this week?" and aligning that parent-observed skill with the sleep change (see developmental-sleep.md §6 milestone ladder)
   do_not_use_for:
     - promising the disruption will resolve on its own by a set time
     - attributing every sleep change to development without assessment
+    - predicting a milestone or a sleep disruption from the calendar before the parent has observed it
   individual_variability: high
-  last_reviewed: 2026-08-24
+  last_reviewed: 2026-11-04
+
+- claim_id: motor_milestone_windows_wide
+  layer: B_developmental
+  topic: developmental_context
+  parent_goals: [night_waking, short_naps, is_this_normal]
+  age_range_months: [4, 18]
+  evidence_type: primary_research
+  evidence_level: moderate
+  claim: "Healthy children reach the six gross motor milestones across wide, overlapping windows (1st-99th percentile): sitting without support 3.8-9.2 months, standing with assistance 4.8-11.4, hands-and-knees crawling 5.2-13.5 (about 4% never crawl), walking with assistance 5.9-13.7, standing alone 6.9-16.9, walking alone 8.2-17.6; so the age at which a given baby starts practising a skill — and any sleep disruption around it — is individual, not predictable from the calendar."
+  sources: [who_mgrs_2006_motor_windows]
+  use_for:
+    - confirming that a newly emerging motor skill the parent reports is within the normal window
+    - explaining why one baby's "crawling week" or "standing week" lands months apart from another's
+  do_not_use_for:
+    - developmental screening or judging a child as delayed (that is the pediatrician's call)
+    - forecasting when a skill — or a sleep disruption — will arrive
+  individual_variability: high
+  last_reviewed: 2026-11-04
+
+- claim_id: leap_calendar_low_evidence
+  layer: B_developmental
+  topic: sleep_regression
+  parent_goals: [night_waking, bedtime_resistance, short_naps, is_this_normal]
+  age_range_months: [4, 20]
+  evidence_type: primary_research
+  evidence_level: low
+  claim: "The 'leap' / 'wonder weeks' calendar (ten strictly timed fussy periods in the first 20 months) rests on one small maternal-report study by its commercial authors; an independent replication found periods of instability but no evidence they were strictly timed, so the calendar cannot predict when any individual baby will be unsettled or sleep worse."
+  sources: [van_de_rijt_plooij_1992_infantile_regressions, de_weerth_van_geert_1998_regression_replication]
+  use_for:
+    - meeting a parent who says "it's leap 5" or "a wonder week" without correcting the vocabulary, then redirecting to what the baby is actually newly doing
+    - explaining honestly why we do not show a leap calendar in the app
+  do_not_use_for:
+    - predicting or confirming a leap from the baby's age
+    - dismissing the parent's observation that the baby is unsettled — the fussiness can be real even when the timetable is not
+  individual_variability: high
+  last_reviewed: 2026-11-04
 
 - claim_id: separation_anxiety_sleep_disruption
   layer: B_developmental
