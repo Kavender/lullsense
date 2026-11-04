@@ -35,6 +35,8 @@ A_safety citations are already embedded inline in `references/safety-triage.md`.
 | `naps_support_memory` | B_developmental | moderate | Daytime naps support memory consolidation and learning in i… |
 | `individual_variability_baseline` | B_developmental | high | Individual sleep need varies with genetic, behavioral, medi… |
 | `developmental_context_sleep_shifts` | B_developmental | low | Periods of rapid motor, language, and separation-anxiety de… |
+| `motor_milestone_windows_wide` | B_developmental | moderate | Healthy children reach the six gross motor milestones acros… |
+| `leap_calendar_low_evidence` | B_developmental | low | The 'leap' / 'wonder weeks' calendar (ten strictly timed fu… |
 | `separation_anxiety_sleep_disruption` | B_developmental | moderate | Separation and attachment development — the emergence of ob… |
 | `sleep_regression_reframe` | B_developmental | moderate | The popular term 'sleep regression' points at real sleep ch… |
 | `bedtime_resistance_toddler_autonomy` | B_developmental | low | Bedtime resistance in toddlers is frequently a normal expre… |
