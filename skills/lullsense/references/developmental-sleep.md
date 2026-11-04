@@ -169,7 +169,7 @@ The useful move is not to predict a milestone from the calendar but to **ask wha
 | 9 mo | Gets to sitting by herself; sits without support; reacts when you leave; shy/clingy with strangers; looks for objects dropped out of sight | Object permanence → separation protest at bedtime and after wakings (§6 separation) |
 | 12 mo | Pulls up to stand; walks holding furniture; looks for hidden things; waves bye-bye; says "mama"/"dada" | Standing practice in the crib; cannot always get back down |
 | 15 mo | Takes a few steps on his own; points to ask for things; one or two words besides mama/dada; shows affection; copies other children | Early walking practice; wanting to communicate at bedtime |
-| 18 mo | Walks without holding on; climbs on and off furniture; three or more words; moves away but checks you are close | Climbing (crib-exit risk, §E environment); renewed separation checking |
+| 18 mo | Walks without holding on; climbs on and off furniture; three or more words; moves away but checks you are close | Climbing (crib-exit risk — see `references/environment-comfort-factors.md`); renewed separation checking |
 | 24 mo | Runs; kicks a ball; walks up stairs; two-word phrases; notices when others are upset | Big-body activity; language for protest and negotiation (§6 autonomy) |
 | 30 mo | Jumps with both feet; about 50 words; two-step instructions; pretend play; "Look at me!" | Pretend play and imagination at bedtime; autonomy and routines |
 
