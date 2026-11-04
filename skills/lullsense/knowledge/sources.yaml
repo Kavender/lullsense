@@ -209,7 +209,8 @@
     "Wonder Weeks" / "Oei, ik groei!" leap calendar: maternal reports from 15 mother-infant
     pairs describing 10 strictly timed "difficult" periods in the first 20 months (increased
     crying, clinging, less sleep). Abstract reviewed 2026-11-04; full text paywalled, not
-    reviewed. Small sample, maternal report, authors are the calendar's commercial authors.
+    reviewed (the free Heimann 2003 volume discusses it but does not reprint it). Small
+    sample, maternal report, authors are the calendar's commercial authors.
     Cite only as the origin of the leap vocabulary — never as a timetable.
 
 - id: de_weerth_van_geert_1998_regression_replication
@@ -217,15 +218,22 @@
   title: "Emotional instability as an indicator of strictly timed infantile developmental transitions"
   url: https://doi.org/10.1111/j.2044-835X.1998.tb00748.x
   source_type: primary_research
-  verified: false
+  verified: true
   last_accessed: 2026-11-04
   note: >-
-    de Weerth & van Geert 1998;16:15-44 (University of Groningen). Independent ethological
-    replication of the 1992 regression-period pattern in 4 infants: periods of emotional
-    instability were seen, but no evidence that they were strictly timed. Plooij disputed the
-    analysis (1998 exchange); a partial Catalan replication (Sadurní & Rostan 2002) is also
-    cited in the literature. Abstract + Groningen portal summary reviewed 2026-11-04; full
-    text paywalled. Net: the fixed-week calendar is contested and unreplicated at scale.
+    de Weerth & van Geert 1998;16:15-44 (University of Groningen). Human-verified
+    2026-11-04 against the publisher's version self-archived as thesis chapter 2
+    (https://pure.rug.nl/ws/portalfiles/portal/10645647/c2.pdf). Four mother-infant pairs
+    observed weekly at home from birth to 15 months (crying, fretting/fussing, smiling, body
+    contact). Conclusion, verbatim: "No support has been found for the model of ten regression
+    periods described by Van de Rijt-Plooij & Plooij (1992a), notwithstanding the fact that the
+    original criteria were at points significantly weakened ... This finding does not imply
+    that regressions and transitions do not occur during infancy. It does suggest ... that such
+    regressions and transitions are subject to much more individual variation than the Plooij
+    data indicate, and ... that the number of universally occurring regression periods, if any
+    such exist, is considerably smaller than ten." Plooij disputed the analysis (1998
+    exchange); partial replications (Sadurní & Rostan, Catalonia; Lindahl et al., Sweden) are
+    collected in Heimann (ed.) 2003, Regression Periods in Human Infancy.
 
 - id: cdc_milestones_2022_zubler
   organization: Centers for Disease Control and Prevention / American Academy of Pediatrics
