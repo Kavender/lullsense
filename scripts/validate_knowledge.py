@@ -8,6 +8,7 @@ warnings are advisory and do NOT affect the exit code.
 """
 from __future__ import annotations
 
+import math
 import re
 import sys
 from datetime import date
@@ -80,9 +81,13 @@ def validate_heuristics(path: Path, source_ids: set[str] | None = None) -> list[
     return errors
 
 
+def _is_num(v) -> bool:
+    """Finite int/float, not bool — the app's isAgeRef rejects true/NaN/Infinity."""
+    return isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v)
+
+
 def _is_range(x, lo: float = 0, hi: float = float("inf")) -> bool:
-    return (isinstance(x, list) and len(x) == 2
-            and all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in x)
+    return (isinstance(x, list) and len(x) == 2 and all(_is_num(v) for v in x)
             and lo <= x[0] <= x[1] <= hi)
 
 
@@ -111,7 +116,7 @@ def _validate_tier2(tag: str, r: dict, source_ids: set[str] | None) -> list[str]
             errors.append(f"{tag}: bad sequences[{j}] {s!r}")
     cap = r["daytime_sleep_cap_hours"]
     if cap is not None and not (isinstance(cap, dict) and set(cap) == {"max"}
-                                and isinstance(cap["max"], (int, float)) and 0 < cap["max"] <= 24):
+                                and _is_num(cap["max"]) and 0 < cap["max"] <= 24):
         errors.append(f"{tag}: bad daytime_sleep_cap_hours {cap!r}")
     end = r["latest_nap_end_local"]
     if end is not None and not (isinstance(end, str) and re.fullmatch(r"([01]\d|2[0-3]):[0-5]\d", end)):

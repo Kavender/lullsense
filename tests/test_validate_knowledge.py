@@ -106,14 +106,41 @@ def test_heuristics_tier2_rejects_bad_rows():
     import copy
 
     import scripts.validate_knowledge as vk
-    good = _heuristics_rows()[3]
-    for mutate in (
-        lambda r: r["sequences"][0]["wake_windows_minutes"].pop(),
-        lambda r: r.__setitem__("latest_nap_end_local", "25:00"),
-        lambda r: r.__setitem__("nap_transition", {"from": 2, "to": 1, "months": [15, 40]}),
-        lambda r: r.__setitem__("sources", ["no_such_source"]),
-        lambda r: r.pop("basis"),
-    ):
+    good = _heuristics_rows()[3]  # band [12, 18]
+    ids = set(good["sources"])
+    assert vk._validate_tier2("t", good, ids) == []  # unmodified row passes
+
+    def _set(key, value):
+        return lambda r: r.__setitem__(key, value)
+
+    def _ww(value):
+        return lambda r: r["sequences"][0].__setitem__("wake_windows_minutes", value)
+
+    cases = [
+        (lambda r: r["sequences"][0]["wake_windows_minutes"].pop(), "sequences[0]"),
+        (_ww([[180, 240], [180, 240], [0, float("inf")]]), "sequences[0]"),
+        (_ww([[180, 240], [180, 240], [float("nan"), 240]]), "sequences[0]"),
+        (_ww([[180, 240], [180, 240], [True, 240]]), "sequences[0]"),
+        (_set("latest_nap_end_local", "25:00"), "latest_nap_end_local"),
+        (_set("nap_transition", {"from": 2, "to": 1, "months": [15, 40]}), "nap_transition"),
+        (_set("nap_transition", {"from": True, "to": 1, "months": [15, 24]}), "nap_transition"),
+        (_set("sources", ["no_such_source"]), "no_such_source"),
+        (lambda r: r.pop("basis"), "basis"),
+        (_set("basis", "x" * 81), "basis"),
+        (_set("daytime_sleep_cap_hours", {"max": True}), "daytime_sleep_cap_hours"),
+        (_set("daytime_sleep_cap_hours", {"max": float("inf")}), "daytime_sleep_cap_hours"),
+        (_set("daytime_sleep_cap_hours", {"max": 0}), "daytime_sleep_cap_hours"),
+        (_set("daytime_sleep_cap_hours", {"max": 24.5}), "daytime_sleep_cap_hours"),
+        (_set("daytime_sleep_cap_hours", {"max": -1}), "daytime_sleep_cap_hours"),
+    ]
+    for mutate, field in cases:
         r = copy.deepcopy(good)
         mutate(r)
-        assert vk._validate_tier2("t", r, {"huckleberry_sleep_expectations"}) != []
+        errors = vk._validate_tier2("t", r, ids)
+        assert errors and all(field in e for e in errors), (field, errors)
+
+    # Cap boundaries that must pass: (0, 24] inclusive of 24; null allowed.
+    for cap in ({"max": 24}, {"max": 0.5}, None):
+        r = copy.deepcopy(good)
+        r["daytime_sleep_cap_hours"] = cap
+        assert vk._validate_tier2("t", r, ids) == [], cap

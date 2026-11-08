@@ -26,6 +26,8 @@
 #     these now read wider than the 2026-08-29 values the five original bands were seeded
 #     from; the original fields are left untouched) and Taking Cara Babies nap schedules.
 #     Months with no per-position source (24-36mo) get no sequence rather than a guess.
+#     One-nap rows (from 14mo) use TCB's 14-24mo row, so they start at 14 even though
+#     TCB puts the 2->1 move at 13-18mo; 15-18mo two-nap and 24-36mo have no row.
 #   * daytime_sleep_cap_hours / latest_nap_end_local: Taking Cara Babies; where two of its
 #     age rows overlap a band, the looser (larger cap / later time) is used.
 #   * nap_transition: 3->2 ~6-9mo (Weissbluth 1995; TCB 6.5-8mo); 2->1 15-24mo
@@ -106,7 +108,7 @@
     - months: [12, 15]
       naps: 2
       wake_windows_minutes: [[180, 240], [180, 240], [210, 240]]
-    - months: [13, 18]
+    - months: [14, 18]
       naps: 1
       wake_windows_minutes: [[300, 360], [240, 300]]
   daytime_sleep_cap_hours: {max: 3}
