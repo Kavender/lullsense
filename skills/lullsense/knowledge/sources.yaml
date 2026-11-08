@@ -271,6 +271,81 @@
     walking with assistance 5.9-13.7; standing alone 6.9-16.9; walking alone 8.2-17.6.
     No sex differences. Windows describe normal variation, not targets.
 
+# CAM-160 (2026-11-07) additions: nap/night distribution, nap counts and transitions.
+# Agent-checked only (abstract or publisher page via web fetch/search), NOT human full-text
+# verification, so all stay verified: false. No DOI below was invented: each one appears on
+# the publisher/indexer page named in note:.
+
+- id: nakagawa_2016_nap_night
+  organization: Nature Portfolio / Scientific Reports
+  title: "Daytime nap controls toddlers' nighttime sleep"
+  url: https://www.nature.com/articles/srep27246
+  source_type: primary_research
+  verified: false
+  last_accessed: 2026-11-07
+  note: >-
+    Nakagawa M et al. Sci Rep 2016;6:27246 (PMID 27277329, PMC4899693). Actigraphy, n=50
+    toddlers ~1.5 years. Abstract (via PubMed/search summary 2026-11-07; nature.com
+    redirected to login): longer naps correlate with shorter night sleep and later sleep
+    onset; neither nap duration nor nap-ending time correlated with 24-h total sleep — naps
+    shift the day/night distribution, not the amount. Correlational, single age point. A
+    2021 follow-up by the same group (PMC7862350) did not replicate the nap-END-time link.
+
+- id: thorpe_2015_naps_sr
+  organization: BMJ / Archives of Disease in Childhood
+  title: "Napping, development and health from 0 to 5 years: a systematic review"
+  url: https://eprints.qut.edu.au/82020/
+  source_type: systematic_review
+  verified: false
+  last_accessed: 2026-11-07
+  note: >-
+    Thorpe K, Staton S, Sawyer E, Pattinson C, Haden C, Smith S. Arch Dis Child
+    2015;100(7):615-622, doi:10.1136/archdischild-2014-307241 (DOI as listed on the QUT
+    eprints record). Abstract checked 2026-11-07: "The most consistent finding was an
+    association between napping and later onset, shorter duration and poorer quality of
+    night sleep, with evidence strongest beyond the age of 2 years." All 26 studies
+    observational (GRADE-low). Full text not read.
+
+- id: staton_2020_naps_sr
+  organization: Elsevier / Sleep Medicine Reviews
+  title: "Many naps, one nap, none: A systematic review and meta-analysis of napping patterns in children 0-12 years"
+  url: https://pmc.ncbi.nlm.nih.gov/articles/PMC9704850/
+  source_type: systematic_review
+  verified: false
+  last_accessed: 2026-11-07
+  note: >-
+    Staton S, Rankin PS, Harding M, Smith SS, Westwood E, LeBourgeois MK, Thorpe KJ. Sleep
+    Med Rev 2020;50:101247 (online 2019), doi:10.1016/j.smrv.2019.101247 (as listed on PMC).
+    Abstract checked 2026-11-07: dramatic reduction in >=2 naps/day around 12-18 months;
+    <2.5% stop napping before age 2, 94% by age 5; beyond age 2 napping is associated with
+    reduced night sleep ("a redistribution in 24-h sleep timing"). Full text not read.
+
+- id: iglowstein_2003_sleep_duration
+  organization: American Academy of Pediatrics / Pediatrics
+  title: "Sleep duration from infancy to adolescence: reference values and generational trends"
+  url: https://pubmed.ncbi.nlm.nih.gov/12563055/
+  source_type: primary_research
+  verified: false
+  last_accessed: 2026-11-07
+  note: >-
+    Iglowstein I et al. Pediatrics 2003;111:302. Zurich longitudinal cohort (born
+    1974-1993). Figures taken from the CAM-160 research note (lullsense-app
+    docs/research/2026-11-07-consult-reasoning-spine.md §2.2, §2.5), NOT re-read here:
+    daytime sleep mean 3.4h at 6mo, 2.4h at 12mo, 2.0h at 18mo; 18 months is the marked
+    turning point for the 2-to-1 nap transition. Descriptive percentiles, not targets.
+
+- id: weissbluth_1995_naps
+  organization: Oxford University Press / SLEEP
+  title: "Naps in children: 6 months-7 years"
+  url: https://academic.oup.com/sleep/article-lookup/doi/10.1093/sleep/18.2.82
+  source_type: primary_research
+  verified: false
+  last_accessed: 2026-11-07
+  note: >-
+    Weissbluth M. Sleep 1995;18:82 (n=172). Figures taken from the CAM-160 research note
+    §2.5, NOT re-read here: the third nap is gone before 9 months (3-to-2 ~6-9mo); a single
+    nap is established between 15 and 24 months (2-to-1). Ranges, not milestones.
+
 # ── C_behavioral layer sources ────────────────────────────────────────────────
 
 - id: mindell_2006_behavioral_treatment_review
@@ -376,6 +451,45 @@
   verified: false
   last_accessed: 2026-08-26
 
+- id: bsm_2010_bic_management
+  organization: Taylor & Francis / Behavioral Sleep Medicine
+  title: "Clinical Management of Behavioral Insomnia of Childhood: Treatment of Bedtime Problems and Night Wakings in Young Children"
+  url: https://www.tandfonline.com/doi/full/10.1080/15402002.2010.487464
+  source_type: review
+  verified: false
+  last_accessed: 2026-11-07
+  note: >-
+    Behav Sleep Med 2010. UNVERIFIED: author list and exact wording not confirmed (publisher
+    page returns 403; only an excerpt was read for the CAM-160 research note §3-§4). Cited
+    for the clinical-management idea that early waking with too little total sleep is
+    handled like a night waking (the day does not start), while early waking with enough
+    sleep points at timing (bedtime / naps). Treat as clinical experience, not guideline.
+
+- id: kang_kim_2021_behavioral_insomnia_review
+  organization: Korean Pediatric Society / Clinical and Experimental Pediatrics
+  title: "Behavioral insomnia in infants and young children"
+  url: https://doi.org/10.3345/cep.2020.00052
+  source_type: review
+  verified: false
+  last_accessed: 2026-11-07
+  note: >-
+    Kang EK, Kim SS. Clin Exp Pediatr 2021;64(3):111-116 (online 2020-07-15). Publisher
+    full-text page agent-checked 2026-11-07: "Asking parents to keep a diary of their
+    child's sleep for at least a week is needed." Diary fields: bedtime, sleep onset, night
+    waking time/duration, morning wake, nap times/durations. Narrative review.
+
+- id: vriend_corkum_2011_bic_management
+  organization: Dove Medical Press / Psychology Research and Behavior Management
+  title: "Clinical management of behavioral insomnia of childhood"
+  url: https://doi.org/10.2147/PRBM.S14057
+  source_type: review
+  verified: false
+  last_accessed: 2026-11-07
+  note: >-
+    Vriend J, Corkum P. Psychol Res Behav Manag 2011;4:69-79. UNVERIFIED wording: the
+    "complete a sleep diary for two weeks" statement comes from a search summary
+    2026-11-07; publisher full text was not readable (403 / abstract-only page).
+
 # ── D_practice layer sources ──────────────────────────────────────────────────
 
 - id: babysleepscience_bedtime_fading_guide
@@ -454,6 +568,33 @@
   verified: false
   last_accessed: 2026-08-29
   note: "Page blocks direct fetch; numbers corroborated via search summary 2026-08-29 (18mo+ 5-6h). Practitioner heuristic."
+
+- id: takingcarababies_nap_schedules
+  organization: Taking Cara Babies
+  title: "Nap Schedules: 5 Months to 24 Months"
+  url: https://www.takingcarababies.com/blogs/sleep-schedules/nap-schedules-5-months-to-24-months
+  source_type: consultant_public_material
+  verified: false
+  last_accessed: 2026-11-07
+  note: >-
+    Agent-fetched 2026-11-07. 5-7mo: 3 naps, wake windows 2-3h, last nap to bedtime
+    2.5-3h, daytime sleep 3-4h, drop 3rd nap ~6.5-8mo. 7-10mo: 2 naps, 2.5-3.5h, last nap
+    to bedtime 3-3.5h, daytime 2.5-3.5h, no single nap over 2h. 11-14mo: 2 naps, 3-4h,
+    last nap to bedtime 3.5-4h, daytime 2.5-3h; move to 1 nap 13-18mo. 14-24mo: 1 nap,
+    5-6h wake to nap, 4-5h nap to bedtime, daytime 2-3h, nap capped at 3h. Practitioner
+    heuristic, not clinical.
+
+- id: takingcarababies_last_nap_end
+  organization: Taking Cara Babies
+  title: "Should You Wake a Sleeping Baby?"
+  url: https://www.takingcarababies.com/blogs/sleep-basics/should-you-wake-a-sleeping-baby
+  source_type: consultant_public_material
+  verified: false
+  last_accessed: 2026-11-07
+  note: >-
+    Agent-fetched 2026-11-07. Last nap ends by (for a 7-8pm bedtime): 3-4mo 6:00pm,
+    5-7mo 5:30pm, 7-10mo 5:00pm, 11-14mo 4:00pm, 14mo+ 3:30pm. Caps: no single nap over
+    2h on multi-nap days; single nap no longer than 3h. Practitioner heuristic.
 
 # ── E_environment layer sources ─────────────────────────────────────────────────
 # Sleep-environment evidence (light, noise). All entries human-verified 2026-09-03 against
