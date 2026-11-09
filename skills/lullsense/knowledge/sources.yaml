@@ -294,14 +294,18 @@
 - id: thorpe_2015_naps_sr
   organization: BMJ / Archives of Disease in Childhood
   title: "Napping, development and health from 0 to 5 years: a systematic review"
-  url: https://eprints.qut.edu.au/82020/
+  url: https://pubmed.ncbi.nlm.nih.gov/25691291/
   source_type: systematic_review
   verified: false
-  last_accessed: 2026-11-07
+  last_accessed: 2026-11-09
   note: >-
     Thorpe K, Staton S, Sawyer E, Pattinson C, Haden C, Smith S. Arch Dis Child
-    2015;100(7):615-622, doi:10.1136/archdischild-2014-307241 (DOI as listed on the QUT
-    eprints record). Abstract checked 2026-11-07: "The most consistent finding was an
+    2015;100(7):615-622, doi:10.1136/archdischild-2014-307241. Bibliographic record
+    confirmed 2026-11-09 against PubMed PMID 25691291 (NCBI E-utilities efetch): title,
+    authors, journal, year, volume/issue/pages, DOI and systematic-review design all match;
+    the DOI resolves (doi.org -> adc.bmj.com). url switched from the QUT eprints record
+    (https://eprints.qut.edu.au/82020/, could not be re-confirmed) to the PubMed canonical
+    link. Abstract checked 2026-11-07 (re-read 2026-11-09, unchanged): "The most consistent finding was an
     association between napping and later onset, shorter duration and poorer quality of
     night sleep, with evidence strongest beyond the age of 2 years." All 26 studies
     observational (GRADE-low). Full text not read.
@@ -326,13 +330,20 @@
   url: https://pubmed.ncbi.nlm.nih.gov/12563055/
   source_type: primary_research
   verified: false
-  last_accessed: 2026-11-07
+  last_accessed: 2026-11-09
   note: >-
-    Iglowstein I et al. Pediatrics 2003;111:302. Zurich longitudinal cohort (born
-    1974-1993). Figures taken from the CAM-160 research note (lullsense-app
-    docs/research/2026-11-07-consult-reasoning-spine.md §2.2, §2.5), NOT re-read here:
-    daytime sleep mean 3.4h at 6mo, 2.4h at 12mo, 2.0h at 18mo; 18 months is the marked
-    turning point for the 2-to-1 nap transition. Descriptive percentiles, not targets.
+    Iglowstein I, Jenni OG, Molinari L, Largo RH. Pediatrics 2003;111(2):302-307,
+    doi:10.1542/peds.111.2.302. Bibliographic record confirmed 2026-11-09 against PubMed
+    PMID 12563055 (NCBI E-utilities efetch): title, authors, journal, year,
+    volume/issue/pages and DOI match; the DOI resolves (doi.org -> publications.aap.org).
+    Abstract confirms n=493 Zurich Longitudinal Studies, cohorts 1974-1993, and "The most
+    prominent decline in napping habits occurred between 1.5 years of age (96.4% of all
+    children) and 4 years of age (35.4%)". The specific figures below are NOT in the
+    abstract and were NOT checked against the full text; they are inherited from the
+    CAM-160 research note (lullsense-app docs/research/2026-11-07-consult-reasoning-spine.md
+    §2.2, §2.5): daytime sleep mean 3.4h at 6mo, 2.4h at 12mo, 2.0h at 18mo; 18 months is
+    the marked turning point for the 2-to-1 nap transition. Descriptive percentiles, not
+    targets.
 
 - id: weissbluth_1995_naps
   organization: Oxford University Press / SLEEP
@@ -340,11 +351,17 @@
   url: https://academic.oup.com/sleep/article-lookup/doi/10.1093/sleep/18.2.82
   source_type: primary_research
   verified: false
-  last_accessed: 2026-11-07
+  last_accessed: 2026-11-09
   note: >-
-    Weissbluth M. Sleep 1995;18:82 (n=172). Figures taken from the CAM-160 research note
-    §2.5, NOT re-read here: the third nap is gone before 9 months (3-to-2 ~6-9mo); a single
-    nap is established between 15 and 24 months (2-to-1). Ranges, not milestones.
+    Weissbluth M. Sleep 1995;18(2):82-87, doi:10.1093/sleep/18.2.82 (n=172, followed 6
+    months to 7 years). Bibliographic record confirmed 2026-11-09 against PubMed PMID
+    7792496 (NCBI E-utilities efetch): title, sole author, journal, year,
+    volume/issue/pages and DOI match; the DOI resolves (doi.org -> academic.oup.com).
+    Abstract confirms "A pattern of two naps per day was well established by 9-12 months of
+    age and one afternoon nap by 15-24 months" (backs the 2-to-1 range below). The
+    3-to-2 figure ("third nap gone before 9 months", ~6-9mo) is NOT stated in the abstract
+    and was NOT checked against the full text; it is inherited from the CAM-160 research
+    note §2.5. Ranges, not milestones.
 
 # ── C_behavioral layer sources ────────────────────────────────────────────────
 
