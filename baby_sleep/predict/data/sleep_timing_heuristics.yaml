@@ -25,13 +25,24 @@
 #     + "2 hours before bedtime"; 6mo 2-3h; 7-8mo and 9mo 2.5-3.5h; 10-12mo 3-4h — NOTE
 #     these now read wider than the 2026-08-29 values the five original bands were seeded
 #     from; the original fields are left untouched) and Taking Cara Babies nap schedules.
-#     Months with no per-position source (24-36mo) get no sequence rather than a guess.
+#     Months with no per-position source get no sequence rather than a guess.
 #     One-nap rows (from 14mo) use TCB's 14-24mo row, so they start at 14 even though
-#     TCB puts the 2->1 move at 13-18mo; 15-18mo two-nap and 24-36mo have no row.
+#     TCB puts the 2->1 move at 13-18mo.
+#     Re-checked 2026-11-09 (both former gaps now filled): 15-18mo two-nap -> the 2-nap
+#     row is extended from [12,15] to [12,18]: TCB 15mo + 17mo pages (overall 3-4h; nap 2
+#     to bed 3.5-4h) and Huckleberry 15/16/17mo pages (3.25-4h / 3.5-4h / 3.5-4h or 4h to
+#     bed) all fall inside the same 180-240 / 180-240 / 210-240 numbers. 24-36mo one-nap
+#     -> Huckleberry 24mo (5.5h before nap, 6h before bed), 30mo (6h / 6h), 3yr (6h /
+#     6-6.5h), taken as the span across the band. TCB's toddler page reads shorter (2yo
+#     4-6h, 3yo 5-6h overall; samples 4.5-5.5h nap to bed) and gives no per-position
+#     range, so it is cited but not used for the row; treat 24-36mo nap->bed as soft.
 #   * daytime_sleep_cap_hours / latest_nap_end_local: Taking Cara Babies; where two of its
 #     age rows overlap a band, the looser (larger cap / later time) is used.
 #   * nap_transition: 3->2 ~6-9mo (Weissbluth 1995; TCB 6.5-8mo); 2->1 15-24mo
 #     (Weissbluth 1995; Iglowstein 2003 18mo turning point). Ranges, never milestones.
+#     Weissbluth 1995's abstract only says two naps are "well established by 9-12 months",
+#     softer than the practitioner 3->2 range [6,9] kept here; full text pending the CAM-67
+#     clinical review (nap_transition left unchanged).
 #   * null = no public source gives a value for this band. Never personal thresholds.
 - age_band_months: [4, 6]
   wake_window_minutes: {min: 90, max: 150}
@@ -105,7 +116,7 @@
   clinical_anchors: [total_sleep_1_2_years, nap_transition_2to1_timing]
   notes: "12mo Huckleberry-verified (195-240); 13-17mo corroborated across HealthyHappySleep + Baby Sleep Site (2->1 transition; wide/uncertain)."
   sequences:
-    - months: [12, 15]
+    - months: [12, 18]
       naps: 2
       wake_windows_minutes: [[180, 240], [180, 240], [210, 240]]
     - months: [14, 18]
@@ -115,7 +126,7 @@
   latest_nap_end_local: "16:00"
   nap_transition: {from: 2, to: 1, months: [15, 24]}
   basis: "育儿经验范围，按你家数据调"
-  sources: [huckleberry_sleep_expectations, takingcarababies_nap_schedules, takingcarababies_last_nap_end, weissbluth_1995_naps, iglowstein_2003_sleep_duration]
+  sources: [huckleberry_sleep_expectations, takingcarababies_nap_schedules, takingcarababies_last_nap_end, weissbluth_1995_naps, iglowstein_2003_sleep_duration, takingcarababies_15_17mo_schedules, huckleberry_15_17mo_schedules]
 - age_band_months: [18, 36]
   wake_window_minutes: {min: 270, max: 360}
   typical_nap_minutes: {min: 60, max: 150}
@@ -128,8 +139,11 @@
     - months: [18, 24]
       naps: 1
       wake_windows_minutes: [[300, 360], [240, 300]]
+    - months: [24, 36]
+      naps: 1
+      wake_windows_minutes: [[330, 360], [360, 390]]
   daytime_sleep_cap_hours: {max: 3}
   latest_nap_end_local: "15:30"
   nap_transition: {from: 2, to: 1, months: [15, 24]}
   basis: "育儿经验范围，按你家数据调"
-  sources: [takingcarababies_nap_schedules, takingcarababies_last_nap_end, weissbluth_1995_naps, iglowstein_2003_sleep_duration]
+  sources: [takingcarababies_nap_schedules, takingcarababies_last_nap_end, weissbluth_1995_naps, iglowstein_2003_sleep_duration, huckleberry_toddler_24_36mo_schedules, takingcarababies_toddler_nap_schedules]

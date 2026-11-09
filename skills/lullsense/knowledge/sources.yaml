@@ -613,6 +613,62 @@
     5-7mo 5:30pm, 7-10mo 5:00pm, 11-14mo 4:00pm, 14mo+ 3:30pm. Caps: no single nap over
     2h on multi-nap days; single nap no longer than 3h. Practitioner heuristic.
 
+- id: takingcarababies_15_17mo_schedules
+  organization: Taking Cara Babies
+  title: "15 Month Old Sleep Schedule / 17 Month Old Sleep Schedule"
+  url: https://www.takingcarababies.com/blogs/sleep-schedules/17-month-old-sleep-schedule
+  source_type: consultant_public_material
+  verified: false
+  last_accessed: 2026-11-09
+  note: >-
+    Agent-fetched 2026-11-09 (17mo page above, plus
+    https://www.takingcarababies.com/blogs/sleep-schedules/15-month-old-sleep-schedule).
+    Two naps: overall wake windows 3-4h; 15mo about 3h to nap 1, 3-3.5h to nap 2,
+    3.5-4h nap 2 to bed; 17mo 3-3.5h, 3-3.5h, 3.5-4h. One nap 5-6h then 4-5h. The 18mo
+    page gives no 2-nap breakdown and points to the 17mo page. Practitioner heuristic.
+
+- id: huckleberry_15_17mo_schedules
+  organization: Huckleberry
+  title: "15 / 16 / 17 month old sleep schedule: Bedtime and nap schedule"
+  url: https://huckleberrycare.com/blog/17-month-old-sleep-schedule-bedtime-and-nap-schedule
+  source_type: consultant_public_material
+  verified: false
+  last_accessed: 2026-11-09
+  note: >-
+    Agent-fetched 2026-11-09 (17mo page above, plus the 15-month-old and 16-month-old
+    pages at the same URL pattern). Two naps: 15mo 3.25-4h before nap 1, 3.75-4h before
+    nap 2, 4h before bed; 16mo 3.25-4h, 3.5-4h (no bedtime figure); 17mo 3.25-4h, then
+    3.5-4h before nap 2 and before bed. The 18mo page gives 1-nap numbers only.
+    Practitioner heuristic.
+
+- id: huckleberry_toddler_24_36mo_schedules
+  organization: Huckleberry
+  title: "24 month / 30 month / 3 year old sleep schedule: Bedtime and nap schedule"
+  url: https://huckleberrycare.com/blog/3-year-old-sleep-schedule
+  source_type: consultant_public_material
+  verified: false
+  last_accessed: 2026-11-09
+  note: >-
+    Agent-fetched 2026-11-09 (3yr page above, plus
+    https://huckleberrycare.com/blog/24-month-old-sleep-schedule-bedtime-and-nap-schedule
+    and https://huckleberrycare.com/blog/30-month-old-sleep-schedule-bedtime-and-nap-schedule).
+    One nap: 24mo "about 5.5 - 6 hours of awake time between sleep periods" (5.5h before
+    nap, 6h before bed); 30mo "around 6 hours of awake time before and after"; 3yr
+    "usually 6 - 6.5 hours" (6h before nap, 6.5h before bed). Practitioner heuristic.
+
+- id: takingcarababies_toddler_nap_schedules
+  organization: Taking Cara Babies
+  title: "Toddler Nap Schedules for 2, 3, and 4 Year Olds"
+  url: https://www.takingcarababies.com/blogs/sleep-schedules/toddler-nap-schedules-for-2-3-and-4-year-olds
+  source_type: consultant_public_material
+  verified: false
+  last_accessed: 2026-11-09
+  note: >-
+    Agent-fetched 2026-11-09. Overall wake windows only: 2yo 4-6h, 3yo 5-6h if napping;
+    no per-position range (sample days run 6h to nap, 4.5-5.5h nap to bed). Shorter than
+    Huckleberry's 24-36mo figures; cited for that divergence, not used for the sequence.
+    Practitioner heuristic.
+
 # ── E_environment layer sources ─────────────────────────────────────────────────
 # Sleep-environment evidence (light, noise). All entries human-verified 2026-09-03 against
 # the primary full-text PDFs (light set, Spencer 1990, Öz & Demirci 2025, Düken & Yayan 2024,
