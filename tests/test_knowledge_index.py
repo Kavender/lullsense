@@ -52,3 +52,19 @@ def test_cite_main_exit_codes():
     assert cite.main(["safe_sleep_back_to_sleep"]) == 0        # found
     assert cite.main(["definitely_not_an_id"]) == 1            # missing → nonzero
     assert cite.main([]) == 2                                  # usage error
+
+
+def test_every_index_id_exists_in_claims_yaml():
+    import re
+
+    index_ids = re.findall(r"^\| `([^`]+)` \|", INDEX.read_text(encoding="utf-8"), re.MULTILINE)
+    assert index_ids, "no claim rows parsed from the index"
+    assert set(index_ids) <= set(_claim_ids())
+
+
+def test_cam160_claims_present():
+    ids = set(_claim_ids())
+    for cid in ("nap_timing_night_tradeoff", "early_waking_enough_vs_not",
+                "sleep_diary_window_two_weeks", "one_change_then_recheck"):
+        assert cid in ids
+        assert cite.lookup(cid)[0] == "claim"

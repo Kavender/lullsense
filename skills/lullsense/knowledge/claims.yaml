@@ -577,6 +577,26 @@
   individual_variability: high
   last_reviewed: 2026-08-24
 
+- claim_id: nap_timing_night_tradeoff
+  layer: B_developmental
+  topic: nap_night_distribution
+  parent_goals: [early_waking, bedtime_resistance, daycare_schedule_fit, is_this_normal]
+  age_range_months: [12, 36]
+  evidence_type: systematic_review
+  evidence_level: moderate
+  claim: "Longer naps, and naps that end later, go with a later sleep onset and a shorter night, while 24-hour total sleep stays about the same — naps shift sleep between day and night more than they add to it. The evidence is correlational and strongest from about 1.5-2 years on."
+  sources: [nakagawa_2016_nap_night, thorpe_2015_naps_sr, staton_2020_naps_sr]
+  use_for:
+    - explaining a late bedtime or short night that follows a long or late nap when 24-hour total is within range
+    - framing a nap change as moving sleep between day and night, not as "more sleep"
+    - explaining why a long daycare nap and a later bedtime tend to come together
+  do_not_use_for:
+    - telling a parent to drop or cap a nap for a baby under 12 months (evidence there is thin)
+    - presenting the trade-off as causal for an individual child or as a fixed minute-for-minute exchange
+    - asking a daycare to change its nap rules
+  individual_variability: high
+  last_reviewed: 2026-11-07
+
 # ══════════════════════════════════════════════════════════════════════════════
 # C_behavioral — behavioral sleep medicine (Layer C).
 # Grounded in myths-and-overclaims.md §6 and the behavioral-intervention sources
@@ -846,6 +866,25 @@
   individual_variability: high
   last_reviewed: 2026-08-26
 
+- claim_id: early_waking_enough_vs_not
+  layer: C_behavioral
+  topic: early_waking
+  parent_goals: [early_waking]
+  age_range_months: [4, 36]
+  evidence_type: expert_practice
+  evidence_level: low
+  claim: "For early waking, check 24-hour total sleep first. If it is short of the age range, treat the early waking like a night waking (do not start the day yet) and look at bedtime and night wakings. If total sleep is enough and the child is well rested, the day may simply be shifted early; a gradual later shift of bedtime and naps is the option to consider. This is clinical-management practice, not a tested rule."
+  sources: [bsm_2010_bic_management]
+  use_for:
+    - ordering the early-waking reasoning — total sleep before timing changes
+    - offering the two branches as options with the reason for each
+  do_not_use_for:
+    - stating that over-tiredness or cortisol causes early waking
+    - presenting a specific shift size or schedule as evidence-based
+    - early waking with red flags (snoring, breathing pauses, fever) — safety triage first
+  individual_variability: high
+  last_reviewed: 2026-11-07
+
 # ══════════════════════════════════════════════════════════════════════════════
 # D_practice — the human-consultant playbook (Layer D).
 # Practice-based heuristics and observed public practice. Most are evidence_type
@@ -1108,6 +1147,42 @@
     - presenting a predicted time as a clinical target or a fixed schedule
   individual_variability: high
   last_reviewed: 2026-08-29
+
+- claim_id: sleep_diary_window_two_weeks
+  layer: D_practice
+  topic: sleep_diary
+  parent_goals: [is_this_normal, night_waking, early_waking, short_naps]
+  age_range_months: [4, 36]
+  evidence_type: expert_practice
+  evidence_level: low
+  claim: "Pediatric reviews ask for a sleep diary of at least one week and often about two weeks, so night-to-night variation and weekday/weekend differences show up. With fewer than about 7 days, describe what the log shows and hold off on a pattern or cause."
+  sources: [kang_kim_2021_behavioral_insomnia_review, vriend_corkum_2011_bic_management]
+  use_for:
+    - deciding whether a log is long enough to call something a pattern
+    - inviting a parent to keep a log for a week without gating help on it
+  do_not_use_for:
+    - refusing to help until a parent has logged for a week
+    - treating 7 or 14 days as a validated diagnostic threshold
+  individual_variability: moderate
+  last_reviewed: 2026-11-07
+
+- claim_id: one_change_then_recheck
+  layer: D_practice
+  topic: consultation_craft
+  parent_goals: [early_waking, night_waking, short_naps, bedtime_resistance, nap_transition]
+  age_range_months: [4, 36]
+  evidence_type: expert_practice
+  evidence_level: low
+  claim: "Change one thing at a time and give it about 1-2 weeks before judging it, so the family can tell what helped. This is a working practice, not a guideline: reviews find behavioral approaches help overall but no evidence that one approach, or a combination, beats another."
+  sources: [mindell_2006_behavioral_treatment_review]
+  use_for:
+    - keeping a plan to a single adjustment with a recheck point
+    - explaining why several simultaneous changes make the result hard to read
+  do_not_use_for:
+    - describing one-change-at-a-time as a clinical guideline or study finding
+    - delaying a safety or medical referral to wait out a trial period
+  individual_variability: moderate
+  last_reviewed: 2026-11-07
 
 # ══════════════════════════════════════════════════════════════════════════════
 # E_environment: sleep environment / comfort (Hypothesis #8)

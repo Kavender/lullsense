@@ -12,6 +12,27 @@
 # Direct-fetched: Huckleberry, HealthyHappySleep. Search-corroborated (pages block
 # direct fetch): The Baby Sleep Site, TheBump. Consumer pages change; re-verify
 # periodically. Maintainer review required before release.
+# CAM-160 tier-2 fields (2026-11-07; sequences, daytime_sleep_cap_hours,
+# latest_nap_end_local, nap_transition, basis, sources). Same rule: practitioner
+# heuristics, source_type stays heuristic. The chat gateway never reads this file
+# (EXCLUDED_ASSETS); the app transcribes these fields into AGE_REF (params.ts) /
+# Params.ageRef (Params.swift) and sends that band as `ageRef`. Change a number here ->
+# re-transcribe in the app (its transcription test pins this file).
+#   * sequences: wake windows in minutes by position (wake->nap 1, ..., last nap->bed),
+#     per month range and nap count. Each position takes the source's stated range for
+#     that age; the last (->bed) position takes the source's explicit last-nap-to-bedtime
+#     range where one exists. Fetched 2026-11-07: Huckleberry first-year page (4mo 1.5-2.5h
+#     + "2 hours before bedtime"; 6mo 2-3h; 7-8mo and 9mo 2.5-3.5h; 10-12mo 3-4h — NOTE
+#     these now read wider than the 2026-08-29 values the five original bands were seeded
+#     from; the original fields are left untouched) and Taking Cara Babies nap schedules.
+#     Months with no per-position source (24-36mo) get no sequence rather than a guess.
+#     One-nap rows (from 14mo) use TCB's 14-24mo row, so they start at 14 even though
+#     TCB puts the 2->1 move at 13-18mo; 15-18mo two-nap and 24-36mo have no row.
+#   * daytime_sleep_cap_hours / latest_nap_end_local: Taking Cara Babies; where two of its
+#     age rows overlap a band, the looser (larger cap / later time) is used.
+#   * nap_transition: 3->2 ~6-9mo (Weissbluth 1995; TCB 6.5-8mo); 2->1 15-24mo
+#     (Weissbluth 1995; Iglowstein 2003 18mo turning point). Ranges, never milestones.
+#   * null = no public source gives a value for this band. Never personal thresholds.
 - age_band_months: [4, 6]
   wake_window_minutes: {min: 90, max: 150}
   typical_nap_minutes: {min: 30, max: 120}
@@ -20,6 +41,18 @@
   source_type: heuristic
   clinical_anchors: [total_sleep_4_12_months, nap_phase_progression]
   notes: "Huckleberry-verified 4-5mo (90-150 min); practitioner heuristic, no clinical table exists."
+  sequences:
+    - months: [4, 5]
+      naps: 4
+      wake_windows_minutes: [[90, 150], [90, 150], [90, 150], [90, 150], [120, 150]]
+    - months: [5, 6]
+      naps: 3
+      wake_windows_minutes: [[120, 180], [120, 180], [120, 180], [150, 180]]
+  daytime_sleep_cap_hours: {max: 4}
+  latest_nap_end_local: "18:00"
+  nap_transition: null
+  basis: "育儿经验范围，按你家数据调"
+  sources: [huckleberry_sleep_expectations, takingcarababies_nap_schedules, takingcarababies_last_nap_end]
 - age_band_months: [6, 9]
   wake_window_minutes: {min: 120, max: 210}
   typical_nap_minutes: {min: 45, max: 120}
@@ -28,6 +61,21 @@
   source_type: heuristic
   clinical_anchors: [total_sleep_4_12_months, nap_phase_progression]
   notes: "Huckleberry-verified 6-8mo (6mo 120-180, 7-8mo 150-210); practitioner heuristic."
+  sequences:
+    - months: [6, 7]
+      naps: 3
+      wake_windows_minutes: [[120, 180], [120, 180], [120, 180], [150, 180]]
+    - months: [7, 9]
+      naps: 3
+      wake_windows_minutes: [[150, 210], [150, 210], [150, 210], [150, 210]]
+    - months: [7, 9]
+      naps: 2
+      wake_windows_minutes: [[150, 210], [150, 210], [180, 210]]
+  daytime_sleep_cap_hours: {max: 4}
+  latest_nap_end_local: "17:30"
+  nap_transition: {from: 3, to: 2, months: [6, 9]}
+  basis: "育儿经验范围，按你家数据调"
+  sources: [huckleberry_sleep_expectations, takingcarababies_nap_schedules, takingcarababies_last_nap_end, weissbluth_1995_naps]
 - age_band_months: [9, 12]
   wake_window_minutes: {min: 150, max: 240}
   typical_nap_minutes: {min: 45, max: 120}
@@ -36,6 +84,18 @@
   source_type: heuristic
   clinical_anchors: [total_sleep_4_12_months, nap_phase_progression]
   notes: "Huckleberry-verified 9-12mo (9mo 150-210, 10-12mo 180-240); practitioner heuristic."
+  sequences:
+    - months: [9, 10]
+      naps: 2
+      wake_windows_minutes: [[150, 210], [150, 210], [180, 210]]
+    - months: [10, 12]
+      naps: 2
+      wake_windows_minutes: [[180, 240], [180, 240], [210, 240]]
+  daytime_sleep_cap_hours: {max: 3.5}
+  latest_nap_end_local: "17:00"
+  nap_transition: null
+  basis: "育儿经验范围，按你家数据调"
+  sources: [huckleberry_sleep_expectations, takingcarababies_nap_schedules, takingcarababies_last_nap_end]
 - age_band_months: [12, 18]
   wake_window_minutes: {min: 180, max: 300}
   typical_nap_minutes: {min: 60, max: 150}
@@ -44,6 +104,18 @@
   source_type: heuristic
   clinical_anchors: [total_sleep_1_2_years, nap_transition_2to1_timing]
   notes: "12mo Huckleberry-verified (195-240); 13-17mo corroborated across HealthyHappySleep + Baby Sleep Site (2->1 transition; wide/uncertain)."
+  sequences:
+    - months: [12, 15]
+      naps: 2
+      wake_windows_minutes: [[180, 240], [180, 240], [210, 240]]
+    - months: [14, 18]
+      naps: 1
+      wake_windows_minutes: [[300, 360], [240, 300]]
+  daytime_sleep_cap_hours: {max: 3}
+  latest_nap_end_local: "16:00"
+  nap_transition: {from: 2, to: 1, months: [15, 24]}
+  basis: "育儿经验范围，按你家数据调"
+  sources: [huckleberry_sleep_expectations, takingcarababies_nap_schedules, takingcarababies_last_nap_end, weissbluth_1995_naps, iglowstein_2003_sleep_duration]
 - age_band_months: [18, 36]
   wake_window_minutes: {min: 270, max: 360}
   typical_nap_minutes: {min: 60, max: 150}
@@ -52,3 +124,12 @@
   source_type: heuristic
   clinical_anchors: [total_sleep_1_2_years]
   notes: "Single-nap toddler; ~5-6h corroborated across HealthyHappySleep + Baby Sleep Site + TheBump (270-360). Heuristic."
+  sequences:
+    - months: [18, 24]
+      naps: 1
+      wake_windows_minutes: [[300, 360], [240, 300]]
+  daytime_sleep_cap_hours: {max: 3}
+  latest_nap_end_local: "15:30"
+  nap_transition: {from: 2, to: 1, months: [15, 24]}
+  basis: "育儿经验范围，按你家数据调"
+  sources: [takingcarababies_nap_schedules, takingcarababies_last_nap_end, weissbluth_1995_naps, iglowstein_2003_sleep_duration]

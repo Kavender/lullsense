@@ -40,6 +40,7 @@ A_safety citations are already embedded inline in `references/safety-triage.md`.
 | `separation_anxiety_sleep_disruption` | B_developmental | moderate | Separation and attachment development — the emergence of ob… |
 | `sleep_regression_reframe` | B_developmental | moderate | The popular term 'sleep regression' points at real sleep ch… |
 | `bedtime_resistance_toddler_autonomy` | B_developmental | low | Bedtime resistance in toddlers is frequently a normal expre… |
+| `nap_timing_night_tradeoff` | B_developmental | moderate | Longer naps, and naps that end later, go with a later sleep… |
 | `bedtime_routine_benefits` | C_behavioral | moderate | A consistent, calming bedtime routine is associated with ea… |
 | `graduated_extinction_efficacy` | C_behavioral | high | Behavioral interventions, including graduated extinction an… |
 | `behavioral_interventions_safety` | C_behavioral | moderate | In studied populations, standard behavioral sleep intervent… |
@@ -54,6 +55,7 @@ A_safety citations are already embedded inline in `references/safety-triage.md`.
 | `sleep_training_expected_trajectory` | C_behavioral | low | Improvement from sleep training is usually non-linear: the… |
 | `responding_to_separation_protest` | C_behavioral | moderate | During a separation-anxiety phase, responding to a child's… |
 | `comfort_object_safe_sleep_gate` | C_behavioral | moderate | A transitional or comfort object (children commonly attach… |
+| `early_waking_enough_vs_not` | C_behavioral | low | For early waking, check 24-hour total sleep first. If it is… |
 | `constraint_first_recommending` | D_practice | low | Eliciting a family's fixed constraints (daycare nap schedul… |
 | `constraint_driven_structural_debt` | D_practice | low | When an immovable outside constraint (a fixed daycare nap,… |
 | `sleep_training_method_choice` | D_practice | moderate | There is no strong evidence that any one sleep-training met… |
@@ -68,6 +70,8 @@ A_safety citations are already embedded inline in `references/safety-triage.md`.
 | `nap_transition_readiness_signs` | D_practice | low | Signs a child may be ready to drop a nap include consistent… |
 | `wake_window_typical_by_age` | D_practice | low | Typical 'wake windows' (awake time between sleeps) lengthen… |
 | `sleep_timing_prediction_is_a_range` | D_practice | low | A next-nap/bedtime estimate should be delivered as a time r… |
+| `sleep_diary_window_two_weeks` | D_practice | low | Pediatric reviews ask for a sleep diary of at least one wee… |
+| `one_change_then_recheck` | D_practice | low | Change one thing at a time and give it about 1-2 weeks befo… |
 | `env_light_dim_pre_bed` | E_environment | moderate | A dim, low-light environment in the wind-down before sleep… |
 | `env_noise_onset_may_help` | E_environment | low | White noise may help some babies fall asleep faster or slee… |
 | `env_noise_efficacy_uncertain` | E_environment | low | The evidence on white noise for sleep is limited and comes… |

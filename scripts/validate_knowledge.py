@@ -8,6 +8,8 @@ warnings are advisory and do NOT affect the exit code.
 """
 from __future__ import annotations
 
+import math
+import re
 import sys
 from datetime import date
 from pathlib import Path
@@ -46,9 +48,14 @@ HEURISTIC_FIELDS = {
     "expected_nap_count", "total_sleep_budget_hours", "source_type",
 }
 _MINMAX_KEYS = {"min", "max"}
+# CAM-160 §5.2 tier-2 fields (null allowed for the cap / latest end / transition).
+TIER2_FIELDS = {
+    "sequences", "daytime_sleep_cap_hours", "latest_nap_end_local",
+    "nap_transition", "basis", "sources",
+}
 
 
-def validate_heuristics(path: Path) -> list[str]:
+def validate_heuristics(path: Path, source_ids: set[str] | None = None) -> list[str]:
     rows = _load(path)
     errors: list[str] = []
     for i, r in enumerate(rows):
@@ -70,6 +77,62 @@ def validate_heuristics(path: Path) -> list[str]:
                 errors.append(f"{tag}: bad {key} {mm!r}")
         if r["source_type"] != "heuristic":
             errors.append(f"{tag}: source_type must be 'heuristic' (got {r['source_type']!r})")
+        errors += _validate_tier2(tag, r, source_ids)
+    return errors
+
+
+def _is_num(v) -> bool:
+    """Finite int/float, not bool — the app's isAgeRef rejects true/NaN/Infinity."""
+    return isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v)
+
+
+def _is_range(x, lo: float = 0, hi: float = float("inf")) -> bool:
+    return (isinstance(x, list) and len(x) == 2 and all(_is_num(v) for v in x)
+            and lo <= x[0] <= x[1] <= hi)
+
+
+def _is_int(x, lo: int, hi: int) -> bool:
+    return isinstance(x, int) and not isinstance(x, bool) and lo <= x <= hi
+
+
+def _validate_tier2(tag: str, r: dict, source_ids: set[str] | None) -> list[str]:
+    """CAM-160 §5.2 fields, mirrored by the app as `ageRef` (same bounds as its isAgeRef)."""
+    errors: list[str] = []
+    missing = TIER2_FIELDS - set(r)
+    if missing:
+        return [f"{tag}: missing CAM-160 fields {sorted(missing)}"]
+    seqs = r["sequences"]
+    if not isinstance(seqs, list) or len(seqs) > 6:
+        errors.append(f"{tag}: sequences must be a list of <=6")
+        seqs = []
+    for j, s in enumerate(seqs):
+        ok = (isinstance(s, dict) and set(s) == {"months", "naps", "wake_windows_minutes"}
+              and _is_range(s["months"], 4, 36) and s["months"][0] < s["months"][1]
+              and _is_int(s["naps"], 0, 8)
+              and isinstance(s["wake_windows_minutes"], list)
+              and len(s["wake_windows_minutes"]) == s["naps"] + 1
+              and all(_is_range(w) for w in s["wake_windows_minutes"]))
+        if not ok:
+            errors.append(f"{tag}: bad sequences[{j}] {s!r}")
+    cap = r["daytime_sleep_cap_hours"]
+    if cap is not None and not (isinstance(cap, dict) and set(cap) == {"max"}
+                                and _is_num(cap["max"]) and 0 < cap["max"] <= 24):
+        errors.append(f"{tag}: bad daytime_sleep_cap_hours {cap!r}")
+    end = r["latest_nap_end_local"]
+    if end is not None and not (isinstance(end, str) and re.fullmatch(r"([01]\d|2[0-3]):[0-5]\d", end)):
+        errors.append(f"{tag}: bad latest_nap_end_local {end!r}")
+    tr = r["nap_transition"]
+    if tr is not None and not (isinstance(tr, dict) and set(tr) == {"from", "to", "months"}
+                               and _is_int(tr["from"], 0, 8) and _is_int(tr["to"], 0, 8)
+                               and _is_range(tr["months"], 4, 36)):
+        errors.append(f"{tag}: bad nap_transition {tr!r}")
+    if not (isinstance(r["basis"], str) and 1 <= len(r["basis"]) <= 80):
+        errors.append(f"{tag}: basis must be a 1-80 char string")
+    srcs = r["sources"]
+    if not (isinstance(srcs, list) and srcs):
+        errors.append(f"{tag}: sources must be a non-empty list")
+    elif source_ids is not None:
+        errors += [f"{tag}: source {s!r} not in sources.yaml" for s in srcs if s not in source_ids]
     return errors
 
 
@@ -203,7 +266,8 @@ def main() -> int:
     errors = validate(claims_path, sources_path)
     heuristics_path = root / "skills" / "lullsense" / "knowledge" / "sleep_timing_heuristics.yaml"
     if heuristics_path.exists():
-        errors = errors + validate_heuristics(heuristics_path)
+        _, source_ids, _ = _validate_sources(_load(sources_path))
+        errors = errors + validate_heuristics(heuristics_path, source_ids)
     gaps = coverage_gaps(claims_path)
     warns = warnings(claims_path, sources_path)
     for e in errors:

@@ -70,3 +70,77 @@ def test_heuristics_table_valid():
     path = root / "skills" / "lullsense" / "knowledge" / "sleep_timing_heuristics.yaml"
     errors = vk.validate_heuristics(path)
     assert errors == [], errors
+
+
+def _heuristics_rows():
+    import yaml
+
+    import scripts.validate_knowledge as vk
+    root = Path(vk.__file__).resolve().parent.parent
+    path = root / "skills" / "lullsense" / "knowledge" / "sleep_timing_heuristics.yaml"
+    return yaml.safe_load(path.read_text(encoding="utf-8"))
+
+
+def test_heuristics_tier2_fields_parse():
+    """CAM-160 §5.2: every band carries the ageRef fields the app transcribes, and they
+    are internally consistent (one more wake window than naps; sequences inside the band
+    months or the next transition; sources resolve)."""
+    import yaml
+
+    import scripts.validate_knowledge as vk
+    root = Path(vk.__file__).resolve().parent.parent
+    sources = yaml.safe_load(
+        (root / "skills/lullsense/knowledge/sources.yaml").read_text(encoding="utf-8"))
+    ids = {s["id"] for s in sources}
+    rows = _heuristics_rows()
+    assert [r["age_band_months"] for r in rows] == [[4, 6], [6, 9], [9, 12], [12, 18], [18, 36]]
+    for r in rows:
+        assert vk._validate_tier2("t", r, ids) == []
+        assert r["basis"] == "育儿经验范围，按你家数据调"
+        assert r["source_type"] == "heuristic"
+        for s in r["sequences"]:
+            assert len(s["wake_windows_minutes"]) == s["naps"] + 1
+
+
+def test_heuristics_tier2_rejects_bad_rows():
+    import copy
+
+    import scripts.validate_knowledge as vk
+    good = _heuristics_rows()[3]  # band [12, 18]
+    ids = set(good["sources"])
+    assert vk._validate_tier2("t", good, ids) == []  # unmodified row passes
+
+    def _set(key, value):
+        return lambda r: r.__setitem__(key, value)
+
+    def _ww(value):
+        return lambda r: r["sequences"][0].__setitem__("wake_windows_minutes", value)
+
+    cases = [
+        (lambda r: r["sequences"][0]["wake_windows_minutes"].pop(), "sequences[0]"),
+        (_ww([[180, 240], [180, 240], [0, float("inf")]]), "sequences[0]"),
+        (_ww([[180, 240], [180, 240], [float("nan"), 240]]), "sequences[0]"),
+        (_ww([[180, 240], [180, 240], [True, 240]]), "sequences[0]"),
+        (_set("latest_nap_end_local", "25:00"), "latest_nap_end_local"),
+        (_set("nap_transition", {"from": 2, "to": 1, "months": [15, 40]}), "nap_transition"),
+        (_set("nap_transition", {"from": True, "to": 1, "months": [15, 24]}), "nap_transition"),
+        (_set("sources", ["no_such_source"]), "no_such_source"),
+        (lambda r: r.pop("basis"), "basis"),
+        (_set("basis", "x" * 81), "basis"),
+        (_set("daytime_sleep_cap_hours", {"max": True}), "daytime_sleep_cap_hours"),
+        (_set("daytime_sleep_cap_hours", {"max": float("inf")}), "daytime_sleep_cap_hours"),
+        (_set("daytime_sleep_cap_hours", {"max": 0}), "daytime_sleep_cap_hours"),
+        (_set("daytime_sleep_cap_hours", {"max": 24.5}), "daytime_sleep_cap_hours"),
+        (_set("daytime_sleep_cap_hours", {"max": -1}), "daytime_sleep_cap_hours"),
+    ]
+    for mutate, field in cases:
+        r = copy.deepcopy(good)
+        mutate(r)
+        errors = vk._validate_tier2("t", r, ids)
+        assert errors and all(field in e for e in errors), (field, errors)
+
+    # Cap boundaries that must pass: (0, 24] inclusive of 24; null allowed.
+    for cap in ({"max": 24}, {"max": 0.5}, None):
+        r = copy.deepcopy(good)
+        r["daytime_sleep_cap_hours"] = cap
+        assert vk._validate_tier2("t", r, ids) == [], cap
